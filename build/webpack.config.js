@@ -23,7 +23,6 @@ const InlineChunkHtmlPlugin = require('./InlineChunkHtmlPlugin');
 // 给html模版注入变量
 const InterpolateHtmlPlugin = require('./InterpolateHtmlPlugin');
 const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
-const path = require('path');
 const {
   shouldUseSourceMap,
   isEnvProduction,
