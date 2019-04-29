@@ -18,6 +18,7 @@ const isWsl = require('is-wsl');
 // css Loader
 const getStyleLoaders = require('./getStyleLoaders');
 const getCSSModuleLocalIdent = require('./getCSSModuleLocalIdent');
+const getCacheIdentifier = require('./getCacheIdentifier');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const InlineChunkHtmlPlugin = require('./InlineChunkHtmlPlugin');
 // 给html模版注入变量
@@ -30,23 +31,25 @@ const {
   devtool,
   appIndexJs,
   publicPath,
+  publicUrl,
   appBuildPath,
   appNodeModules,
   appSrc,
   appHtml,
   appPath,
   stringified,
+  contentBase,
 } = require('./config');
 
-module.exports = {
+let webpackConfig = {
   devtool,
   entry: [appIndexJs],
   output: {
     filename: isEnvProduction
-      ? 'static/js/[name].[contenthash:8].bundle.js' 
+      ? 'static/js/[name].[contenthash:8].bundle.js'
       : 'static/js/bundle.js',
-    chunkFilename: isEnvProduction 
-      ? 'static/js/[name].[contenthash:8].chunk.js' 
+    chunkFilename: isEnvProduction
+      ? 'static/js/[name].[contenthash:8].chunk.js'
       : 'static/js/[name]/bundle.js',
     publicPath,
     path: isEnvProduction ? appBuildPath : undefined
@@ -57,24 +60,26 @@ module.exports = {
       // 仅isEnvProduction===true生效，自定义优化选项
       // 压缩js
       new TerserPlugin({
-        parse: {
-          ecma: 8
-        },
-        compress: {
-          ecma: 5,
-          warnings: false,
-          comparisons: false,
-          inline: 2
-        },
-        mangle: {
-          safari10: true,
-        },
-        output: {
-          ecma: 5,
-          comments: false,
-          // Turned on because emoji and regex is not minified properly using default
-          // https://github.com/facebook/create-react-app/issues/2488
-          ascii_only: true,
+        terserOptions: {
+          parse: {
+            ecma: 8
+          },
+          compress: {
+            ecma: 5,
+            warnings: false,
+            comparisons: false,
+            inline: 2
+          },
+          mangle: {
+            safari10: true,
+          },
+          output: {
+            ecma: 5,
+            comments: false,
+            // Turned on because emoji and regex is not minified properly using default
+            // https://github.com/facebook/create-react-app/issues/2488
+            ascii_only: true,
+          },
         },
         parallel: !isWsl, // 在 Windows Subsystem for Linux时禁用多进程并行运行，默认并发运行数：os.cpus().length - 1
         cache: true,
@@ -86,13 +91,13 @@ module.exports = {
           parser: safePostCssParser,
           map: shouldUseSourceMap
             ? {
-                // `inline: false` forces the sourcemap to be output into a
-                // separate file
-                inline: false,
-                // `annotation: true` appends the sourceMappingURL to the end of
-                // the css file, helping the browser find the sourcemap
-                annotation: true,
-              }
+              // `inline: false` forces the sourcemap to be output into a
+              // separate file
+              inline: false,
+              // `annotation: true` appends the sourceMappingURL to the end of
+              // the css file, helping the browser find the sourcemap
+              annotation: true,
+            }
             : false,
         },
       }),
@@ -139,7 +144,7 @@ module.exports = {
         use: [
           {
             options: {
-              formatter: require.resolve('eslintFormatter'),
+              formatter: require.resolve('./eslintFormatter'),
               eslintPath: require.resolve('eslint'),
               // @remove-on-eject-begin
               baseConfig: {
@@ -352,33 +357,35 @@ module.exports = {
         },
         isEnvProduction
           ? {
-              minify: {
-                removeComments: true,
-                collapseWhitespace: true,
-                removeRedundantAttributes: true,
-                useShortDoctype: true,
-                removeEmptyAttributes: true,
-                removeStyleLinkTypeAttributes: true,
-                keepClosingSlash: true,
-                minifyJS: true,
-                minifyCSS: true,
-                minifyURLs: true,
-              },
-            }
+            minify: {
+              removeComments: true,
+              collapseWhitespace: true,
+              removeRedundantAttributes: true,
+              useShortDoctype: true,
+              removeEmptyAttributes: true,
+              removeStyleLinkTypeAttributes: true,
+              keepClosingSlash: true,
+              minifyJS: true,
+              minifyCSS: true,
+              minifyURLs: true,
+            },
+          }
           : undefined
       )
     ),
     // Inlines the webpack runtime script. This script is too small to warrant
     // a network request.
     isEnvProduction &&
-      new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
+    new InlineChunkHtmlPlugin(HtmlWebpackPlugin, [/runtime~.+[.]js/]),
     // Makes some environment variables available in index.html.
     // The public URL is available as %PUBLIC_URL% in index.html, e.g.:
     // <link rel="shortcut icon" href="%PUBLIC_URL%/favicon.ico">
     // In production, it will be an empty string unless you specify "homepage"
     // in `package.json`, in which case it will be the pathname of that URL.
     // In development, this will be an empty string.
-    new InterpolateHtmlPlugin(HtmlWebpackPlugin, env.raw),
+    new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
+      PUBLIC_URL: publicUrl
+    }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
     new ModuleNotFoundPlugin(appPath),
@@ -395,20 +402,20 @@ module.exports = {
     // See https://github.com/facebook/create-react-app/issues/240
     isEnvDevelopment && new CaseSensitivePathsPlugin(),
     isEnvProduction &&
-      new MiniCssExtractPlugin({
-        // Options similar to the same options in webpackOptions.output
-        // both options are optional
-        filename: 'static/css/[name].[contenthash:8].css',
-        chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
-      }),
+    new MiniCssExtractPlugin({
+      // Options similar to the same options in webpackOptions.output
+      // both options are optional
+      filename: 'static/css/[name].[contenthash:8].css',
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+    }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
     // having to parse `index.html`.
     new ManifestPlugin({
       fileName: 'asset-manifest.json',
-      publicPath: publicPath,
+      publicPath,
       generate: (seed, files) => {
-        const manifestFiles = files.reduce(function(manifest, file) {
+        const manifestFiles = files.reduce(function (manifest, file) {
           manifest[file.name] = file.path;
           return manifest;
         }, seed);
@@ -426,18 +433,56 @@ module.exports = {
     // Generate a service worker script that will precache, and keep up to date,
     // the HTML & assets that are part of the Webpack build.
     isEnvProduction &&
-      new WorkboxWebpackPlugin.GenerateSW({
-        clientsClaim: true,
-        exclude: [/\.map$/, /asset-manifest\.json$/],
-        importWorkboxFrom: 'cdn',
-        navigateFallback: publicUrl + '/index.html',
-        navigateFallbackBlacklist: [
-          // Exclude URLs starting with /_, as they're likely an API call
-          new RegExp('^/_'),
-          // Exclude URLs containing a dot, as they're likely a resource in
-          // public/ and not a SPA route
-          new RegExp('/[^/]+\\.[^/]+$'),
-        ],
-      })
-  ].filter(Boolean),
+    new WorkboxWebpackPlugin.GenerateSW({
+      clientsClaim: true,
+      exclude: [/\.map$/, /asset-manifest\.json$/],
+      importWorkboxFrom: 'cdn',
+      navigateFallback: publicUrl + '/index.html',
+      navigateFallbackBlacklist: [
+        // Exclude URLs starting with /_, as they're likely an API call
+        new RegExp('^/_'),
+        // Exclude URLs containing a dot, as they're likely a resource in
+        // public/ and not a SPA route
+        new RegExp('/[^/]+\\.[^/]+$'),
+      ],
+    })
+  ].filter(Boolean)
 };
+if (isEnvDevelopment) {
+  webpackConfig.devServer = {
+    publicPath,
+    contentBase,
+    before: function (app, server) {
+    },
+    after: function (app, server) {
+      console.log('-------------->app', app);
+      console.log('-------------->server', server);
+    },
+    clientLogLevel: 'none', // string: 'none' | 'info' | 'error' | 'warning'
+    // 此选项允许您将允许访问dev服务器的服务列入白名单。
+    allowedHosts: [
+      // 'host.com',
+      // 'subdomain.host.com',
+      // 'subdomain2.host.com',
+      // 'host2.com'
+    ],
+    // 头部
+    headers: {
+    },
+    inline: true,
+    // 打开浏览器
+    open: 'Google Chrome',
+    // openPage: '/different/page',
+    // 编译错误是否全屏覆盖
+    overlay: true,
+    historyApiFallback: true,
+    compress: true,
+    hot: true,
+    host: '127.0.0.1',
+    port: 3004,
+    // proxy: {
+    //   '/api': 'http://localhost:3000'
+    // },
+  }
+}
+module.exports = webpackConfig;

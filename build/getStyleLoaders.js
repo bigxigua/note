@@ -2,7 +2,8 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const postcssNormalize = require('postcss-normalize');
 const {
   shouldUseSourceMap,
-  isEnvProduction
+  isEnvProduction,
+  isEnvDevelopment
 } = require('./config');
 
 module.exports = function getStyleLoaders(cssOptions, preProcessor) {
