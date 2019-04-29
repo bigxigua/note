@@ -40,7 +40,6 @@ const {
   stringified,
   contentBase,
 } = require('./config');
-
 let webpackConfig = {
   devtool,
   entry: [appIndexJs],
