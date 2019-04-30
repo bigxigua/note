@@ -1,22 +1,20 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-  }
-  render() {
-    return (
-      <div>
-        111111
-      </div>
-    )
-  }
+import { connect } from 'react-redux'
+import Index from './Index.jsx'
+
+import { 
+  updateUserInfo
+} from '../../actions/index.js'
+
+function mapStateToProps(state) {
+	return {
+		userInfo: state.setUserInfo.userInfo
+	}
 }
 
+function mapDispatchToProps(dispatch) {
+	return {
+		updateUserInfo: (index) => {dispatch(updateUserInfo(index))},
+	}
+} 
 
-ReactDOM.render(
-  <div>
-    <App />
-  </div>,
-  document.getElementById('root')
-);
+export default connect(mapStateToProps, mapDispatchToProps)(Index)

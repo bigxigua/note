@@ -454,8 +454,6 @@ if (isEnvDevelopment) {
     before: function (app, server) {
     },
     after: function (app, server) {
-      console.log('-------------->app', app);
-      console.log('-------------->server', server);
     },
     clientLogLevel: 'none', // string: 'none' | 'info' | 'error' | 'warning'
     // 此选项允许您将允许访问dev服务器的服务列入白名单。

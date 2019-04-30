@@ -1,0 +1,25 @@
+.nav_container{
+    width: 100%;
+    height: 50px;
+    display: flex;
+    align-self: center;
+}
+.left_munu{
+    background: #1ab394;
+    color: #fff;
+    padding: 15px 25px;
+    font-size: 18px;
+    line-height: 20px;
+}
+.right_munu{
+    display: flex;
+}
+.right_munu-dropdown-link{
+    color: #1ab394;
+    padding: 15px 20px;
+    font-weight: 600;
+    line-height: 20px;
+    font-size: 13px;
+    height: 50px;
+    display: block;
+}

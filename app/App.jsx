@@ -1,13 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { Provider } from 'react-redux';
+import store from './store/index.js';
+import 'uiw-iconfont/fonts/w-icon.css';
+import 'antd/dist/antd.css'; 
 import './App.css';
+import Index from './page/index/Index.js';
 
-function App() {
-  return (
-    <div className="App">
-      <h1>1122211</h1>
-    </div>
-  );
+class App extends React.Component {
+  constructor(props) {
+    super(props);
+  }
+  render() {
+    return (
+      <div>
+        <Router>
+          <div className='container'>
+            <Route exact path="/" component={Index} />
+          </div>
+        </Router>
+      </div>
+    )
+  }
 }
 
-ReactDOM.render(<App />, document.getElementById('root'));
+
+ReactDOM.render(
+  <Provider store={store}>
+    <div>
+      <App />
+    </div>
+  </Provider>,
+  document.getElementById('root')
+);
