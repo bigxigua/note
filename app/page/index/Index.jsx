@@ -10,10 +10,16 @@ export default class Index extends Component {
     componentDidMount() {
     }
     render() {
+        const {
+            autoSaveMarkdown, // action 保存文本
+            updateUserInfo, // 更新用户信息
+            saveStatus, // 保存文本的当前状态
+            userInfo // 用户信息
+        } = this.props;
         return (
             <div className="page_container">
-                <Nav />
-                <Editor />
+                <Nav saveStatus={saveStatus} userInfo={userInfo} updateUserInfo ={updateUserInfo} />
+                <Editor updateUserInfo ={updateUserInfo} autoSaveMarkdown={autoSaveMarkdown} userInfo={userInfo} />
             </div>
         )
     }

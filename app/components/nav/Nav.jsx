@@ -1,5 +1,8 @@
+// TODO
+// 1. 自动保存，loading(编辑)->check(停止编辑) 动画
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon } from 'antd';
+import { Menu, Dropdown, Icon, Button } from 'antd';
+import LoginComponent from '../login/Login.js';
 import './Nav.css';
 const menuJsons = [{
     title: '返回首页',
@@ -35,6 +38,16 @@ export default class Nav extends Component {
         super(props);
     }
     componentDidMount() {
+        console.log(this.props);
+    }
+    doLogin = () => {
+        const instance = LoginComponent.createInstance();
+        LoginComponent.listen('login:change', (info) => {
+            if (info) {
+                instance.hide();
+                this.props.updateUserInfo(info);
+            }
+        });
     }
     render() {
         const dropdownLists = menuJsons.map(i => {
@@ -46,12 +59,24 @@ export default class Nav extends Component {
                 </Dropdown>
             )
         });
-        console.log(dropdownLists);
+        const { saveStatus, userInfo: {
+            account
+        } } = this.props;
+        const saveIconMapStatus = {
+            initial: '',
+            pendding: <Icon type="loading" className="right_munu_icon right_munu_loading" />,
+            success: <Icon type="check" className="right_munu_icon right_munu_success" />,
+            failed: <Icon type="close" className="right_munu_icon right_munu_failed" />
+        };
         return (
             <div className="nav_container">
-                <div className="left_munu">土川</div>
+                <div className="left_munu">土川记</div>
                 <div className="right_munu">
-                    {dropdownLists}
+                    { dropdownLists }
+                    { saveIconMapStatus[saveStatus] }
+                    { !account &&  (
+                       <Button className="right_munu_btn" onClick={this.doLogin}>登陆</Button>
+                    )}
                 </div>
             </div>
         )

@@ -3,6 +3,7 @@
     height: 50px;
     display: flex;
     align-self: center;
+    justify-content: space-between;
 }
 .left_munu{
     background: #1ab394;
@@ -13,8 +14,12 @@
 }
 .right_munu{
     display: flex;
+    align-items: center;
 }
-.right_munu-dropdown-link{
+.right_munu_btn{
+    margin-right: 10px;
+}
+.right_munu-dropdown-link, .right_munu_icon{
     color: #1ab394;
     padding: 15px 20px;
     font-weight: 600;
@@ -22,4 +27,11 @@
     font-size: 13px;
     height: 50px;
     display: block;
+}
+.right_munu_icon{
+    font-weight: bold;
+    font-size: 20px;
+}
+.right_munu_failed{
+    color: red;
 }
