@@ -15,6 +15,7 @@ export default class Editor extends Component {
         }
     }
     componentDidMount() {
+        // const instance = LoginComponent.createInstance({f:111});
         // TODO 根据文章id获取正在编辑的内容，如果是编辑已存在的文档的话
         const { $, editormd } = window;
         const debunceAutoSaveHandle = debunce(function () {

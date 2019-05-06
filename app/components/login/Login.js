@@ -5,7 +5,7 @@ import axiosInstance from '../../util/axiosInstance.js';
 import './Login.css';
 
 const LOGIN_ELEMENT_ID = 'login_box';
-const LOGIN_ELEMENT_HIDE_CLASS = 'login_box_hide';
+const LOGIN_ELEMENT_HIDE = 'login_box_hide';
 export default class LoginComponent extends Component {
     constructor(props) {
         super(props);
@@ -18,13 +18,12 @@ export default class LoginComponent extends Component {
         };
     }
     componentDidMount() {
+        console.log(this.props, '-------');
         this.setState({
             showModal: true
         });
-        const sessionId = window.localStorage.getItem('sessionId');
-        sessionId && this.doLogin(sessionId);
     }
-    doLogin = ({}, sessionId = '') => {
+    doLogin = ({ }, sessionId = '') => {
         const { account, password } = this.state;
         this.setState({ loading: true });
         axiosInstance.post('login', {
@@ -80,6 +79,32 @@ export default class LoginComponent extends Component {
             });
         }
     }
+    static checkAuthorization = async () => {
+        const sessionId = window.localStorage.getItem('sessionId');
+        const result = axiosInstance.get(`authorization?sessionId=${sessionId}`);
+        console.log(result);
+        // 掉接口验证
+    }
+    static createInstance = (properties) => {
+        let loginElement = document.getElementById(LOGIN_ELEMENT_ID);
+        if (!loginElement) {
+            loginElement = document.createElement('div');
+            loginElement.setAttribute('id', LOGIN_ELEMENT_ID);
+            document.body.appendChild(loginElement);
+            ReactDOM.render(React.createElement(LoginComponent, properties || {}), loginElement);
+        } else {
+            loginElement.classList.remove(LOGIN_ELEMENT_HIDE);
+        }
+        return {
+            destroy() {
+                ReactDOM.unmountComponentAtNode(loginElement);
+                document.body.removeChild(loginElement);
+            },
+            hide() {
+                loginElement.classList.add(LOGIN_ELEMENT_HIDE);
+            }
+        };
+    }
     render() {
         const { account, password, loading } = this.state;
         return (
@@ -120,25 +145,5 @@ export default class LoginComponent extends Component {
             </div>
         )
     }
-}
-LoginComponent.createInstance = function createLoginInstance(properties) {
-    let loginElement = document.getElementById(LOGIN_ELEMENT_ID);
-    if (!loginElement) {
-        loginElement = document.createElement('div');
-        loginElement.setAttribute('id', LOGIN_ELEMENT_ID);
-        document.body.appendChild(loginElement);
-        ReactDOM.render(React.createElement(LoginComponent, properties || {}), loginElement);
-    } else {
-        loginElement.classList.remove(LOGIN_ELEMENT_HIDE_CLASS);
-    }
-    return {
-        destroy() {
-            ReactDOM.unmountComponentAtNode(loginElement);
-            document.body.removeChild(loginElement);
-        },
-        hide() {
-            loginElement.classList.add(LOGIN_ELEMENT_HIDE_CLASS);
-        }
-    };
 }
 LoginComponent.listeners = {};
