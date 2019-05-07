@@ -15,12 +15,17 @@ export default class Editor extends Component {
         }
     }
     componentDidMount() {
-        // const instance = LoginComponent.createInstance({f:111});
         // TODO 根据文章id获取正在编辑的内容，如果是编辑已存在的文档的话
         const { $, editormd } = window;
         const debunceAutoSaveHandle = debunce(function () {
             this.autoSaveHandle.apply(this, arguments);
         }).bind(this);
+        LoginComponent.checkAuthorization();
+        LoginComponent.listen('login:change', (info) => {
+            if (info) {
+                this.props.updateUserInfo(info);
+            }
+        });
         $(() => {
             const editor = editormd('editormd', {
                 path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
@@ -35,7 +40,7 @@ export default class Editor extends Component {
             }).bind(this);
         });
     }
-    autoSaveHandle = (editor) => {
+    autoSaveHandle = async (editor) => {
         // TODO 免登陆模式
         const { userInfo: {
             account
@@ -46,23 +51,22 @@ export default class Editor extends Component {
             this.toggleShowModal(true);
             return;
         }
-        axiosInstance.post('updateDraft', {
-            html,
-            account,
-            markdown
-        }).then((response) => {
-            // TODO 保存到localStorage里
-            if (response.data && !response.data.isError) {
+        try {
+            const [error, data] = await axiosInstance.post('updateDraft', {
+                html,
+                markdown
+            });
+            if (!error) {
                 window.localStorage.setItem(account, markdown);
                 this.props.autoSaveMarkdown('success');
             } else {
+                message.error(data.message);
                 this.props.autoSaveMarkdown('failed');
-                message.error(response.data.message);
             }
-        }).catch(error => {
+        } catch (err) {
+            message.error(err.message);
             this.props.autoSaveMarkdown('failed');
-            message.error('系统繁忙');
-        });
+        }
     }
     // 设置为免登陆模式
     setPatternToExemption = () => {
@@ -70,13 +74,7 @@ export default class Editor extends Component {
     }
     doLogin = () => {
         this.toggleShowModal(false);
-        const instance = LoginComponent.createInstance();
-        LoginComponent.listen('login:change', (info) => {
-            if (info) {
-                instance.hide();
-                this.props.updateUserInfo(info);
-            }
-        });
+        LoginComponent.createInstance();
     }
     toggleShowModal = (showModal) => {
         this.setState({

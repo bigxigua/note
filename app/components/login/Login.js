@@ -13,45 +13,36 @@ export default class LoginComponent extends Component {
             showModal: false,
             account: '',
             password: '',
-            userInfo: {},
-            loading: false
+            loading: false // 登陆按钮的loading icon的显示与否
         };
+        this.doLogin = this.doLogin.bind(this);
     }
     componentDidMount() {
-        console.log(this.props, '-------');
         this.setState({
             showModal: true
         });
     }
-    doLogin = ({ }, sessionId = '') => {
-        const { account, password } = this.state;
-        this.setState({ loading: true });
-        axiosInstance.post('login', {
-            account,
-            password,
-            sessionId
-        }).then((response) => {
-            this.setState({ loading: false });
-            const {
-                isError,
-                message: _message_,
-                userInfo,
-                token
-            } = response.data;
-            if (!isError && userInfo && token) {
-                console.log(token);
-                LoginComponent.emit('login:change', userInfo);
-                window.localStorage.setItem('sessionId', token);
-                this.setState({ showModal: false });
+    async doLogin(e, isAutoLogin = false) {
+        const { account, password } = this.state || {};
+        if (!isAutoLogin) {
+            this.setState({ loading: true });
+        }
+        try {
+            const [error, response] = await axiosInstance.post('login', { account, password });
+            if (!error && response) {
+                LoginComponent.emit('login:change', response);
+                !isAutoLogin && this.setState({ showModal: false });
             } else {
                 LoginComponent.emit('login:change', null);
-                message.error(_message_);
+                message.error(error.message);
             }
-        }).catch(error => {
+        } catch (err) {
             message.error('系统繁忙');
             LoginComponent.emit('login:change', null);
-            this.setState({ loading: false });
-        });
+        } finally {
+            !isAutoLogin && this.setState({ loading: false });
+        }
+        return {};
     }
     onInputHandle = (e) => {
         const {
@@ -79,14 +70,15 @@ export default class LoginComponent extends Component {
             });
         }
     }
+    static hide = () => {
+        this.loginElement.classList.add(LOGIN_ELEMENT_HIDE);
+    }
     static checkAuthorization = async () => {
-        const sessionId = window.localStorage.getItem('sessionId');
-        const result = axiosInstance.get(`authorization?sessionId=${sessionId}`);
-        console.log(result);
-        // 掉接口验证
+        LoginComponent.prototype.doLogin({}, true);
     }
     static createInstance = (properties) => {
         let loginElement = document.getElementById(LOGIN_ELEMENT_ID);
+        this.loginElement = loginElement;
         if (!loginElement) {
             loginElement = document.createElement('div');
             loginElement.setAttribute('id', LOGIN_ELEMENT_ID);
