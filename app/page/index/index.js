@@ -3,19 +3,22 @@ import Index from './Index.jsx'
 
 import { 
   updateUserInfo,
-  autoSaveMarkdown
+  autoSaveMarkdown,
+  setInitMarkdownContent
 } from '../../actions/index.js'
 
 function mapStateToProps(state) {
 	return {
-		userInfo: state.setUserInfo.userInfo,
-		saveStatus: state.autoSaveMarkdown.saveStatus,
+		userInfo: state.userReducer.userInfo,
+		saveStatus: state.editorReducer.saveStatus,
+		markdownInfo: state.editorReducer.markdownInfo
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
 		updateUserInfo: (index) => {dispatch(updateUserInfo(index))},
+		setInitMarkdownContent: (markdown) => {dispatch(setInitMarkdownContent(markdown))},
 		autoSaveMarkdown: (status) => {
 			dispatch(autoSaveMarkdown(status));
 		}

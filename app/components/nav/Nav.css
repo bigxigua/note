@@ -38,18 +38,22 @@
 .ant-drawer-body{
     padding: 0;
 }
-.drawer_munu_item{
+.drawer_munu_note{
     display: flex;
     align-items: center;
     justify-content: space-between;
+    padding-left: 10px !important;
 }
-.drawer_munu_item > .anticon-plus-circle{
+.drawer_munu_note > .anticon-plus-circle{
     color: #1ab394;
     font-size: 16px;
     transition: all linear 0.2s;
 }
-.drawer_munu_item > .anticon-plus-circle:hover{
+.drawer_munu_note > .anticon-plus-circle:hover{
     font-size: 20px;
+}
+.drawer_munu_basket{
+    padding-left: 10px !important;
 }
 .nav_create_note_tip{
     margin-top: 10px;

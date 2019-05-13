@@ -12,6 +12,7 @@ export default class Editor extends Component {
         super(props);
         this.state = {
             showModal: false, // 是否展示Modal
+            editor: null, // 编辑器实例
         }
     }
     componentDidMount() {
@@ -34,27 +35,44 @@ export default class Editor extends Component {
                 onload: function () {
                 }
             });
+            this.setState({
+                editor
+            });
             editor.settings.onchange = (function () {
                 this.props.autoSaveMarkdown('pendding');
                 debunceAutoSaveHandle(editor);
             }).bind(this);
         });
     }
+    // 当markdown更新时
+    componentWillReceiveProps({ markdownInfo }) {
+        const prevMarkdown = this.props.markdownInfo.sub_note_markdown;
+        const curMarkdown = markdownInfo.sub_note_markdown;
+        if (curMarkdown && curMarkdown !== prevMarkdown) {
+            this.state.editor.setMarkdown(curMarkdown);
+        }
+    }
+    // 编辑结束自动保存
     autoSaveHandle = async (editor) => {
         // TODO 免登陆模式
         const { userInfo: {
             account
         } } = this.props;
-        const markdown = editor.getMarkdown();
-        const html = editor.previewContainer.html();
         if (!account) {
             this.toggleShowModal(true);
             return;
         }
+        const markdown = editor.getMarkdown();
+        // testEditor.getHTML(); 
+        // testEditor.getPreviewedHTML();
+        const html = editor.previewContainer.html();
+        const subNoteId = this.props.markdownInfo.sub_note_id;
+        // TODO 如何未找到所在笔记，保存前先让用户去创建一个笔记本
         try {
             const [error, data] = await axiosInstance.post('updateDraft', {
                 html,
-                markdown
+                markdown,
+                subNoteId,
             });
             if (!error) {
                 window.localStorage.setItem(account, markdown);

@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
-import setUserInfo from './user.js';
-import autoSaveMarkdown from './editor.js';
+import userReducer from './user.js';
+import editorReducer from './editor.js';
 
 const rootReducer = combineReducers({
-	setUserInfo,
-	autoSaveMarkdown
+	userReducer,
+	editorReducer
 });
 
 export default rootReducer;

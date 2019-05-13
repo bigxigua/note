@@ -1,7 +1,7 @@
 // TODO
 // 1. 自动保存，loading(编辑)->check(停止编辑) 动画
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input } from 'antd';
+import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message } from 'antd';
 import LoginComponent from '../login/Login.js';
 import axiosInstance from '../../util/axiosInstance.js';
 import './Nav.css';
@@ -34,12 +34,14 @@ export default class Nav extends Component {
         this.state = {
             drawerVisibled: false, // 展示抽屉
             modalVisibled: false, // 展示弹框
-            noteBookName: ''
+            noteBookName: '', // 新建的笔记本名称
+            notes: [], // 用户的所有笔记
+            wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
         }
     }
     componentDidMount() {
-        console.log(this.props);
     }
+    // 登陆状态监听
     doLogin = () => {
         const instance = LoginComponent.createInstance();
         LoginComponent.listen('login:change', (info) => {
@@ -49,25 +51,56 @@ export default class Nav extends Component {
             }
         });
     }
+    // 打开抽屉
     onDrawerOpenHandle = () => {
         this.setState({ drawerVisibled: true });
+        this.onGetUserNotes();
     }
+    // 获取用户的所有笔记本(包括废纸篓）
+    onGetUserNotes = async () => {
+        const [error, data] = await axiosInstance.get('getUserNotes');
+        if (!error && Array.isArray(data)) {
+            this.setState({ notes: data });
+        } else {
+            message.error((error || {}).message || '获取笔记信息失败，请稍后再试');
+        }
+        console.log(error, data);
+    }
+    // 笔记本子笔记标题被点击
+    onSubNoteTitleClick = (e) => {
+        this.props.setInitMarkdownContent(e.item.props.item);
+        this.onDrawerCloseHandle();
+    }
+    // 关闭抽屉
     onDrawerCloseHandle = () => {
         this.setState({ drawerVisibled: false });
     }
+    // 输入发生改变
     onInputValueChange = (e) => {
         const value = e.currentTarget.value.trim();
         this.setState({ noteBookName: value });
     }
+    // 创建新的笔记本
     onCreateNewNotebook = async () => {
-        const { noteBookName } = this.state;
-        const [error, data] = await axiosInstance.post('updateDraft', {
+        const { noteBookName, notes } = this.state;
+        const [error, data] = await axiosInstance.post('createNotebook', {
             noteBookName
         });
+        if (!error && data) {
+            this.onHideModalHandle();
+            notes.push(data);
+            message.success('创建笔记本成功，现在可以记笔记啦');
+            this.setState({ notes });
+        } else {
+            message.error((error || {}).message || '系统繁忙，请稍后再试');
+        }
+        console.log(error, data);
     }
+    // 关闭modal
     onHideModalHandle = () => {
         this.setState({ modalVisibled: false });
     }
+    // 展示modal
     onShowModalHandle = async () => {
         this.setState({ modalVisibled: true });
     }
@@ -84,12 +117,26 @@ export default class Nav extends Component {
         const { saveStatus, userInfo: {
             account
         } } = this.props;
+        const { notes, wastepaperBaskets } = this.state;
         const saveIconMapStatus = {
             initial: '',
             pendding: <Icon type="loading" className="right_munu_icon right_munu_loading" />,
             success: <Icon type="check" className="right_munu_icon right_munu_success" />,
             failed: <Icon type="close" className="right_munu_icon right_munu_failed" />
         };
+        const noteSubMenus = notes.map(item => {
+            return (
+                <SubMenu
+                    key={item.notebook_id}
+                    title={<span><Icon type="book" /><span>{item.notebook_name}</span></span>}>
+                    {
+                        (item.subNotes || []).map(note => {
+                            return <Menu.Item onClick={this.onSubNoteTitleClick} item={note} key={note.sub_note_id}>{note.sub_note_title}</Menu.Item>
+                        })
+                    }
+                </SubMenu>
+            );
+        });
         return (
             <div className="nav_container">
                 <div className="left_munu">土川记</div>
@@ -120,22 +167,17 @@ export default class Nav extends Component {
                         selectedKeys={[this.state.current]}
                         mode="inline"
                     >
-                        <Menu.Item key="editor" className="drawer_munu_item">
+                        <Menu.Item key="editor" className="drawer_munu_note">
                             <div>
                                 <Icon type="mail" />
-                                笔记本({'0'})
+                                笔记本
                             </div>
                             <Icon type="plus-circle" onClick={this.onShowModalHandle} />
                         </Menu.Item>
-                        {/* <SubMenu key="sub4" title={<span><Icon type="delete" /><span>废纸篓</span></span>}>
-                            <Menu.Item key="9">Option 9</Menu.Item>
-                            <Menu.Item key="10">Option 10</Menu.Item>
-                            <Menu.Item key="11">Option 11</Menu.Item>
-                            <Menu.Item key="12">Option 12</Menu.Item>
-                        </SubMenu> */}
-                        <Menu.Item key="basket">
+                        {noteSubMenus}
+                        <Menu.Item key="basket" className="drawer_munu_basket">
                             <Icon type="delete" />
-                            废纸篓({'0'})
+                            废纸篓({wastepaperBaskets.length || 0})
                         </Menu.Item>
                     </Menu>
                     {/* TODO 这里加几个好看的页脚 */}
