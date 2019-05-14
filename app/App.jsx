@@ -5,7 +5,7 @@ import { Provider } from 'react-redux';
 import store from './store/index.js';
 import 'antd/dist/antd.css'; 
 import './App.css';
-import Index from './page/index/Index.js';
+import Index from './page/index/index.js';
 
 class App extends React.Component {
   constructor(props) {
