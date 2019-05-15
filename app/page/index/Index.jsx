@@ -8,6 +8,7 @@ export default class Index extends Component {
         super(props);
     }
     componentDidMount() {
+        console.log(process.env.NODE_ENV, '-----------');
     }
     render() {
         const {
