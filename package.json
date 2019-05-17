@@ -6,6 +6,7 @@
   "scripts": {
     "start": "NODE_ENV=development webpack-dev-server --progress --config ./build/webpack.config.js",
     "build": "NODE_ENV=production webpack-cli --config ./build/webpack.config.js",
+    "test": "echo 'test'",
     "autod": "autod"
   },
   "repository": {

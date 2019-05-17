@@ -24,8 +24,6 @@ after_success:
   - echo "after_success running..."
 after_failure:
   - echo "after_failure running..."
-deploy:
-  - echo "deploy running..."
 branches:
   only:
     - master
