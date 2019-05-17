@@ -1,0 +1,16 @@
+language: node_js
+node_js:
+  - v12
+  - v11
+  - v10
+  - v8
+cache:
+  directories:
+    - node_modules
+notifications:
+  email: false
+before_install:
+  # Update the npm client. Older clients cannot, e.g., handle scoped modules.
+  - echo "before_install running..."
+after_success:
+  - echo "after_success running..."
