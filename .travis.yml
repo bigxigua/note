@@ -1,13 +1,35 @@
+sudo: required
 language: node_js
-node_js:
+av:
   - v10.15.3
 cache:
   directories:
     - node_modules
 notifications:
   email: false
+# S: Build Lifecycle
 before_install:
   # Update the npm client. Older clients cannot, e.g., handle scoped modules.
   - echo "before_install running..."
+install:
+  - echo "install running..."
+  - npm install
+before_script:
+  - ssh root@45.76.98.174
+  - echo "before_install running..."
+script:
+  - echo "script running..."
+  - npm run build
 after_success:
   - echo "after_success running..."
+after_failure:
+  - echo "after_failure running..."
+deploy:
+  - echo "deploy running..."
+branches:
+  only:
+    - master
+env:
+ global:
+   # 我将其添加到了travis-ci的环境变量中
+   #- GH_REF: github.com/yimogit/metools.git 
