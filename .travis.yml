@@ -1,6 +1,6 @@
 sudo: required
 language: node_js
-av:
+node_js:
   - v10
 cache:
   directories:
