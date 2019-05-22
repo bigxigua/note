@@ -13,6 +13,7 @@ export default class Editor extends Component {
         this.state = {
             showModal: false, // 是否展示Modal
             editor: null, // 编辑器实例
+            confirmOfflined: false, // 是否使用免登陆模式or编辑临时文档模式
         }
     }
     componentDidMount() {
@@ -32,7 +33,15 @@ export default class Editor extends Component {
                 path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
                 disabledKeyMaps: ['Ctrl-B', 'F11', 'F10'],
                 placeholder: '开始吧！！',
-                onload: function () {
+                onload: () => {
+                    let defaultMarkdown = localStorage.getItem('offlineMarkdown');
+                    if (this.props.userInfo.account) {
+                        // TODO 获取用户上次编辑的笔记
+                        const lastEditMarkdown = '';
+                        // eslint-disable-next-line
+                        lastEditMarkdown ? (defaultMarkdown = lastEditMarkdown) : {};
+                    }
+                    defaultMarkdown && editor.setMarkdown(defaultMarkdown);
                 }
             });
             this.setState({
@@ -58,7 +67,8 @@ export default class Editor extends Component {
         const { userInfo: {
             account
         } } = this.props;
-        if (!account) {
+        const { confirmOfflined } = this.state;
+        if (!account && !confirmOfflined) {
             this.toggleShowModal(true);
             return;
         }
@@ -67,6 +77,23 @@ export default class Editor extends Component {
         // testEditor.getPreviewedHTML();
         const html = editor.previewContainer.html();
         const subNoteId = this.props.markdownInfo.sub_note_id;
+        if (!subNoteId) {
+            this.props.autoSaveMarkdown('success');
+            if (confirmOfflined) {
+                localStorage.setItem('offlineMarkdown', markdown);
+                return;
+            }
+            Modal.confirm({
+                content: '您当前还未选择笔记本，确认是否选择离线编辑？',
+                cancelText: '取消',
+                okText: '确认离线',
+                onOk: () => {
+                    localStorage.setItem('offlineMarkdown', markdown);
+                    this.setState({ confirmOfflined: true });
+                }
+            });
+            return;
+        }
         // TODO 如何未找到所在笔记，保存前先让用户去创建一个笔记本
         try {
             const [error, data] = await axiosInstance.post('updateDraft', {
@@ -75,7 +102,6 @@ export default class Editor extends Component {
                 subNoteId,
             });
             if (!error) {
-                window.localStorage.setItem(account, markdown);
                 this.props.autoSaveMarkdown('success');
             } else {
                 message.error(data.message);
@@ -86,8 +112,8 @@ export default class Editor extends Component {
             this.props.autoSaveMarkdown('failed');
         }
     }
-    // 设置为免登陆模式
     setPatternToExemption = () => {
+        this.setState({ confirmOfflined: true });
         this.toggleShowModal(false);
     }
     doLogin = () => {

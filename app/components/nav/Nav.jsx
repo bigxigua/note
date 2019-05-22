@@ -1,10 +1,11 @@
 // TODO
 // 1. 自动保存，loading(编辑)->check(停止编辑) 动画
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message } from 'antd';
+import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover } from 'antd';
 import LoginComponent from '../login/Login.js';
 import axiosInstance from '../../util/axiosInstance.js';
 import './Nav.css';
+const Search = Input.Search;
 const menuJsons = [{
     title: '菜单',
     href: '',
@@ -96,6 +97,12 @@ export default class Nav extends Component {
         }
         console.log(error, data);
     }
+    // 删除笔记本下的子笔记
+    onDeleteSubNoteHandle = async () => {
+    }
+    // 新增笔记本下的子笔记
+    onCreateNewSubNoteHandle = async () => {
+    }
     // 关闭modal
     onHideModalHandle = () => {
         this.setState({ modalVisibled: false });
@@ -124,6 +131,13 @@ export default class Nav extends Component {
             success: <Icon type="check" className="right_munu_icon right_munu_success" />,
             failed: <Icon type="close" className="right_munu_icon right_munu_failed" />
         };
+        const subNoteSettings = (
+            <div class="sub_note_settings">
+                <Button type="danger" icon="delete" onClick={this.onDeleteSubNoteHandle}>删除</Button>
+                <Button type="primary" icon="file-add" onClick={this.onCreateNewSubNoteHandle}>新增</Button>
+                <Button type="primary" icon="file-markdown" onClick={this.onCreateNewSubNoteHandle}>编辑</Button>
+            </div>
+        );
         const noteSubMenus = notes.map(item => {
             return (
                 <SubMenu
@@ -131,7 +145,14 @@ export default class Nav extends Component {
                     title={<span><Icon type="book" /><span>{item.notebook_name}</span></span>}>
                     {
                         (item.subNotes || []).map(note => {
-                            return <Menu.Item onClick={this.onSubNoteTitleClick} item={note} key={note.sub_note_id}>{note.sub_note_title}</Menu.Item>
+                            return (
+                                <Menu.Item onClick={this.onSubNoteTitleClick} className="sub_note_item" item={note} key={note.sub_note_id}>
+                                    {note.sub_note_title}
+                                    <Popover placement="right" title="设置" content={subNoteSettings}>
+                                        <Icon type="setting" />
+                                    </Popover>
+                                </Menu.Item>
+                            )
                         })
                     }
                 </SubMenu>
@@ -160,6 +181,13 @@ export default class Nav extends Component {
                     onClose={this.onDrawerCloseHandle}
                     visible={this.state.drawerVisibled}
                 >
+                    <div className="nav_search">
+                        <Search
+                            placeholder="查找笔记本"
+                            onSearch={value => console.log(value)}
+                            style={{ width: 241 }}
+                        />
+                    </div>
                     <Menu
                         onClick={this.handleClick}
                         style={{ width: 256 }}

@@ -58,3 +58,18 @@
 .nav_create_note_tip{
     margin-top: 10px;
 }
+.sub_note_item{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.sub_note_settings > button{
+    display: block;
+    width: 100%;
+    margin-top: 6px;
+}
+.nav_search{
+    display: flex;
+    justify-content: center;
+    padding-top: 10px;
+}
