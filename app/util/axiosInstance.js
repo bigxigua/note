@@ -2,7 +2,7 @@ import axios from 'axios';
 import { DOMAIN } from './config.js';
 const axiosInstance = axios.create({
     baseURL: DOMAIN,
-    timeout: 3000,
+    timeout: 100000,
     withCredentials: true,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',

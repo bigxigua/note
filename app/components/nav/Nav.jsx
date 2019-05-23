@@ -29,6 +29,16 @@ function createSubMenu(menu) {
     )
 };
 const SubMenu = Menu.SubMenu;
+
+function createSubNoteSettings(props, ctx) {
+    return (
+        <div className="sub_note_settings">
+            <Button type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
+            <Button type="primary" data-note={props} icon="file-add" onClick={ctx.onCreateNewSubNoteHandle.bind(ctx, props)}>新增</Button>
+            <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>
+        </div>
+    )
+}
 export default class Nav extends Component {
     constructor(props) {
         super(props);
@@ -68,8 +78,8 @@ export default class Nav extends Component {
         console.log(error, data);
     }
     // 笔记本子笔记标题被点击
-    onSubNoteTitleClick = (e) => {
-        this.props.setInitMarkdownContent(e.item.props.item);
+    onEditSubNoteBookHandle = (note) => {
+        this.props.setInitMarkdownContent(note);
         this.onDrawerCloseHandle();
     }
     // 关闭抽屉
@@ -95,13 +105,23 @@ export default class Nav extends Component {
         } else {
             message.error((error || {}).message || '系统繁忙，请稍后再试');
         }
-        console.log(error, data);
     }
     // 删除笔记本下的子笔记
-    onDeleteSubNoteHandle = async () => {
+    onDeleteSubNoteHandle = async ({ sub_note_id }) => {
+        // TODO 加一个confirm，确认是进行真删除还是移动到回收站；
+        const [error, data] = await axiosInstance.post('deleteSubNote', {
+            type: 1,
+            subNoteId: sub_note_id
+        });
+        console.log(error, data);
     }
     // 新增笔记本下的子笔记
-    onCreateNewSubNoteHandle = async () => {
+    onCreateNewSubNoteHandle = async ({ notebook_name }) => {
+        const [error, data] = await axiosInstance.post('createNotebook', {
+            noteBookName: notebook_name,
+            isCreateSubNote: true,
+            subNoteTitle: 'TEST',
+        });
     }
     // 关闭modal
     onHideModalHandle = () => {
@@ -131,13 +151,6 @@ export default class Nav extends Component {
             success: <Icon type="check" className="right_munu_icon right_munu_success" />,
             failed: <Icon type="close" className="right_munu_icon right_munu_failed" />
         };
-        const subNoteSettings = (
-            <div class="sub_note_settings">
-                <Button type="danger" icon="delete" onClick={this.onDeleteSubNoteHandle}>删除</Button>
-                <Button type="primary" icon="file-add" onClick={this.onCreateNewSubNoteHandle}>新增</Button>
-                <Button type="primary" icon="file-markdown" onClick={this.onCreateNewSubNoteHandle}>编辑</Button>
-            </div>
-        );
         const noteSubMenus = notes.map(item => {
             return (
                 <SubMenu
@@ -146,9 +159,9 @@ export default class Nav extends Component {
                     {
                         (item.subNotes || []).map(note => {
                             return (
-                                <Menu.Item onClick={this.onSubNoteTitleClick} className="sub_note_item" item={note} key={note.sub_note_id}>
+                                <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
                                     {note.sub_note_title}
-                                    <Popover placement="right" title="设置" content={subNoteSettings}>
+                                    <Popover placement="right" title="设置" content={createSubNoteSettings(note, this)}>
                                         <Icon type="setting" />
                                     </Popover>
                                 </Menu.Item>
