@@ -30,11 +30,12 @@ function createSubMenu(menu) {
 };
 const SubMenu = Menu.SubMenu;
 
-function createSubNoteSettings(props, ctx) {
+function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
+    props.isWastepaperBaskets = isWastepaperBaskets;
     return (
         <div className="sub_note_settings">
             <Button type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
-            <Button type="primary" data-note={props} icon="file-add" onClick={ctx.onCreateNewSubNoteHandle.bind(ctx, props)}>新增</Button>
+            {!isWastepaperBaskets && (<Button type="primary" data-note={props} icon="file-add" onClick={ctx.onCreateNewSubNoteHandle.bind(ctx, props)}>新增</Button>)}
             <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>
         </div>
     )
@@ -71,7 +72,15 @@ export default class Nav extends Component {
     onGetUserNotes = async () => {
         const [error, data] = await axiosInstance.get('getUserNotes');
         if (!error && Array.isArray(data)) {
-            this.setState({ notes: data });
+            let wastepaperBaskets = [];
+            data.forEach(notebook => {
+                (notebook.subNotes || []).map(note => {
+                    if (note.sub_note_exist === 0) {
+                        wastepaperBaskets.push(note);
+                    }
+                })
+            });
+            this.setState({ notes: data, wastepaperBaskets });
         } else {
             message.error((error || {}).message || '获取笔记信息失败，请稍后再试');
         }
@@ -109,6 +118,7 @@ export default class Nav extends Component {
     // 删除笔记本下的子笔记
     onDeleteSubNoteHandle = async ({ sub_note_id }) => {
         // TODO 加一个confirm，确认是进行真删除还是移动到回收站；
+        // message.loading('正在删除该笔记', 0);
         const [error, data] = await axiosInstance.post('deleteSubNote', {
             type: 1,
             subNoteId: sub_note_id
@@ -117,11 +127,25 @@ export default class Nav extends Component {
     }
     // 新增笔记本下的子笔记
     onCreateNewSubNoteHandle = async ({ notebook_name }) => {
+        message.loading('正在为您创建笔记', 0);
         const [error, data] = await axiosInstance.post('createNotebook', {
             noteBookName: notebook_name,
             isCreateSubNote: true,
             subNoteTitle: 'TEST',
         });
+        message.destroy();
+        if (!error && Array.isArray(data.subNotes) && data.subNotes.length > 0) {
+            message.success('笔记创建成功', 1);
+            let { notes } = this.state;
+            const curIndex = notes.findIndex(n => n.notebook_id === data.notebook_id);
+            if (curIndex !== -1) {
+                notes[curIndex].subNotes.push(...data.subNotes);
+            }
+            this.setState({ notes });
+        } else {
+            message.error((error || {}).message || '系统开小差啦，稍等试试吧', 2);
+        }
+        console.log(error, data);
     }
     // 关闭modal
     onHideModalHandle = () => {
@@ -152,12 +176,13 @@ export default class Nav extends Component {
             failed: <Icon type="close" className="right_munu_icon right_munu_failed" />
         };
         const noteSubMenus = notes.map(item => {
+            item.subNotes = (item.subNotes || []).filter(i => i.sub_note_exist === 1);
             return (
                 <SubMenu
                     key={item.notebook_id}
                     title={<span><Icon type="book" /><span>{item.notebook_name}</span></span>}>
                     {
-                        (item.subNotes || []).map(note => {
+                        item.subNotes.map(note => {
                             return (
                                 <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
                                     {note.sub_note_title}
@@ -171,6 +196,25 @@ export default class Nav extends Component {
                 </SubMenu>
             );
         });
+        const wastepaperBasketsMenus = (
+            <SubMenu
+                key="wastepaperBaskets"
+                className="wastepaper_basketsMenus"
+                title={<span><Icon type="delete" /><span>废纸篓({wastepaperBaskets.length || 0})</span></span>}>
+                {
+                    wastepaperBaskets.map(note => {
+                        return (
+                            <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
+                                {note.sub_note_title}
+                                <Popover placement="right" title="设置" content={createSubNoteSettings(note, this, true)}>
+                                    <Icon type="setting" />
+                                </Popover>
+                            </Menu.Item>
+                        )
+                    })
+                }
+            </SubMenu>
+        )
         return (
             <div className="nav_container">
                 <div className="left_munu">土川记</div>
@@ -216,10 +260,7 @@ export default class Nav extends Component {
                             <Icon type="plus-circle" onClick={this.onShowModalHandle} />
                         </Menu.Item>
                         {noteSubMenus}
-                        <Menu.Item key="basket" className="drawer_munu_basket">
-                            <Icon type="delete" />
-                            废纸篓({wastepaperBaskets.length || 0})
-                        </Menu.Item>
+                        {wastepaperBasketsMenus}
                     </Menu>
                     {/* TODO 这里加几个好看的页脚 */}
                 </Drawer>
