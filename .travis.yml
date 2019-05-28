@@ -11,7 +11,7 @@ notifications:
 before_install:
   # Update the npm client. Older clients cannot, e.g., handle scoped modules.
   - echo "before_install running..."
-  - ssh-keygen -t rsa -f /home/travis/.ssh/id_rsa -C "bigxigua"
+  - ssh-keygen -t rsa -f /home/travis/.ssh/id_rsa -P '' -C "bigxigua"
   - pwd
 install:
   - echo "install running..."
