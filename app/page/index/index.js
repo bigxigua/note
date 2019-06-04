@@ -4,7 +4,8 @@ import Index from './Index.jsx'
 import { 
   updateUserInfo,
   autoSaveMarkdown,
-  setInitMarkdownContent
+  setInitMarkdownContent,
+  updateUserNotes,
 } from '../../actions/index.js'
 
 function mapStateToProps(state) {
@@ -18,6 +19,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
 	return {
 		updateUserInfo: (index) => {dispatch(updateUserInfo(index))},
+		updateUserNotes: (notes) => {dispatch(updateUserNotes(notes))},
 		setInitMarkdownContent: (markdown) => {dispatch(setInitMarkdownContent(markdown))},
 		autoSaveMarkdown: (status) => {
 			dispatch(autoSaveMarkdown(status));

@@ -1,3 +1,4 @@
+import { Object } from "core-js";
 
 export function throttle(fn, wait = 2000, immediately = false) {
     let latestTime = Date.now();
@@ -29,4 +30,10 @@ export function debunce(fn, wait = 2000, immediately = false) {
 			}, wait)
 		}
 	}
+}
+export function isEmptyObject(param) {
+    if (!param || typeof param !== 'object') {
+        throw new Error('不是一个对象');
+    }
+    return Object.keys(param).length === 0;
 }

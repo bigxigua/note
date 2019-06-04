@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
 import {
-    debunce
+    debunce,
+    isEmptyObject
 } from '../../util/util.js';
 import axiosInstance from '../../util/axiosInstance.js';
 import LoginComponent from '../login/Login.js';
 import { Modal, message } from 'antd';
 import './Editor.css';
+import { INTRODUCE_MARKDOWN } from '../../config/index';
 
+const loginComponent = LoginComponent.getInstance();
 export default class Editor extends Component {
     constructor(props) {
         super(props);
@@ -17,15 +20,14 @@ export default class Editor extends Component {
         }
     }
     componentDidMount() {
-        // TODO 根据文章id获取正在编辑的内容，如果是编辑已存在的文档的话
         const { $, editormd } = window;
         const debunceAutoSaveHandle = debunce(function () {
             this.autoSaveHandle.apply(this, arguments);
         }).bind(this);
-        LoginComponent.checkAuthorization();
-        LoginComponent.listen('login:change', (info) => {
+        loginComponent.checkAuthorization();
+        loginComponent.listen('login:change', async (info) => {
             if (info) {
-                this.props.updateUserInfo(info);
+                await this.props.updateUserInfo(info);
             }
         });
         $(() => {
@@ -34,14 +36,7 @@ export default class Editor extends Component {
                 disabledKeyMaps: ['Ctrl-B', 'F11', 'F10'],
                 placeholder: '开始吧！！',
                 onload: () => {
-                    let defaultMarkdown = localStorage.getItem('offlineMarkdown');
-                    if (this.props.userInfo.account) {
-                        // TODO 获取用户上次编辑的笔记
-                        const lastEditMarkdown = '';
-                        // eslint-disable-next-line
-                        lastEditMarkdown ? (defaultMarkdown = lastEditMarkdown) : {};
-                    }
-                    defaultMarkdown && editor.setMarkdown(defaultMarkdown);
+                    this.initializeEditorContent();
                 }
             });
             this.setState({
@@ -61,9 +56,32 @@ export default class Editor extends Component {
             this.state.editor.setMarkdown(curMarkdown);
         }
     }
+    // 初始化编辑器内容
+    initializeEditorContent = async () => {
+        const { userInfo: { account } } = this.props;
+        const { editor } = this.state;
+        if (!account) {
+            // 离线状态下，如果用户有离线笔记，则显示用户编辑后的，若没有则显示默认文案
+            let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem('offlineNoteBook') || '{}');
+            if (!isEmptyObject(offlineNoteBookInfo)) {
+                const offlineSubNote = offlineNoteBookInfo.subNotes[0];
+                editor.setMarkdown(offlineSubNote.sub_note_markdown);
+            } else {
+                editor.setMarkdown(INTRODUCE_MARKDOWN);
+            }
+        } else {
+            // 登陆状态下，查找用户上次编辑的子笔记信息并显示
+            const [error, data] = await axiosInstance.get('getRecentEditorSubnote');
+            if (!error && data) {
+                editor.setMarkdown(data.sub_note_markdown || '');
+                this.props.setInitMarkdownContent(data);
+            } else {
+                message.error((error || {}).message || '获取最近编辑笔记本信息失败，请稍后再试');
+            }
+        }
+    }
     // 编辑结束自动保存
     autoSaveHandle = async (editor) => {
-        // TODO 免登陆模式
         const { userInfo: {
             account
         } } = this.props;
@@ -73,10 +91,12 @@ export default class Editor extends Component {
             return;
         }
         const markdown = editor.getMarkdown();
-        // testEditor.getHTML(); 
-        // testEditor.getPreviewedHTML();
         const html = editor.previewContainer.html();
-        const subNoteId = this.props.markdownInfo.sub_note_id;
+        const { sub_note_id: subNoteId, sub_note_markdown: subNoteMarkdown } = this.props.markdownInfo;
+        if (markdown === subNoteMarkdown) {
+            this.props.autoSaveMarkdown('success');
+            return;
+        }
         if (!subNoteId) {
             this.props.autoSaveMarkdown('success');
             if (confirmOfflined) {
@@ -95,20 +115,15 @@ export default class Editor extends Component {
             return;
         }
         // TODO 如何未找到所在笔记，保存前先让用户去创建一个笔记本
-        try {
-            const [error, data] = await axiosInstance.post('updateDraft', {
-                html,
-                markdown,
-                subNoteId,
-            });
-            if (!error) {
-                this.props.autoSaveMarkdown('success');
-            } else {
-                message.error(data.message);
-                this.props.autoSaveMarkdown('failed');
-            }
-        } catch (err) {
-            message.error(err.message);
+        const [error, data] = await axiosInstance.post('updateDraft', {
+            html,
+            markdown,
+            subNoteId,
+        });
+        if (!error && data) {
+            this.props.autoSaveMarkdown('success');
+        } else {
+            message.error((error || {}).message || '系统繁忙，请稍后再试');
             this.props.autoSaveMarkdown('failed');
         }
     }
@@ -118,7 +133,7 @@ export default class Editor extends Component {
     }
     doLogin = () => {
         this.toggleShowModal(false);
-        LoginComponent.createInstance();
+        loginComponent.show();
     }
     toggleShowModal = (showModal) => {
         this.setState({
