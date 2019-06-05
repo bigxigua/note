@@ -18,4 +18,5 @@ export const OFFLINE_NOTEBOOK_INFO = {
         sub_note_exist: 1,
     }]
 };
-
+// 离线笔记存localStorage的key
+export const OFFLINENOTE_STORAGE_KEY = 'OFFLINENOTE_STORAGE_KEY';

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin } from 'antd';
 import LoginComponent from '../login/Login.js';
 import axiosInstance from '../../util/axiosInstance.js';
-import { OFFLINE_NOTEBOOK_INFO } from '../../config/index';
+import { OFFLINE_NOTEBOOK_INFO, OFFLINENOTE_STORAGE_KEY } from '../../config/index';
 import { isEmptyObject } from '../../util/util';
 import './Nav.css';
 
@@ -16,6 +16,7 @@ function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
         <div className="sub_note_settings">
             <Button type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
             <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>
+            {isWastepaperBaskets && (<Button type="primary" icon="reload" onClick={ctx.onRecoverySubNoteHandle.bind(ctx, props)}>恢复</Button>)}
         </div>
     )
 }
@@ -26,9 +27,11 @@ export default class Nav extends Component {
             drawerVisibled: false, // 展示抽屉
             modalVisibled: false, // 展示弹框
             noteBookName: '', // 新建的笔记本名称
+            subNoteName: '', // 当前需要新增的子笔记名称
             notes: [], // 用户的所有笔记
             wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
             canShowOutLoginSpin: false, // 点击退出登陆时的loading
+            canShowSettingPopover: true, // 是否显示设置的气泡框
         }
     }
     componentDidMount() {
@@ -38,11 +41,17 @@ export default class Nav extends Component {
             }
         });
     }
-    // 登陆状态监听
+    /**
+     *  登陆，显示登陆弹框
+     *  @returns {object} 笔记数据
+     */
     doLogin = () => {
         loginComponent.show();
     }
-    // 打开侧边栏
+    /**
+     *  打开侧边栏，并获取用户笔记本信息
+     *  @returns {object} 笔记数据
+     */
     onDrawerOpenHandle = () => {
         this.setState({ drawerVisibled: true });
         this.onGetUserNotes();
@@ -52,12 +61,13 @@ export default class Nav extends Component {
      *  @returns {object} 笔记数据
      */
     onGetUserNotes = async () => {
+        this._resetNoteAndWastepaperBasketsd([], []);
         const { account } = this.props.userInfo;
         if (!account) {
             // 如果用户未登陆，则默认创建一个离线的笔记本
-            let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem('offlineNoteBook') || '{}');
+            let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem(OFFLINENOTE_STORAGE_KEY) || '{}');
             if (isEmptyObject(offlineNoteBookInfo)) {
-                window.localStorage.setItem('offlineNoteBook', JSON.stringify(OFFLINE_NOTEBOOK_INFO));
+                window.localStorage.setItem(OFFLINENOTE_STORAGE_KEY, JSON.stringify(OFFLINE_NOTEBOOK_INFO));
                 offlineNoteBookInfo = OFFLINE_NOTEBOOK_INFO;
             }
             this._resetNoteAndWastepaperBasketsd([offlineNoteBookInfo]);
@@ -70,10 +80,15 @@ export default class Nav extends Component {
             message.error((error || {}).message || '获取笔记信息失败，请稍后再试');
         }
     }
-    // 工具函数
-    // 重新计算笔记本和废纸篓
-    _resetNoteAndWastepaperBasketsd = (notes) => {
-        let wastepaperBaskets = this.state.wastepaperBaskets;
+    /**
+     *  工具函数
+     *  重新计算笔记本和废纸篓
+     *  @notes {array} notes 笔记本
+     *  @wastepaperBaskets {array} 废纸篓
+     *  @returns {object} null
+     */
+    _resetNoteAndWastepaperBasketsd = (notes, wastepaperBaskets) => {
+        wastepaperBaskets = wastepaperBaskets || this.state.wastepaperBaskets;
         notes = notes || this.state.notes;
         notes.forEach(notebook => {
             (notebook.subNotes || []).map(note => {
@@ -83,24 +98,47 @@ export default class Nav extends Component {
             })
         });
         this.props.updateUserNotes(notes);
+        // TODO 更新全局的废纸篓笔记信息
         this.setState({ notes, wastepaperBaskets });
     }
-    // end 工具函数
-    // 笔记本子笔记标题被点击
+    /**
+     *  笔记本子笔记标题被点击，显示编辑器，关闭侧边栏
+     *  @note {object} 子笔记详情
+     *  @returns {object} null
+     */
     onEditSubNoteBookHandle = (note) => {
         this.props.setInitMarkdownContent(note);
         this.onDrawerCloseHandle();
+        this.onClosePopoverHandle();
     }
-    // 关闭侧边栏
+    /**
+     *  点击设置选项时关闭popover
+     *  @returns {object} null
+     */
+    onClosePopoverHandle = () => {
+        document.querySelector('.ant-popover').classList.add('ant-popover-hidden');
+    }
+    /**
+     *  关闭侧边栏
+     *  @returns {object} null
+     */
     onDrawerCloseHandle = () => {
         this.setState({ drawerVisibled: false });
     }
-    // 输入发生改变
+    /**
+     *  Input输入发生改变时，设置笔记本或子笔记的名称
+     *  @e {object} 
+     *  @returns {object} null
+     */
     onInputValueChange = (e) => {
         const value = e.currentTarget.value.trim();
-        this.setState({ noteBookName: value });
+        const stateName = e.currentTarget.getAttribute('state');
+        this.setState({ [`${stateName}`]: value });
     }
-    // 创建新的笔记本
+    /**
+     *  创建新的笔记本
+     *  @returns {object} null
+     */
     onCreateNewNotebook = async () => {
         let { noteBookName, notes } = this.state;
         let [error, data] = await axiosInstance.post('createNotebook', {
@@ -110,43 +148,77 @@ export default class Nav extends Component {
             this.onHideModalHandle();
             notes.push(data);
             message.success('创建笔记本成功，现在可以记笔记啦');
-            this.props.updateUserNotes(notes);
-            this.setState({ notes });
+            this._resetNoteAndWastepaperBasketsd(notes);
         } else {
             message.error((error || {}).message || '系统繁忙，请稍后再试');
         }
     }
-    // 删除笔记本下的子笔记
-    onDeleteSubNoteHandle = async ({ sub_note_id, notebook_id }) => {
+    /**
+     *  删除笔记本下的子笔记
+     *  @sub_note_id {string} notes 子笔记id
+     *  @notebook_id {string}  子笔记所属的笔记本id
+     *  @isWastepaperBaskets {string}  是否是废纸篓里的子笔记
+     *  @returns {object} null
+     */
+    onDeleteSubNoteHandle = async ({ sub_note_id, notebook_id, isWastepaperBaskets }) => {
+        this.onClosePopoverHandle();
         Modal.confirm({
             content: (
                 <div>
-                    <div>您确定要将该笔记移到废纸篓吗？</div>
-                    <div>tips: 您可以在废纸篓恢复此文档</div>
+                    <div>{isWastepaperBaskets ? '此操作直接删除，不可恢复，确定吗？' : '您确定要将该笔记移到废纸篓吗？'}</div>
+                    <div>{isWastepaperBaskets ? '' : 'tips: 您可以在废纸篓恢复此文档'}</div>
                 </div>
             ),
             okText: '确认',
             onOk: async () => {
                 const [error, data] = await axiosInstance.post('deleteSubNote', {
-                    type: 1,
+                    type: isWastepaperBaskets ? 0 : 1,
                     subNoteId: sub_note_id
                 });
                 if (!error) {
-                    let { notes } = this.state;
+                    let { notes, wastepaperBaskets } = this.state;
                     const curNoteBookIndex = notes.findIndex(n => n.notebook_id === notebook_id);
-                    if (curNoteBookIndex !== -1) {
+                    // 移动到废纸篓
+                    if (curNoteBookIndex !== -1 && !isWastepaperBaskets) {
                         const curSubNoteIndex = notes[curNoteBookIndex].subNotes.findIndex(n => n.sub_note_id === sub_note_id);
-                        notes[curNoteBookIndex].subNotes[curSubNoteIndex].sub_note_exist = 0;
-                        this._resetNoteAndWastepaperBasketsd(notes);
+                        if (curSubNoteIndex !== -1) {
+                            notes[curNoteBookIndex].subNotes[curSubNoteIndex].sub_note_exist = 0;
+                            this._resetNoteAndWastepaperBasketsd(notes);
+                        }
                     }
+                    // 删除废纸篓内子笔记
+                    const curBasketsIndex = wastepaperBaskets.findIndex(n => n.sub_note_id === sub_note_id);
+                    if (isWastepaperBaskets && curBasketsIndex !== -1) {
+                        wastepaperBaskets.splice(curBasketsIndex, 1);
+                        this._resetNoteAndWastepaperBasketsd(null, wastepaperBaskets);
+                    }
+                } else {
+                    message.error((error || {}).message || '系统繁忙，请稍后再试');
                 }
                 console.log(error, data);
             },
             cancelText: '我在想想'
         });
     }
-    // 新增笔记本下的子笔记
-    onCreateNewSubNoteHandle = async ({ notebook_id }) => {
+    /**
+     *  从废纸篓内恢复子笔记
+     *  @returns {object} null
+     */
+    onRecoverySubNoteHandle = async ({ sub_note_id }) => {
+        this.onClosePopoverHandle();
+        const [error, data] = await axiosInstance.post('updateSubnoteInfo', {
+            subNoteId: sub_note_id
+        });
+        console.log(error);
+        console.log(data);
+    }
+    /**
+     *  新增笔记本下的子笔记
+     *  @notebook_name {string} 新增子笔记所在的笔记本名称
+     *  @notebook_id {string}  新增子笔记所在的笔记本id
+     *  @returns {object} null
+     */
+    onCreateNewSubNoteHandle = async ({ notebook_id, notebook_name }) => {
         // 如果用户未登陆，则提示去登陆
         const { account } = this.props.userInfo;
         if (!account) {
@@ -160,25 +232,36 @@ export default class Nav extends Component {
             });
             return;
         }
-        message.loading('正在为您创建笔记', 0);
-        const [error, data] = await axiosInstance.post('createSubNotebook', {
-            notebookId: notebook_id,
-            subNoteTitle: 'TEST',
-        });
-        message.destroy();
-        if (!error && data.notebook_id) {
-            message.success('笔记创建成功', 1);
-            let { notes } = this.state;
-            const curIndex = notes.findIndex(n => n.notebook_id === data.notebook_id);
-            if (curIndex !== -1) {
-                notes[curIndex].subNotes.push(data);
+        Modal.confirm({
+            title: `正在${notebook_name}笔记本下新增子笔记`,
+            content: <Input state="subNoteName" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />,
+            cancelText: '取消',
+            okText: '创建',
+            onOk: async () => {
+                message.loading('正在为您创建笔记', 0);
+                const [error, data] = await axiosInstance.post('createSubNotebook', {
+                    notebookId: notebook_id,
+                    subNoteTitle: this.state.subNoteName,
+                });
+                message.destroy();
+                if (!error && data.notebook_id) {
+                    message.success('笔记创建成功', 1);
+                    let { notes } = this.state;
+                    const curIndex = notes.findIndex(n => n.notebook_id === data.notebook_id);
+                    if (curIndex !== -1) {
+                        notes[curIndex].subNotes.push(data);
+                    }
+                    this.setState({ notes });
+                } else {
+                    message.error((error || {}).message || '系统开小差啦，稍等试试吧', 2);
+                }
             }
-            this.setState({ notes });
-        } else {
-            message.error((error || {}).message || '系统开小差啦，稍等试试吧', 2);
-        }
+        });
     }
-    // 退出登陆
+    /**
+     *  退出登陆
+     *  @returns {object} null
+     */
     onQuitLoginHandle = async () => {
         this.setState({ canShowOutLoginSpin: true });
         const [error, data] = await axiosInstance.post('outLogin');
@@ -192,12 +275,18 @@ export default class Nav extends Component {
             message.error((error || {}).message || '退出登陆失败，请稍后重试');
         }
     }
-    // 关闭modal
+    /**
+     *  关闭创建笔记本时显示的modal弹框
+     *  @returns {object} null
+     */
     onHideModalHandle = () => {
         this.setState({ modalVisibled: false });
     }
-    // 展示modal
-    onShowModalHandle = async () => {
+    /**
+     *  显示创建笔记本时显示的modal弹框
+     *  @returns {object} null
+     */
+    onShowModalHandle = () => {
         this.setState({ modalVisibled: true });
     }
     render() {
@@ -210,7 +299,7 @@ export default class Nav extends Component {
                 <Menu.Item key="outLogin">
                     <div className="nav_outLogin" onClick={this.onQuitLoginHandle}>
                         退出登陆
-                        { canShowOutLoginSpin ? <Spin /> : null }
+                        {canShowOutLoginSpin ? <Spin /> : null}
                     </div>
                 </Menu.Item>
             </Menu>
@@ -277,7 +366,7 @@ export default class Nav extends Component {
                 <div className="right_munu">
                     {
                         account ? (<Button type="primary" onClick={this.onDrawerOpenHandle}>我的笔记本</Button>) :
-                        (<Button type="primary" onClick={this.onDrawerOpenHandle}>离线笔记本</Button>) 
+                            (<Button type="primary" onClick={this.onDrawerOpenHandle}>离线笔记本</Button>)
                     }
                     {/* 菜单 */}
                     {account && dropdownLists}
@@ -330,7 +419,7 @@ export default class Nav extends Component {
                     onOk={this.onCreateNewNotebook}
                     onCancel={this.onHideModalHandle}
                 >
-                    <Input onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />
+                    <Input state="noteBookName" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />
                     <p className="nav_create_note_tip">更多特性,敬请期待...</p>
                 </Modal>
             </div>

@@ -15,32 +15,40 @@ export default class Login extends Component {
     }
     componentDidMount() {
     }
+    /**
+     *  调用登陆/login接口，进行登陆操作
+     *  @isAutoLogin {boolean} 是否是自动登陆
+     *  @returns {object} null
+     */
     doLogin = async (e, isAutoLogin = false) => {
         const { account, password } = this.state || {};
         if (!isAutoLogin) {
             this.setState({ loading: true });
         }
-        try {
-            const [error, response] = await axiosInstance.post('login', { account, password });
-            if (!error && response) {
-                this.props.onLoginStateChange(response);
-            } else {
-                this.props.onLoginStateChange(null);
-                message.error(error.message);
-            }
-        } catch (err) {
-            message.error('系统繁忙');
-        } finally {
-            if (!isAutoLogin) {
-                this.setState({ loading: false });
-                this.onCloseLoginModal();
-            }
+        const [error, response] = await axiosInstance.post('login', { account, password });
+        if (!error && response) {
+            this.props.onLoginStateChange(response);
+        } else {
+            this.props.onLoginStateChange(null);
+            !isAutoLogin && message.error(error.message);
+        }
+        if (!isAutoLogin) {
+            this.setState({ loading: false });
+            this.onCloseLoginModal();
         }
         return {};
     }
+    /**
+     *  关闭登陆的madal弹框
+     *  @returns {object} null
+     */
     onCloseLoginModal = () => {
         this.props.hide();
     }
+    /**
+     *  获取输入的用户名和密码
+     *  @returns {object} null
+     */
     onInputHandle = (e) => {
         const {
             type,
