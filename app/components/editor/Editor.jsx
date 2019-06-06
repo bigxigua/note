@@ -85,7 +85,7 @@ export default class Editor extends Component {
                 this.props.setInitMarkdownContent(offlineSubNote);
             } else {
                 editor.setMarkdown(INTRODUCE_MARKDOWN);
-                this.props.setInitMarkdownContent(OFFLINE_NOTEBOOK_INFO);
+                this.props.setInitMarkdownContent(OFFLINE_NOTEBOOK_INFO.subNotes[0]);
             }
         } else {
             // 登陆状态下，查找用户上次编辑的子笔记信息并显示
@@ -94,7 +94,7 @@ export default class Editor extends Component {
                 editor.setMarkdown(data.sub_note_markdown || '');
                 this.props.setInitMarkdownContent(data);
             } else {
-                message.error((error || {}).message || '获取最近编辑笔记本信息失败，请稍后再试');
+                this.props.setInitMarkdownContent(OFFLINE_NOTEBOOK_INFO.subNotes[0]);
             }
         }
     }
@@ -150,7 +150,17 @@ export default class Editor extends Component {
         if (!error && data) {
             this.props.autoSaveMarkdown('success');
         } else {
-            message.error((error || {}).message || '系统繁忙，请稍后再试');
+            if (error.code === 50001) {
+                Modal.info({
+                    content: '您还未创建过子笔记哟，快去创建后编辑',
+                    okText: '去创建',
+                    onOk() {
+                        // TODO 打开侧边栏
+                    }
+                });
+            } else {
+                message.error(error.message);
+            }
             this.props.autoSaveMarkdown('failed');
         }
     }

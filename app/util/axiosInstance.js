@@ -38,5 +38,31 @@ axiosInstance.interceptors.response.use(
         return Promise.reject(error)
     }
 );
+const protoGet = axiosInstance.get;
+const protoPost = axiosInstance.post;
+
+axiosInstance.get = async function () {
+    try {
+        const [error, data] = await protoGet.apply(axiosInstance, arguments);
+        return [error, data];
+    } catch (error) {
+        return [{
+            message: '系统繁忙，请稍后再试',
+            code: 500
+        }, null];
+    }
+}
+
+axiosInstance.post = async function () {
+    try {
+        const [error, data] = await protoPost.apply(axiosInstance, arguments);
+        return [error, data];
+    } catch (error) {
+        return [{
+            message: '系统繁忙，请稍后再试',
+            code: 500
+        }, null];
+    }
+}
 
 export default axiosInstance;

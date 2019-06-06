@@ -73,6 +73,8 @@
     display: flex;
     justify-content: center;
     padding-top: 10px;
+    margin: auto;
+    width: 94%;
 }
 .wastepaper_basketsMenus > .ant-menu-submenu-title{
     padding-left: 0 !important;
@@ -83,4 +85,33 @@
     color: rgba(0,0,0,0.65);
     padding: 0 20px;
     cursor: pointer;
+}
+.search-notebook-result{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.search-notebook-result > .search-result-lastupdate{
+    color: #1ab394;
+    font-size: 12px;
+}
+.search-result-loading{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.search-result-loading > i{
+    margin-left: 10px;
+}
+.nav-create-subnote-input{
+    margin-top: 16px;
+}
+.nav-notes-container .ant-menu-item-active{
+    background-color: #e6f7ff;
+}
+.nav-delete-tips{
+    margin-left: 38px;
+}
+.nav-delete-icon{
+    color: #f5222d;
 }

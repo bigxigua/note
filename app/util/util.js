@@ -37,3 +37,10 @@ export function isEmptyObject(param) {
     }
     return Object.keys(param).length === 0;
 }
+export function formatTimeStamp(timestamp) {
+    if (!timestamp) {
+        return '-';
+    }
+    const date = new Date(+timestamp);
+    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+}

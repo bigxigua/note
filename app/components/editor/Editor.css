@@ -1,3 +1,14 @@
 .editor_container{
     height: calc(100% - 50px) !important;
 }
+.ant-modal-confirm-body{
+
+}
+.ant-modal-confirm-content{
+    margin: 0 !important;
+    min-height: 22px;
+    line-height: 22px;
+}
+.ant-modal-confirm-title{
+    line-height: 23px;
+}

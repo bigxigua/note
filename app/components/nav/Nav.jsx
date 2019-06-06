@@ -1,22 +1,49 @@
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin } from 'antd';
+import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin, Card, Avatar } from 'antd';
+import SearchSubNote from './SearchSubNote.jsx';
 import LoginComponent from '../login/Login.js';
 import axiosInstance from '../../util/axiosInstance.js';
 import { OFFLINE_NOTEBOOK_INFO, OFFLINENOTE_STORAGE_KEY } from '../../config/index';
-import { isEmptyObject } from '../../util/util';
+import { isEmptyObject, formatTimeStamp } from '../../util/util';
 import './Nav.css';
 
 const loginComponent = LoginComponent.getInstance();
-const Search = Input.Search;
 const SubMenu = Menu.SubMenu;
+const { Meta } = Card;
 
 function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
     props.isWastepaperBaskets = isWastepaperBaskets;
     return (
         <div className="sub_note_settings">
             <Button type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
-            <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>
+            {!isWastepaperBaskets && <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>}
             {isWastepaperBaskets && (<Button type="primary" icon="reload" onClick={ctx.onRecoverySubNoteHandle.bind(ctx, props)}>恢复</Button>)}
+        </div>
+    )
+}
+function createSubNoteIntroduce(props, ctx) {
+    return (
+        <div className="sub_note_introduce">
+            <Card
+                style={{ width: 300 }}
+                cover={
+                    <img
+                        alt="example"
+                        src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
+                    />
+                }
+                actions={[
+                    <Icon type="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)} className="nav-delete-icon" />, 
+                    <Icon type="edit" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)} />, 
+                    <Icon type="ellipsis" />
+                ]}
+            >
+                <Meta
+                    avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+                    title={props.sub_note_name}
+                    description={props.sub_note_markdown.substr(0, 100)}
+                />
+            </Card>
         </div>
     )
 }
@@ -97,6 +124,8 @@ export default class Nav extends Component {
                 }
             })
         });
+        // TODO 排序
+        notes = notes.sort((a, b) => a.notebook_last_update >= b.notebook_last_update);
         this.props.updateUserNotes(notes);
         // TODO 更新全局的废纸篓笔记信息
         this.setState({ notes, wastepaperBaskets });
@@ -116,7 +145,10 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onClosePopoverHandle = () => {
-        document.querySelector('.ant-popover').classList.add('ant-popover-hidden');
+        const oPopover = document.querySelectorAll('.ant-popover');
+        if (oPopover && oPopover.length > 0) {
+            oPopover.forEach(n => n.classList.add('ant-popover-hidden'));
+        }
     }
     /**
      *  关闭侧边栏
@@ -166,7 +198,7 @@ export default class Nav extends Component {
             content: (
                 <div>
                     <div>{isWastepaperBaskets ? '此操作直接删除，不可恢复，确定吗？' : '您确定要将该笔记移到废纸篓吗？'}</div>
-                    <div>{isWastepaperBaskets ? '' : 'tips: 您可以在废纸篓恢复此文档'}</div>
+                    <div className="nav-delete-tips">{isWastepaperBaskets ? '' : 'tips: 您可以在废纸篓恢复此文档'}</div>
                 </div>
             ),
             okText: '确认',
@@ -195,7 +227,6 @@ export default class Nav extends Component {
                 } else {
                     message.error((error || {}).message || '系统繁忙，请稍后再试');
                 }
-                console.log(error, data);
             },
             cancelText: '我在想想'
         });
@@ -204,13 +235,27 @@ export default class Nav extends Component {
      *  从废纸篓内恢复子笔记
      *  @returns {object} null
      */
-    onRecoverySubNoteHandle = async ({ sub_note_id }) => {
+    onRecoverySubNoteHandle = async ({ sub_note_id, notebook_id }) => {
         this.onClosePopoverHandle();
         const [error, data] = await axiosInstance.post('updateSubnoteInfo', {
-            subNoteId: sub_note_id
+            subNoteId: sub_note_id,
+            subNoteExist: 1
         });
-        console.log(error);
-        console.log(data);
+        if (!error && data) {
+            let { notes, wastepaperBaskets } = this.state;
+            const curBasketsIndex = wastepaperBaskets.findIndex(n => n.sub_note_id === sub_note_id);
+            const curNoteBooksIndex = notes.findIndex(n => n.notebook_id === notebook_id);
+            if (curBasketsIndex !== -1) {
+                wastepaperBaskets.splice(curBasketsIndex, 1);
+            }
+            if (curNoteBooksIndex !== -1) {
+                notes[curNoteBooksIndex].subNotes.push(data);
+            }
+            console.log(curBasketsIndex, curNoteBooksIndex, notes[curNoteBooksIndex].subNotes);
+            this._resetNoteAndWastepaperBasketsd(notes, wastepaperBaskets);
+        } else {
+            message.error((error || {}).message || '系统繁忙，请稍后再试');
+        }
     }
     /**
      *  新增笔记本下的子笔记
@@ -234,14 +279,14 @@ export default class Nav extends Component {
         }
         Modal.confirm({
             title: `正在${notebook_name}笔记本下新增子笔记`,
-            content: <Input state="subNoteName" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />,
+            content: <Input state="subNoteName" className="nav-create-subnote-input" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />,
             cancelText: '取消',
             okText: '创建',
             onOk: async () => {
                 message.loading('正在为您创建笔记', 0);
                 const [error, data] = await axiosInstance.post('createSubNotebook', {
                     notebookId: notebook_id,
-                    subNoteTitle: this.state.subNoteName,
+                    subNoteName: this.state.subNoteName,
                 });
                 message.destroy();
                 if (!error && data.notebook_id) {
@@ -287,7 +332,7 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onShowModalHandle = () => {
-        this.setState({ modalVisibled: true });
+        this.setState({ modalVisibled: true, noteBookName: '' });
     }
     render() {
         const { saveStatus, userInfo: {
@@ -321,9 +366,11 @@ export default class Nav extends Component {
                 return (
                     <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
                         {note.sub_note_title}
-                        <Popover placement="right" title="设置" content={createSubNoteSettings(note, this)}>
-                            <Icon type="setting" />
-                        </Popover>
+                        <div className="nav-popover-items">
+                            <Popover placement="right" title={`上次更新：${formatTimeStamp(note.sub_note_last_update)}`} content={createSubNoteIntroduce(note, this)}>
+                                <Icon type="info-circle" theme="twoTone" />
+                            </Popover>
+                        </div>
                     </Menu.Item>
                 )
             });
@@ -385,16 +432,13 @@ export default class Nav extends Component {
                     visible={this.state.drawerVisibled}
                 >
                     <div className="nav_search">
-                        <Search
-                            placeholder="查找笔记本"
-                            onSearch={value => console.log(value)}
-                            style={{ width: 241 }}
-                        />
+                        <SearchSubNote onEditSubNoteBookHandle={this.onEditSubNoteBookHandle} />
                     </div>
                     <Menu
                         onClick={this.handleClick}
                         style={{ width: 256 }}
-                        defaultOpenKeys={['sub1']}
+                        defaultOpenKeys={[]}
+                        className="nav-notes-container"
                         selectedKeys={[this.state.current]}
                         mode="inline"
                     >
