@@ -6,6 +6,7 @@ const axiosInstance = axios.create({
     withCredentials: true,
     headers: {
         'X-Requested-With': 'XMLHttpRequest',
+        // 'Content-Type': 'application/x-www-form-urlencoded'
         'Content-Type': 'application/json; charset=utf-8'
     },
     // URL QUeryString parameters

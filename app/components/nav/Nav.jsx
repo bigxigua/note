@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin, Card, Avatar } from 'antd';
 import SearchSubNote from './SearchSubNote.jsx';
+import ImageUploader from './ImageUploader.jsx';
 import LoginComponent from '../login/Login.js';
 import axiosInstance from '../../util/axiosInstance.js';
 import { OFFLINE_NOTEBOOK_INFO, OFFLINENOTE_STORAGE_KEY } from '../../config/index';
@@ -59,6 +60,7 @@ export default class Nav extends Component {
             wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
             canShowOutLoginSpin: false, // 点击退出登陆时的loading
             canShowSettingPopover: true, // 是否显示设置的气泡框
+            canShowImageUploader: true, // 是否显示土川图床组件
         }
     }
     componentDidMount() {
@@ -334,11 +336,19 @@ export default class Nav extends Component {
     onShowModalHandle = () => {
         this.setState({ modalVisibled: true, noteBookName: '' });
     }
+    /**
+     *  显示土川图床
+     *  @visible {boolean} 是否显示 
+     *  @returns {object} null
+     */
+    onToggleShowImageUploader = (visible) => {
+        this.setState({ canShowImageUploader:  visible });
+    }
     render() {
         const { saveStatus, userInfo: {
             account
-        } } = this.props;
-        const { notes, wastepaperBaskets, canShowOutLoginSpin } = this.state;
+        }, markdownInfo } = this.props;
+        const { notes, wastepaperBaskets, canShowOutLoginSpin, canShowImageUploader } = this.state;
         const menus = (
             <Menu>
                 <Menu.Item key="outLogin">
@@ -412,7 +422,12 @@ export default class Nav extends Component {
                 <div className="left_munu">土川记</div>
                 <div className="right_munu">
                     {
-                        account ? (<Button type="primary" onClick={this.onDrawerOpenHandle}>我的笔记本</Button>) :
+                        account ? (
+                            <div className="nav_top_buttons">
+                                <Button className="nav_top_button-uploader" type="dashed" onClick={() => {this.onToggleShowImageUploader(true)}}>土川图床</Button>
+                                <Button type="primary" onClick={this.onDrawerOpenHandle}>我的笔记本</Button>
+                            </div>
+                        ) :
                             (<Button type="primary" onClick={this.onDrawerOpenHandle}>离线笔记本</Button>)
                     }
                     {/* 菜单 */}
@@ -466,6 +481,11 @@ export default class Nav extends Component {
                     <Input state="noteBookName" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />
                     <p className="nav_create_note_tip">更多特性,敬请期待...</p>
                 </Modal>
+                {/* 土川图床 */}
+                <ImageUploader 
+                    markdownInfo={markdownInfo}
+                    canShowModal={canShowImageUploader} 
+                    onToggleShowImageUploader={this.onToggleShowImageUploader} />
             </div>
         )
     }
