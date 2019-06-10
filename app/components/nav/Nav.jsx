@@ -14,9 +14,10 @@ const { Meta } = Card;
 
 function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
     props.isWastepaperBaskets = isWastepaperBaskets;
+    const { account } = ctx.props.userInfo;
     return (
         <div className="sub_note_settings">
-            <Button type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
+            <Button disabled={!account} type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
             {!isWastepaperBaskets && <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>}
             {isWastepaperBaskets && (<Button type="primary" icon="reload" onClick={ctx.onRecoverySubNoteHandle.bind(ctx, props)}>恢复</Button>)}
         </div>
@@ -94,7 +95,7 @@ export default class Nav extends Component {
     onGetUserNotes = async (isRefresh = false) => {
         const { account } = this.props.userInfo;
         const { notes } = this.state;
-        if (!isRefresh && notes.length > 0) {
+        if (!isRefresh && notes.length > 0 && notes[0].notebook_id !== OFFLINE_NOTEBOOK_INFO.notebook_id && account) {
             return;
         }
         this._resetNoteAndWastepaperBasketsd([], []);
@@ -284,6 +285,7 @@ export default class Nav extends Component {
                 okText: '登陆',
                 content: '你还未登陆，登陆后可享永久保存',
                 onOk: () => {
+                    this.onDrawerCloseHandle();
                     loginComponent.show();
                 }
             });
@@ -529,7 +531,7 @@ export default class Nav extends Component {
                     visible={this.state.drawerVisibled}
                 >
                     <div className="nav_search">
-                        <SearchSubNote onEditSubNoteBookHandle={this.onEditSubNoteBookHandle} />
+                        <SearchSubNote userInfo={this.props.userInfo} onEditSubNoteBookHandle={this.onEditSubNoteBookHandle} />
                     </div>
                     <Menu
                         onClick={this.handleClick}
@@ -544,7 +546,7 @@ export default class Nav extends Component {
                                 <Icon type="mail" />
                                 笔记本
                             </div>
-                            <Icon type="plus-circle" onClick={() => { this.onToggleShowCreateNoteModal(true) }} />
+                            {account && <Icon type="plus-circle" onClick={() => { this.onToggleShowCreateNoteModal(true) }} />}
                         </Menu.Item>
                         {noteSubMenus}
                         {wastepaperBasketsMenus}

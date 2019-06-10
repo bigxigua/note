@@ -84,7 +84,7 @@ export default class SearchSubNote extends Component {
                     {group.children.map(opt => (
                         <Option key={opt.sub_note_id} value={searchContent} subnote={opt} data={opt.sub_note_id} >
                             <div className="search-notebook-result">
-                            {opt.sub_note_id}<span>{opt.sub_note_name}</span>
+                                <span>{opt.sub_note_name}</span>
                                 <span className="search-result-lastupdate">上次更新：{formatTimeStamp(opt.sub_note_last_update)}</span>
                             </div>
                         </Option>
@@ -98,7 +98,6 @@ export default class SearchSubNote extends Component {
                     </div>
                 </Option>,
             ]);
-        console.log(options)
         return (
             <AutoComplete
                 className="certain-category-search"
@@ -106,6 +105,7 @@ export default class SearchSubNote extends Component {
                 dropdownMatchSelectWidth={false}
                 dropdownStyle={{ width: 300 }}
                 size="large"
+                disabled={!this.props.userInfo.account}
                 style={{ width: '100%' }}
                 onSearch={this.onSearchContentChangeHandle}
                 onSelect={this.onSearchContentSelectHandle}

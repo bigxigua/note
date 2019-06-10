@@ -43,19 +43,20 @@ export default class Editor extends Component {
                 path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
                 disabledKeyMaps: ['Ctrl-B', 'F11', 'F10'],
                 placeholder: '开始吧！！',
-                searchReplace : true,
-                codeFold : true,
-                theme : 'dark',
-                previewTheme : 'dark',
-                editorTheme : 'pastel-on-dark',
+                searchReplace: true,
+                codeFold: true,
+                theme: 'dark',
+                previewTheme: 'dark',
+                editorTheme: 'pastel-on-dark',
                 // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
-                emoji : true,
-                tex : true,                   // 开启科学公式TeX语言支持，默认关闭
-                sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
-                flowChart : true,             // 开启流程图支持，默认关闭
-                tocm            : true,         // Using [TOCM]
+                emoji: true,
+                tex: true,                   // 开启科学公式TeX语言支持，默认关闭
+                sequenceDiagram: true,       // 开启时序/序列图支持，默认关闭,
+                flowChart: true,             // 开启流程图支持，默认关闭
+                tocm: true,         // Using [TOCM]
                 onload: () => {
                     this.initializeEditorContent();
+                    // this.addToolTipForEditorIcon();
                 }
             });
             this.setState({
@@ -78,6 +79,61 @@ export default class Editor extends Component {
         const curMarkdown = markdownInfo.sub_note_markdown;
         if (curMarkdown && curMarkdown !== prevMarkdown) {
             this.state.editor.setMarkdown(curMarkdown);
+        }
+    }
+    /**
+     *  鼠标hover编辑器上的图标，给予文字提示
+     *  @returns {object} null
+     */
+    addToolTipForEditorIcon = () => {
+        let oEditormdMenus = document.querySelectorAll('.editormd-menu>li>a');
+        oEditormdMenus = [oEditormdMenus[0]];
+        if (oEditormdMenus && oEditormdMenus.length > 0) {
+            oEditormdMenus.forEach(oMenu => {
+                const elePos = oMenu.getBoundingClientRect();
+                const tips = oMenu.getAttribute('title');
+                let toolTipBox = document.createElement('div');
+                toolTipBox.innerHTML += (
+                    '<div class="ant-tooltip-content">' +
+                    '<div class="ant-tooltip-arrow"></div>' +
+                    `<div class="ant-tooltip-inner" role="tooltip"><span>${tips}</span></div>` +
+                    '</div>');
+                toolTipBox.setAttribute('class', 'ant-tooltip ant-tooltip-placement-bottom');
+                oMenu.appendChild(toolTipBox);
+                const toolTipBoxPos = toolTipBox.getBoundingClientRect();
+                toolTipBox.style.position = 'fixed';
+                toolTipBox.style.top = (elePos.y + elePos.height) + 'px';
+                console.log(elePos, toolTipBoxPos);
+                toolTipBox.style.left = (elePos.x - toolTipBoxPos.width / 2 + elePos.width / 2) + 'px';
+                // toolTipBox.style.display = 'none';
+                // oMenu.addEventListener('mouseover', (e) => {
+                //     const ele = e.currentTarget;
+                //     const elePos = ele.getBoundingClientRect();
+                //     const tips = ele.getAttribute('title');
+                //     if (tips) {
+                //         if (ele.children.length >= 2) {
+                //             return;
+                //         }
+                //         let toolTipBox = document.createElement('div');
+                //         toolTipBox.innerHTML += (
+                //             '<div class="ant-tooltip-content">' +
+                //             '<div class="ant-tooltip-arrow"></div>' +
+                //             `<div class="ant-tooltip-inner" role="tooltip"><span>${tips}</span></div>` +
+                //             '</div>');
+                //         toolTipBox.setAttribute('class', 'ant-tooltip ant-tooltip-placement-bottom');
+                //         const toolTipBoxPos = toolTipBox.getBoundingClientRect();
+                //         toolTipBox.style.position = 'fixed';
+                //         toolTipBox.style.top = elePos.y + 'px';
+                //         toolTipBox.style.left = (elePos.x - toolTipBoxPos.width / 2 + elePos.width / 2) + 'px';
+                //         ele.appendChild(toolTipBox);
+                //     }
+                // });
+                // oMenu.addEventListener('mouseout', (e) => {
+                //     const ele = e.currentTarget;
+                //     const oTooltip = ele.children[1];
+                //     // oTooltip && ele.removeChild(oTooltip);
+                // })
+            });
         }
     }
     /**
@@ -212,7 +268,7 @@ export default class Editor extends Component {
                     cancelText="去登陆"
                     visible={this.state.showModal}
                     onOk={this.setPatternToExemption}
-                    onCancel={() => {this.toggleShowModal(false)}}
+                    onCancel={() => { this.toggleShowModal(false) }}
                 >
                     <p>1.登陆后可以永久保存编辑内容</p>
                     <p>2.免登陆模式让你快速编辑文档，刷新不丢的哟</p>
