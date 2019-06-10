@@ -2,6 +2,7 @@ export const UPDATE_USER_INFO = 'UPDATE_USER_INFO';
 export const AUTO_SAVE_MARKDOWN_STATUS = 'AUTO_SAVE_MARKDOWN_STATUS';
 export const SET_INIT_MRKDOWN_CONTENT = 'SET_INIT_MRKDOWN_CONTENT';
 export const UPDATE_USER_NOTES = 'UPDATE_USER_NOTES';
+export const SET_EDITOR_INSTANCE = 'SET_EDITOR_INSTANCE';
 
 // 自动保存markdown是否成功
 export const autoSaveMarkdown = (status) => {
@@ -31,3 +32,11 @@ export const updateUserInfo = (userInfo) => {
 		userInfo
 	}
 };
+
+// 将编辑器对象保存到store
+export const setEditorToStore = (editorInstance) => {
+	return {
+		type: SET_EDITOR_INSTANCE,
+		editorInstance
+	}
+}

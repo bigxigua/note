@@ -43,6 +43,17 @@ export default class Editor extends Component {
                 path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
                 disabledKeyMaps: ['Ctrl-B', 'F11', 'F10'],
                 placeholder: '开始吧！！',
+                searchReplace : true,
+                codeFold : true,
+                theme : 'dark',
+                previewTheme : 'dark',
+                editorTheme : 'pastel-on-dark',
+                // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
+                emoji : true,
+                tex : true,                   // 开启科学公式TeX语言支持，默认关闭
+                sequenceDiagram : true,       // 开启时序/序列图支持，默认关闭,
+                flowChart : true,             // 开启流程图支持，默认关闭
+                tocm            : true,         // Using [TOCM]
                 onload: () => {
                     this.initializeEditorContent();
                 }
@@ -50,6 +61,7 @@ export default class Editor extends Component {
             this.setState({
                 editor
             });
+            this.props.setEditorToStore(editor);
             editor.settings.onchange = (function () {
                 this.props.autoSaveMarkdown('pendding');
                 debunceAutoSaveHandle(editor);

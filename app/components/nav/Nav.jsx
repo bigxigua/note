@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin, Card, Avatar } from 'antd';
+import { Menu, Dropdown, Icon, Button, Drawer, Modal, Input, message, Popover, Spin, Card, Avatar, Switch } from 'antd';
 import SearchSubNote from './SearchSubNote.jsx';
 import ImageUploader from './ImageUploader.jsx';
 import LoginComponent from '../login/Login.js';
@@ -34,8 +34,8 @@ function createSubNoteIntroduce(props, ctx) {
                     />
                 }
                 actions={[
-                    <Icon type="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)} className="nav-delete-icon" />, 
-                    <Icon type="edit" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)} />, 
+                    <Icon type="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)} className="nav-delete-icon" />,
+                    <Icon type="edit" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)} />,
                     <Icon type="ellipsis" />
                 ]}
             >
@@ -57,10 +57,11 @@ export default class Nav extends Component {
             noteBookName: '', // 新建的笔记本名称
             subNoteName: '', // 当前需要新增的子笔记名称
             notes: [], // 用户的所有笔记
+            canShowLoadingForGetNotes: false, // 是否显示点击查看我的笔记本按钮上的loadig
+            canShowLoadingForCreateNotes: false, // 是否显示创建新笔记本按钮上的loadig
             wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
             canShowOutLoginSpin: false, // 点击退出登陆时的loading
-            canShowSettingPopover: true, // 是否显示设置的气泡框
-            canShowImageUploader: true, // 是否显示土川图床组件
+            canShowImageUploader: false, // 是否显示土川图床组件
         }
     }
     componentDidMount() {
@@ -87,11 +88,16 @@ export default class Nav extends Component {
     }
     /**
      *  获取用户登陆或离线状态下的所有笔记本(包括废纸篓）
+     *  @isRefresh {boolean} 是否强制刷新
      *  @returns {object} 笔记数据
      */
-    onGetUserNotes = async () => {
-        this._resetNoteAndWastepaperBasketsd([], []);
+    onGetUserNotes = async (isRefresh = false) => {
         const { account } = this.props.userInfo;
+        const { notes } = this.state;
+        if (!isRefresh && notes.length > 0) {
+            return;
+        }
+        this._resetNoteAndWastepaperBasketsd([], []);
         if (!account) {
             // 如果用户未登陆，则默认创建一个离线的笔记本
             let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem(OFFLINENOTE_STORAGE_KEY) || '{}');
@@ -102,7 +108,9 @@ export default class Nav extends Component {
             this._resetNoteAndWastepaperBasketsd([offlineNoteBookInfo]);
             return;
         }
+        this.setState({ canShowLoadingForGetNotes: true });
         const [error, data] = await axiosInstance.get('getUserNotes');
+        this.setState({ canShowLoadingForGetNotes: false });
         if (!error && Array.isArray(data)) {
             this._resetNoteAndWastepaperBasketsd(data);
         } else {
@@ -175,11 +183,13 @@ export default class Nav extends Component {
      */
     onCreateNewNotebook = async () => {
         let { noteBookName, notes } = this.state;
+        this.setState({ canShowLoadingForCreateNotes: true });
         let [error, data] = await axiosInstance.post('createNotebook', {
             noteBookName
         });
+        this.setState({ canShowLoadingForCreateNotes: false });
         if (!error && data) {
-            this.onHideModalHandle();
+            this.onToggleShowCreateNoteModal(false);
             notes.push(data);
             message.success('创建笔记本成功，现在可以记笔记啦');
             this._resetNoteAndWastepaperBasketsd(notes);
@@ -279,16 +289,23 @@ export default class Nav extends Component {
             });
             return;
         }
+        this.setState({ subNoteName: '' });
         Modal.confirm({
-            title: `正在${notebook_name}笔记本下新增子笔记`,
+            title: `正在【${notebook_name}】笔记本下新增子笔记`,
             content: <Input state="subNoteName" className="nav-create-subnote-input" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />,
             cancelText: '取消',
+            destroyOnClose: true,
             okText: '创建',
             onOk: async () => {
+                const { subNoteName } = this.state;
+                if (!subNoteName) {
+                    message.error('子笔记名不可以为空');
+                    return Promise.reject('子笔记名不可以为空');
+                }
                 message.loading('正在为您创建笔记', 0);
                 const [error, data] = await axiosInstance.post('createSubNotebook', {
                     notebookId: notebook_id,
-                    subNoteName: this.state.subNoteName,
+                    subNoteName,
                 });
                 message.destroy();
                 if (!error && data.notebook_id) {
@@ -323,18 +340,11 @@ export default class Nav extends Component {
         }
     }
     /**
-     *  关闭创建笔记本时显示的modal弹框
+     *  关闭或展示创建笔记本时显示的modal弹框
      *  @returns {object} null
      */
-    onHideModalHandle = () => {
-        this.setState({ modalVisibled: false });
-    }
-    /**
-     *  显示创建笔记本时显示的modal弹框
-     *  @returns {object} null
-     */
-    onShowModalHandle = () => {
-        this.setState({ modalVisibled: true, noteBookName: '' });
+    onToggleShowCreateNoteModal = (modalVisibled) => {
+        this.setState({ modalVisibled });
     }
     /**
      *  显示土川图床
@@ -342,13 +352,68 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onToggleShowImageUploader = (visible) => {
-        this.setState({ canShowImageUploader:  visible });
+        this.setState({ canShowImageUploader: visible });
+    }
+    /**
+     *  改变编辑模式
+     *  @type {string} 是否显示 both一边显示一边编辑，fullPreview，fullEditor
+     *  @returns {object} null
+     */
+    changeEditor = (type) => {
+        const { editorInstance } = this.props;
+        if (type === 'fullEditor') {
+            editorInstance.unwatch();
+        }
+        if (type === 'fullPreview') {
+            editorInstance.previewing();
+        }
+        if (type === 'both') {
+            editorInstance.watch();
+        }
+        if (type === 'fullScreen') {
+            editorInstance.fullscreen();
+        }
+        if (type === 'hideToolbae') {
+            editorInstance.hideToolbar();
+        }
+        if (type === 'showToolbae') {
+            editorInstance.showToolbar();
+        }
+        if (type === 'tocDropdown') {
+            editorInstance.config({
+                tocDropdown   : true,
+                tocTitle      : '目录 Table of Contents',
+            });
+        }
+        if (type === 'tocDefault') {
+            editorInstance.config('tocDropdown', false);
+        }
+    }
+    /**
+     *  改变页面主题
+     *  @type {string} 是否显示 both一边显示一边编辑，fullPreview，fullEditor
+     *  @returns {object} null
+     */
+    onChangeTheme = (checked) => {
+        console.log(checked);
+        const { editorInstance } = this.props; 
+        if (!checked) {
+            editorInstance.setTheme('default');
+            editorInstance.setEditorTheme('default');
+            editorInstance.setPreviewTheme('3024-day');
+        } else {
+            editorInstance.setTheme('dark');
+            editorInstance.setEditorTheme('ambiance');
+            editorInstance.setPreviewTheme('dark');
+        }
     }
     render() {
         const { saveStatus, userInfo: {
             account
         }, markdownInfo } = this.props;
-        const { notes, wastepaperBaskets, canShowOutLoginSpin, canShowImageUploader } = this.state;
+        const { notes, wastepaperBaskets, canShowOutLoginSpin,
+            canShowImageUploader, canShowLoadingForGetNotes,
+            canShowLoadingForCreateNotes, noteBookName } = this.state;
         const menus = (
             <Menu>
                 <Menu.Item key="outLogin">
@@ -417,21 +482,38 @@ export default class Nav extends Component {
                 }
             </SubMenu>
         )
+        const quickSettingJsx = (
+            <div className="nav-quick-setting-buttons">
+                <Button type="primary" onClick={() => {this.changeEditor('fullPreview')}}>关闭预览</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('fullEditor')}}>关闭编辑</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('both')}}>恢复默认编辑+预览</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('fullScreen')}}>全屏/非全屏</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('hideToolbae')}}>关闭工具栏</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('showToolbae')}}>显示工具栏</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('tocDropdown')}}>收起部分</Button>
+                <Button type="primary" onClick={() => {this.changeEditor('tocDefault')}}>全部展开</Button>
+            </div>
+        );
         return (
             <div className="nav_container">
                 <div className="left_munu">土川记</div>
                 <div className="right_munu">
+                    <Switch onChange={this.onChangeTheme} className="right_munu-switch-theme" checkedChildren="dark" unCheckedChildren="light" defaultChecked />
                     {
                         account ? (
                             <div className="nav_top_buttons">
-                                <Button className="nav_top_button-uploader" type="dashed" onClick={() => {this.onToggleShowImageUploader(true)}}>土川图床</Button>
-                                <Button type="primary" onClick={this.onDrawerOpenHandle}>我的笔记本</Button>
+                                <Button className="nav_top_button-uploader" type="dashed" onClick={() => { this.onToggleShowImageUploader(true) }}>土川图床</Button>
+                                <Button type="primary" loading={canShowLoadingForGetNotes} onClick={this.onDrawerOpenHandle}>我的笔记本</Button>
                             </div>
                         ) :
                             (<Button type="primary" onClick={this.onDrawerOpenHandle}>离线笔记本</Button>)
                     }
                     {/* 菜单 */}
                     {account && dropdownLists}
+                    {/* <div className="nav-theme">
+                        <Icon type="heat-map" />
+                        主题
+                    </div> */}
                     {/* 保存笔记状态的icon */}
                     {saveIconMapStatus[saveStatus]}
                     {/* 登陆按钮 */}
@@ -462,7 +544,7 @@ export default class Nav extends Component {
                                 <Icon type="mail" />
                                 笔记本
                             </div>
-                            <Icon type="plus-circle" onClick={this.onShowModalHandle} />
+                            <Icon type="plus-circle" onClick={() => { this.onToggleShowCreateNoteModal(true) }} />
                         </Menu.Item>
                         {noteSubMenus}
                         {wastepaperBasketsMenus}
@@ -474,18 +556,34 @@ export default class Nav extends Component {
                     title="新建笔记本"
                     okText="确认"
                     cancelText="取消"
+                    destroyOnClose
                     visible={this.state.modalVisibled}
                     onOk={this.onCreateNewNotebook}
-                    onCancel={this.onHideModalHandle}
+                    okButtonProps={({ 'disabled': !noteBookName, 'loading': canShowLoadingForCreateNotes })}
+                    onCancel={() => { this.onToggleShowCreateNoteModal(false) }}
                 >
                     <Input state="noteBookName" onChange={this.onInputValueChange} size="large" placeholder="请输入笔记名称" />
                     <p className="nav_create_note_tip">更多特性,敬请期待...</p>
                 </Modal>
                 {/* 土川图床 */}
-                <ImageUploader 
+                <ImageUploader
                     markdownInfo={markdownInfo}
-                    canShowModal={canShowImageUploader} 
+                    canShowModal={canShowImageUploader}
                     onToggleShowImageUploader={this.onToggleShowImageUploader} />
+                {/* 右下角快捷设置按钮 */}
+                <div className="nav-quick-setting">
+                    <Popover
+                        placement="left"
+                        content={quickSettingJsx}
+                        title="快捷设置"
+                    >
+                        <div className="nav-quick-setting-icon">
+                            <p className="nav-quick-setting-wave"></p>
+                            <span className="nav-quick-setting-wave"></span>
+                            <Icon theme="twoTone" className="nav-quick-alert" type="alert" />
+                        </div>
+                    </Popover>
+                </div>
             </div>
         )
     }

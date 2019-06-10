@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>点扩散</title>
+	<style>
+		.content {
+			width: 748px;
+			height: 618px;
+			position: absolute;
+			left: 410px;
+			top: 60px;
+		}
+
+		.content div {
+			background: #ffffff;
+			width: 4px;
+			height: 4px;
+			border: 6px #009FD9 solid;
+			border-radius: 50%;
+			position: relative;
+		}
+
+		.content p,
+		.content span {
+			position: absolute;
+			width: 4px;
+			height: 4px;
+			border-radius: 50%;
+			animation: myfirst 1.5s infinite;
+			box-shadow: 0px 0px 1px #009FD9;
+			margin: 0px;
+		}
+
+		.content span {
+			animation-delay: 0.8s;
+		}
+
+		.content .one {
+			position: absolute;
+			left: 600px;
+			top: 100px;
+		}
+
+		.content .ten {
+			background: #A2A9B4;
+			position: absolute;
+			left: 300px;
+			top: 350px;
+		}
+
+		@keyframes myfirst {
+			10% {
+				transform: scale(1);
+			}
+
+			100% {
+				transform: scale(8);
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<div class="content">
+		<div class="ten">
+			<p></p><span></span>
+		</div>
+	</div>
+	#### Default theme
+
+	- Editor.md theme : `default`
+	- Preview area theme : `default`
+	- Editor area theme : `default`
+	
+	> Recommend `dark` theme.
+	
+	#### Recommend editor area themes
+	
+	- ambiance
+	- eclipse
+	- mdn-like
+	- mbo
+	- monokai
+	- neat
+	- pastel-on-dark
+	
+	#### Editor area themes
+	
+	- default
+	- 3024-day
+	- 3024-night
+	- ambiance
+	- ambiance-mobile
+	- base16-dark
+	- base16-light
+	- blackboard
+	- cobalt
+	- eclipse
+	- elegant
+	- erlang-dark
+	- lesser-dark
+	- mbo
+	- mdn-like
+	- midnight
+	- monokai
+	- neat
+	- neo
+	- night
+	- paraiso-dark
+	- paraiso-light
+	- pastel-on-dark
+	- rubyblue
+	- solarized
+	- the-matrix
+	- tomorrow-night-eighties
+	- twilight
+	- vibrant-ink
+	- xq-dark
+	- xq-light
+</body>
+<script>
+	editor.setTheme('theme-name');
+	editor.setEditorTheme('theme-name');
+	editor.setPreviewTheme('theme-name');
+</script>
+
+</html>
