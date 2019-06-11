@@ -140,6 +140,10 @@
 .nav-delete-icon {
     color: #f5222d;
 }
+.nav-delete-icon-disabled{
+    color: rgba(0, 0, 0, 0.25);
+    cursor: not-allowed !important;
+}
 
 .nav_top_button-uploader {
     margin-right: 20px;
@@ -441,4 +445,7 @@
     margin-right: 4px;
     font-size: 20px;
     color: #999c9e;
+}
+.nav_delete-note{
+    margin-top: -10px !important;
 }

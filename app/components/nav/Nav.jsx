@@ -24,6 +24,8 @@ function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
     )
 }
 function createSubNoteIntroduce(props, ctx) {
+    let deleteIconClassName = 'nav-delete-icon';
+    (props.isBeingEdit || !ctx.props.userInfo.account) && (deleteIconClassName += ' nav-delete-icon-disabled');
     return (
         <div className="sub_note_introduce">
             <Card
@@ -35,7 +37,7 @@ function createSubNoteIntroduce(props, ctx) {
                     />
                 }
                 actions={[
-                    <Icon type="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)} className="nav-delete-icon" />,
+                    <Icon type="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)} className={deleteIconClassName} />,
                     <Icon type="edit" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)} />,
                     <Icon type="ellipsis" />
                 ]}
@@ -53,7 +55,6 @@ export default class Nav extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            drawerVisibled: false, // 展示抽屉
             modalVisibled: false, // 展示弹框
             noteBookName: '', // 新建的笔记本名称
             subNoteName: '', // 当前需要新增的子笔记名称
@@ -68,7 +69,7 @@ export default class Nav extends Component {
     componentDidMount() {
         loginComponent.listen('login:change', (info) => {
             if (info) {
-                this.props.updateUserInfo(info);
+                this.props.setUserInfoToStore(info);
             }
         });
     }
@@ -84,7 +85,7 @@ export default class Nav extends Component {
      *  @returns {object} 笔记数据
      */
     onDrawerOpenHandle = () => {
-        this.setState({ drawerVisibled: true });
+        this.props.setDrawerVisibleToStore(true);
         this.onGetUserNotes();
     }
     /**
@@ -96,6 +97,7 @@ export default class Nav extends Component {
         const { account } = this.props.userInfo;
         const { notes } = this.state;
         if (!isRefresh && notes.length > 0 && notes[0].notebook_id !== OFFLINE_NOTEBOOK_INFO.notebook_id && account) {
+            this._resetNoteAndWastepaperBasketsd(this.props.notes);
             return;
         }
         this._resetNoteAndWastepaperBasketsd([], []);
@@ -128,16 +130,22 @@ export default class Nav extends Component {
     _resetNoteAndWastepaperBasketsd = (notes, wastepaperBaskets) => {
         wastepaperBaskets = wastepaperBaskets || this.state.wastepaperBaskets;
         notes = notes || this.state.notes;
-        notes.forEach(notebook => {
-            (notebook.subNotes || []).map(note => {
-                if (note.sub_note_exist === 0) {
-                    wastepaperBaskets.push(note);
+        const { markdownInfo } = this.props;
+        // @标记正在编辑的笔记和子笔记
+        notes = notes.map(notebook => {
+            notebook.isBeingEdit = (notebook.notebook_id === markdownInfo.notebook_id);
+            notebook.subNotes = (notebook.subNotes || []).map(subnote => {
+                if (subnote.sub_note_exist === 0) {
+                    wastepaperBaskets.push(subnote);
                 }
+                subnote.isBeingEdit = (subnote.sub_note_id === markdownInfo.sub_note_id);
+                return subnote;
             })
+            return notebook;
         });
         // TODO 排序
         notes = notes.sort((a, b) => a.notebook_last_update >= b.notebook_last_update);
-        this.props.updateUserNotes(notes);
+        this.props.setNotesInfoToStore(notes);
         // TODO 更新全局的废纸篓笔记信息
         this.setState({ notes, wastepaperBaskets });
     }
@@ -147,7 +155,7 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onEditSubNoteBookHandle = (note) => {
-        this.props.setInitMarkdownContent(note);
+        this.props.setCurrentEditSubnoteInfoToStore(note);
         this.onDrawerCloseHandle();
         this.onClosePopoverHandle();
     }
@@ -166,7 +174,7 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onDrawerCloseHandle = () => {
-        this.setState({ drawerVisibled: false });
+        this.props.setDrawerVisibleToStore(false);
     }
     /**
      *  Input输入发生改变时，设置笔记本或子笔记的名称
@@ -205,7 +213,10 @@ export default class Nav extends Component {
      *  @isWastepaperBaskets {string}  是否是废纸篓里的子笔记
      *  @returns {object} null
      */
-    onDeleteSubNoteHandle = async ({ sub_note_id, notebook_id, isWastepaperBaskets }) => {
+    onDeleteSubNoteHandle = async ({ sub_note_id, notebook_id, isWastepaperBaskets, isBeingEdit }) => {
+        if (isBeingEdit) {
+            return;
+        }
         this.onClosePopoverHandle();
         Modal.confirm({
             content: (
@@ -264,7 +275,6 @@ export default class Nav extends Component {
             if (curNoteBooksIndex !== -1) {
                 notes[curNoteBooksIndex].subNotes.push(data);
             }
-            console.log(curBasketsIndex, curNoteBooksIndex, notes[curNoteBooksIndex].subNotes);
             this._resetNoteAndWastepaperBasketsd(notes, wastepaperBaskets);
         } else {
             message.error((error || {}).message || '系统繁忙，请稍后再试');
@@ -304,12 +314,10 @@ export default class Nav extends Component {
                     message.error('子笔记名不可以为空');
                     return Promise.reject('子笔记名不可以为空');
                 }
-                message.loading('正在为您创建笔记', 0);
                 const [error, data] = await axiosInstance.post('createSubNotebook', {
                     notebookId: notebook_id,
                     subNoteName,
                 });
-                message.destroy();
                 if (!error && data.notebook_id) {
                     message.success('笔记创建成功', 1);
                     let { notes } = this.state;
@@ -325,20 +333,45 @@ export default class Nav extends Component {
         });
     }
     /**
+     *  删除某个笔记本
+     *  @notebook_id {string}  笔记本id
+     *  @returns {object} null
+     */
+    onDeleteNoteBookHandle = async ({ notebook_id, notebook_name, subNotes }) => {
+        const hasSubNotes = subNotes.length > 0;
+        const content = hasSubNotes ? `该笔记本下还有${subNotes.length}个子笔记哟` : '';
+        const okText = hasSubNotes ? '全部删除' : '确认删除';
+        Modal.confirm({
+            cancelText: '我再想想',
+            okText,
+            content: `你确定删除${notebook_name}吗？${content}`,
+            onOk: async () => {
+                const [error, data] = await axiosInstance.post('deleteNotebook', {
+                    noteBookId: notebook_id,
+                    hasSubNotes,
+                });
+                if (!error && data) {
+                    let { notes } = this.state;
+                    const curNoteIndex = notes.findIndex(n => n.notebook_id === notebook_id);
+                    curNoteIndex !== -1 && notes.splice(curNoteIndex, 1);
+                    this._resetNoteAndWastepaperBasketsd(notes);
+                    message.success('删除成功！');
+                } else {
+                    message.error(error.message || '系统繁忙，请稍后再试');
+                }
+            }
+        });
+    }
+    /**
      *  退出登陆
      *  @returns {object} null
      */
     onQuitLoginHandle = async () => {
         this.setState({ canShowOutLoginSpin: true });
-        const [error, data] = await axiosInstance.post('outLogin');
+        const [error, data] = await loginComponent.quitLoginHandle();
         this.setState({ canShowOutLoginSpin: false });
-        console.log(error, data);
         if (!error && data) {
-            this.props.updateUserInfo({
-                account: ''
-            });
-        } else {
-            message.error((error || {}).message || '退出登陆失败，请稍后重试');
+            this.props.setUserInfoToStore({ account: '' });
         }
     }
     /**
@@ -397,7 +430,6 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onChangeTheme = (checked) => {
-        console.log(checked);
         const { editorInstance } = this.props; 
         if (!checked) {
             editorInstance.setTheme('default');
@@ -442,7 +474,7 @@ export default class Nav extends Component {
             let subNotesJsx = item.subNotes.map(note => {
                 return (
                     <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
-                        {note.sub_note_title}
+                        {note.sub_note_name}
                         <div className="nav-popover-items">
                             <Popover placement="right" title={`上次更新：${formatTimeStamp(note.sub_note_last_update)}`} content={createSubNoteIntroduce(note, this)}>
                                 <Icon type="info-circle" theme="twoTone" />
@@ -451,17 +483,23 @@ export default class Nav extends Component {
                     </Menu.Item>
                 )
             });
-            let createSubNotesJsx = (
+            let createSubNotesButtonJsx = (
                 <Menu.Item className="sub_note_item" key="create_new_subnote">
                     <Button onClick={() => { this.onCreateNewSubNoteHandle(item) }} type="dashed" block><Icon type="file-add" />创建笔记</Button>
+                </Menu.Item>
+            );
+            let deleteNotesButtonJsx = (
+                <Menu.Item className="nav_delete-note" key="delete_new_subnote">
+                    <Button disabled={item.isBeingEdit} onClick={() => { this.onDeleteNoteBookHandle(item) }} type="danger" block><Icon type="delete" />删除笔记</Button>
                 </Menu.Item>
             );
             return (
                 <SubMenu
                     key={item.notebook_id}
-                    title={<span><Icon type="book" /><span>{item.notebook_name}</span></span>}>
+                    title={<span><Icon type="book" /><span>{item.notebook_name}({item.subNotes.length})</span></span>}>
                     {subNotesJsx}
-                    {createSubNotesJsx}
+                    {createSubNotesButtonJsx}
+                    {deleteNotesButtonJsx}
                 </SubMenu>
             );
         });
@@ -474,7 +512,7 @@ export default class Nav extends Component {
                     wastepaperBaskets.map(note => {
                         return (
                             <Menu.Item className="sub_note_item" item={note} key={note.sub_note_id}>
-                                {note.sub_note_title}
+                                {note.sub_note_name}
                                 <Popover placement="right" title="设置" content={createSubNoteSettings(note, this, true)}>
                                     <Icon type="setting" />
                                 </Popover>
@@ -528,7 +566,7 @@ export default class Nav extends Component {
                     placement="left"
                     closable={false}
                     onClose={this.onDrawerCloseHandle}
-                    visible={this.state.drawerVisibled}
+                    visible={this.props.canShowDrawer}
                 >
                     <div className="nav_search">
                         <SearchSubNote userInfo={this.props.userInfo} onEditSubNoteBookHandle={this.onEditSubNoteBookHandle} />

@@ -27,7 +27,10 @@ export default class Login extends Component {
         }
         const [error, response] = await axiosInstance.post('login', { account, password });
         if (!error && response) {
-            this.props.onLoginStateChange(response);
+            this.props.onLoginStateChange({
+                ...response,
+                isAutoLogin
+            });
         } else {
             this.props.onLoginStateChange(null);
             !isAutoLogin && message.error(error.message);
@@ -37,6 +40,19 @@ export default class Login extends Component {
             this.onCloseLoginModal();
         }
         return {};
+    }
+    /**
+     *  退出登陆
+     *  @returns {object} null
+     */
+    quitLogin = async () => {
+        const [error, data] = await axiosInstance.post('outLogin');
+        if (!error && data) {
+            this.props.onLoginStateChange(null);
+        } else {
+            message.error((error || {}).message || '退出登陆失败，请稍后重试');
+        }
+        return [error, data];
     }
     /**
      *  关闭登陆的madal弹框

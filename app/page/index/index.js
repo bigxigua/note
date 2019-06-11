@@ -2,11 +2,12 @@ import { connect } from 'react-redux'
 import Index from './Index.jsx'
 
 import { 
-  updateUserInfo,
-  autoSaveMarkdown,
-  setInitMarkdownContent,
-  updateUserNotes,
+  setUserInfoToStore,
+  setSaveStatusToStore,
+  setCurrentEditSubnoteInfoToStore,
+  setNotesInfoToStore,
   setEditorToStore,
+  setDrawerVisibleToStore,
 } from '../../actions/index.js'
 
 function mapStateToProps(state) {
@@ -15,17 +16,20 @@ function mapStateToProps(state) {
 		saveStatus: state.editorReducer.saveStatus,
 		markdownInfo: state.editorReducer.markdownInfo,
 		editorInstance: state.editorReducer.editorInstance,
+		canShowDrawer: state.editorReducer.canShowDrawer,
+		notes: state.editorReducer.notes,
 	}
 }
 
 function mapDispatchToProps(dispatch) {
 	return {
-		updateUserInfo: (index) => {dispatch(updateUserInfo(index))},
-		updateUserNotes: (notes) => {dispatch(updateUserNotes(notes))},
+		setUserInfoToStore: (index) => {dispatch(setUserInfoToStore(index))},
+		setNotesInfoToStore: (notes) => {dispatch(setNotesInfoToStore(notes))},
 		setEditorToStore: (editor) => {dispatch(setEditorToStore(editor))},
-		setInitMarkdownContent: (markdown) => {dispatch(setInitMarkdownContent(markdown))},
-		autoSaveMarkdown: (status) => {
-			dispatch(autoSaveMarkdown(status));
+		setDrawerVisibleToStore: (editor) => {dispatch(setDrawerVisibleToStore(editor))},
+		setCurrentEditSubnoteInfoToStore: (markdown) => {dispatch(setCurrentEditSubnoteInfoToStore(markdown))},
+		setSaveStatusToStore: (status) => {
+			dispatch(setSaveStatusToStore(status));
 		}
 	}
 } 

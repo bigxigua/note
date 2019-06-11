@@ -90,6 +90,12 @@ export default class ImageUploader extends Component {
      *  @returns {object} null
      */
     handleCancel = () => {
+        // @关闭时，清除已经上传成功的图片
+        let { fileList } = this.state;
+        fileList = fileList.filter(n => {
+            return !n.relPath;
+        });
+        this.setState({ fileList });
         this.props.onToggleShowImageUploader(false);
     }
     /**

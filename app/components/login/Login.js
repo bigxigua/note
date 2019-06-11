@@ -41,7 +41,10 @@ export default class LoginComponent {
         this.render();
     }
     checkAuthorization = async () => {
-        this.instance.doLogin({}, true);
+        return this.instance.doLogin({}, true);
+    }
+    quitLoginHandle = async () => {
+        return this.instance.quitLogin();
     }
     onLoginStateChange = (info) => {
         this.emit('login:change', info);

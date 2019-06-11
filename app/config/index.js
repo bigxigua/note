@@ -14,7 +14,7 @@ export const OFFLINE_NOTEBOOK_INFO = {
         sub_note_last_update: now,
         sub_note_html: '<p>这是一个新的笔记</p>↵',
         sub_note_markdown: INTRODUCE_MARKDOWN,
-        sub_note_title: '离线子笔记',
+        sub_note_name: '离线子笔记',
         sub_note_exist: 1,
     }]
 };

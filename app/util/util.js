@@ -1,4 +1,3 @@
-import { Object } from "core-js";
 
 export function throttle(fn, wait = 2000, immediately = false) {
     let latestTime = Date.now();
@@ -42,5 +41,32 @@ export function formatTimeStamp(timestamp) {
         return '-';
     }
     const date = new Date(+timestamp);
-    return `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
+    let completionZero = function(number) {
+        return `${number >= 9 ? '' : '0'}${number}`;
+    };
+    return `${date.getFullYear()}-` + 
+           `${completionZero(date.getMonth() + 1)}-` + 
+           `${completionZero(date.getDate())}` + 
+           `  ${completionZero(date.getHours())}:` +
+           `${completionZero(date.getMinutes())}:` +
+           `${completionZero(date.getSeconds())}`;
+}
+export function findCurrentNoteBookAndSubNoteFromNotes(notes, notebookId, subNoteId) {
+    if (!Array.isArray(notes)) {
+        return [{}, {}];
+    }
+    let notebook = {};
+    let subnote = {};
+    let curNoteIndex = notes.findIndex(n => n.notebook_id === notebookId);
+    let curSubNoteIndex = -1;
+    if (curNoteIndex !== -1) {
+        notebook = notes[curNoteIndex];
+        if (subNoteId) {
+            curSubNoteIndex = notebook.subNotes.findIndex(n => n.sub_note_id === subNoteId);
+            if (curSubNoteIndex !== -1) {
+                subnote = notebook.subNotes[curSubNoteIndex];
+            }
+        }
+    }
+    return [{ notebook, curNoteIndex }, { subnote, curSubNoteIndex }];
 }
