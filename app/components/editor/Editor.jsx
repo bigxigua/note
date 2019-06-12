@@ -85,13 +85,13 @@ export default class Editor extends Component {
      *  @returns {object} null
      */
     disposeOfflineMarkdownInfo = () => {
-        let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem(OFFLINENOTE_STORAGE_KEY) || '{}');
-        if (isEmptyObject(offlineNoteBookInfo)) {
+        let offlineNoteBookInfo = [JSON.parse(window.localStorage.getItem(OFFLINENOTE_STORAGE_KEY) || '{}')];
+        if (isEmptyObject(offlineNoteBookInfo[0])) {
             window.localStorage.setItem(OFFLINENOTE_STORAGE_KEY, JSON.stringify(OFFLINE_NOTEBOOK_INFO));
-            offlineNoteBookInfo = OFFLINE_NOTEBOOK_INFO;
+            offlineNoteBookInfo = [OFFLINE_NOTEBOOK_INFO];
         } else {
-            if (this.state.editor.cm) {
-                const offlineSubNote = offlineNoteBookInfo.subNotes[0];
+            if (this.state.editor && this.state.editor.cm) {
+                const offlineSubNote = offlineNoteBookInfo[0].subNotes[0];
                 this.state.editor.setMarkdown(offlineSubNote.sub_note_markdown);
                 this.props.setCurrentEditSubnoteInfoToStore(offlineSubNote);
             }

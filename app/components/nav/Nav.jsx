@@ -15,11 +15,12 @@ const { Meta } = Card;
 function createSubNoteSettings(props, ctx, isWastepaperBaskets) {
     props.isWastepaperBaskets = isWastepaperBaskets;
     const { account } = ctx.props.userInfo;
+    const { canShowRecoveryLoading } = ctx.state;
     return (
         <div className="sub_note_settings">
             <Button disabled={!account} type="danger" data-note={props} icon="delete" onClick={ctx.onDeleteSubNoteHandle.bind(ctx, props)}>删除</Button>
             {!isWastepaperBaskets && <Button type="primary" icon="file-markdown" onClick={ctx.onEditSubNoteBookHandle.bind(ctx, props)}>编辑</Button>}
-            {isWastepaperBaskets && (<Button type="primary" icon="reload" onClick={ctx.onRecoverySubNoteHandle.bind(ctx, props)}>恢复</Button>)}
+            {isWastepaperBaskets && (<Button type="primary" icon="reload" onClick={ctx.onRecoverySubNoteHandle.bind(ctx, props)} loading={canShowRecoveryLoading}>恢复</Button>)}
         </div>
     )
 }
@@ -61,8 +62,9 @@ export default class Nav extends Component {
             notes: [], // 用户的所有笔记
             canShowLoadingForGetNotes: false, // 是否显示点击查看我的笔记本按钮上的loadig
             canShowLoadingForCreateNotes: false, // 是否显示创建新笔记本按钮上的loadig
-            wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
             canShowOutLoginSpin: false, // 点击退出登陆时的loading
+            canShowRecoveryLoading: false, // 点击恢复废纸篓内子笔记本的loading
+            wastepaperBaskets: [], // 用户的废纸篓，这里离线模式也可显示
             canShowImageUploader: false, // 是否显示土川图床组件
         }
     }
@@ -85,7 +87,6 @@ export default class Nav extends Component {
      *  @returns {object} 笔记数据
      */
     onDrawerOpenHandle = () => {
-        this.props.setDrawerVisibleToStore(true);
         this.onGetUserNotes();
     }
     /**
@@ -98,6 +99,7 @@ export default class Nav extends Component {
         const { notes } = this.state;
         if (!isRefresh && notes.length > 0 && notes[0].notebook_id !== OFFLINE_NOTEBOOK_INFO.notebook_id && account) {
             this._resetNoteAndWastepaperBasketsd(this.props.notes);
+            this.props.setDrawerVisibleToStore(true);
             return;
         }
         this._resetNoteAndWastepaperBasketsd([], []);
@@ -109,6 +111,7 @@ export default class Nav extends Component {
                 offlineNoteBookInfo = OFFLINE_NOTEBOOK_INFO;
             }
             this._resetNoteAndWastepaperBasketsd([offlineNoteBookInfo]);
+            this.props.setDrawerVisibleToStore(true);
             return;
         }
         this.setState({ canShowLoadingForGetNotes: true });
@@ -116,6 +119,7 @@ export default class Nav extends Component {
         this.setState({ canShowLoadingForGetNotes: false });
         if (!error && Array.isArray(data)) {
             this._resetNoteAndWastepaperBasketsd(data);
+            this.props.setDrawerVisibleToStore(true);
         } else {
             message.error((error || {}).message || '获取笔记信息失败，请稍后再试');
         }
@@ -261,10 +265,12 @@ export default class Nav extends Component {
      */
     onRecoverySubNoteHandle = async ({ sub_note_id, notebook_id }) => {
         this.onClosePopoverHandle();
+        this.setState({ canShowRecoveryLoading: true });
         const [error, data] = await axiosInstance.post('updateSubnoteInfo', {
             subNoteId: sub_note_id,
             subNoteExist: 1
         });
+        this.setState({ canShowRecoveryLoading: false });
         if (!error && data) {
             let { notes, wastepaperBaskets } = this.state;
             const curBasketsIndex = wastepaperBaskets.findIndex(n => n.sub_note_id === sub_note_id);
