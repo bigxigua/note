@@ -118,8 +118,8 @@ export default class Nav extends Component {
         const [error, data] = await axiosInstance.get('getUserNotes');
         this.setState({ canShowLoadingForGetNotes: false });
         if (!error && Array.isArray(data)) {
-            this._resetNoteAndWastepaperBasketsd(data);
             this.props.setDrawerVisibleToStore(true);
+            this._resetNoteAndWastepaperBasketsd(data);
         } else {
             message.error((error || {}).message || '获取笔记信息失败，请稍后再试');
         }
@@ -264,12 +264,12 @@ export default class Nav extends Component {
      *  @returns {object} null
      */
     onRecoverySubNoteHandle = async ({ sub_note_id, notebook_id }) => {
-        this.onClosePopoverHandle();
         this.setState({ canShowRecoveryLoading: true });
         const [error, data] = await axiosInstance.post('updateSubnoteInfo', {
             subNoteId: sub_note_id,
             subNoteExist: 1
         });
+        this.onClosePopoverHandle();
         this.setState({ canShowRecoveryLoading: false });
         if (!error && data) {
             let { notes, wastepaperBaskets } = this.state;
@@ -282,6 +282,7 @@ export default class Nav extends Component {
                 notes[curNoteBooksIndex].subNotes.push(data);
             }
             this._resetNoteAndWastepaperBasketsd(notes, wastepaperBaskets);
+            message.success('已恢复到对应笔记本下');
         } else {
             message.error((error || {}).message || '系统繁忙，请稍后再试');
         }
