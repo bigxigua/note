@@ -44,9 +44,9 @@ export default class Editor extends Component {
                 placeholder: '开始吧！！',
                 searchReplace: true,
                 codeFold: true,
-                theme: 'dark',
-                previewTheme: 'dark',
-                editorTheme: 'pastel-on-dark',
+                theme: 'default',
+                previewTheme: 'default',
+                editorTheme: 'default',
                 // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启    
                 emoji: true,
                 tex: true,                   // 开启科学公式TeX语言支持，默认关闭
@@ -61,6 +61,7 @@ export default class Editor extends Component {
             this.setState({
                 editor
             });
+            console.log(editor);
             this.props.setEditorToStore(editor);
             editor.settings.onchange = (function () {
                 this.props.setSaveStatusToStore('pendding');
@@ -273,11 +274,12 @@ export default class Editor extends Component {
      *  隐藏或关闭登陆弹框
      *  @returns {object} null
      */
-    toggleShowModal = (showModal) => {
+    toggleShowModal = (showModal = false, goToLogin = false) => {
         this.setState({
             showModal
         });
         this.props.setSaveStatusToStore('');
+        goToLogin && this.doLogin();
     }
     render() {
         return (
@@ -288,7 +290,7 @@ export default class Editor extends Component {
                     cancelText="去登陆"
                     visible={this.state.showModal}
                     onOk={this.setPatternToExemption}
-                    onCancel={() => { this.toggleShowModal(false) }}
+                    onCancel={() => { this.toggleShowModal(false, true) }}
                 >
                     <p>1.登陆后可以永久保存编辑内容</p>
                     <p>2.免登陆模式让你快速编辑文档，刷新不丢的哟</p>

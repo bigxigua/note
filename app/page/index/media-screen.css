@@ -1,0 +1,23 @@
+@media only screen and (max-width: 450px) {
+    .left_munu{
+        padding: 15px 10px;
+    }
+    .nav-drawer-container .ant-drawer-content-wrapper{
+        width: 100% !important;
+    }
+    .nav-notes-container{
+        width: 100% !important;
+    }
+}
+@media only screen and (max-width: 400px) {
+    .left_munu{
+        display: none;
+    }
+    .right_munu{
+        flex: 1;
+        justify-content: space-around;
+    }
+    .nav-quick-setting{
+        display: none;
+    }
+}

@@ -74,6 +74,12 @@ export default class Nav extends Component {
                 this.props.setUserInfoToStore(info);
             }
         });
+        window.addEventListener('resize', () => {
+            const { width } = document.body.getBoundingClientRect();
+            if (width <= 600) {
+                this.changeEditor('fullPreview');
+            }
+        }, false);
     }
     /**
      *  登陆，显示登陆弹框
@@ -439,13 +445,13 @@ export default class Nav extends Component {
     onChangeTheme = (checked) => {
         const { editorInstance } = this.props; 
         if (!checked) {
-            editorInstance.setTheme('default');
-            editorInstance.setEditorTheme('default');
-            editorInstance.setPreviewTheme('3024-day');
-        } else {
             editorInstance.setTheme('dark');
             editorInstance.setEditorTheme('ambiance');
             editorInstance.setPreviewTheme('dark');
+        } else {
+            editorInstance.setTheme('default');
+            editorInstance.setEditorTheme('default');
+            editorInstance.setPreviewTheme('3024-day');
         }
     }
     render() {
@@ -572,6 +578,7 @@ export default class Nav extends Component {
                     title="土川记"
                     placement="left"
                     closable={false}
+                    className="nav-drawer-container"
                     onClose={this.onDrawerCloseHandle}
                     visible={this.props.canShowDrawer}
                 >
