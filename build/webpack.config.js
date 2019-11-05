@@ -24,6 +24,9 @@ const InlineChunkHtmlPlugin = require('./InlineChunkHtmlPlugin');
 // 给html模版注入变量
 const InterpolateHtmlPlugin = require('./InterpolateHtmlPlugin');
 const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
+// 可视化分析
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+
 const {
   shouldUseSourceMap,
   isEnvProduction,
@@ -372,6 +375,7 @@ let webpackConfig = {
           : undefined
       )
     ),
+    new BundleAnalyzerPlugin(),
     // Inlines the webpack runtime script. This script is too small to warrant
     // a network request.
     isEnvProduction &&
@@ -383,7 +387,9 @@ let webpackConfig = {
     // in `package.json`, in which case it will be the pathname of that URL.
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
-      PUBLIC_URL: publicUrl
+      PUBLIC_URL: publicUrl,
+      TITLE: '一日一记',
+      OFFLINE_TITLE: '离线笔记本'
     }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.
