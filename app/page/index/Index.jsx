@@ -2,16 +2,14 @@ import React, { Component } from 'react';
 import './Index.css';
 import Nav from '../../components/nav/Nav.jsx';
 import Editor from '../../components/editor/Editor.jsx';
+import Catalog from '../../components/catalog/Catalog.jsx';
 import './media-screen.css';
 export default class Index extends Component {
-  constructor(props) {
-    super(props);
-  }
   componentDidMount() {
-    const skeletonDom = document.querySelector('.skeleton')
-    console.log('------', skeletonDom);
+    const skeletonDom = document.querySelector('.skeleton');
     document.body.removeChild(skeletonDom);
   }
+
   render() {
     const {
       setSaveStatusToStore, // action 保存文本
@@ -25,7 +23,7 @@ export default class Index extends Component {
       saveStatus, // 保存编辑内容的当前状态
       markdownInfo, // 正在被编辑的markdown
       editorInstance, // 编辑器对象
-      canShowDrawer, // 是否展示侧边栏
+      canShowDrawer // 是否展示侧边栏
     } = this.props;
     return (
       <div className="page_container">
@@ -39,19 +37,24 @@ export default class Index extends Component {
           setNotesInfoToStore={setNotesInfoToStore}
           markdownInfo={markdownInfo}
           notes={notes}
-          setUserInfoToStore={setUserInfoToStore} />
-        <Editor
           setUserInfoToStore={setUserInfoToStore}
-          setCurrentEditSubnoteInfoToStore={setCurrentEditSubnoteInfoToStore}
-          setSaveStatusToStore={setSaveStatusToStore}
-          setNotesInfoToStore={setNotesInfoToStore}
-          setDrawerVisibleToStore={setDrawerVisibleToStore}
-          setEditorToStore={setEditorToStore}
-          markdownInfo={markdownInfo}
-          notes={notes}
-          canShowDrawer={canShowDrawer}
-          userInfo={userInfo} />
+        />
+        <div className="page_content">
+          <Editor
+            setUserInfoToStore={setUserInfoToStore}
+            setCurrentEditSubnoteInfoToStore={setCurrentEditSubnoteInfoToStore}
+            setSaveStatusToStore={setSaveStatusToStore}
+            setNotesInfoToStore={setNotesInfoToStore}
+            setDrawerVisibleToStore={setDrawerVisibleToStore}
+            setEditorToStore={setEditorToStore}
+            markdownInfo={markdownInfo}
+            notes={notes}
+            canShowDrawer={canShowDrawer}
+            userInfo={userInfo}
+          />
+          {editorInstance && <Catalog editorInstance={editorInstance} />}
+        </div>
       </div>
-    )
+    );
   }
 }

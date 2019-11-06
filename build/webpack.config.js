@@ -41,9 +41,9 @@ const {
   appHtml,
   appPath,
   stringified,
-  contentBase,
+  contentBase
 } = require('./config');
-let webpackConfig = {
+const webpackConfig = {
   devtool,
   entry: [appIndexJs],
   output: {
@@ -73,15 +73,15 @@ let webpackConfig = {
             inline: 2
           },
           mangle: {
-            safari10: true,
+            safari10: true
           },
           output: {
             ecma: 5,
             comments: false,
             // Turned on because emoji and regex is not minified properly using default
             // https://github.com/facebook/create-react-app/issues/2488
-            ascii_only: true,
-          },
+            ascii_only: true
+          }
         },
         parallel: !isWsl, // 在 Windows Subsystem for Linux时禁用多进程并行运行，默认并发运行数：os.cpus().length - 1
         cache: true,
@@ -98,19 +98,19 @@ let webpackConfig = {
               inline: false,
               // `annotation: true` appends the sourceMappingURL to the end of
               // the css file, helping the browser find the sourcemap
-              annotation: true,
+              annotation: true
             }
-            : false,
-        },
-      }),
+            : false
+        }
+      })
     ],
     // Automatically split vendor and commons
     splitChunks: {
       chunks: 'all',
-      name: false,
+      name: false
     },
     // Keep the runtime chunk separated to enable long term caching
-    runtimeChunk: true,
+    runtimeChunk: true
   },
   resolve: {
     // 添加别名
@@ -123,14 +123,14 @@ let webpackConfig = {
       // Adds support for installing with Plug'n'Play, leading to faster installs and adding
       // guards against forgotten dependencies and such.
       PnpWebpackPlugin
-    ],
+    ]
   },
   resolveLoader: {
     plugins: [
       // Also related to Plug'n'Play, but this time it tells Webpack to load its loaders
       // from the current package.
-      PnpWebpackPlugin.moduleLoader(module),
-    ],
+      PnpWebpackPlugin.moduleLoader(module)
+    ]
   },
   module: {
     // 使丢失的导出错误而不是警告
@@ -140,27 +140,27 @@ let webpackConfig = {
       { parser: { requireEnsure: false } },
       // First, run the linter.
       // It's important to do this before Babel processes the JS.
-      {
-        test: /\.(js|mjs|jsx|ts|tsx)$/,
-        enforce: 'pre',
-        use: [
-          {
-            options: {
-              formatter: require.resolve('./eslintFormatter'),
-              eslintPath: require.resolve('eslint'),
-              // @remove-on-eject-begin
-              baseConfig: {
-                extends: [require.resolve('eslint-config-react-app')],
-              },
-              ignore: false,
-              useEslintrc: false,
-              // @remove-on-eject-end
-            },
-            loader: require.resolve('eslint-loader'),
-          },
-        ],
-        include: appSrc,
-      },
+      // {
+      //   test: /\.(js|mjs|jsx|ts|tsx)$/,
+      //   enforce: 'pre',
+      //   use: [
+      //     {
+      //       options: {
+      //         formatter: require.resolve('./eslintFormatter'),
+      //         eslintPath: require.resolve('eslint'),
+      //         // @remove-on-eject-begin
+      //         baseConfig: {
+      //           extends: [require.resolve('eslint-config-react-app')]
+      //         },
+      //         ignore: false,
+      //         useEslintrc: false
+      //         // @remove-on-eject-end
+      //       },
+      //       loader: require.resolve('eslint-loader')
+      //     }
+      //   ],
+      //   include: appSrc
+      // },
       {
         // "oneOf" will traverse all following loaders until one will
         // match the requirements. When no loader matches it will fall
@@ -174,8 +174,8 @@ let webpackConfig = {
             loader: require.resolve('url-loader'),
             options: {
               limit: 10000,
-              name: 'static/media/[name].[hash:8].[ext]',
-            },
+              name: 'static/media/[name].[hash:8].[ext]'
+            }
           },
           // Process application JS with Babel.
           // The preset includes JSX, Flow, TypeScript, and some ESnext features.
@@ -212,19 +212,19 @@ let webpackConfig = {
                   {
                     loaderMap: {
                       svg: {
-                        ReactComponent: '@svgr/webpack?-svgo,+ref![path]',
-                      },
-                    },
-                  },
-                ],
+                        ReactComponent: '@svgr/webpack?-svgo,+ref![path]'
+                      }
+                    }
+                  }
+                ]
               ],
               // This is a feature of `babel-loader` for webpack (not Babel itself).
               // It enables caching results in ./node_modules/.cache/babel-loader/
               // directory for faster rebuilds.
               cacheDirectory: true,
               cacheCompression: isEnvProduction,
-              compact: isEnvProduction,
-            },
+              compact: isEnvProduction
+            }
           },
           // Process any JS outside of the app with Babel.
           // Unlike the application JS, we only compile the standard ES features.
@@ -239,8 +239,8 @@ let webpackConfig = {
               presets: [
                 [
                   require.resolve('babel-preset-react-app/dependencies'),
-                  { helpers: true },
-                ],
+                  { helpers: true }
+                ]
               ],
               cacheDirectory: true,
               cacheCompression: isEnvProduction,
@@ -259,8 +259,8 @@ let webpackConfig = {
               // because it was compiled. Thus, we don't want the browser
               // debugger to show the original code. Instead, the code
               // being evaluated would be much more helpful.
-              sourceMaps: false,
-            },
+              sourceMaps: false
+            }
           },
           // "postcss" loader applies autoprefixer to our CSS.
           // "css" loader resolves paths in CSS and adds assets as dependencies.
@@ -274,13 +274,13 @@ let webpackConfig = {
             exclude: /\.module\.css$/,
             use: getStyleLoaders({
               importLoaders: 1,
-              sourceMap: isEnvProduction && shouldUseSourceMap,
+              sourceMap: isEnvProduction && shouldUseSourceMap
             }),
             // Don't consider CSS imports dead code even if the
             // containing package claims to have no side effects.
             // Remove this when webpack adds a warning or an error for this.
             // See https://github.com/webpack/webpack/issues/6571
-            sideEffects: true,
+            sideEffects: true
           },
           // Adds support for CSS Modules (https://github.com/css-modules/css-modules)
           // using the extension .module.css
@@ -290,8 +290,8 @@ let webpackConfig = {
               importLoaders: 1,
               sourceMap: isEnvProduction && shouldUseSourceMap,
               modules: true,
-              getLocalIdent: getCSSModuleLocalIdent,
-            }),
+              getLocalIdent: getCSSModuleLocalIdent
+            })
           },
           // Opt-in support for SASS (using .scss or .sass extensions).
           // By default we support SASS Modules with the
@@ -302,7 +302,7 @@ let webpackConfig = {
             use: getStyleLoaders(
               {
                 importLoaders: 2,
-                sourceMap: isEnvProduction && shouldUseSourceMap,
+                sourceMap: isEnvProduction && shouldUseSourceMap
               },
               'sass-loader'
             ),
@@ -310,7 +310,7 @@ let webpackConfig = {
             // containing package claims to have no side effects.
             // Remove this when webpack adds a warning or an error for this.
             // See https://github.com/webpack/webpack/issues/6571
-            sideEffects: true,
+            sideEffects: true
           },
           // Adds support for CSS Modules, but using SASS
           // using the extension .module.scss or .module.sass
@@ -321,10 +321,10 @@ let webpackConfig = {
                 importLoaders: 2,
                 sourceMap: isEnvProduction && shouldUseSourceMap,
                 modules: true,
-                getLocalIdent: getCSSModuleLocalIdent,
+                getLocalIdent: getCSSModuleLocalIdent
               },
               'sass-loader'
-            ),
+            )
           },
           // "file" loader makes sure those assets get served by WebpackDevServer.
           // When you `import` an asset, you get its (virtual) filename.
@@ -339,13 +339,13 @@ let webpackConfig = {
             // by webpacks internal loaders.
             exclude: [/\.(js|mjs|jsx|ts|tsx)$/, /\.html$/, /\.json$/],
             options: {
-              name: 'static/media/[name].[hash:8].[ext]',
-            },
-          },
+              name: 'static/media/[name].[hash:8].[ext]'
+            }
+          }
           // ** STOP ** Are you adding a new loader?
           // Make sure to add the new loader(s) before the "file" loader.
-        ],
-      },
+        ]
+      }
     ]
   },
   plugins: [
@@ -355,7 +355,7 @@ let webpackConfig = {
         {},
         {
           inject: true,
-          template: appHtml,
+          template: appHtml
         },
         isEnvProduction
           ? {
@@ -369,8 +369,8 @@ let webpackConfig = {
               keepClosingSlash: true,
               minifyJS: true,
               minifyCSS: true,
-              minifyURLs: true,
-            },
+              minifyURLs: true
+            }
           }
           : undefined
       )
@@ -411,7 +411,7 @@ let webpackConfig = {
       // Options similar to the same options in webpackOptions.output
       // both options are optional
       filename: 'static/css/[name].[contenthash:8].css',
-      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css',
+      chunkFilename: 'static/css/[name].[contenthash:8].chunk.css'
     }),
     // Generate a manifest file which contains a mapping of all asset filenames
     // to their corresponding output file so that tools can pick it up without
@@ -425,9 +425,9 @@ let webpackConfig = {
           return manifest;
         }, seed);
         return {
-          files: manifestFiles,
+          files: manifestFiles
         };
-      },
+      }
     }),
     // Moment.js is an extremely popular library that bundles large locale files
     // by default due to how Webpack interprets its code. This is a practical
@@ -448,8 +448,8 @@ let webpackConfig = {
         new RegExp('^/_'),
         // Exclude URLs containing a dot, as they're likely a resource in
         // public/ and not a SPA route
-        new RegExp('/[^/]+\\.[^/]+$'),
-      ],
+        new RegExp('/[^/]+\\.[^/]+$')
+      ]
     })
   ].filter(Boolean)
 };
@@ -482,10 +482,10 @@ if (isEnvDevelopment) {
     compress: true,
     hot: true,
     host: '127.0.0.1',
-    port: 3004,
+    port: 3004
     // proxy: {
     //   '/api': 'http://localhost:3000'
     // },
-  }
+  };
 }
 module.exports = webpackConfig;

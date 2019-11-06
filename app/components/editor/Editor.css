@@ -1,14 +1,20 @@
-.editor_container{
-    height: calc(100% - 50px) !important;
+.editor_container {
+  border-top: none;
 }
-.ant-modal-confirm-body{
+.editor_container .editormd-toolbar{
+  position: fixed;
+  top: 50px;
+  left: 0;
+}
 
+.ant-modal-confirm-body {}
+
+.ant-modal-confirm-content {
+  margin: 0 !important;
+  min-height: 22px;
+  line-height: 22px;
 }
-.ant-modal-confirm-content{
-    margin: 0 !important;
-    min-height: 22px;
-    line-height: 22px;
-}
-.ant-modal-confirm-title{
-    line-height: 23px;
+
+.ant-modal-confirm-title {
+  line-height: 23px;
 }
