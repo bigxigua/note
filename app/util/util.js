@@ -32,7 +32,7 @@ export function debunce(fn, wait = 2000, immediately = false) {
 }
 export function isEmptyObject(param) {
   if (!param || typeof param !== 'object') {
-    return false;
+    return true;
   }
   return Object.keys(param).length === 0;
 }

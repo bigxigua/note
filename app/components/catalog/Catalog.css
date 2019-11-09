@@ -1,11 +1,10 @@
 .Catalog_container {
   width: 320px;
   height: 100vh;
-  overflow-x: hidden;
-  overflow-y: scroll;
-  padding-top: 50px;
+  overflow: hidden;
   padding-left: 20px;
-
+  background-color: #f9f9f9;
+  position: relative;
 }
 
 .Catalog_title {
@@ -13,25 +12,53 @@
   font-size: 14px;
   font-weight: bold;
   border-bottom: 1px solid #e8e8e8;
-  padding-bottom: 8px;
+  padding-bottom: 0;
+  padding-top: 0px;
+  height: 40px;
+  line-height: 40px;
+  width: 100%;
 }
-.Catalog_item{
+
+.Catalog_box{
+  max-height: 100vh;
+  overflow-y: scroll;
+  padding-top: 10px;
+  box-sizing: border-box;
+}
+
+.Catalog_item {
   font-size: 12px;
   color: #595959;
   padding: 4px 0;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+  cursor: pointer;
 }
-.Catalog_item:first-child{
-  padding-top: 22px;
+.Catalog_item:hover{
+  color:#1890FF;
 }
-.Catalog_item_h1{
-  
+.Catalog_item>span{
+  line-height: 20px;
+  padding-top: 4px;
+  padding-bottom: 4px;
 }
-.Catalog_item_h2{}
-.Catalog_item_h3{}
-.Catalog_item_h4{}
 
-@media only screen and (max-width: 1280px) {
-  .Catalog_container{
-    padding-top: 88px;
-  }
+.Catalog_item_h1 {
+
+}
+
+.Catalog_item_h2 {
+  padding-left: 16px;
+}
+
+.Catalog_item_h3 {
+  padding-left: 32px;
+}
+
+.Catalog_item_h4 {
+  padding-left: 48px;
+}
+.editormd-toolbar{
+  left: 0 !important;
 }

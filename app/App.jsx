@@ -9,25 +9,19 @@ import Index from './page/index/index.js';
 class App extends React.Component {
   render() {
     return (
-      <div>
-        <Router>
-          <div className="container">
-            <Route exact
-              path="/"
-              component={Index}
-            />
-          </div>
-        </Router>
-      </div>
+      <Router>
+        <Route exact
+          path="/"
+          component={Index}
+        />
+      </Router>
     );
   }
 }
 
 ReactDOM.render(
   <Provider store={store}>
-    <div>
-      <App />
-    </div>
+    <App />
   </Provider>,
   document.getElementById('root')
 );

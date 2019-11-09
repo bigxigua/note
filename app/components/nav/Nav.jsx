@@ -40,12 +40,6 @@ function createSubNoteIntroduce(props, ctx) {
     <div className="sub_note_introduce">
       <Card
         style={{ width: 300 }}
-        cover={
-          <img
-            alt="example"
-            src="https://gw.alipayobjects.com/zos/rmsportal/JiqGstEfoWAOHiTxclqi.png"
-          />
-        }
         actions={[
           // eslint-disable-next-line react/jsx-key
           <Icon type="delete"
@@ -90,12 +84,6 @@ export default class Nav extends Component {
         this.props.setUserInfoToStore(info);
       }
     });
-    window.addEventListener('resize', () => {
-      const { width } = document.body.getBoundingClientRect();
-      if (width <= 600) {
-        this.changeEditor('fullPreview');
-      }
-    }, false);
   }
 
     /**
@@ -451,7 +439,7 @@ export default class Nav extends Component {
         editorInstance.unwatch();
       }
       if (type === 'fullPreview') {
-        editorInstance.previewing();
+        // editorInstance.previewing();
       }
       if (type === 'both') {
         editorInstance.watch();

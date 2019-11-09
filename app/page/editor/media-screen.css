@@ -21,3 +21,11 @@
         display: none;
     }
 }
+@media only screen and (max-width: 1430px) {
+    .Catalog_title {
+        padding-bottom: 23px;
+        padding-top: 34px;
+        line-height: normal;
+        height: auto;
+    }
+}

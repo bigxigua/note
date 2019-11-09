@@ -65,3 +65,6 @@ export const EDITOR_THEME = [
   'xqdark',
   'xqlight'
 ];
+
+// 网站ICON
+export const FAV_ICON = 'https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg';

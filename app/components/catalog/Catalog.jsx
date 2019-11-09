@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './Catalog.css';
+import {
+  debunce
+} from '../../util/util.js';
 
 export default class Catalog extends Component {
   constructor(props) {
@@ -11,28 +14,36 @@ export default class Catalog extends Component {
 
   componentDidMount() {
     const { editorInstance = {} } = this.props;
+    const debunceQueryAllTitleElements = debunce(function () {
+      this.queryAllTitleElements.apply(this, arguments);
+    }).bind(this);
     editorInstance.settings.onload = function() {
-      // TODO 优化 计算量大放worker
-      const h1 = this.queryAllTitleElements('.cm-header-1', 'h1', /^#/);
-      const h2 = this.queryAllTitleElements('.cm-header-2', 'h2', /^##/);
-      const h3 = this.queryAllTitleElements('.cm-header-3', 'h3', /^###/);
-      const h4 = this.queryAllTitleElements('.cm-header-4', 'h4', /^####/);
-      const catalogs = [].concat(h1, h2, h3, h4).sort((a, b) => { return a.index - b.index; });
-      this.setState({ catalogs });
-      console.log(catalogs);
+      this.queryAllTitleElements(editorInstance);
+      editorInstance.cm.on('change', () => {
+        debunceQueryAllTitleElements(editorInstance);
+      });
     }.bind(this);
   }
 
-  queryAllTitleElements(selector, type, pattern) {
-    return Array.from($(selector)).map(h => {
-      try {
-        const text = h.innerText.replace(pattern, '').trim();
-        const index = $(h.parentElement.parentElement.parentElement).index();
-        return { index, text, type };
-      } catch (error) {
-        console.log('[初始化右侧目录] 失败');
+  queryAllTitleElements(editor) {
+    const d = Date.now();
+    const $html = $(editor.getHtmlFromMarkDown());
+    const catalogs = [];
+    Array.from($html).forEach((dom, index) => {
+      const tagName = dom.tagName;
+      if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
+        console.log();
+        catalogs.push({
+          index,
+          text: $(dom).children('a').attr('name'),
+          type: tagName.toLowerCase()
+        });
       }
     });
+    this.setState({ catalogs });
+    console.log('[初始化右侧目录] ', catalogs);
+    console.log('[更新右侧目录耗时] ', `${Date.now() - d}ms`);
+    return catalogs;
   }
 
   render() {
@@ -48,8 +59,8 @@ export default class Catalog extends Component {
     });
     return (
       <div className="Catalog_container">
-        <div className="Catalog_title">大纲</div>
-        {catalogsJsx}
+        <div className="Catalog_title">文章目录</div>
+        <div className="Catalog_box">{catalogsJsx}</div>
       </div>
     );
   }

@@ -19,7 +19,8 @@ export default class Editor extends Component {
     this.state = {
       showModal: false, // 是否展示Modal
       editor: null, // 编辑器实例
-      confirmOfflined: false // 是否确认使用免登陆模式or编辑临时文档模式
+      confirmOfflined: false, // 是否确认使用免登陆模式or编辑临时文档模式
+      minWidth: 1430
     };
   }
 
@@ -34,6 +35,12 @@ export default class Editor extends Component {
       }
     });
     this.initializeEditor();
+    // window.addEventListener('resize', () => {
+    //   console.log(1);
+    //   if ($(window).width() < 1430 && this.state.minWidth === 1430) {
+
+    //   }
+    // }, false);
   }
 
   /**
@@ -57,12 +64,15 @@ export default class Editor extends Component {
     $(() => {
       const editor = editormd('editormd', {
         path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
-        disabledKeyMaps: ['Ctrl-B', 'Ctrl-S', 'F11', 'F10'],
+        disabledKeyMaps: ['Ctrl-S', 'F11', 'F10'],
         placeholder: '开始吧！！',
         searchReplace: true,
         codeFold: true,
         theme: 'default',
         previewTheme: 'default',
+        // toolbarIcons: [], // 自定义工具栏
+        // readOnly: true, // 只读模式
+        markdown: 'FUCK ME',
         editorTheme: 'default',
         // htmlDecode : "style,script,iframe|on*",            // 开启 HTML 标签解析，为了安全性，默认不开启
         emoji: true,
@@ -74,6 +84,7 @@ export default class Editor extends Component {
       });
       // 后续使用editor.settings.onload时，不覆盖之前设置的。
       editor.settings.LOAD_HANDLE_QUEUE = [];
+      // TODO 这里需要优化
       Object.defineProperty(editor.settings, 'onload', {
         get: function() {
           editor.settings.LOAD_HANDLE_QUEUE.map(f => f());
@@ -112,18 +123,14 @@ export default class Editor extends Component {
     let offlineNoteBookInfo = JSON.parse(window.localStorage.getItem(OFFLINENOTE_STORAGE_KEY) || '[]');
     const { editor } = this.state;
     if (isEmptyObject(offlineNoteBookInfo[0])) {
-      console.log('[离线模式] 设置默认编辑内容');
+      console.log('[离线模式] 往localStorage里设置默认编辑内容');
       window.localStorage.setItem(OFFLINENOTE_STORAGE_KEY, JSON.stringify(OFFLINE_NOTEBOOK_INFO));
       offlineNoteBookInfo = [OFFLINE_NOTEBOOK_INFO];
-    } else {
-      if (editor && editor.cm) {
-        console.log('[离线模式] 设置localStorage内缓存离线笔记');
-        const offlineSubNote = getIn(offlineNoteBookInfo, [0, 'subNotes', 0], {});
-        editor.setMarkdown(offlineSubNote.sub_note_markdown);
-        this.props.setCurrentEditSubnoteInfoToStore(offlineSubNote);
-      }
     }
-    console.log(offlineNoteBookInfo);
+    console.log('[离线模式] 获取localStorage内缓存离线笔记已显示', offlineNoteBookInfo);
+    const offlineSubNote = getIn(offlineNoteBookInfo, [0, 'subNotes', 0], {});
+    editor.setMarkdown(offlineSubNote.sub_note_markdown);
+    this.props.setCurrentEditSubnoteInfoToStore(offlineSubNote);
     this.props.setNotesInfoToStore(offlineNoteBookInfo);
   }
 
@@ -135,21 +142,10 @@ export default class Editor extends Component {
     const oEditormdMenus = document.querySelectorAll('.editormd-menu>li>a');
     if (oEditormdMenus.length > 0) {
       oEditormdMenus.forEach(oMenu => {
-        const elePos = oMenu.getBoundingClientRect();
-        const tips = oMenu.getAttribute('title');
-        oMenu.setAttribute('title', '');
-        const toolTipBox = document.createElement('div');
-        toolTipBox.innerHTML += (
-          '<div class="ant-tooltip-content nav-tooltips">' +
-          `<div class="ant-tooltip-inner" role="tooltip"><span>${tips}</span></div>` +
-          '</div>');
-        toolTipBox.setAttribute('class', 'ant-tooltip ant-tooltip-placement-bottom');
-        oMenu.appendChild(toolTipBox);
-        const toolTipBoxPos = toolTipBox.getBoundingClientRect();
-        toolTipBox.style.position = 'fixed';
-        toolTipBox.style.top = (elePos.y + elePos.height) + 'px';
-        toolTipBox.style.left = (elePos.x - toolTipBoxPos.width / 2) + 'px';
-        toolTipBox.style.display = 'none';
+        const tips = $(oMenu).attr('title');
+        $(oMenu).attr('title', '');
+        const toolTip = `<div class="editormd-custom-toolTip">${tips}</div>`;
+        $(oMenu).append(toolTip);
         oMenu.addEventListener('mouseover', (e) => {
           e.currentTarget.children[1].style.display = 'block';
         });
@@ -202,17 +198,8 @@ export default class Editor extends Component {
     const { confirmOfflined } = this.state;
     const markdown = editor.getMarkdown();
     const html = editor.previewContainer.html();
-    const { sub_note_id: subNoteId, sub_note_markdown: subNoteMarkdown, sub_note_name, notebook_id } = this.props.markdownInfo;
+    const { sub_note_id: subNoteId, sub_note_markdown: subNoteMarkdown, notebook_id } = this.props.markdownInfo;
     const now = Date.now();
-    notification.open({
-      message: `你正在编辑【${sub_note_name}】`,
-      description: `${subNoteMarkdown.substring(0, 40)}...`,
-      icon: <Icon type="smile"
-        style={{ color: '#108ee9' }} />,
-      duration: 3,
-      placement: 'bottomRight'
-    });
-    console.log('account:', account);
     if (!account) {
       if (!confirmOfflined && markdown !== subNoteMarkdown) {
         // TODO 这里应该用户确认后保存一次用户修改的结果到localStorage内;

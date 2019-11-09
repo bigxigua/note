@@ -1,11 +1,6 @@
 .editor_container {
   border-top: none;
 }
-.editor_container .editormd-toolbar{
-  position: fixed;
-  top: 50px;
-  left: 0;
-}
 
 .ant-modal-confirm-body {}
 
@@ -17,4 +12,19 @@
 
 .ant-modal-confirm-title {
   line-height: 23px;
+}
+.editormd-custom-toolTip{
+  position: absolute;
+  left: 0;
+  margin-top: 2px;
+  white-space: nowrap;
+  background-color: rgba(0,0,0,0.75);
+  padding: 6px 8px;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  color: #fff;
+  font-size: 14px;
+  text-align: center;
+  z-index: 1000;
+  display: none;
 }
