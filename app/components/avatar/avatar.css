@@ -1,13 +1,21 @@
-.editor_container{
+.Avatar_wrapper {
+  margin-right: 20px;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  height: 100%;
 }
-.ant-modal-confirm-body{
+.Avatar_wrapper:hover>.header-user-popover{
+  display: block;
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  animation-duration: 400ms;
+}
 
-}
-.ant-modal-confirm-content{
-    margin: 0 !important;
-    min-height: 22px;
-    line-height: 22px;
-}
-.ant-modal-confirm-title{
-    line-height: 23px;
+.Avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 100%;
+  margin-right: 7px;
 }

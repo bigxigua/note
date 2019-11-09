@@ -1,0 +1,11 @@
+.SiderBar{
+  width: 200px;
+}
+.SiderBar_Link{
+  display: flex;
+  align-items: center;
+  height: 40px;
+}
+.SiderBar_Link>div>i{
+  font-size: 20px;
+}

@@ -53,7 +53,7 @@ function createSubNoteIntroduce(props, ctx) {
         ]}
       >
         <Meta
-          avatar={<Avatar src="https://zos.alipayobjects.com/rmsportal/ODTLcjxAfvqbxHnVXCYX.png" />}
+          avatar={<Avatar src="" />}
           title={props.sub_note_name}
           description={props.sub_note_markdown.substr(0, 100)}
         />
