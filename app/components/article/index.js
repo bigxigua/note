@@ -47,12 +47,12 @@ export default function Article() {
       $('.Article_Preview_Wrapper')[0].addEventListener('scroll', () => {
         const curTop = $('#editormd').offset().top;
         if (curTop - top < -160) {
-          $('.Header_Wrapper').addClass('Header_Wrapper_Hide');
+          $('.Article_Header_Wrapper').addClass('Article_Header_Wrapper_Hide');
           $('.Article_Preview_Wrapper').css({ height: '100vh' });
           top = curTop;
         }
         if (curTop - top > 20) {
-          $('.Header_Wrapper').removeClass('Header_Wrapper_Hide');
+          $('.Article_Header_Wrapper').removeClass('Article_Header_Wrapper_Hide');
           $('.Article_Preview_Wrapper').css({ height: 'calc(100vh - 58px)' });
           top = curTop;
         }

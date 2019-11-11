@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '../../components/header/header.js';
+import ArticleHeader from '../../components/header-article/index.js';
 import Article from '../../components/article/index.js';
 import './index.css';
 
@@ -9,7 +9,7 @@ export default function Index() {
   document.body.removeChild(skeletonDom);
   return (
     <div className="Container">
-      <Header />
+      <ArticleHeader />
       <div className="Content_Wrapper">
         <Article />
       </div>
