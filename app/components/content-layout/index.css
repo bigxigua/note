@@ -1,0 +1,17 @@
+.Content_Layout{
+}
+.Content_Layout_Head{
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+.Content_Layout_Recent_Edit{
+  color: #262626;
+  font-weight: bold;
+  font-size: 14px;
+}
+.Recent_Content_Layout{
+  width: 100%;
+}

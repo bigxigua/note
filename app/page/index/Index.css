@@ -3,10 +3,11 @@
     height: 100vh;
     background: #fafafa;
 }
-.Content{
-    width: 100%;
+.Content_Wrapper{
+    max-width: 1200px;
+    margin: 0 auto;
     display: flex;
-    padding: 26px 52px;
+    padding: 26px 0;
     box-sizing: border-box;
     overflow: hidden;
 }

@@ -10,10 +10,9 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
 
 html, body {
     -webkit-overflow-scrolling: touch;
-    -webkit-font-smoothing:antialiased;
+    -webkit-font-smoothing: antialiased;
     -webkit-text-size-adjust: 100%;
     -webkit-text-size-adjust: 100%;
-
 }
 
 article, aside, figure, footer, header, nav, section, details, summary {
@@ -42,6 +41,7 @@ embed {max-width: 100%;}*/
 /* we use a lot of ULs that aren't bulleted.
     you'll have to restore the bullets within content,
     which is fine because they're probably customized anyway */
+
 ul {
     list-style: none;
 }
@@ -73,6 +73,7 @@ abbr[title], dfn[title] {
 }
 
 /* tables still need cellspacing="0" in the markup */
+
 table {
     border-collapse: separate;
     border-spacing: 0;
@@ -108,14 +109,17 @@ input, select {
     padding: 1px;
     border: none;
     line-height: normal !important;
-
 }
 
 pre {
-    white-space: pre; /* CSS2 */
-    white-space: pre-wrap; /* CSS 2.1 */
-    white-space: pre-line; /* CSS 3 (and 2.1 as well, actually) */
-    word-wrap: break-word; /* IE */
+    white-space: pre;
+    /* CSS2 */
+    white-space: pre-wrap;
+    /* CSS 2.1 */
+    white-space: pre-line;
+    /* CSS 3 (and 2.1 as well, actually) */
+    word-wrap: break-word;
+    /* IE */
 }
 
 input[type="radio"] {
@@ -156,6 +160,7 @@ td, td img {
 }
 
 /* Make sure sup and sub don't mess with your line-heights http://gist.github.com/413930 */
+
 sub, sup {
     font-size: 75%;
     line-height: 0;
@@ -171,28 +176,33 @@ sub {
 }
 
 /* standardize any monospaced elements */
+
 pre, code, kbd, samp {
     font-family: monospace, sans-serif;
 }
 
 /* hand cursor on clickable elements */
+
 .clickable, label, input[type=button], input[type=submit], input[type=file], button {
     cursor: pointer;
 }
 
 /* Webkit browsers add a 2px margin outside the chrome of form elements */
+
 button, input, select, textarea {
     margin: 0;
     outline: 0
 }
 
 /* make buttons play nice in IE */
+
 button, input[type=button] {
     width: auto;
     overflow: visible;
 }
 
 /* scale images in IE7 more attractively */
+
 .ie7 img {
     -ms-interpolation-mode: bicubic;
 }
@@ -203,6 +213,7 @@ button, input[type=button] {
 */
 
 /* let's clear some floats */
+
 .clearfix:after {
     content: " ";
     display: block;
@@ -233,8 +244,26 @@ body, button, input, select, textarea {
     -webkit-transition: all .5s cubic-bezier(.23, 1, .32, 1) 0ms;
     transition: all .5s cubic-bezier(.23, 1, .32, 1) 0ms;
 }
-.ellipsis{
+
+.ellipsis {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+}
+
+.button {
+    outline: none;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: #fafafa;
+    border: 1px solid #d9d9d9;
+    color: #595959;
+    box-sizing: border-box;
+    height: 32px;
+    text-align: center;
+    padding: 0 15px;
+    font-size: 14px;
+    border-radius: 4px;
 }

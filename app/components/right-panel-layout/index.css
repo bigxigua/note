@@ -1,0 +1,25 @@
+.Right_Panel_Layout{
+  min-width: 310px;
+  padding: 0 20px;
+  box-sizing: border-box;
+}
+.Right_Panel_Block_Head{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.Right_Panel_Block_Head>p{
+  font-size: 14px;
+  color: #595959;
+  font-weight: 500;
+}
+.Panel{
+  width: 100%;
+  min-height: 55px;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  background: #fff;
+  margin-top: 10px;
+  margin-bottom: 10px;
+}
