@@ -1,8 +1,6 @@
 import React from 'react';
 import Header from '../../components/header/header.js';
-import SiderBarLayout from '../../components/sider-bar/index.js';
-import ContentLayout from '../../components/content-layout/index.js';
-import RightPanelLayout from '../../components/right-panel-layout/index.js';
+import Article from '../../components/article/index.js';
 import './index.css';
 
 export default function Index() {
@@ -13,10 +11,7 @@ export default function Index() {
     <div className="Container">
       <Header />
       <div className="Content_Wrapper">
-        <SiderBarLayout />
-        <ContentLayout />
-        {/* 右侧边栏 */}
-        <RightPanelLayout />
+        <Article />
       </div>
     </div>
   );

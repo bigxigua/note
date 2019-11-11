@@ -267,3 +267,10 @@ body, button, input, select, textarea {
     font-size: 14px;
     border-radius: 4px;
 }
+#root{
+    width: 100%;
+    height: 100vh;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    background: #fafafa;
+}

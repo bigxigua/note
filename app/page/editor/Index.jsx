@@ -31,6 +31,7 @@ export default class Index extends Component {
       markdownInfo, // 正在被编辑的markdown
       editorInstance, // 编辑器对象
       canShowDrawer // 是否展示侧边栏
+
     } = this.props;
     return (
       <div className="editor_container">

@@ -3,6 +3,12 @@
     height: 58px;
     background: #ffffff;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.06);
+    position: relative;
+    z-index: 1;
+    will-change: margin;
+}
+.Header_Wrapper_Hide{
+    margin-top: -58px;
 }
 .Header_container{
     max-width: 1200px;

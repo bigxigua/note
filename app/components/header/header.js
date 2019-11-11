@@ -8,7 +8,7 @@ import { Link } from 'react-router-dom';
 
 export default function Header() {
   return (
-    <div className="Header_Wrapper">
+    <div className="Header_Wrapper animated">
       <div className="Header_container">
         <div className="Header_left">
           <img src={FAV_ICON}

@@ -388,7 +388,6 @@
       if (typeof markdownTextarea.attr('name') === 'undefined' || markdownTextarea.attr('name') === '') {
         markdownTextarea.attr('name', (settings.name !== '') ? settings.name : id + '-markdown-doc');
       }
-
       var appendElements = [
         (!settings.readOnly) ? '<a href="javascript:;" class="fa fa-close ' + classPrefix + 'preview-close-btn"></a>' : '',
         ((settings.saveHTMLToTextarea) ? '<textarea class="' + classNames.textarea.html + '" name="' + id + '-html-code"></textarea>' : ''),
@@ -1807,6 +1806,7 @@
      */
 
     save: function () {
+      // editormd-markdown-textarea
       if (timer === null) {
         return this;
       }
@@ -2291,7 +2291,6 @@
          */
 
     previewing: function () {
-      console.log('------previewing------');
       var _this = this;
       var editor = this.editor;
       var preview = this.preview;
@@ -2308,7 +2307,6 @@
         toolbar.toggle();
         toolbar.find('.fa[name=preview]').toggleClass('active');
       }
-
       codeMirror.toggle();
 
       var escHandle = function (event) {
