@@ -66,26 +66,29 @@
 //   }
 // }
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 // import Icon from '../icon/icon.js';
 // import userContext from '../../context/user/userContext.js';
 import './index.css';
 
-export default function ArticleCatalog({ editormd }) {
-  if (!editormd) {
-    return null;
-  }
+function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
   const catalogs = [];
-  Array.from($('.markdown-body').children()).forEach((dom, index) => {
-    const tagName = dom.tagName;
-    if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
-      catalogs.push({
-        index,
-        text: $(dom).children('a').attr('name'),
-        type: tagName.toLowerCase()
-      });
-    }
-  });
+  try {
+    const $html = dynamic ? $(editormd.getHtmlFromMarkDown()) : $('.markdown-body').children();
+    Array.from($html).forEach((dom, index) => {
+      const tagName = dom.tagName;
+      if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
+        catalogs.push({
+          index,
+          text: $(dom).children('a').attr('name'),
+          type: tagName.toLowerCase()
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+
   const catalogsJsx = catalogs.map(p => {
     return (
       <div
@@ -95,6 +98,22 @@ export default function ArticleCatalog({ editormd }) {
       </div>
     );
   });
+  setCatalogsJsx(catalogsJsx);
+}
+
+/**
+ *  @editor {object} 编辑器对象
+ *  @dynamic {boolean} 是否需要动态同步修改后目录
+ */
+export default function ArticleCatalog({ editormd, dynamic = false }) {
+  if (!editormd) {
+    return null;
+  }
+  const [catalogsJsx, setCatalogsJsx] = useState(null);
+  useEffect(() => {
+    createCatalogsJsx({ editormd, dynamic, setCatalogsJsx });
+    console.log('---------');
+  }, []);
   return (
     <div className="Article_Catalog_Wrapper">
       <div className="Catalog_title">文章目录</div>

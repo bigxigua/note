@@ -12,7 +12,7 @@ export default function Index() {
   return (
     <div className="Container">
       <Header />
-      <div className="Content_Wrapper">
+      <div className="Content_Wrapper_Index">
         <SiderBarLayout />
         <ContentLayout />
         {/* 右侧边栏 */}

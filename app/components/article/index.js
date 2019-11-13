@@ -20,19 +20,6 @@ function previewMarkdownToContainer(onload = console.log) {
     onload: () => {
       editor.previewing();
       onload(editor);
-    },
-    onpreviewscroll: () => {
-      console.log(111111);
-      // const top = $('.markdown-body').offset().top;
-      // if (top <= -100) {
-      //   $('.Header_Wrapper').addClass('Header_Wrapper_Hide');
-      //   $('.BookCatalog_Wrapper').css({ paddingTop: 0 });
-      // }
-      // if (top > -100) {
-      //   // TODO 只要是上滑就显示Header
-      //   $('.Header_Wrapper').removeClass('Header_Wrapper_Hide');
-      //   $('.BookCatalog_Wrapper').css({ paddingTop: '27px' });
-      // }
     }
   });
   return editor;

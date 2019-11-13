@@ -250,6 +250,11 @@ body, button, input, select, textarea {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.flex{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
 .button {
     outline: none;

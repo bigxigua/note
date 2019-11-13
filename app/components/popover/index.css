@@ -1,0 +1,33 @@
+.Popover_Wrapper{
+  position: relative;
+  height: 100%;
+}
+.Popover_Wrapper:hover>.Popover_Wrapper_Content{
+  display: block;
+  -webkit-animation-name: zoomIn;
+  animation-name: zoomIn;
+  animation-duration: 200ms;
+}
+.Popover_Wrapper_Content{
+  display: none;
+  position: absolute;
+  background: #ffffff;
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 8px 0;
+  border: none;
+}
+.Popover_Wrapper_Content::before {
+  content: '';
+  width: 11px;
+  height: 11px;
+  border-width: 5px;
+  border-top-left-radius: 2px;
+  margin-top: -1px;
+  position: absolute;
+  background: #ffffff;
+  transform: rotate(45deg);
+  right: 25px;
+  top: -4px;
+  box-shadow: -2px -2px 5px rgba(0, 0, 0, .05);
+}
