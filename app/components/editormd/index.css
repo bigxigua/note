@@ -22,11 +22,10 @@
 .Editormd{
   width: calc(100% - 221px);
   height: calc(100vh - 58px);
-  
+  overflow-y: scroll;
 }
 #editormd_edit{
   margin: 0;
-  /* border-top: none; */
 }
 @media only screen and (max-width: 1430px) {
   .Editormd_Wrapper>.Article_Catalog_Wrapper>.Catalog_title {

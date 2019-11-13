@@ -5,8 +5,6 @@ import userContext from '../../context/user/userContext.js';
 export default function FooterMeta() {
   const { userInfo } = useContext(userContext);
   const [showPopover, change] = useState(false);
-  console.log(showPopover, change);
-  console.log('userInfo:', userInfo);
   return (
     <div className="Footer_Meta">
       <div className="Footer_Meta_Item">

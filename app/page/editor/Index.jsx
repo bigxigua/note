@@ -7,8 +7,8 @@ import './media-screen.css';
 export default class Index extends Component {
   componentDidMount() {
     // 隐藏骨架屏
-    const skeletonDom = document.querySelector('.skeleton');
-    document.body.removeChild(skeletonDom);
+    // const skeletonDom = document.querySelector('.skeleton');
+    // document.body.removeChild(skeletonDom);
     // 禁用Ctrl-S/Cmd-S
     document.addEventListener('keydown', function (e) {
       if (e.keyCode === 83 && (navigator.platform.match('Mac') ? e.metaKey : e.ctrlKey)) {

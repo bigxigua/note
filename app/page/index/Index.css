@@ -2,6 +2,7 @@
     width: 100%;
     min-height: 100vh;
     background: #fafafa;
+    overflow: hidden;
 }
 .Content_Wrapper_Index{
     max-width: 1200px;

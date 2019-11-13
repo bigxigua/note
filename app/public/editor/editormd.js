@@ -50,7 +50,7 @@
       'h1', 'h2', 'h3', 'h4', '|',
       'list-ul', 'list-ol', 'hr', '|',
       'link', 'reference-link', 'image', 'code', 'preformatted-text', 'code-block', 'table', 'datetime', 'emoji', 'html-entities', 'pagebreak', '|',
-      'goto-line', 'watch', 'preview', 'clear', 'search', '|',
+      'goto-line', 'preview', 'clear', 'search', '|',
       'help'
     ],
     simple: [

@@ -1,14 +1,8 @@
-import React, { useContext, useState } from 'react';
+import React from 'react';
 import Icon from '../icon/icon.js';
-import userContext from '../../context/user/userContext.js';
 import './index.css';
 
 export default function RecentContent(props) {
-  const { userInfo } = useContext(userContext);
-  const [showPopover, change] = useState(false);
-  console.log(showPopover, change);
-  console.log('userInfo:', userInfo);
-  console.log('props:', props);
   const { book = {}, title = '', updated_at = '', user = {} } = props.data;
   return (
     <div className="Recent_Content">

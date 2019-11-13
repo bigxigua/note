@@ -38,6 +38,7 @@
     font-size: 18px;
     font-weight: 500;
     color: #262626;
+    flex-shrink: 0;
 }
 
 .Header_link_workspace{
@@ -50,6 +51,7 @@
     padding: 0 14px;
     height: 100%;
     line-height: 58px;
+    flex-shrink: 0;
 }
 .Header_link_actived{
     color: #262626;

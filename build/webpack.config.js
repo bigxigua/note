@@ -375,7 +375,8 @@ const webpackConfig = {
           : undefined
       )
     ),
-    new BundleAnalyzerPlugin(),
+    // 显示文件大小
+    // new BundleAnalyzerPlugin(),
     // Inlines the webpack runtime script. This script is too small to warrant
     // a network request.
     isEnvProduction &&
@@ -474,7 +475,7 @@ if (isEnvDevelopment) {
     },
     inline: true,
     // 打开浏览器
-    open: 'Google Chrome',
+    // open: 'Google Chrome',
     // openPage: '/different/page',
     // 编译错误是否全屏覆盖
     overlay: true,

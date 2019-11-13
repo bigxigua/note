@@ -5,8 +5,8 @@ import './index.css';
 
 export default function Editor() {
   // 隐藏骨架屏
-  const skeletonDom = document.querySelector('.skeleton');
-  document.body.removeChild(skeletonDom);
+  // const skeletonDom = document.querySelector('.skeleton');
+  // document.body.removeChild(skeletonDom);
   return (
     <div className="Container">
       <ArticleHeader />

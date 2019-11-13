@@ -112,7 +112,6 @@ export default function ArticleCatalog({ editormd, dynamic = false }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
   useEffect(() => {
     createCatalogsJsx({ editormd, dynamic, setCatalogsJsx });
-    console.log('---------');
   }, []);
   return (
     <div className="Article_Catalog_Wrapper">

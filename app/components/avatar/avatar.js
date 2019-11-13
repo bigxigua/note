@@ -6,8 +6,6 @@ import './avatar.css';
 
 export default function Avatar() {
   const { userInfo } = useContext(userContext);
-  // const [showPopover, change] = useState(false);
-  console.log('userInfo:', userInfo);
   return (
     <div className="Avatar_wrapper">
       <img src={userInfo.avatar}
