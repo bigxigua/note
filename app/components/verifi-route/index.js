@@ -9,8 +9,7 @@ export default function VerifiRoute(props) {
   const { pathname } = useLocation();
   const checkAuthorization = async () => {
     const [, data] = await axiosInstance.post('login');
-    const isLogin = getIn(data, ['id'], false);
-    // TODO 针对每个page设置权限配置文件，根据文件来匹配
+    const isLogin = getIn(data, ['uuid'], false);
     return { isLogin, isHasAuth: true, userInfo: data };
   };
   useEffect(() => {
@@ -18,24 +17,28 @@ export default function VerifiRoute(props) {
       const match = matchPath(pathname, props);
       if (match) {
         const { isLogin, isHasAuth, userInfo } = await checkAuthorization();
-        setUserInfo({ isLogin, isHasAuth, userInfo });
-        // if (!isLogin) {
-        //   console.log('[未登陆，Redirect到/login]');
-        // } else {
-        //   if (!isHasAuth) {
-        //     console.log('[已登陆，无权查看该文档-401]');
-        //   }
-        // }
+        setUserInfo({
+          isLogin,
+          isHasAuth,
+          userInfo,
+          currentLocation: encodeURIComponent(window.location.href)
+        });
       }
     };
     asyncFn();
   }, []);
   if (!userInfo) return null;
   if (!userInfo.isLogin) {
-    return <Redirect to="/login" />;
+    return <Redirect to={{
+      pathname: '/login',
+      search: `?returnUrl=${userInfo.currentLocation}`
+    }} />;
   }
   if (!userInfo.isHasAuth) {
-    return <Redirect to="/noAuth" />;
+    return <Redirect to={{
+      pathname: '/login',
+      search: `?returnUrl=${userInfo.currentLocation}`
+    }} />;
   }
   return (
     <Route

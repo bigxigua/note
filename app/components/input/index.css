@@ -1,0 +1,54 @@
+.Input_Wrapper{
+  width: 320px;
+  height: 40px;
+  color: #595959;
+  font-size: 14px;
+  border: 1px solid #d9d9d9;
+  transition: all .3s;
+  background-color: #fff;
+  border-radius: 4px;
+  margin-bottom: 16px;
+  /* border-radius: 0 4px 4px 0; */
+}
+.Input_Wrapper:hover{
+  border-color: #25b864;
+}
+.Input_Wrapper > input{
+  height: 100%;
+  font-size: 16px;
+  transition: box-shadow linear .3s;
+  border-radius: 4px;
+  padding: 6px 11px;
+  box-sizing: border-box;
+  color: #595959;
+  flex: 1;
+}
+.Input_Full > input{
+  width: 100%;
+}
+.Input_Full:hover{
+  border: 1px solid #47c479;
+  outline: 0;
+  box-shadow: 0 0 0 2px rgba(37,184,100,.2);
+}
+.Input_Before{
+}
+.Input_addonBefore, .Input_addonAfter{
+  justify-content: center;
+  padding: 0 10px;
+  border-right: 1px solid #e8e8e8;
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+.Input_addonBefore{
+  border-left: none;
+  border-right: 1px solid #e8e8e8;
+}
+.Input_addonAfter{
+  border-right: none;
+  border-left: 1px solid #e8e8e8;
+}
+.Input_addonBefore>div{
+  position: relative;
+  top: 1px;
+}

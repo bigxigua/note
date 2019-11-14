@@ -71,6 +71,7 @@ export function findCurrentNoteBookAndSubNoteFromNotes(notes, notebookId, subNot
   return [{ notebook, curNoteIndex }, { subnote, curSubNoteIndex }];
 }
 
+// 防空取参
 export function getIn(data, array, initial = null) {
   let obj = Object.assign({}, data);
   for (let i = 0; i < array.length; i++) {
@@ -85,3 +86,20 @@ export function getIn(data, array, initial = null) {
   }
   return obj;
 };
+
+// 解析url
+export function parseUrlQuery(url) {
+  url = !url ? window.location.href : url;
+  const search = url.substring(url.lastIndexOf('?') + 1);
+  const reg = /([^?&=]+)=([^?=&]*)/g;
+  const hash = {};
+  search.replace(reg, (match, $1, $2) => {
+    let value = decodeURI($2);
+    if (value === 'undefined' || value === 'null') {
+      value = '';
+    }
+    hash[$1] = value;
+    return match;
+  });
+  return hash;
+}
