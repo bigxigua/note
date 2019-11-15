@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Icon from '../icon/icon.js';
 import './index.css';
 
 export default function Input(props) {

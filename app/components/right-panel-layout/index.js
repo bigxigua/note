@@ -1,5 +1,4 @@
 import React from 'react';
-// import Icon from '../icon/icon.js';
 import Panel from './panel.js';
 import './index.css';
 

@@ -3,7 +3,7 @@ export default (state, action) => {
     case 'UPDATE_USER_INFO':
       return {
         ...state,
-        userInfo: action.payload
+        ...action.payload
       };
     default:
       return state;

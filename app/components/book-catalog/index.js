@@ -1,10 +1,7 @@
 import React, { useState, Fragment } from 'react';
 import { NavLink } from 'react-router-dom';
-// import Icon from '../icon/icon.js';
-// import userContext from '../../context/user/userContext.js';
 import './index.css';
 export default function BookCatalog() {
-  // const { bookCatalog } = useContext(userContext);
   const [bookCatalog] = useState([
     { id: 1, title: '标题一', link: '/article/1' },
     { id: 2, title: '哈哈哈哈哈哈哈哈哈哈哈啊啊哈哈哈哈哈哈哈哈哈哈哈哈哈啊啊哈哈', link: '/article/2' },

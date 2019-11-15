@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Icon from '../icon/icon.js';
+import Icon from '@common/icon';
 import userContext from '../../context/user/userContext.js';
 import './index.css';
 

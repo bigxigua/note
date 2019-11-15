@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import Input from '../input/index.js';
-import Icon from '../icon/icon.js';
-import { Link } from 'react-router-dom';
+import React, { useState, useContext } from 'react';
+import Input from '@common/input';
+import Icon from '@common/icon';
+import { Link, useHistory } from 'react-router-dom';
 import axiosInstance from '../../util/axiosInstance';
 import { getIn, parseUrlQuery } from '../../util/util.js';
+import userContext from '../../context/user/userContext.js';
 import './index.css';
 
 export default function Login() {
@@ -15,6 +16,9 @@ export default function Login() {
     accountErrorMsg: '',
     passwordErrorMsg: ''
   });
+  const history = useHistory();
+  console.log(history);
+  const { updateUserInfo } = useContext(userContext);
   // 1. 空值提示
   // 2. 格式不对提示
   // 3. 取服务端返回的错误-服务端需要区分帐号/密码
@@ -45,10 +49,14 @@ export default function Login() {
     }
     const [error, data] = await axiosInstance.post(path, state);
     if (!error && getIn(data, ['uuid'])) {
-      // TODO 保存用户信息到context
-      // TODO 回跳修改为replace
-      const herf = isLoginPage ? decodeURIComponent(returnUrl) : '/';
-      window.location.href = herf;
+      updateUserInfo(data);
+      // 登陆页回跳原来页面，注册页回跳首页
+      if (isLoginPage) {
+        const { pathname, search } = new URL(decodeURIComponent(returnUrl));
+        history.replace(pathname + search);
+      } else {
+        history.replace('/');
+      }
     } else {
       handleError(error);
     }

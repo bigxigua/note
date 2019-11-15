@@ -1,9 +1,9 @@
 import React from 'react';
 import './index.css';
 
-export default function Avatar() {
+export default function Select() {
   return (
-    <div className="Empty">
+    <div className="Select">
     </div>
   );
 };

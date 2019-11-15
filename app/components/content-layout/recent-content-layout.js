@@ -1,23 +1,35 @@
-import React, { Fragment } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import RecentContent from '../recent-content/index.js';
+import axiosInstance from '../../util/axiosInstance';
 
 export default function RecentContentLayout() {
-  const lists = [
-    { id: '2', title: '无标题', updated_at: '2019-11-08', user: { name: '哈哈哈' }, book: { name: '科学与伪科学' } },
-    { id: '22', title: '无标题', updated_at: '2019-11-08', user: { name: '哈哈哈' }, book: { name: '科学与伪科学' } },
-    { id: '21', title: '无标题', updated_at: '2019-11-08', user: { name: '哈哈哈' }, book: { name: '科学与伪科学' } },
-    { id: '23', title: '无标题', updated_at: '2019-11-08', user: { name: '哈哈哈' }, book: { name: '科学与伪科学' } }
-  ];
-  const listsJsx = lists.map(n => {
+  const [docs, setDocs] = useState([]);
+  useEffect(() => {
+    (async () => {
+      const [error, data] = await axiosInstance.get('recent');
+      if (error || !data || !Array.isArray(data.docs)) {
+        console.log('[获取最近使用列表失败] ', error);
+      } else {
+        setDocs(data.docs);
+      }
+    })();
+  }, []);
+  if (docs.length === 0) {
     return (
-      <Fragment key={n.id}>
-        <RecentContent data={n} />
-      </Fragment>
+      <div className="Recent_Content_Empty">暂无数据</div>
     );
-  });
+  }
   return (
     <div className="Recent_Content_Layout">
-      {listsJsx}
+      {
+        docs.map(n => {
+          return (
+            <Fragment key={n.id}>
+              <RecentContent data={n} />
+            </Fragment>
+          );
+        })
+      }
     </div>
   );
 }

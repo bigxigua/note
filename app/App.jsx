@@ -7,10 +7,19 @@ import Index from './page/index/index.js';
 import Article from './page/article/index.js';
 import Editor from './page/editor/editor.js';
 import Login from './page/login/index.js';
+import New from './page/new/index.js';
 import './App.css';
 import './public/css/anima.css';
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
 // 按需加载
+
+const PageWrapper = (Compoment, pathname) => {
+  return () => {
+    return <VerifiRoute
+      component={Compoment}
+      pathname={pathname} />;
+  };
+};
 class App extends React.Component {
   componentDidMount() {
   }
@@ -23,18 +32,22 @@ class App extends React.Component {
     return (
       <UserState>
         <Router>
-          <VerifiRoute
+          <Route
             exact
             path="/"
-            component={Index}
+            component={PageWrapper(Index, '/')}
           />
-          <VerifiRoute
+          <Route
             path="/article/:id"
-            component={Article}
+            component={PageWrapper(Article, '/article/:id')}
           />
-          <VerifiRoute
+          <Route
             path="/editor/:id"
-            component={Editor}
+            component={PageWrapper(Editor, '/editor/:id')}
+          />
+          <Route
+            path="/new/"
+            component={PageWrapper(New, '/new/')}
           />
           <Route
             exact

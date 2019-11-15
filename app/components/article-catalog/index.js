@@ -67,7 +67,6 @@
 // }
 
 import React, { useEffect, useState } from 'react';
-// import Icon from '../icon/icon.js';
 // import userContext from '../../context/user/userContext.js';
 import './index.css';
 

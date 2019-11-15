@@ -5,8 +5,7 @@ import userReducer from './userReducer';
 const UserState = props => {
   const initialState = {
     avatar: 'https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg',
-    nickname: 'bigxigua',
-    intro: '帅'
+    nickname: ''
   };
   const [state, dispatch] = useReducer(userReducer, initialState);
   // 更新用户信息

@@ -1,10 +1,26 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import { FAV_ICON } from '../../config/index.js';
 import Search from '../search/search.js';
 import Avatar from '../avatar/avatar.js';
-import Icon from '../icon/icon.js';
-import './header.css';
+import Icon from '@common/icon';
 import { Link } from 'react-router-dom';
+import Popover from '../popover/index.js';
+import './header.css';
+
+function Content() {
+  return (
+    <Fragment>
+      <div className="Header_Popover_Add_Item flex">
+        <Icon type="plus-circle" />
+        <span>新建文档</span>
+      </div>
+      <div className="Header_Popover_Add_Item flex">
+        <Icon type="plus-circle" />
+        <span>新建知识库</span>
+      </div>
+    </Fragment>
+  );
+}
 
 export default function Header() {
   return (
@@ -26,6 +42,14 @@ export default function Header() {
             className="Header_link Header_link_more"><Icon type="ellipsis" /></Link>
         </div>
         <div className="Header_right">
+          <Popover
+            className="Header_Popover_Add"
+            content={<Content />}>
+            <Icon
+              className="Header_Popover_Add_Icon"
+              type="plus-circle" />
+            <Icon type="caret-down" />
+          </Popover>
           <Avatar />
         </div>
       </div>

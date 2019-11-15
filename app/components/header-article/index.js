@@ -1,6 +1,6 @@
 import React from 'react';
 import { FAV_ICON } from '../../config/index.js';
-import Icon from '../icon/icon.js';
+import Icon from '@common/icon';
 import Popover from '../popover/index.js';
 import './index.css';
 

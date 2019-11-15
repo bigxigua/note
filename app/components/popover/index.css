@@ -4,18 +4,20 @@
 }
 .Popover_Wrapper:hover>.Popover_Wrapper_Content{
   display: block;
-  -webkit-animation-name: zoomIn;
   animation-name: zoomIn;
   animation-duration: 200ms;
 }
 .Popover_Wrapper_Content{
   display: none;
   position: absolute;
+  right: 0;
+  top: 100%;
   background: #ffffff;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
   padding: 8px 0;
   border: none;
+  margin-top: -4px;
 }
 .Popover_Wrapper_Content::before {
   content: '';

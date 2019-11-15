@@ -1,10 +1,7 @@
-import React, { useContext, useState } from 'react';
-import Icon from '../icon/icon.js';
-import userContext from '../../context/user/userContext.js';
+import React from 'react';
+import Icon from '@common/icon';
 
 export default function FooterMeta() {
-  const { userInfo } = useContext(userContext);
-  const [showPopover, change] = useState(false);
   return (
     <div className="Footer_Meta">
       <div className="Footer_Meta_Item">

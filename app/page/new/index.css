@@ -1,0 +1,61 @@
+.New_Wrapper{
+    width: 1200px;
+    margin: 0 auto;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background: #fff;
+    min-height: 600px;
+    margin-top: 24px;
+}
+.New_Header{
+    width: 100%;
+    padding: 16px 24px 8px;
+    border-bottom: 1px solid #e8e8e8;
+}
+.New_Header>h1{
+    margin-bottom: 4px;
+    font-size: 18px;
+    line-height: 26px;
+    color: #262626;
+    font-weight: 500;
+}
+.New_Header>p{
+    color: #595959;
+    font-size: 14px;
+}
+.New_Main{
+    padding: 0 14px;
+}
+.New_Choose{
+    width: 460px;
+    padding: 24px 12px;
+    border-right: 1px solid #e8e8e8;
+}
+.New_Choose>h1{
+    color: #262626;
+    font-size: 14px;
+    margin-bottom: 12px;
+}
+.New_Permission{
+    padding: 10px 16px;
+    position: relative;
+}
+.New_Permission>.Icon:first-child{
+    margin-right: 12px;
+    color: #8c8c8c;
+    font-size: 18px;
+    top: 3px;
+}
+.New_Permission>p{
+    font-size: 14px;
+    font-weight: 500;
+    color: #262626;
+}
+.New_Permission>.Icon:last-child{
+    position: absolute;
+    right: 20px;
+}
+.Dropdown_Overlay>div:hover{
+    background-color: #e9f7ec;
+    transition: all linear 0.2s;
+}

@@ -1,51 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axiosInstance from '../../util/axiosInstance';
-import { Redirect, Route, useLocation, matchPath } from 'react-router-dom';
+import userContext from '../../context/user/userContext.js';
+import { Redirect, useLocation, matchPath } from 'react-router-dom';
 import { getIn } from '../../util/util';
 
 export default function VerifiRoute(props) {
-  const [userInfo, setUserInfo] = useState(null);
-  const { component: Component, path, exact, strict } = props;
+  const [state, setState] = useState(null);
+  const { component: Component } = props;
   const { pathname } = useLocation();
+  const { userInfo, updateUserInfo } = useContext(userContext);
   const checkAuthorization = async () => {
     const [, data] = await axiosInstance.post('login');
     const isLogin = getIn(data, ['uuid'], false);
-    return { isLogin, isHasAuth: true, userInfo: data };
+    return { isLogin, isHasAuth: true, data };
   };
   useEffect(() => {
     const asyncFn = async () => {
-      const match = matchPath(pathname, props);
-      if (match) {
-        const { isLogin, isHasAuth, userInfo } = await checkAuthorization();
-        setUserInfo({
+      const match = matchPath(pathname, props.pathname);
+      if (match && !userInfo.uuid) {
+        const { isLogin, isHasAuth, data } = await checkAuthorization();
+        setState({
           isLogin,
           isHasAuth,
-          userInfo,
           currentLocation: encodeURIComponent(window.location.href)
         });
+        updateUserInfo(data);
       }
     };
     asyncFn();
   }, []);
-  if (!userInfo) return null;
-  if (!userInfo.isLogin) {
+  if (!state) return null;
+  if (!state.isLogin) {
     return <Redirect to={{
       pathname: '/login',
-      search: `?returnUrl=${userInfo.currentLocation}`
+      search: `?returnUrl=${state.currentLocation}`
     }} />;
   }
-  if (!userInfo.isHasAuth) {
+  if (!state.isHasAuth) {
     return <Redirect to={{
       pathname: '/login',
-      search: `?returnUrl=${userInfo.currentLocation}`
+      search: `?returnUrl=${state.currentLocation}`
     }} />;
   }
-  return (
-    <Route
-      exact={exact}
-      path={path}
-      strict={strict}
-      component={Component}
-    />
-  );
+  return <Component />;
 }

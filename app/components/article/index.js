@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-// import Icon from '../icon/icon.js';
 import ArticleCatalog from '../article-catalog/index.js';
 import BookCatalog from '../book-catalog/index.js';
 // import userContext from '../../context/user/userContext.js';

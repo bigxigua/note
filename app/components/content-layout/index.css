@@ -1,4 +1,5 @@
 .Content_Layout{
+  flex: 1;
 }
 .Content_Layout_Head{
   height: 32px;
@@ -14,4 +15,13 @@
 }
 .Recent_Content_Layout{
   width: 100%;
+}
+.Recent_Content_Empty{
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  padding: 27px;
+  text-align: center;
+  line-height: 20px;
+  color: #8c8c8c;
+  box-sizing: border-box;
 }

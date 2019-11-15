@@ -1,4 +1,5 @@
 const webpack = require('webpack');
+const path = require('path');
 // 压缩代码，用于替换uglifyjs-webpack-plugin
 const TerserPlugin = require('terser-webpack-plugin');
 // 它将在Webpack构建期间搜索CSS资产，并将优化、最小化CSS（默认情况下，它使用cssnano，但可以指定自定义CSS处理器）。解决了extract-text-webpack-plugin CSS重复问题
@@ -25,8 +26,7 @@ const InlineChunkHtmlPlugin = require('./InlineChunkHtmlPlugin');
 const InterpolateHtmlPlugin = require('./InterpolateHtmlPlugin');
 const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
 // 可视化分析
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const {
   shouldUseSourceMap,
   isEnvProduction,
@@ -115,7 +115,14 @@ const webpackConfig = {
   resolve: {
     // 添加别名
     alias: {
-      // Utilities: path.resolve(__dirname, 'src/utilities/'), ==》 import Utility from '../../utilities/utility';
+      '@components': path.resolve(__dirname, '../app/components/'),
+      '@common': path.resolve(__dirname, '../app/common/'),
+      '@hooks': path.resolve(__dirname, '../app/hooks/'),
+      '@context': path.resolve(__dirname, '../app/context/'),
+      '@config': path.resolve(__dirname, '../app/config/'),
+      '@public': path.resolve(__dirname, '../app/public/'),
+      '@util': path.resolve(__dirname, '../app/util/'),
+      '@page': path.resolve(__dirname, '../app/page/')
     },
     // 告诉webpack在解析模块时应该搜索哪些目录。
     modules: ['node_modules', appNodeModules],

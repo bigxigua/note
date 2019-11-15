@@ -64,3 +64,34 @@
     position: relative;
     top: 2px;
 }
+.Header_Popover_Add{
+    margin-right: 40px;
+}
+.Header_Popover_Add_Icon{
+    font-size: 20px;
+    margin-right: 4px;
+    color: #25B668;
+    position: relative;
+    top: 2px;
+}
+.Header_Popover_Add .Popover_Wrapper_Child>.Icon:last-child{
+    transform: scale(.8);
+}
+.Header_Popover_Add_Item{
+    width: 124px;
+    height: 32px;
+    color: rgb(89, 89, 89);
+    padding: 0 16px;
+    color: rgb(89, 89, 89);
+    font-size: 14px;
+    box-sizing: border-box;
+    cursor: pointer;
+}
+.Header_Popover_Add_Item>.Icon{
+    top: 1px;
+    margin-right: 6px;
+}
+.Header_Popover_Add_Item:hover{
+    background-color: rgb(233, 247, 236);
+    transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
+}
