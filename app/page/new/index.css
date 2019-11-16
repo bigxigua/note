@@ -37,9 +37,22 @@
     margin-bottom: 12px;
     font-weight: 500;
 }
+.New_Choose>.Dropdown>.Dropdown_Overlay{
+  margin-top: 4px;
+}
 .New_Permission{
     padding: 10px 16px;
     position: relative;
+    width: 435px;
+}
+.New_Permission_Show{
+    border: 1px solid #e8e8e8;
+    transition: all linear 0.2s;
+    border-radius: 4px;
+}
+.New_Permission_Show:hover{
+    border-color: #25b864;
+    box-shadow: 0 0 0 2px rgba(37,184,100,.2);
 }
 .New_Permission_Mul{
     background: #f9f9f9;

@@ -1,10 +1,13 @@
 import React from 'react';
 import Icon from '@common/icon';
-import './search.css';
+import './index.css';
 
-export default function Search() {
+export default function Search(props) {
+  const {
+    className = ''
+  } = props;
   return (
-    <div className="Search">
+    <div className={`Search ${className}`}>
       <Icon type="search" />
       <input type="text"
         placeholder="搜索试试"

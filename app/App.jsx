@@ -9,6 +9,7 @@ import Editor from './page/editor/editor.js';
 import Login from './page/login/index.js';
 import New from './page/new/index.js';
 import Space from './page/space/index.js';
+import Docs from './page/docs/index.js';
 import './App.css';
 import './public/css/anima.css';
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
@@ -53,6 +54,10 @@ class App extends React.Component {
           <Route
             path="/space/"
             component={PageWrapper(Space, '/space/')}
+          />
+          <Route
+            path="/docs/"
+            component={PageWrapper(Docs, '/docs/')}
           />
           <Route
             exact

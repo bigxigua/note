@@ -6,26 +6,16 @@ import Footer from '@components/footer';
 import Table from '@common/table';
 import './index.css';
 
-export default function Docs() {
+export default function Space() {
   const columns = [{
     title: '名称',
     key: 'name',
     dataIndex: 'name',
     render: text => <a>{text}</a>
   }, {
-    title: '状态',
+    title: '操作',
     key: 'status',
     dataIndex: 'status',
-    render: text => <a>{text}</a>
-  }, {
-    title: '归属',
-    key: 'belong',
-    dataIndex: 'belong',
-    render: text => <a>{text}</a>
-  }, {
-    title: '操作',
-    key: 'action',
-    dataIndex: 'action',
     render: text => <a>{text}</a>
   }];
   const dataSource = [{

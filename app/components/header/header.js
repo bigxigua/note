@@ -1,16 +1,21 @@
 import React, { Fragment } from 'react';
-import { FAV_ICON } from '../../config/index.js';
-import Search from '../search/search.js';
+import { Link } from 'react-router-dom';
+import { FAV_ICON } from '@config/index';
+import Search from '@components/search';
 import Avatar from '../avatar/avatar.js';
 import Icon from '@common/icon';
-import { Link } from 'react-router-dom';
-import Popover from '../popover/index.js';
+import Modal from '@common/modal';
+import Popover from '@components/popover';
 import './header.css';
 
 function Content() {
+  const onCreateSpace = () => {
+    console.log('------');
+  };
   return (
     <Fragment>
-      <div className="Header_Popover_Add_Item flex">
+      <div className="Header_Popover_Add_Item flex"
+        onClick={onCreateSpace}>
         <Icon type="plus-circle" />
         <span>新建文档</span>
       </div>
@@ -54,6 +59,8 @@ export default function Header() {
           <Avatar />
         </div>
       </div>
+      <Modal visible={true}
+        title={'FUC'} />
     </div>
   );
 }

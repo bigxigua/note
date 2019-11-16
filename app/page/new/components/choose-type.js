@@ -9,6 +9,8 @@ function MenuItem({ type, text, checked, len, handle, index }) {
   if (len > 1) {
     className = checked ? 'New_Permission_Checked' : '';
     className += ' New_Permission_Mul';
+  } else {
+    className = 'New_Permission_Show';
   }
   const onClick = () => {
     if (len > 1) {

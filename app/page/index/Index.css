@@ -12,4 +12,5 @@
     box-sizing: border-box;
     overflow: hidden;
     font-size: 14px;
+    min-height: calc(100vh - 114px);
 }

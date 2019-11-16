@@ -1,3 +1,23 @@
 .Footer_Wrapper{
-  
+  width: 100%;
+  padding: 10px;
+}
+.Footer_Wrapper_Tip{
+  justify-content: center;
+  flex: 1;
+  border-bottom: 1px solid #e8e8e8;
+  font-size: 14px;
+  padding-bottom: 15px;
+  max-width: 600px;
+  margin: auto;
+}
+.Footer_Wrapper_Tip>img{
+  width: 20px;
+}
+.Footer_Wrapper_Tip>h4{
+  font-weight: 500;
+  padding: 0 10px
+}
+.Footer_Wrapper_Tip>span{
+  color: #595959;
 }

@@ -1,6 +1,8 @@
 .Dropdown {
   position: relative;
   cursor: pointer;
+  height: 100%;
+  justify-content: center;
 }
 .Dropdown_disabled {
   color: rgba(0, 0, 0, 0.25);
@@ -22,20 +24,15 @@
 .Dropdown_Overlay {
   display: none;
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
-  margin-top: 4px;
   border-radius: 4px;
+  position: absolute;
+  top: 100%;
+  left: 0;
 }
 .Dropdown_Overlay_Visible>.Dropdown_Overlay{
   display: block;
 }
 .Dropdown_Child{
-  transition: all linear 0.2s;
-  border-radius: 4px;
-  border: 1px solid #e8e8e8;
-}
-.Dropdown_Child:hover{
-    border-color: #25b864;
-    box-shadow: 0 0 0 2px rgba(37,184,100,.2);
 }
 .Dropdown_Hover:hover>.Dropdown_Overlay{
   display: block;

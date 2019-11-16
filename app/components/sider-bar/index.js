@@ -19,7 +19,7 @@ export default function SiderBarLayout() {
         <img src="/images/warehouse.png" />
         <span>知识库</span>
       </NavLink>
-      <NavLink to="/document/"
+      <NavLink to="/docs/"
         activeStyle={{ color: '#000', fontWeight: 'bold' }}
         className="SiderBar_Link">
         <img src="/images/documentation.png" />
