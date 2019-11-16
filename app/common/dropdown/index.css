@@ -42,3 +42,8 @@
   animation-name: fadeInUp;
   animation-duration: 200ms;
 }
+.Dropdown_Click_Expand>.Dropdown_Overlay{
+  display: block;
+  animation-name: fadeInUp;
+  animation-duration: 200ms;
+}

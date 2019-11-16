@@ -5,7 +5,7 @@ const isEnvProduction = NODE_ENV === 'production';
 const isEnvDevelopment = NODE_ENV === 'development';
 const appDirectory = fs.realpathSync(process.cwd());
 const resolveApp = relativePath => path.resolve(appDirectory, './app/' + relativePath);
-const publicPath =  '/';
+const publicPath = '/';
 module.exports = {
   shouldUseSourceMap: true,
   isEnvProduction,

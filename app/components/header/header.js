@@ -16,7 +16,7 @@ function Content() {
       </div>
       <div className="Header_Popover_Add_Item flex">
         <Icon type="plus-circle" />
-        <span>新建知识库</span>
+        <Link to="/new">新建知识库</Link>
       </div>
     </Fragment>
   );
@@ -30,7 +30,8 @@ export default function Header() {
           <img src={FAV_ICON}
             className="Header_left_favicon"
             alt=""/>
-          <h1 className="Header_title ellipsis">一日一记</h1>
+          <Link to="/"
+            className="Header_title ellipsis">一日一记</Link>
           <Search />
           <Link to="/about"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>

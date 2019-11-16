@@ -1,7 +1,6 @@
 import React from 'react';
 import Header from '@components/header/header';
 import NewChooseType from './components/choose-type';
-import NewView from './components/view/index';
 import './index.css';
 
 export default function New() {
@@ -15,7 +14,6 @@ export default function New() {
         </div>
         <div className="New_Main">
           <NewChooseType />
-          <NewView />
         </div>
       </div>
     </div>

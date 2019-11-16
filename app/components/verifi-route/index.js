@@ -24,7 +24,15 @@ export default function VerifiRoute(props) {
           isHasAuth,
           currentLocation: encodeURIComponent(window.location.href)
         });
+        // 更新用户信息到context
         updateUserInfo(data);
+      }
+      // TODO 文章访问权限控制
+      if (userInfo.uuid) {
+        setState({
+          isLogin: true,
+          isHasAuth: true
+        });
       }
     };
     asyncFn();

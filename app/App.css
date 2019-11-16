@@ -6,6 +6,7 @@ html, body, body div, span, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquot
     font-weight: normal;
     vertical-align: baseline;
     background: transparent;
+    box-sizing: border-box;
 }
 
 html, body {
@@ -15,7 +16,6 @@ html, body {
     -webkit-text-size-adjust: 100%;
     font-family: Chinese Quote,-apple-system,BlinkMacSystemFont,Segoe UI,Roboto,PingFang SC,Hiragino Sans GB,Microsoft YaHei,Helvetica Neue,Helvetica,Arial,sans-serif;
     -webkit-font-smoothing: antialiased;
-    box-sizing: border-box;
 }
 
 article, aside, figure, footer, header, nav, section, details, summary {

@@ -1,26 +1,36 @@
-.SiderBar_Layout{
+.SiderBar_Layout {
   width: 206px;
   flex-shrink: 0;
+  padding-right: 20px;
 }
-.SiderBar_Link{
+
+.SiderBar_Link {
   display: flex;
   align-items: center;
   height: 40px;
   margin-bottom: 5px;
   padding-left: 15px;
   box-sizing: border-box;
-}
-.SiderBar_Link>div>i{
-  font-size: 20px;
-}
-.SiderBar_Link>span{
-  position: relative;
-  top: -2px;
   color: #8c8c8c;
-  margin-left: 10px;
   font-size: 14px;
+  transition: all linear 0.2s;
 }
-.SiderBar_Line{
+
+.SiderBar_Link>img {
+  width: 20px;
+  flex-shrink: 0;
+  margin-right: 10px;
+}
+
+.SiderBar_Link>span {
+  font-weight: inherit
+}
+.SiderBar_Link:hover{
+  color: inherit;
+  background: #e8e8e8;
+}
+
+.SiderBar_Line {
   display: block;
   height: 1px;
   background: #e8e8e8;

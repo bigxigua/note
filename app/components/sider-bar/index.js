@@ -1,51 +1,61 @@
 import React from 'react';
-import Icon from '@common/icon';
-import { Link } from 'react-router-dom';
+import { Link, NavLink } from 'react-router-dom';
 import './index.css';
 
 export default function SiderBarLayout() {
   return (
     <div className="SiderBar_Layout">
-      <Link to="/"
+      <NavLink
+        to="/"
+        exact
+        activeStyle={{ color: '#000', fontWeight: 'bold' }}
         className="SiderBar_Link">
-        <Icon type="appstore" />
+        <img src="/images/workspace.png" />
         <span>工作台</span>
-      </Link>
-      <Link to="/"
+      </NavLink>
+      <NavLink to="/space/"
+        activeStyle={{ color: '#000', fontWeight: 'bold' }}
         className="SiderBar_Link">
-        <Icon type="database" />
+        <img src="/images/warehouse.png" />
         <span>知识库</span>
-      </Link>
+      </NavLink>
+      <NavLink to="/document/"
+        activeStyle={{ color: '#000', fontWeight: 'bold' }}
+        className="SiderBar_Link">
+        <img src="/images/documentation.png" />
+        <span>文档</span>
+      </NavLink>
       <span className="SiderBar_Line"></span>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="appstore" />
+        <img src="/images/github.png" />
         <span>GitHub Trending</span>
       </Link>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="database" />
+        <img src="/images/zhihu.png" />
         <span>知乎日榜</span>
       </Link>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="appstore" />
+        <img src="/images/juejin.png" />
         <span>掘金日榜</span>
       </Link>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="database" />
+        <img src="/images/csdn.png" />
         <span>CSDN日榜</span>
       </Link>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="database" />
+        <img src="/images/more.png" />
         <span>其他</span>
       </Link>
       <span className="SiderBar_Line"></span>
       <Link to="/"
         className="SiderBar_Link">
-        <Icon type="delete" />
+        <img src="/images/recycling.png"
+          style={{ width: '17px' }} />
         <span>回收站</span>
       </Link>
     </div>

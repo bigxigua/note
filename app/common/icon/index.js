@@ -45,6 +45,13 @@ export default function Icon(props) {
       height="1em"
       fill="currentColor"
       aria-hidden="true"><path d="M765.7 486.8L314.9 134.7A7.97 7.97 0 0 0 302 141v77.3c0 4.9 2.3 9.6 6.1 12.6l360 281.1-360 281.1c-3.9 3-6.1 7.7-6.1 12.6V883c0 6.7 7.7 10.4 12.9 6.3l450.8-352.1a31.96 31.96 0 0 0 0-50.4z"></path></svg></i>,
+    check: <i aria-label="图标: check"><svg viewBox="64 64 896 896"
+      focusable="false"
+      data-icon="check"
+      width="1em"
+      height="1em"
+      fill="currentColor"
+      aria-hidden="true"><path d="M912 190h-69.9c-9.8 0-19.1 4.5-25.1 12.2L404.7 724.5 207 474a32 32 0 0 0-25.1-12.2H112c-6.7 0-10.4 7.7-6.3 12.9l273.9 347c12.8 16.2 37.4 16.2 50.3 0l488.4-618.9c4.1-5.1.4-12.8-6.3-12.8z"></path></svg></i>,
     setting: <i aria-label="图标: setting"><svg viewBox="64 64 896 896"
       focusable="false"
       data-icon="setting"
