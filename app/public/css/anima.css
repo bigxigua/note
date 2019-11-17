@@ -67,3 +67,18 @@
   -webkit-animation-name: fadeInUp;
   animation-name: fadeInUp;
 }
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}

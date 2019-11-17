@@ -16,7 +16,6 @@ export default function Button(props) {
     dashed: 'Button_dash',
     danger: 'Button_danger'
   };
-  console.log('props:', props);
   return (
     <button
       onClick={onClick}

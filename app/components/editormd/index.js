@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
 // import userContext from '../../context/user/userContext.js';
-import ArticleCatalog from '../article-catalog/index.js';
-import { INTRODUCE_MARKDOWN } from '../../config/index';
+import ArticleCatalog from '@components/article-catalog';
+// import { INTRODUCE_MARKDOWN } from '@config/index';
+import axiosInstance from '@util/axiosInstance';
 import {
-  debunce
-} from '../../util/util.js';
+  debunce,
+  getIn
+} from '@util/util.js';
 import './index.css';
 
 /**
  *  初始化编辑器
  */
-function previewMarkdownToContainer(onload = console.log, onchange = console.log) {
+async function previewMarkdownToContainer(onload = console.log, onchange = console.log) {
+  const docId = window.location.pathname.split('/').filter(n => n)[1];
+  const [error, data] = await axiosInstance.get(`doc/detail?doc_id=${docId}`);
+  // TODO 区分当前文档的作者，如果是作者本人显示草稿内容，非本人显示真实文本
+  const markdown = getIn(data, ['markdown'], '');
+  if (!getIn(data, ['doc_id'])) {
+    // TODO 报错如何处理
+    console.log('[获取文档信息失败]', error, data);
+    return;
+  }
   const editor = window.editormd('editormd_edit', {
     path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
     disabledKeyMaps: ['Ctrl-S', 'F11', 'F10'],
     placeholder: '开始吧！！',
     searchReplace: true,
-    markdown: INTRODUCE_MARKDOWN,
+    markdown,
     codeFold: true,
     theme: 'default',
     previewTheme: 'default',

@@ -1,7 +1,9 @@
 import React from 'react';
-import { FAV_ICON } from '../../config/index.js';
+import { FAV_ICON } from '@config/index';
 import Icon from '@common/icon';
-import Popover from '../popover/index.js';
+import Button from '@common/button';
+import Popover from '@components/popover';
+import { Link, useHistory } from 'react-router-dom';
 import './index.css';
 
 const content = (
@@ -16,8 +18,12 @@ const content = (
 );
 
 export default function ArticleHeader() {
+  const isArticlePage = /^\/article\//.test(window.location.pathname);
+  const isEditPage = /^\/edit\//.test(window.location.pathname);
+  const docId = window.location.pathname.split('/').filter(n => n)[1];
+  const history = useHistory();
   function jumpToEditor () {
-    window.location.href = '/editor/xxxxxx';
+    history.push(`/editor/${docId}`);
   }
   return (
     <div className="Article_Header">
@@ -26,14 +32,16 @@ export default function ArticleHeader() {
           <img src={FAV_ICON}
             className="Article_Header_favicon"
             alt=""/>
-          <h1 className="Article_Header_title ellipsis">一日一记</h1>
+          <Link className="Article_Header_title ellipsis"
+            to="/">一日一记</Link>
         </div>
         <div className="Article_Header_right">
-          <div className="Article_Header_Edit_Btn flex">
+          {isArticlePage && <div className="Article_Header_Edit_Btn flex">
             <button className="button"
               onClick={jumpToEditor}>编辑</button>
             <Icon type="caret-down" />
-          </div>
+          </div>}
+          {isEditPage && <Button>更新</Button>}
           <Popover content={content}>
             <Icon type="ellipsis"
               className="Article_Header_Fun_Icon" />

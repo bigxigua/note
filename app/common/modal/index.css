@@ -1,36 +1,83 @@
-.Modal{
+.Modal {
   position: fixed;
   background: #ffffff;
   top: 100px;
   left: 50%;
   transform: translateX(-50%);
-  padding: 24px;
   font-size: 14px;
   z-index: 1000;
   border-radius: 4px;
-  box-shadow: 0 4px 12px rgba(0,0,0,.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, .15);
   pointer-events: auto;
 }
-.Modal_Show{
 
+.Modal_Header {
+  padding: 24px 0 0 24px;
+  /* border-bottom: 1px solid #e8e8e8; */
+  border-radius: 4px 4px 0 0;
 }
-.Modal_Header{
 
+.Modal_Header>span {
+  font-size: 16px;
+  line-height: 24px;
+  color: #262626;
+  font-weight: 500;
 }
-.Modal_Mask{
+
+.Modal_Header>p {
+  color: #8c8c8c;
+  margin: 0 0 8px;
+  font-size: 14px
+}
+
+.Modal_Mask {
   position: fixed;
   width: 100vw;
   height: 100vh;
   top: 0;
   left: 0;
   z-index: 999;
-  background: rgba(0, 0,0,0.4);
+  background: transparent;
+  display: none;
 }
-.Modal_Close{
+
+.Modal_Mask_Bg {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.Modal_Show {
+  display: block;
+  animation-name: fadeIn;
+  animation-duration: 200ms;
+}
+
+.Modal_Close {
   position: absolute;
   right: 0;
   top: 0;
   font-size: 20px;
   cursor: pointer;
   padding: 10px;
+}
+
+.Modal_Body {
+  font-size: 14px;
+  line-height: 1.5;
+  word-wrap: break-word;
+  padding: 0 24px 20px 24px;
+  max-height: 400px;
+  overflow-y: scroll;
+}
+
+.Modal_Footer {
+  justify-content: flex-end;
+  padding: 10px 24px;
+  background: transparent;
+  border-top: 1px solid #e8e8e8;
+  border-radius: 0 0 4px 4px;
+  padding: 10px 10px 10px 24px;
+}
+
+.Modal_Footer>button {
+  margin-left: 10px;
 }

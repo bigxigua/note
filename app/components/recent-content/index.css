@@ -48,12 +48,3 @@
 .Recent_Content_Item{
   margin-left: 20px;
 }
-.Recent_Content_Item>div{
-  font-weight: bold;
-  font-size: 16px!important;
-}
-.Recent_Content_Item_More>div{
-  font-size: 26px!important;
-  position: relative;
-  top: 2px;
-}

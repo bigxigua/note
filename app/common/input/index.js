@@ -31,6 +31,9 @@ export default function Input(props) {
     }
     setClassName(cssName);
   }, [addonBefore, addonAfter]);
+  useEffect(() => {
+    setValue(defaultValue);
+  }, [defaultValue]);
   return (
     <div className={`${className} ${classN}`}>
       {addonBefore && <span className="Input_addonBefore flex">{addonBefore}</span>}

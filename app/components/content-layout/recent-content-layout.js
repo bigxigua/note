@@ -1,16 +1,16 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import RecentContent from '../recent-content/index.js';
-import axiosInstance from '../../util/axiosInstance';
+import RecentContent from '@components/recent-content';
+import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
   const [docs, setDocs] = useState([]);
   useEffect(() => {
     (async () => {
-      const [error, data] = await axiosInstance.get('recent');
-      if (error || !data || !Array.isArray(data.docs)) {
+      const [error, data] = await axiosInstance.get('doc/recent');
+      if (error || !Array.isArray(data)) {
         console.log('[获取最近使用列表失败] ', error);
       } else {
-        setDocs(data.docs);
+        setDocs(data);
       }
     })();
   }, []);
@@ -25,7 +25,7 @@ export default function RecentContentLayout() {
         docs.map(n => {
           return (
             <Fragment key={n.id}>
-              <RecentContent data={n} />
+              <RecentContent {...n} />
             </Fragment>
           );
         })

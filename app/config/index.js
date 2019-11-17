@@ -71,3 +71,13 @@ export const FAV_ICON = 'https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b
 
 export const ENV = process.env.NODE_ENV;
 export const DOMAIN = ENV === 'development' ? 'http://127.0.0.1:7001/' : 'http://45.76.98.174:7001/';
+
+// 空间类型对应ICON
+export const SPACE_TYPE_ICON = {
+  DOCS: '/images/book.png',
+  RESOURCE: '/images/books.png',
+  IMPORT: '/images/import.png',
+  TEMPLATE_OF_STUDY: '/images/doc.png',
+  TEMPLATE_OF_BLOG: '/images/blog.png',
+  TEMPLATE_OF_TRAVEL: '/images/trip.png'
+};

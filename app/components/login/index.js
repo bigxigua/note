@@ -17,7 +17,6 @@ export default function Login() {
     passwordErrorMsg: ''
   });
   const history = useHistory();
-  console.log(history);
   const { updateUserInfo } = useContext(userContext);
   // 1. 空值提示
   // 2. 格式不对提示

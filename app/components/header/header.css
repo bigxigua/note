@@ -95,3 +95,33 @@
     background-color: rgb(233, 247, 236);
     transition: all 0.3s cubic-bezier(0.645, 0.045, 0.355, 1) 0s;
 }
+.Header_Spaces_List{
+    padding: 12px 0;
+    border-bottom: 1px solid #e8e8e8;
+    line-height: 24px;
+    cursor: pointer;
+}
+/* .Header_Spaces_List:first-child{
+    border-top: 1px solid #e8e8e8;
+} */
+.Header_Spaces_List:hover{
+    background: #e9f7ec;
+}
+.Header_Spaces_List>img{
+    width: 20px;
+    height: 24px;
+    margin-right: 10px;
+    position: relative;
+    /* top: -1px; */
+}
+.Header_Spaces_List>img:last-child{
+    margin-left: 10px;
+    
+}
+.Header_Spaces_List>span{
+    color: #8c8c8c;
+    font-size: 14px;
+}
+.Header_Spaces_List>span:nth-child(3){
+    padding: 0 6px;
+}

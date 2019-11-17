@@ -3,6 +3,7 @@ import Dropdown from '@common/dropdown';
 import Scene from '@common/scene';
 import Icon from '@common/icon';
 import Input from '@common/input';
+import axiosInstance from '@util/axiosInstance';
 
 function MenuItem({ type, text, checked, len, handle, index }) {
   let className = '';
@@ -45,36 +46,44 @@ export default function NewChooseType() {
   const [menus, setMenus] = useState([{
     type: 'stop',
     text: '仅自己可见',
+    public: 'SELF',
     checked: true
   }, {
     type: 'global',
+    public: 'PUBLIC',
     text: '互联网可见'
   }]);
   const [typeScenes, setTypeSences] = useState([{
     icon: <img src="/images/book.png" />,
     title: '文档知识库',
     desc: '创作在线文档',
+    scene: 'DOCS',
     actived: true
   }, {
     icon: <img src="/images/books.png" />,
     title: '资源知识库',
+    scene: 'RESOURCE',
     desc: '上传并预览知识库'
   }, {
     icon: <img src="/images/import.png" />,
     title: '导入',
+    scene: 'IMPORT',
     desc: '新建并导入本地内容'
   }]);
   const [templateSences, setTemplateSences] = useState([{
     icon: <img src="/images/doc.png" />,
     title: '学习笔记',
+    scene: 'TEMPLATE_OF_STUDY',
     desc: '点滴学习，随时记录'
   }, {
     icon: <img src="/images/blog.png" />,
     title: '博客专栏',
+    scene: 'TEMPLATE_OF_BLOG',
     desc: '定时总结，与人分享，加深记忆'
   }, {
     icon: <img src="/images/trip.png" />,
     title: '旅行攻略',
+    scene: 'TEMPLATE_OF_TRAVEL',
     desc: '行程单、预算、游记'
   }]);
   const [info, setInfo] = useState(typeScenes[0]);
@@ -86,13 +95,15 @@ export default function NewChooseType() {
   };
   // 切换模版事件
   const onTemplateScenesChange = (index, type) => {
-    setTemplateSences(templateSences.map((n, i) => {
+    const _templateSences_ = templateSences.map((n, i) => {
       return { ...n, actived: type === 'default' ? false : i === index };
-    }));
-    setTypeSences(typeScenes.map((n, i) => {
+    });
+    const _typeScenes_ = typeScenes.map((n, i) => {
       return { ...n, actived: type === 'template' ? false : i === index };
-    }));
-    const _info_ = [...typeScenes, ...templateSences].filter(n => n.actived)[0];
+    });
+    setTemplateSences(_templateSences_);
+    setTypeSences(_typeScenes_);
+    const _info_ = [..._templateSences_, ..._typeScenes_].filter(n => n.actived)[0];
     setInfo(_info_);
   };
   // 输入框输入事件
@@ -104,8 +115,17 @@ export default function NewChooseType() {
     });
   };
   // 提交
-  const onCreateSpace = () => {
-
+  const onCreateSpace = async () => {
+    console.log(menus, info);
+    // TODO 参数校验
+    const { title: name, desc: description, scene } = info;
+    const [error, data] = await axiosInstance.post('create/space', {
+      name,
+      description,
+      public: menus.filter(n => n.checked)[0].public,
+      scene
+    });
+    console.log(error, data);
   };
   const Overlay = <CreateMenu
     onClick={onClick}
