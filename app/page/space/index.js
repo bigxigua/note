@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Header from '@components/header/header';
 import SiderBarLayout from '@components/sider-bar/index';
 import TableHeader from '@components/table-header';
 import Footer from '@components/footer';
 import Table from '@common/table';
+import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
 export default function Docs() {
@@ -13,12 +14,12 @@ export default function Docs() {
     dataIndex: 'name',
     render: text => <a>{text}</a>
   }, {
-    title: '状态',
+    title: '标签',
     key: 'status',
     dataIndex: 'status',
     render: text => <a>{text}</a>
   }, {
-    title: '归属',
+    title: '简介',
     key: 'belong',
     dataIndex: 'belong',
     render: text => <a>{text}</a>
@@ -28,6 +29,13 @@ export default function Docs() {
     dataIndex: 'action',
     render: text => <a>{text}</a>
   }];
+  async function fetchSpaces () {
+    const [error, data] = await axiosInstance.get();
+    console.log(error, data);
+  }
+  useEffect(() => {
+    fetchSpaces();
+  }, []);
   const dataSource = [{
     key: '1',
     name: 'John Brown',

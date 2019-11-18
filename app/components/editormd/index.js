@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-// import userContext from '../../context/user/userContext.js';
+import React, { useEffect, useContext } from 'react';
+import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
 // import { INTRODUCE_MARKDOWN } from '@config/index';
 import axiosInstance from '@util/axiosInstance';
@@ -23,6 +23,7 @@ async function previewMarkdownToContainer(onload = console.log, onchange = conso
     return;
   }
   const editor = window.editormd('editormd_edit', {
+    toolbar: true,
     path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
     disabledKeyMaps: ['Ctrl-S', 'F11', 'F10'],
     placeholder: '开始吧！！',
@@ -38,10 +39,10 @@ async function previewMarkdownToContainer(onload = console.log, onchange = conso
     watch: false
   });
   const debunceEditorChange = debunce(function () {
-    onchange(arguments);
+    onchange(arguments[0]);
   }).bind(this);
   editor.settings.onload = () => {
-    onload(editor);
+    onload(editor, data);
     editor.cm.on('change', () => {
       debunceEditorChange(editor);
     });
@@ -70,12 +71,24 @@ function addToolTipForEditorIcon() {
 }
 
 export default function Editormd() {
-  const [editormd, setEditormd] = useState(false);
+  const { updateEditorInfo } = useContext(editorContext);
+  function insertTitleInput (doc) {
+    const $CodeMirror = $('.CodeMirror');
+    const titleDom =
+    '<div class="CodeMirror_title flex">' +
+    '<div class="CodeMirror_titlle_left flex"><img src="/images/title.png" alt="标题" /></div>' +
+    `<input value='${doc.title}' />` +
+    '</div>';
+    if ($CodeMirror.length > 0) {
+      $(titleDom).insertBefore($($('.CodeMirror').children()[0]));
+    }
+  }
   useEffect(() => {
-    previewMarkdownToContainer((e) => {
-      setEditormd(e);
+    previewMarkdownToContainer((e, doc) => {
       addToolTipForEditorIcon();
-    }, (e) => { setEditormd(e); });
+      insertTitleInput(doc);
+      updateEditorInfo(e);
+    }, (e) => { updateEditorInfo(e); });
   }, []);
   return (
     <div className="Editormd_Wrapper flex">
@@ -83,7 +96,6 @@ export default function Editormd() {
         <div id="editormd_edit"></div>
       </div>
       <ArticleCatalog
-        editormd={editormd}
         dynamic={true} />
     </div>
   );

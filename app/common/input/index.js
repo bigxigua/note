@@ -3,6 +3,8 @@ import './index.css';
 
 export default function Input(props) {
   const {
+    w = 320, // 宽度
+    h = 40, // 高度
     addonBefore, // 前置元素
     addonAfter, // 后置元素
     defaultValue, // 默认value
@@ -35,7 +37,11 @@ export default function Input(props) {
     setValue(defaultValue);
   }, [defaultValue]);
   return (
-    <div className={`${className} ${classN}`}>
+    <div className={`${className} ${classN}`}
+      style={{
+        width: isNaN(w) ? w : `${w}px`,
+        height: isNaN(h) ? h : `${h}px`
+      }}>
       {addonBefore && <span className="Input_addonBefore flex">{addonBefore}</span>}
       {
         type !== 'textarea' &&

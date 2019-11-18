@@ -1,9 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import ArticleCatalog from '@components/article-catalog';
 import BookCatalog from '@components/book-catalog';
-// import userContext from '../../context/user/userContext.js';
+import editorContext from '@context/editor/editorContext';
 import FooterMeta from './footer-meta';
-// import { INTRODUCE_MARKDOWN } from '@config/index';
 import axiosInstance from '@util/axiosInstance';
 import { getIn } from '@util/util';
 import './index.css';
@@ -35,12 +34,11 @@ async function previewMarkdownToContainer(onload = console.log) {
   return editor;
 }
 export default function Article() {
-  // const { userInfo } = useContext(userContext);
-  const [editormd, setEditor] = useState(null);
   const [docInfo, setDocInfo] = useState({});
+  const { updateEditorInfo } = useContext(editorContext);
   useEffect(() => {
     previewMarkdownToContainer((d, info) => {
-      setEditor(d);
+      updateEditorInfo(d);
       setDocInfo(info);
       let top = $('#editormd').offset().top;
       $('.Article_Preview_Wrapper')[0].addEventListener('scroll', () => {
@@ -66,7 +64,7 @@ export default function Article() {
         <article id="editormd"></article>
         <FooterMeta />
       </div>
-      <ArticleCatalog editormd={editormd} />
+      <ArticleCatalog />
     </div>
   );
 };

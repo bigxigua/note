@@ -26,6 +26,32 @@
 }
 #editormd_edit{
   margin: 0;
+  min-height: calc(100vh - 58px);
+}
+.CodeMirror_title{
+  width: 100%;
+  /* padding: 48px 60px 16px 0; */
+  border-bottom: 1px solid #e8e8e8;
+  height: 60px;
+  overflow: hidden;
+}
+.CodeMirror_title>input{
+  width: 100%;
+  height: 100%;
+  color: #262626;
+  font-weight: 700;
+  font-size: 30px;
+  padding-left: 10px;
+}
+.CodeMirror_titlle_left{
+  width: 48px;
+  height: 100%;
+  background-color: #f7f7f7;
+  flex-shrink: 0;
+  justify-content: center;
+}
+.CodeMirror_titlle_left>img{
+  width: 20px;
 }
 @media only screen and (max-width: 1430px) {
   .Editormd_Wrapper>.Article_Catalog_Wrapper>.Catalog_title {

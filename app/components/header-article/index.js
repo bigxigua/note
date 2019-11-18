@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { FAV_ICON } from '@config/index';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import Popover from '@components/popover';
 import { Link, useHistory } from 'react-router-dom';
+import editorContext from '@context/editor/editorContext';
+import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
 const content = (
@@ -18,12 +20,27 @@ const content = (
 );
 
 export default function ArticleHeader() {
+  const { editor } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
-  const isEditPage = /^\/edit\//.test(window.location.pathname);
+  const isEditPage = /^\/editor\//.test(window.location.pathname);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   function jumpToEditor () {
     history.push(`/editor/${docId}`);
+  }
+  async function onUpdate () {
+    const markdown = editor.getMarkdown();
+    const html = editor.getHtmlFromMarkDown(markdown);
+    const title = $('.CodeMirror_title>input').val();
+    const [error, data] = await axiosInstance.post('doc/update', {
+      doc_id: docId,
+      html,
+      title,
+      markdown,
+      html_draft: html,
+      markdown_draft: markdown
+    });
+    console.log(error, data);
   }
   return (
     <div className="Article_Header">
@@ -41,7 +58,8 @@ export default function ArticleHeader() {
               onClick={jumpToEditor}>编辑</button>
             <Icon type="caret-down" />
           </div>}
-          {isEditPage && <Button>更新</Button>}
+          {isEditPage && <Button type="primary"
+            onClick={onUpdate}>更新</Button>}
           <Popover content={content}>
             <Icon type="ellipsis"
               className="Article_Header_Fun_Icon" />
