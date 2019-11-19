@@ -6,6 +6,8 @@
   background: #ffffff;
   padding: 0 14px;
   justify-content: space-between;
+  position: relative;
+  z-index: 1;
 }
 .TableHeader_Title{
   color: #262626;

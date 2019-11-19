@@ -4,3 +4,10 @@
 .Space_Table{
 	width: 100%;
 }
+.Space_Table_Tags{
+	position: relative;
+	display: inline-block;
+}
+.Space_Table_Tags>.Tag{
+	margin-right: 6px;
+}

@@ -1,0 +1,14 @@
+.Empty{
+  background: #fff;
+  border: 1px solid #e8e8e8;
+  padding: 27px;
+  text-align: center;
+  line-height: 20px;
+  color: #8c8c8c;
+  box-sizing: border-box;
+}
+.Empty_Desc{
+  font-size: 14px;
+  color: rgba(0,0,0,0.25);
+  line-height: 22px;
+}

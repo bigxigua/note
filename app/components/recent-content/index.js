@@ -29,7 +29,7 @@ export default function RecentContent({
       </div>
       <div className="Recent_Content_Right">
         <Icon
-          onClick={() => { onJumpToArticle('editor'); }}
+          onClick={(e) => { onJumpToArticle('editor'); e.stopPropagation(); }}
           className="Recent_Content_Item"
           type="edit" />
         <Icon

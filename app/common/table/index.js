@@ -5,7 +5,8 @@ export default function Table(props) {
   const {
     columns = [],
     dataSource = [],
-    className = ''
+    className = '',
+    dataSourceKey = 'key' // dataSource key
   } = props;
   const colgroup = columns.map(n => {
     return <col key={n.key}
@@ -18,7 +19,7 @@ export default function Table(props) {
   });
   const tbody = dataSource.map(n => {
     return (
-      <tr key={n.key}>
+      <tr key={n[dataSourceKey]}>
         {columns.map(k => {
           return <td key={k.key}
             data-a={k.dataIndex}>
