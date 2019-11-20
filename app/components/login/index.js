@@ -1,14 +1,17 @@
 import React, { useState, useContext } from 'react';
+import { Link, useHistory } from 'react-router-dom';
 import Input from '@common/input';
 import Icon from '@common/icon';
-import { Link, useHistory } from 'react-router-dom';
-import axiosInstance from '../../util/axiosInstance';
-import { getIn, parseUrlQuery } from '../../util/util.js';
-import userContext from '../../context/user/userContext.js';
+import Button from '@common/button';
+import axiosInstance from '@util/axiosInstance';
+import { getIn, parseUrlQuery } from '@util/util';
+import userContext from '@context/user/userContext';
+import useMessage from '@hooks/use-message';
 import './index.css';
 
 export default function Login() {
   // TODO 如果从注册切到登陆时returnUrl的问题
+  const message = useMessage();
   const isLoginPage = window.location.pathname === '/login';
   const { returnUrl = '' } = parseUrlQuery();
   const [state, setState] = useState({ account: '', password: '' });
@@ -50,7 +53,7 @@ export default function Login() {
     if (!error && getIn(data, ['uuid'])) {
       updateUserInfo(data);
       // 登陆页回跳原来页面，注册页回跳首页
-      if (isLoginPage) {
+      if (isLoginPage && returnUrl) {
         const { pathname, search } = new URL(decodeURIComponent(returnUrl));
         history.replace(pathname + search);
       } else {
@@ -62,17 +65,17 @@ export default function Login() {
   };
   const handleError = (error) => {
     const code = getIn(error, ['code']);
-    const message = getIn(error, ['message'], '系统开小差了，请稍后再试');
+    const content = getIn(error, ['message'], '系统开小差了，请稍后再试');
     const errorInfo = {};
     console.log(`[${isLoginPage ? '登陆' : '注册'}失败] `, error);
     if (code === 20003) {
       // 帐号不存在
-      errorInfo.accountErrorMsg = message;
+      errorInfo.accountErrorMsg = content;
     } else if (code === 20004) {
       // 密码错误
-      errorInfo.passwordErrorMsg = message;
+      errorInfo.passwordErrorMsg = content;
     } else {
-      // TODO 其他错误的展示形式
+      message.error({ content });
     }
     setErrorInfo(errorInfo);
   };
@@ -81,7 +84,7 @@ export default function Login() {
       <img
         src="https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg"
         alt=""
-        className="Login_logo"/>
+        className="Login_logo" />
       <h1 className="Login_title">一日一记</h1>
       <h2 className="Login_sub_title">工欲善其事，必先利其器</h2>
       <Input
@@ -97,11 +100,12 @@ export default function Login() {
       {errorInfo.passwordErrorMsg && (
         <span className="Login_Error">{errorInfo.passwordErrorMsg}</span>
       )}
-      <button
-        className="Login_submit flex"
+      <Button
+        type="primary"
+        className="Login_submit"
         onClick={onSubmit}>
         {isLoginPage ? '立即登陆' : '立即注册'}
-      </button>
+      </Button>
       <Link
         className="Login_action"
         to={isLoginPage ? '/register' : '/login'}>

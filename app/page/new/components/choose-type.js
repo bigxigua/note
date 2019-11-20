@@ -3,6 +3,8 @@ import Dropdown from '@common/dropdown';
 import Scene from '@common/scene';
 import Icon from '@common/icon';
 import Input from '@common/input';
+import useMessage from '@hooks/use-message';
+import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
 
 function MenuItem({ type, text, checked, len, handle, index }) {
@@ -43,6 +45,8 @@ function CreateMenu({ menus, onClick }) {
 }
 
 export default function NewChooseType() {
+  const message = useMessage();
+  const history = useHistory();
   const [menus, setMenus] = useState([{
     type: 'stop',
     text: '仅自己可见',
@@ -117,15 +121,23 @@ export default function NewChooseType() {
   // 提交
   const onCreateSpace = async () => {
     console.log(menus, info);
-    // TODO 参数校验
     const { title: name, desc: description, scene } = info;
+    if (!name || !description) {
+      message.error({ content: '请先完善信息' });
+      return;
+    }
     const [error, data] = await axiosInstance.post('create/space', {
       name,
       description,
       public: menus.filter(n => n.checked)[0].public,
       scene
     });
-    console.log(error, data);
+    if (!error && data && data.spaceId) {
+      message.success({ content: '创建成功', d: 2000, onClose: () => history.push('/space/') });
+      return;
+    }
+    message.error({ content: (error || {}).message || '系统开小差啦，稍等试试吧' });
+    console.log('[创建空间失败 ]', error);
   };
   const Overlay = <CreateMenu
     onClick={onClick}

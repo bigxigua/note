@@ -4,11 +4,13 @@ import userContext from '@context/user/userContext';
 import Modal from '@common/modal';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
+import useMessage from '@hooks/use-message';
 import './index.css';
 
 export default function CreateDoc({
-  onModalChange = () => {}
+  onModalChange = () => { }
 }) {
+  const message = useMessage();
   const [visible, setVisible] = useState(true);
   const [spaces, setSpaces] = useState([]);
   const history = useHistory();
@@ -20,16 +22,20 @@ export default function CreateDoc({
   const onConfirmModal = () => {
     setVisible(false);
     onModalChange(false);
+    history.push('/new');
   };
   // 获取空间列表
   const fetchSpaces = async () => {
     const [error, data] = await axiosInstance.get('spaces', {});
-    if (!error && data && data.spaces.length > 0) {
-      setSpaces(data.spaces);
-    } else {
-      // TODO 失败提示
+    if (error || !data || !Array.isArray(data.spaces)) {
+      message.error({ content: '服务器开小差啦！请稍后再试试呀.嘻嘻' });
       console.log('[获取空间列表失败] ', error);
+      return;
     }
+    if (data.spaces.length === 0) {
+      // TODO 提示用户去创建空间
+    }
+    setSpaces(data.spaces);
   };
   // 点击创建文档
   const onChooseSpace = async (info) => {
@@ -63,15 +69,21 @@ export default function CreateDoc({
       </div>
     );
   });
+  const style = {
+    fontSize: '14px',
+    color: '#333',
+    marginTop: '10px'
+  };
   return (
     <Modal
       subTitle="点击选择一个知识库"
       title="新建文档"
-      footer={'none'}
+      footer={spaces.length > 0 ? 'none' : null}
       onCancel={onCancelModal}
       onConfirm={onConfirmModal}
+      confirmText="创建知识库"
       visible={visible} >
-      {spacesList}
+      {spaces.length > 0 ? spacesList : <div style={style}>您还未创建过知识库哟，文档存在知识库里。分好类，好查询</div>}
     </Modal>
   );
 };

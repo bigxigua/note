@@ -20,7 +20,7 @@ function Content(props) {
       <div className="header-userpopover-top">
         <img src={avatar}
           alt="头像"
-          className="header-userpopover-avatar"/>
+          className="header-userpopover-avatar" />
         <div className="header-userpopover-info">
           <div>昵称: <span>{account || nickname}</span></div>
           <div>介绍: <span>{headline || '空空如也'}</span></div>

@@ -6,7 +6,8 @@
 }
 
 .Article_Preview_Wrapper {
-  width: calc(100% - 460px);
+  /* width: calc(100% - 460px); */
+  width: 100%;
   height: calc(100vh - 58px);
   flex-shrink: 0;
   background: #ffffff;

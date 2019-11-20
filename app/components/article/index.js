@@ -9,11 +9,10 @@ import './index.css';
 
 async function previewMarkdownToContainer(onload = console.log) {
   const docId = window.location.pathname.split('/').filter(n => n)[1];
-  const [error, data] = await axiosInstance.get(`doc/detail?doc_id=${docId}`);
+  const [error, data] = await axiosInstance.get(`docs?docId=${docId}&type=detail`);
   // TODO 区分当前文档的作者，如果是作者本人显示草稿内容，非本人显示真实文本
-  const markdown = getIn(data, ['markdown'], '');
-  if (!getIn(data, ['doc_id'])) {
-    // TODO 报错如何处理
+  const markdown = getIn(data, [0, 'markdown'], '');
+  if (!getIn(data, [0, 'doc_id'])) {
     console.log('[获取文档信息失败]', error, data);
     return;
   }
@@ -28,7 +27,7 @@ async function previewMarkdownToContainer(onload = console.log) {
     previewCodeHighlight: true,
     onload: () => {
       editor.previewing();
-      onload(editor, data);
+      onload(editor, data[0]);
     }
   });
   return editor;
@@ -62,7 +61,7 @@ export default function Article() {
       <div className="Article_Preview_Wrapper">
         <h1>{docInfo.title}</h1>
         <article id="editormd"></article>
-        <FooterMeta />
+        <FooterMeta docInfo={docInfo} />
       </div>
       <ArticleCatalog />
     </div>

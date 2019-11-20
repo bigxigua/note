@@ -42,9 +42,10 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
 export default function ArticleCatalog({ dynamic = false }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
   const { editor } = useContext(editorContext);
+  const d = { getMarkdown: () => { } };
   useEffect(() => {
     createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx });
-  }, [editor]);
+  }, [(editor || d).getMarkdown()]);
   if (!editor) {
     return null;
   }

@@ -1,27 +1,18 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
-// import { INTRODUCE_MARKDOWN } from '@config/index';
-import axiosInstance from '@util/axiosInstance';
-import {
-  debunce,
-  getIn
-} from '@util/util.js';
+import { debunce } from '@util/util';
+import useSaveContent from '@hooks/use-save-content';
 import './index.css';
 
 /**
  *  初始化编辑器
  */
-async function previewMarkdownToContainer(onload = console.log, onchange = console.log) {
-  const docId = window.location.pathname.split('/').filter(n => n)[1];
-  const [error, data] = await axiosInstance.get(`doc/detail?doc_id=${docId}`);
-  // TODO 区分当前文档的作者，如果是作者本人显示草稿内容，非本人显示真实文本
-  const markdown = getIn(data, ['markdown'], '');
-  if (!getIn(data, ['doc_id'])) {
-    // TODO 报错如何处理
-    console.log('[获取文档信息失败]', error, data);
-    return;
-  }
+async function previewMarkdownToContainer({
+  docInfo: { markdown },
+  onchange,
+  onload
+}) {
   const editor = window.editormd('editormd_edit', {
     toolbar: true,
     path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
@@ -42,12 +33,11 @@ async function previewMarkdownToContainer(onload = console.log, onchange = conso
     onchange(arguments[0]);
   }).bind(this);
   editor.settings.onload = () => {
-    onload(editor, data);
+    onload(editor);
     editor.cm.on('change', () => {
       debunceEditorChange(editor);
     });
   };
-  return editor;
 }
 /**
  *  鼠标hover编辑器上的图标，给予文字提示
@@ -70,30 +60,55 @@ function addToolTipForEditorIcon() {
   }
 }
 
-export default function Editormd() {
+export default function Editormd({ docInfo }) {
   const { updateEditorInfo } = useContext(editorContext);
-  function insertTitleInput (doc) {
+  const update = useSaveContent({});
+  const editorArea = useRef(null);
+  function insertTitleInput(doc) {
     const $CodeMirror = $('.CodeMirror');
     const titleDom =
-    '<div class="CodeMirror_title flex">' +
-    '<div class="CodeMirror_titlle_left flex"><img src="/images/title.png" alt="标题" /></div>' +
-    `<input value='${doc.title}' />` +
-    '</div>';
+      '<div class="CodeMirror_title flex">' +
+      '<div class="CodeMirror_titlle_left flex"><img src="/images/title.png" alt="标题" /></div>' +
+      `<input value='${doc.title}' />` +
+      '</div>';
     if ($CodeMirror.length > 0) {
       $(titleDom).insertBefore($($('.CodeMirror').children()[0]));
     }
   }
+  function interceptKeyUp(editor) {
+    document.onkeydown = function (e) {
+      const keyCode = e.keyCode || e.which || e.charCode;
+      const ctrlKey = e.ctrlKey || e.metaKey;
+      // TODO ctrl+S保存 ctrl+Q 预览
+      if (ctrlKey && keyCode === 83) {
+        e.preventDefault();
+        update(editor);
+        return false;
+      }
+    };
+  }
   useEffect(() => {
-    previewMarkdownToContainer((e, doc) => {
-      addToolTipForEditorIcon();
-      insertTitleInput(doc);
-      updateEditorInfo(e);
-    }, (e) => { updateEditorInfo(e); });
-  }, []);
+    if (!docInfo) {
+      return;
+    }
+    previewMarkdownToContainer({
+      docInfo,
+      onload: (e) => {
+        addToolTipForEditorIcon();
+        insertTitleInput(docInfo);
+        updateEditorInfo(e);
+        interceptKeyUp(e);
+      },
+      onchange: (e) => {
+        updateEditorInfo(e);
+      }
+    });
+  }, [docInfo]);
   return (
     <div className="Editormd_Wrapper flex">
       <div className="Editormd">
-        <div id="editormd_edit"></div>
+        <div id="editormd_edit"
+          ref={editorArea}></div>
       </div>
       <ArticleCatalog
         dynamic={true} />

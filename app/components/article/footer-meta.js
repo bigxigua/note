@@ -1,24 +1,29 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import Icon from '@common/icon';
+import userContext from '@context/user/userContext';
+import { formatTimeStamp } from '@util/util';
 
-export default function FooterMeta() {
+export default function FooterMeta({
+  docInfo: { updated_at_timestamp }
+}) {
+  const { userInfo } = useContext(userContext);
   return (
     <div className="Footer_Meta">
       <div className="Footer_Meta_Item">
         <Icon type="usergroup-delete" />
-        <span>陶宝中</span>
+        <span>{userInfo.account || userInfo.nickname}</span>
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="clock-circle" />
-        <span>2019-10-11 12:58</span>
+        <span>{formatTimeStamp(updated_at_timestamp)}</span>
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="read" />
-        <span>1000</span>
+        <span>0</span>
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="message" />
-        <span>10</span>
+        <span>0</span>
       </div>
     </div>
   );

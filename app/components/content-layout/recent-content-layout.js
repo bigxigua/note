@@ -19,7 +19,6 @@ export default function RecentContentLayout() {
     return (
       <Fragment>
         <Empty />
-        <div className="Recent_Content_Empty">暂无数据</div>
       </Fragment>
     );
   }

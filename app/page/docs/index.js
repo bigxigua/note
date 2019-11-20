@@ -4,6 +4,7 @@ import SiderBarLayout from '@components/sider-bar/index';
 import TableHeader from '@components/table-header';
 import Footer from '@components/footer';
 import Table from '@common/table';
+import Empty from '@common/empty';
 import axiosInstance from '@util/axiosInstance';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -64,11 +65,13 @@ export default function Space() {
         <SiderBarLayout />
         <div className="Space_Content">
           <TableHeader onSomeThingClick={onTypeChange} />
-          <Table
-            dataSourceKey={'id'}
-            className="Space_Table"
-            columns={columns}
-            dataSource={dataSource} />
+          {dataSource.length === 0
+            ? < Empty style={{ borderTop: 'none' }} />
+            : <Table
+              dataSourceKey={'id'}
+              className="Space_Table"
+              columns={columns}
+              dataSource={dataSource} />}
         </div>
       </div>
       <Footer />
