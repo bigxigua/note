@@ -13,7 +13,7 @@ module.exports = {
   devtool: isEnvProduction ? 'source-map' : 'cheap-module-source-map',
   publicPath,
   publicUrl: isEnvProduction ? publicPath.slice(0, -1) : '',
-  appIndexJs: resolveApp('App.jsx'), // 入口文件路径
+  appIndexJs: resolveApp('index.jsx'), // 入口文件路径
   appBuildPath: resolveApp('dist'), // 打包文件路径
   appNodeModules: resolveApp('node_modules'),
   appSrc: resolveApp(''),
