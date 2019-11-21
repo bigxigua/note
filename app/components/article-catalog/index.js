@@ -46,7 +46,10 @@ export default function ArticleCatalog({ dynamic = false }) {
   useEffect(() => {
     createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx });
   }, [(editor || d).getMarkdown()]);
-  if (!editor) {
+  if (!editor || !catalogsJsx || catalogsJsx.length === 0) {
+    if ($('.Article_Preview_Wrapper').length > 0 && catalogsJsx && catalogsJsx.length === 0) {
+      $('.Article_Preview_Wrapper').addClass('Article_Preview_Wrapper_Big');
+    }
     return null;
   }
   return (

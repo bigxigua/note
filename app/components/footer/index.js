@@ -1,9 +1,12 @@
 import React from 'react';
 import './index.css';
 
-export default function Footer() {
+export default function Footer({
+  style = {}
+}) {
   return (
-    <div className="Footer_Wrapper flex">
+    <div className="Footer_Wrapper flex"
+      style={style}>
       <div className="flex Footer_Wrapper_Tip">
         <img src="https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg" />
         <h4>一日一记</h4>

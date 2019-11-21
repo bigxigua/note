@@ -1,6 +1,7 @@
 .Footer_Wrapper{
   width: 100%;
-  padding: 10px;
+  padding: 10px 0 20px 0;
+  position: relative;
 }
 .Footer_Wrapper_Tip{
   justify-content: center;

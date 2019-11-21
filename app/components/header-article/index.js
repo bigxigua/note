@@ -47,7 +47,7 @@ export default function ArticleHeader({
             className="Article_Header_favicon"
             alt="" />
           <Link className="Article_Header_title ellipsis"
-            to="/">一日一记&nbsp; / &nbsp;{docInfo.space.name}</Link>
+            to="/">一日一记&nbsp; > &nbsp;{docInfo.space.name} > {docInfo.title}</Link>
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>保存于 {formatTimeStamp(new Date())}</span>)}

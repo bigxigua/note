@@ -1,8 +1,8 @@
 import React from 'react';
-import Header from '../../components/header/header.js';
-import SiderBarLayout from '../../components/sider-bar/index.js';
-import ContentLayout from '../../components/content-layout/index.js';
-import RightPanelLayout from '../../components/right-panel-layout/index.js';
+import Header from '@components/header/header.js';
+import SiderBarLayout from '@components/sider-bar';
+import ContentLayout from '@components/content-layout';
+import RightPanelLayout from '@components/right-panel-layout';
 import './index.css';
 
 export default function Index() {
