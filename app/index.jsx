@@ -6,7 +6,7 @@ import EditorState from '@context/editor/editorState';
 import VerifiRoute from '@components/verifi-route';
 import Index from '@page/index';
 import Article from '@page/article';
-import Editor from '@page/editor/editor.js';
+import Editor from '@page/editor';
 import Login from '@page/login';
 import New from '@page/new';
 import Space from '@page/space';
