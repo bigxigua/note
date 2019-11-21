@@ -3,7 +3,7 @@ import ArticleHeader from '@components/header-article';
 import Editormd from '@components/editormd';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
-import './index.css';
+import './editor.css';
 
 export default function Editor() {
   const message = useMessage();

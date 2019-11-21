@@ -3,7 +3,7 @@ import Header from '@components/header/header.js';
 import SiderBarLayout from '@components/sider-bar';
 import ContentLayout from '@components/content-layout';
 import RightPanelLayout from '@components/right-panel-layout';
-import './index.css';
+import './1.css';
 
 export default function Index() {
   return (
