@@ -70,7 +70,7 @@ export const EDITOR_THEME = [
 export const FAV_ICON = 'https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg';
 
 export const ENV = process.env.NODE_ENV;
-export const DOMAIN = ENV === 'development' ? 'http://127.0.0.1:8080/' : 'http://45.76.98.174:8080/';
+export const DOMAIN = ENV === 'development' ? 'http://127.0.0.1:8080/' : 'http://139.196.84.53:8080/';
 
 // 空间类型对应ICON
 export const SPACE_TYPE_ICON = {

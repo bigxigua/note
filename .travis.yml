@@ -18,7 +18,7 @@ install:
   - echo "install running..."
   # - npm install
 before_script:
-  # - ssh root@45.76.98.174
+  # - ssh root@139.196.84.53
   - echo "before_install running..."
 script:
   - echo "script running..."
@@ -34,4 +34,4 @@ env:
  global:
    # 我将其添加到了travis-ci的环境变量中1
    #- GH_REF: github.com/yimogit/metools.git 
-# scp -r ./public/* root@45.76.98.174:/root/workspace
+# scp -r ./public/* root@139.196.84.53:/root/workspace
