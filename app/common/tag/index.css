@@ -9,6 +9,9 @@
   border-radius: 4px;
   cursor: default;
   opacity: 1;
+  display: inline-flex;
+  align-items: center;
+  font-weight: 600;
 }
 
 .Tag:hover {

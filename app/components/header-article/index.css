@@ -34,10 +34,26 @@
 .Article_Header_title{
     display: block;
     margin-left: 10px;
-    /* max-width: 180px; */
+    height: 100%;
+}
+.Article_Header_title>div{
+    margin-left: 10px;
+    flex-shrink: 0;
+    background: url(/images/title-2.png) no-repeat 0 0;
+    width: 344px;
+    height: 100%;
+    background-size: cover;
+    -webkit-transform: scale(0.6);
+    transform: scale(0.6);
+    position: relative;
+    left: -74px;
+}
+.Article_Header_title>span{
     font-size: 14px;
     font-weight: 700;
     color: #262626;
+    position: relative;
+    left: -134px;
 }
 .Article_Header_Edit_Btn{
     border-radius: 4px;

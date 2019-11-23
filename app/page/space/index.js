@@ -6,7 +6,7 @@ import Footer from '@components/footer';
 import Table from '@common/table';
 import Tag from '@common/tag';
 import Empty from '@common/empty';
-import Button from '@common/button';
+// import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
@@ -14,29 +14,23 @@ export default function Docs() {
   const [dataSource, setDataSource] = useState([]);
   const columns = [{
     title: '名称',
-    key: 'name',
-    dataIndex: 'name',
-    render: text => <a>{text}</a>
+    key: 'name'
   }, {
     title: '类型',
     key: 'scene',
-    dataIndex: 'scene',
-    render: text => {
+    render: info => {
       return (
         <div className="Space_Table_Tags flex">
-          <Tag>{text}</Tag>
+          <Tag>{info.scene}</Tag>
         </div>
       );
     }
   }, {
     title: '简介',
-    key: 'description',
-    dataIndex: 'description',
-    render: text => <a>{text}</a>
+    key: 'description'
   }, {
     title: '操作',
     key: 'action',
-    dataIndex: 'action',
     render: () => {
       return '管理';
     }

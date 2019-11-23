@@ -20,7 +20,8 @@ export default function RecentContent({
     <div className="Recent_Content"
       onClick={() => { onJumpToArticle('article'); }}>
       <div className="Recent_Content_Left">
-        <Icon type="file-text" />
+        <img src="/images/documentation.png" />
+        {/* <Icon type="file-text" /> */}
         <div className="Recent_Content_Left_Info">
           <p>{title}</p>
           <span>{`${user.name || user.account} / ${space.name}`}</span>

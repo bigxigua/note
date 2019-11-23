@@ -14,25 +14,31 @@ export default function useSaveContent({
     const markdown = editor.getMarkdown();
     const html = editor.getHtmlFromMarkDown(markdown);
     const title = $('.CodeMirror_title>input').val();
-    const publishParams = !publish ? {} : {
-      html,
-      title,
-      markdown
-    };
+    const publishParams = !publish
+      ? {
+        html_draft: html,
+        title_draft: title,
+        markdown_draft: markdown
+      } : {
+        html,
+        title,
+        markdown,
+        html_draft: '',
+        title_draft: '',
+        markdown_draft: ''
+      };
     updateSaveStatus(0);
     const [error, data] = await axiosInstance.post('doc/update', {
       doc_id: docId,
-      html_draft: html,
-      title_draft: title,
-      markdown_draft: markdown,
       ...publishParams
     });
     if (!error && data && data.STATUS === 'OK') {
       updateSaveStatus(1);
-      return;
+      return [null, data];
     }
     console.log('更新文档内容失败', error);
     updateSaveStatus(2);
+    return [error || {}, null];
   }
   return update;
 }

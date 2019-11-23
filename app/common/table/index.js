@@ -21,9 +21,8 @@ export default function Table(props) {
     return (
       <tr key={n[dataSourceKey]}>
         {columns.map(k => {
-          return <td key={k.key}
-            data-a={k.dataIndex}>
-            {k.render ? k.render(n[k.key]) : n[k.key]}
+          return <td key={k.key}>
+            {k.render ? k.render(n) : n[k.key]}
           </td>;
         })}
       </tr>

@@ -61,3 +61,30 @@
   padding-bottom: 16px;
   border-bottom: 1px solid #e8e8e8;
 }
+.Article_DraftTips_Warpper{
+  width: 100%;
+  padding: 16px 20px;
+  margin-bottom: 24px;
+}
+.Article_DraftTips{
+  background-color: #fafafa;
+  border-radius: 4px;
+  padding: 16px 20px;
+}
+.Article_DraftTips>img{
+  width: 40px;
+  margin-right: 12px;
+}
+.Article_DraftTips_P{
+  color: #595959;
+  font-size: 14px;
+}
+.Article_DraftTips_P>.Tag{
+  cursor: pointer;
+  margin-right: 14px;
+}
+.Article_DraftTips>div>p>span{
+font-size: 12px;
+font-weight: 600;
+padding: 0 4px;
+}

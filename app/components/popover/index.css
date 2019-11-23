@@ -1,23 +1,27 @@
 .Popover_Wrapper{
-  position: relative;
   height: 100%;
 }
-.Popover_Wrapper:hover>.Popover_Wrapper_Content{
+.Popover_Wrapper:hover>.Popover_Wrapper_Box>.Popover_Wrapper_Content{
   display: block;
   animation-name: zoomIn;
   animation-duration: 200ms;
+  z-index: 10;
+}
+.Popover_Wrapper_Box{
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
 }
 .Popover_Wrapper_Content{
   display: none;
   position: absolute;
-  right: 0;
-  top: 100%;
   background: #ffffff;
   border-radius: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
   padding: 8px 0;
   border: none;
-  margin-top: -4px;
+  z-index: 10;
 }
 .Popover_Wrapper_Content::before {
   content: '';

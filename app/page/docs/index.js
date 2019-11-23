@@ -3,37 +3,74 @@ import Header from '@components/header/header';
 import SiderBarLayout from '@components/sider-bar/index';
 import TableHeader from '@components/table-header';
 import Footer from '@components/footer';
+import Popover from '@components/popover';
 import Table from '@common/table';
 import Empty from '@common/empty';
+import Tag from '@common/tag';
+import List from '@common/list';
+import Icon from '@common/icon';
+import Modal from '@common/modal';
 import axiosInstance from '@util/axiosInstance';
 import { Link } from 'react-router-dom';
+import { formatTimeStamp } from '@util/util';
 import './index.css';
 
+function renderOperation(onOperationClick, docInfo) {
+  return (
+    <List className="Docs_operations"
+      onTap={onOperationClick}
+      list={[{
+        text: '删除',
+        key: 'delete',
+        docInfo
+      }, {
+        text: '复制',
+        key: 'copy',
+        docInfo
+      }, {
+        text: '使用该模版创建',
+        key: 'template',
+        docInfo
+      }]} />);
+}
 export default function Space() {
   const [dataSource, setDataSource] = useState([]);
+  const [visible, setVisible] = useState(false);
+  const [docInfo, setDocInfo] = useState(false);
   const columns = [{
     title: '名称',
-    key: 'title',
-    dataIndex: 'title'
+    key: 'title'
   }, {
     title: '状态',
     key: 'status',
-    dataIndex: 'status'
+    render: (info) => {
+      if (!info.markdown_draft && !info.title_draft) {
+        return <Tag color="#25b864">已更新</Tag>;
+      }
+      return <Tag>未更新</Tag>;
+    }
   }, {
     title: '归属',
     key: 'space',
-    dataIndex: 'space',
-    render: space => space.name
+    render: (info) => info.space.name
   }, {
     title: '最后编辑',
     key: 'updated_at',
-    dataIndex: 'updated_at'
+    render: (info) => {
+      return formatTimeStamp(info.updated_at);
+    }
   }, {
     title: '编辑',
     key: 'url',
-    dataIndex: 'url',
-    render: url => {
-      return <Link to={'/editor' + url.split('article')[1]}>编辑</Link>;
+    dataIndex: 'CUSTOM',
+    render: ({ url, ...a }) => {
+      return <div className="flex">
+        <Link to={'/editor' + url.split('article')[1]}>编辑</Link>
+        <Popover content={renderOperation(onOperationClick, a)}>
+          <Icon type="ellipsis"
+            className="Space_Operation_Icon" />
+        </Popover>
+      </div>;
     }
   }];
   async function fetchDocs(type = 'ALL', q = '') {
@@ -44,8 +81,31 @@ export default function Space() {
       console.log('[获取文档列表失败] ', error);
     }
   }
+  async function deleteDoc() {
+    const docId = docInfo.doc_id;
+    const [error, data] = await axiosInstance.post('/doc/update', {
+      status: '0',
+      doc_id: docId
+    });
+    if (!error && data && data.STATUS === 'OK') {
+      setDataSource(dataSource.map(n => {
+        if (n.doc_id === docId) {
+          n.status = '0';
+        }
+        return n;
+      }));
+    } else {
+      console.log('[获取文档列表失败] ', error);
+    }
+  }
+  function onOperationClick(e) {
+    const { key, docInfo } = e;
+    if (key === 'delete') {
+      setVisible(true);
+      setDocInfo(docInfo);
+    }
+  }
   function onTypeChange(type, info) {
-    console.log(type, info);
     // 切换最近编辑/我创建的
     if (type === 'TYPE_CHANGE') {
       fetchDocs(info.code);
@@ -55,9 +115,19 @@ export default function Space() {
       fetchDocs(info.code, info.q);
     }
   }
+  function filterDataSource(d) {
+    return d.filter(n => n.status !== '0');
+  }
   useEffect(() => {
     fetchDocs();
   }, []);
+  const onCancelModal = () => {
+    setVisible(false);
+  };
+  const onConfirmModal = () => {
+    deleteDoc();
+    setVisible(false);
+  };
   return (
     <div className="Container">
       <Header />
@@ -71,10 +141,19 @@ export default function Space() {
               dataSourceKey={'id'}
               className="Space_Table"
               columns={columns}
-              dataSource={dataSource} />}
+              dataSource={filterDataSource(dataSource)} />}
         </div>
       </div>
       <Footer />
+      <Modal
+        subTitle="确认移动该文档到回收站？"
+        title="移到回收站"
+        onCancel={onCancelModal}
+        onConfirm={onConfirmModal}
+        confirmText="确认删除"
+        visible={visible} >
+        移动到回收站后，可在左下角【回收站】进行恢复
+      </Modal>
     </div>
   );
 }

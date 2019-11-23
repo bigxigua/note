@@ -73,8 +73,7 @@ export function getIn(data, array, initial = null) {
 };
 
 // 解析url
-export function parseUrlQuery(url) {
-  url = !url ? window.location.href : url;
+export function parseUrlQuery(url = window.location.href) {
   const search = url.substring(url.lastIndexOf('?') + 1);
   const reg = /([^?&=]+)=([^?=&]*)/g;
   const hash = {};
@@ -87,4 +86,19 @@ export function parseUrlQuery(url) {
     return match;
   });
   return hash;
+}
+
+// 修改url search
+export function coverReplaceUrlSearch({ url = window.location.href, k, v }) {
+  const pathname = url.substring(0, url.lastIndexOf('?') + 1);
+  const temp = {
+    ...parseUrlQuery(url)
+  };
+  if (k) {
+    temp[`${k}`] = v;
+  }
+  const search = Object.keys(temp).map(n => {
+    return `${n}=${temp[n]}`;
+  }).join('&');
+  return `${pathname}${search}`;
 }

@@ -1,3 +1,22 @@
 .Space_Table{
 	width: 100%;
 }
+.Space_Operation_Icon{
+	font-size: 20px;
+	top: 5px;
+	margin-left: 4px;
+	margin-top: -5px;
+	cursor: pointer;
+	position: relative;
+}
+.Doc_operation_item{
+	white-space: nowrap;
+	padding: 0 14px
+}
+.Docs_operations{
+	box-shadow: none;
+	padding: 0;
+}
+.Docs_operations>li{
+	line-height: 34px;
+}

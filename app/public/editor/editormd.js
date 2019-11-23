@@ -335,7 +335,6 @@
          */
 
     init: function (id, options) {
-      // debugger;
       options = options || {};
 
       if (typeof id === 'object') {
@@ -396,7 +395,6 @@
         '<div class="' + classPrefix + 'container-mask" style="display:block;"></div>',
         '<div class="' + classPrefix + 'mask"></div>'
       ].join('\n');
-
       editor.append(appendElements).addClass(classPrefix + 'vertical');
 
       if (settings.theme !== '') {
@@ -1657,9 +1655,9 @@
       this.resize();
       this.registerKeyMaps();
 
-      $(window).resize(function () {
-        _this.resize();
-      });
+      // $(window).resize(function () {
+      //   _this.resize();
+      // });
 
       this.bindScrollEvent().bindChangeEvent();
 
@@ -2292,6 +2290,7 @@
          */
 
     previewing: function () {
+      // debugger;
       var _this = this;
       var editor = this.editor;
       var preview = this.preview;
