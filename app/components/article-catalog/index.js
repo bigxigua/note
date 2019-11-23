@@ -15,6 +15,7 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
         catalogs.push({
           index,
           text: $(dom).children('a').attr('name'),
+          id: $(dom).attr('id'),
           type: tagName.toLowerCase()
         });
       }
@@ -28,7 +29,8 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
       <div
         className="Catalog_item"
         key={p.index}>
-        <span className={'Catalog_item_' + p.type}>{p.text}</span>
+        <a href={`#${p.id}`}
+          className={'Catalog_item_' + p.type}>{p.text}</a>
       </div>
     );
   });

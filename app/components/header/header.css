@@ -35,11 +35,14 @@
 .Header_title{
     display: block;
     margin-left: 10px;
-    max-width: 180px;
-    font-size: 18px;
-    font-weight: 500;
-    color: #262626;
     flex-shrink: 0;
+    background: url('/images/title-1.png') no-repeat 0 0;
+    width: 200px;
+    height: 100%;
+    background-size: cover;
+    transform: scale(0.6);
+    position: relative;
+    left: -33px;
 }
 
 .Header_link_workspace{

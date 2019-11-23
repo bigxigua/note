@@ -11,7 +11,7 @@ async function previewMarkdownToContainer({
   onLoad = console.log,
   docInfo
 }) {
-  // console.log('docInfo:', docInfo);
+  $('.editormd').html('');
   const editor = window.editormd('editormd', {
     height: 'auto',
     path: '/editor/lib/',

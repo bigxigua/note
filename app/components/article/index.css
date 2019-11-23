@@ -7,7 +7,7 @@
 
 .Article_Preview_Wrapper {
   width: calc(100% - 460px);
-  height: calc(100vh - 58px);
+  height: 100vh;
   flex-shrink: 0;
   background: #ffffff;
   box-sizing: border-box;

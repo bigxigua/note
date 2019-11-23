@@ -6,8 +6,8 @@ import './index.css';
 
 export default function Index() {
   const [docInfo, setDocInfo] = useState(undefined);
+  const docId = window.location.pathname.split('/').filter(n => n)[1];
   async function fetchDocDetail() {
-    const docId = window.location.pathname.split('/').filter(n => n)[1];
     const [error, data] = await axiosInstance.get(`docs?docId=${docId}&type=detail`);
     if (error || !Array.isArray(data) || data.length === 0) {
       console.log('[获取文档信息失败]', error, data);
@@ -17,7 +17,7 @@ export default function Index() {
   }
   useEffect(() => {
     fetchDocDetail();
-  }, []);
+  }, [docId]);
   return (
     <div className="Container">
       <ArticleHeader docInfo={docInfo} />

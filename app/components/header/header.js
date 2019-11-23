@@ -34,9 +34,11 @@ export default function Header() {
         <div className="Header_left">
           <img src={FAV_ICON}
             className="Header_left_favicon"
-            alt=""/>
+            alt="" />
           <Link to="/"
-            className="Header_title ellipsis">一日一记</Link>
+            className="Header_title ellipsis">
+            {/* <img src="/images/title-1.png" /> */}
+          </Link>
           <Search />
           <Link to="/about"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
