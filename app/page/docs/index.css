@@ -4,7 +4,7 @@
 .Space_Operation_Icon{
 	font-size: 20px;
 	top: 5px;
-	margin-left: 4px;
+	margin-left: 12px;
 	margin-top: -5px;
 	cursor: pointer;
 	position: relative;
@@ -19,4 +19,8 @@
 }
 .Docs_operations>li{
 	line-height: 34px;
+}
+.Doc_Action>span{
+	cursor: pointer;
+	color: rgb(16, 142, 233);
 }

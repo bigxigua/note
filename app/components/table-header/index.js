@@ -9,18 +9,23 @@ import CreateDoc from '@components/create-doc';
 import './index.css';
 
 export default function TableHeader({
-  onSomeThingClick = () => {}
+  onSomeThingClick = () => { }
 }) {
   const isDocsPage = /^\/docs/g.test(window.location.pathname);
   const history = useHistory();
   const [types, setTypes] = useState([
-    { text: '我创建的', code: 'ALL', checked: true },
-    { text: '最近编辑的', code: 'RECENT' }]
+    { text: '所有文档', code: 'ALL', checked: true },
+    { text: '已更新的', code: 'UPDATED' },
+    { text: '未更新的', code: 'UN_UPDATED' },
+    { text: '已删除的', code: 'DELETE' }
+  ]
   );
   const [visible, setVisible] = useState(false);
-  function onListItemClick (info, index) {
+  // 切换查看的文档类型
+  function onListItemClick(info, index) {
+    console.log(info, index);
     if (!info.checked) {
-      onSomeThingClick('TYPE_CHANGE', types.filter(n => !n.checked)[0]);
+      onSomeThingClick('TYPE_CHANGE', info);
       setTypes(types.map((n, i) => {
         return {
           ...n,
@@ -29,13 +34,16 @@ export default function TableHeader({
       }));
     }
   };
+  // 确认搜索
   function onSearchEnter(value) {
     const { code } = types.filter(n => n.checked)[0];
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
   };
+  // 显示新建文档modal
   function onCreateDoc(stat) {
     setVisible(stat);
   };
+  // 新建文档/新建知识库
   function onButtonClick() {
     if (isDocsPage) {
       return onCreateDoc(true);

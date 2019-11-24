@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import ArticleHeader from '@components/header-article';
 import Editormd from '@components/editormd';
+import SiderTips from '@components/sider-tips';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import './index.css';
@@ -26,6 +27,7 @@ export default function Editor() {
       <ArticleHeader docInfo={docInfo} />
       <div className="Content_Wrapper">
         <Editormd docInfo={docInfo} />
+        <SiderTips />
       </div>
     </div>
   );

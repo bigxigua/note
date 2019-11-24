@@ -1,0 +1,34 @@
+.ShortcutKeys{
+  width: 345px;
+  height: 100vh;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  background: #ffffff;
+  box-shadow: -2px 0 8px rgba(0,0,0,.15);
+  position: fixed;
+  right: 0;
+  top: 0;
+  padding: 0 32px 10px;
+}
+.ShortcutKeys_close{
+    display: flex;
+    justify-content: flex-end;
+    padding: 14px 0 3px;
+    font-size: 18px;
+}
+.ShortcutKeys>h2{
+  font-size: 18px;
+  font-weight: 500;
+  color: #262626;
+  margin-bottom: 20px;
+}
+.ShortcutKeys_Group>h3{
+  padding: 8px 0;
+  font-weight: 700;
+  border-bottom: 1px solid #d9d9d9;
+  color: #262626;
+  font-size: 14px;
+}
+.ShortcutKeys_Group>div{
+  justify-content: space-between;
+}

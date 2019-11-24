@@ -1,0 +1,28 @@
+.SiderTips{
+  position: fixed;
+  right: 30px;
+  bottom: 25px;
+  z-index: 10;
+}
+.SiderTips_block{
+  justify-content: center;
+  flex-direction: column;
+  width: 40px;
+  height: 40px;
+  margin-top: 16px;
+  background: #fff;
+  border-radius: 40px;
+  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  cursor: pointer;
+}
+.SiderTips_block>img{
+  width: 20px;
+  position: relative;
+  top: 3px;
+}
+.SiderTips_block>span{
+  transform: scale(0.7);
+  font-weight: bold;
+  position: relative;
+  top: 2px;
+}
