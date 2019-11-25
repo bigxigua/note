@@ -5,6 +5,8 @@
   z-index: 10;
 }
 .SiderTips_block{
+  display: flex;
+  align-items: center;
   justify-content: center;
   flex-direction: column;
   width: 40px;

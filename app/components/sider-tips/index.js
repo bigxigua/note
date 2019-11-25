@@ -9,7 +9,7 @@ export default function SiderTips() {
   }
   return (
     <div className="SiderTips">
-      <div className="flex SiderTips_block"
+      <div className="SiderTips_block"
         onClick={() => { onShowKeyBoard(true); }}>
         <img src="/images/keyboard.png" />
         <span>快捷键</span>
