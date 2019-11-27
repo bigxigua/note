@@ -26,6 +26,11 @@ export default function SiderBarLayout() {
         <span>文档</span>
       </NavLink>
       <span className="SiderBar_Line"></span>
+      <Link to="/star"
+        className="SiderBar_Link">
+        <img src="/images/book.png" />
+        <span>关注</span>
+      </Link>
       <Link to="/"
         className="SiderBar_Link">
         <img src="/images/github.png" />
