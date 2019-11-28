@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useRef } from 'react';
+import { throttle } from '@util/util';
 import './index.css';
 
 export default function Popover({
@@ -10,7 +11,7 @@ export default function Popover({
   const wrapperRef = useRef(null);
   const contentRef = useRef(null);
   const childRef = useRef(null);
-  useEffect(() => {
+  function calcPosition() {
     setTimeout(() => {
       const {
         left,
@@ -18,11 +19,19 @@ export default function Popover({
         height
       } = wrapperRef.current.getBoundingClientRect();
       setStyle({
-        left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 25}px`,
+        left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 21}px`,
         top: `${top + height}px`
       });
     }, 500);
+  }
+  useEffect(() => {
+    calcPosition();
   }, []);
+  const throttleCalcPosition = throttle(calcPosition);
+  $(window).resize(function () {
+    throttleCalcPosition();
+  });
+
   // TODO resize时重新计算
   return (
     <div ref={wrapperRef}

@@ -1655,9 +1655,9 @@
       this.resize();
       this.registerKeyMaps();
 
-      // $(window).resize(function () {
-      //   _this.resize();
-      // });
+      $(window).resize(function () {
+        _this.resize();
+      });
 
       this.bindScrollEvent().bindChangeEvent();
 

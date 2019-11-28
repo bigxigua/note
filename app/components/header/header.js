@@ -32,12 +32,11 @@ export default function Header() {
     <div className="Header_Wrapper animated">
       <div className="Header_container">
         <div className="Header_left">
-          <img src={FAV_ICON}
+          {/* <img src={FAV_ICON}
             className="Header_left_favicon"
-            alt="" />
+            alt="" /> */}
           <Link to="/"
             className="Header_title ellipsis">
-            {/* <img src="/images/title-1.png" /> */}
           </Link>
           <Search />
           <Link to="/about"

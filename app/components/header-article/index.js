@@ -43,12 +43,12 @@ export default function ArticleHeader({
     <div className="Article_Header">
       <div className="Article_Header_Wrapper animated">
         <div className="Article_Header_left">
-          <img src={FAV_ICON}
+          {/* <img src={FAV_ICON}
             className="Article_Header_favicon"
-            alt="" />
+            alt="" /> */}
           <Link className="Article_Header_title flex ellipsis"
             to="/">
-            <div></div>
+            {/* <div></div> */}
             <span>&nbsp;{docInfo.space.name} > {docInfo.title}</span>
           </Link>
           <div className="Article_Header_Save">
