@@ -56,7 +56,7 @@ export default function SiderBarLayout() {
         <img src="/images/more.png" />
         <span>其他</span>
       </Link>
-      <span className="SiderBar_Line"></span>
+      {/* <span className="SiderBar_Line"></span> */}
       {/* <Link to="/recycle"
         className="SiderBar_Link">
         <img src="/images/recycling.png"

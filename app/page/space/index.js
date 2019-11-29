@@ -5,13 +5,11 @@ import TableHeader from '@components/table-header';
 import Footer from '@components/footer';
 import Table from '@common/table';
 import Tag from '@common/tag';
-import Empty from '@common/empty';
-// import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
 export default function Docs() {
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState(null);
   const columns = [{
     title: '名称',
     key: 'name'
@@ -59,13 +57,11 @@ export default function Docs() {
         <SiderBarLayout />
         <div className="Space_Content">
           <TableHeader onSomeThingClick={onSomeThingClick} />
-          {dataSource.length === 0
-            ? < Empty style={{ borderTop: 'none' }} />
-            : <Table
-              dataSourceKey={'id'}
-              className="Space_Table"
-              columns={columns}
-              dataSource={dataSource} />}
+          <Table
+            dataSourceKey={'id'}
+            className="Space_Table"
+            columns={columns}
+            dataSource={dataSource} />
         </div>
       </div>
       <Footer />

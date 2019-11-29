@@ -3,7 +3,7 @@ export function throttle(fn, wait = 2000, immediately = false) {
   let latestTime = Date.now();
   let _immediately_ = immediately;
   return function () {
-    if (!_immediately_) {
+    if (_immediately_) {
       fn.apply(this, arguments);
       _immediately_ = true;
     } else {

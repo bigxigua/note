@@ -19,6 +19,7 @@ export default function Login() {
     accountErrorMsg: '',
     passwordErrorMsg: ''
   });
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { updateUserInfo } = useContext(userContext);
   // 1. 空值提示
@@ -49,7 +50,9 @@ export default function Login() {
     if (verifyNotPass) {
       return;
     }
+    setLoading(true);
     const [error, data] = await axiosInstance.post(path, state);
+    setLoading(false);
     if (!error && getIn(data, ['uuid'])) {
       updateUserInfo(data);
       // 登陆页回跳原来页面，注册页回跳首页
@@ -103,6 +106,7 @@ export default function Login() {
       <Button
         type="primary"
         className="Login_submit"
+        loading={loading}
         onClick={onSubmit}>
         {isLoginPage ? '立即登陆' : '立即注册'}
       </Button>

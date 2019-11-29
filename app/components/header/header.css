@@ -34,15 +34,14 @@
 }
 .Header_title{
     display: block;
-    margin-left: 10px;
+    margin-left: 22px;
     flex-shrink: 0;
-    background: url('/images/title-1.png') no-repeat 0 0;
-    width: 200px;
-    height: 100%;
-    background-size: cover;
-    transform: scale(0.6);
+    background: url('/images/logo.jpeg') no-repeat 0 0;
+    width: 97px;
+    height: 84%;
+    background-size: contain;
     position: relative;
-    left: -33px;
+    margin-right: 75px;
 }
 
 .Header_link_workspace{

@@ -32,3 +32,17 @@
 .Table_Tbody>tr:hover>td {
   background: #e9f7ec;
 }
+.Table_loading{
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+  border-top: none;
+  font-size: 20px;
+}
+.Table_loading>.Icon{
+  font-size: 38px;
+  color: #e8e8e8;
+}
