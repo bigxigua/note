@@ -6,7 +6,7 @@ import { getIn } from '../../util/util';
 
 export default function VerifiRoute(props) {
   const [state, setState] = useState(null);
-  const { component: Component } = props;
+  const { component: Component, layout: Layout } = props;
   const { pathname } = useLocation();
   const { userInfo, updateUserInfo } = useContext(userContext);
   const checkAuthorization = async () => {
@@ -49,6 +49,11 @@ export default function VerifiRoute(props) {
       pathname: '/login',
       search: `?returnUrl=${state.currentLocation}`
     }} />;
+  }
+  if (Layout) {
+    return <Layout>
+      <Component />
+    </Layout>;
   }
   return <Component />;
 }

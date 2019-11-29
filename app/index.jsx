@@ -12,16 +12,20 @@ import New from '@page/new';
 import Space from '@page/space';
 import Docs from '@page/docs';
 import Recycle from '@page/recycle';
+import Star from '@page/star';
 import './index.css';
 import '@public/css/anima.css';
+import BasicLayout from '@page/layout/BasicLayout';
+
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
 // 按需加载
 
-const PageWrapper = (Compoment, pathname) => {
+const PageWrapper = (Compoment, pathname, layout) => {
   return () => {
     return <VerifiRoute
       component={Compoment}
-      pathname={pathname} />;
+      pathname={pathname}
+      layout={layout} />;
   };
 };
 class App extends React.Component {
@@ -65,6 +69,11 @@ class App extends React.Component {
             <Route
               path="/recycle/"
               component={PageWrapper(Recycle, '/recycle/')}
+            />
+            <Route
+              exact
+              path="/star"
+              component={PageWrapper(Star, '/star', BasicLayout)}
             />
             <Route
               exact
