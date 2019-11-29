@@ -4,11 +4,13 @@ import './index.css';
 
 export default function Button(props) {
   const {
-    icon,
+    icon, // 按钮图标
     children,
-    type = 'default',
+    loading = false, // 是否显示loading
+    disabled = false, // 是否禁用
+    type = 'default', // 类型
     className = '',
-    onClick = console.log
+    onClick = () => {}
   } = props;
   const typeClassName = {
     default: 'Button_default',
@@ -16,11 +18,19 @@ export default function Button(props) {
     dashed: 'Button_dash',
     danger: 'Button_danger'
   };
+  const loadingClassName = loading ? 'Button_loading' : '';
+  const onButtonClick = () => {
+    if (!loading && !disabled) {
+      onClick();
+    }
+  };
   return (
     <button
-      onClick={onClick}
-      className={`Button ${className} ${typeClassName[type]}`}>
+      onClick={onButtonClick}
+      className={`Button flex ${className} ${typeClassName[type]} ${loadingClassName}`}>
       {icon && <Icon type={icon} />}
+      {loading && <Icon className="Button_loading_Icon"
+        type={'loading'} />}
       {children}
     </button>
   );

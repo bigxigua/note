@@ -12,7 +12,6 @@ export default function Index() {
       <div className="Content_Wrapper_Index">
         <SiderBarLayout />
         <ContentLayout />
-        {/* 右侧边栏 */}
         <RightPanelLayout />
       </div>
     </div>

@@ -23,7 +23,6 @@ export default function TableHeader({
   const [visible, setVisible] = useState(false);
   // 切换查看的文档类型
   function onListItemClick(info, index) {
-    console.log(info, index);
     if (!info.checked) {
       onSomeThingClick('TYPE_CHANGE', info);
       setTypes(types.map((n, i) => {
@@ -37,6 +36,9 @@ export default function TableHeader({
   // 确认搜索
   function onSearchEnter(value) {
     const { code } = types.filter(n => n.checked)[0];
+    if (/^\s+$/.test(value)) {
+      return;
+    }
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
   };
   // 显示新建文档modal

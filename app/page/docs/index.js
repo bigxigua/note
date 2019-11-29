@@ -5,7 +5,6 @@ import TableHeader from '@components/table-header';
 import Footer from '@components/footer';
 import Popover from '@components/popover';
 import Table from '@common/table';
-import Empty from '@common/empty';
 import Tag from '@common/tag';
 import List from '@common/list';
 import Icon from '@common/icon';
@@ -74,8 +73,12 @@ function renderRightJsx(info, handle, h, deleteDoc) {
 }
 export default function Space() {
   const [dataSource, setDataSource] = useState([]);
+  // 显示删除文档modal
   const [visible, setVisible] = useState(false);
+  // 文档信息
   const [docInfo, setDocInfo] = useState(false);
+  // 分页参数
+  const [pageNo, setPageNo] = useState(1);
   const history = useHistory();
   const columns = [{
     title: '名称',
@@ -110,12 +113,13 @@ export default function Space() {
     }
   }];
   // 获取文档列表
-  async function fetchDocs(type = 'ALL', q = '') {
-    const [error, data] = await axiosInstance.get(`docs?q=${q}&type=${type.toLocaleLowerCase()}`);
+  async function fetchDocs({ type = 'ALL', q = '', page = '' } = {}) {
+    const [error, data] = await axiosInstance.get(`docs?q=${q}&type=${type.toLocaleLowerCase()}${page}`);
     if (!error && data && Array.isArray(data) && data.length > 0) {
       setDataSource(data);
     } else {
       console.log('[获取文档列表失败] ', error);
+      setDataSource([]);
     }
   }
   // 删除文档
@@ -129,14 +133,15 @@ export default function Space() {
       params.u = 'doc/delete';
       params.p = { doc_id: docId };
     }
+    // TODO 删除加动效
     const [error, data] = await axiosInstance.post(params.u, params.p);
     if (!error && data && data.STATUS === 'OK') {
       setDataSource(dataSource.map(n => {
         if (n.doc_id === docId) {
-          n.status = '0';
+          type === 'thorough' ? (n = null) : (n.status = '0');
         }
         return n;
-      }));
+      }).filter(n => n));
     } else {
       message.error({ content: '系统开小差啦，请稍后重试' });
       console.log('[获取文档列表失败] ', error);
@@ -149,19 +154,15 @@ export default function Space() {
       setDocInfo(docInfo);
     }
   }
-  function onTypeChange(type, info) {
+  function onTypeChange(type, { code, q }) {
     // 切换最近编辑/我创建的
     if (type === 'TYPE_CHANGE') {
-      fetchDocs(info.code);
+      fetchDocs({ type: code });
     }
     // 搜索
     if (type === 'SEARCH_CHANGE') {
-      fetchDocs(info.code, info.q);
+      fetchDocs({ type: code, q });
     }
-  }
-  function filterDataSource(d) {
-    return d;
-    // return d.filter(n => n.status !== '0');
   }
   useEffect(() => {
     fetchDocs();
@@ -173,6 +174,12 @@ export default function Space() {
     deleteDoc();
     setVisible(false);
   };
+  const pagingDataSource = () => {
+    return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
+  };
+  const onPaginationChange = (page) => {
+    setPageNo(page);
+  };
   return (
     <div className="Container">
       <Header />
@@ -180,13 +187,12 @@ export default function Space() {
         <SiderBarLayout />
         <div className="Space_Content">
           <TableHeader onSomeThingClick={onTypeChange} />
-          {dataSource.length === 0
-            ? < Empty style={{ borderTop: 'none' }} />
-            : <Table
-              dataSourceKey={'id'}
-              className="Space_Table"
-              columns={columns}
-              dataSource={filterDataSource(dataSource)} />}
+          <Table
+            dataSourceKey={'id'}
+            className="Space_Table"
+            columns={columns}
+            pagination={{ total: Math.ceil(dataSource.length / 10), onChange: onPaginationChange }}
+            dataSource={pagingDataSource()} />
         </div>
       </div>
       <Footer />
