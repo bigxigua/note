@@ -1,6 +1,7 @@
-import React, { useEffect, useState, useRef, useCallback } from 'react';
-import { debunce } from '@util/util';
+import React, { useEffect, useState, useRef } from 'react';
 import './index.css';
+
+const SHOW_CLASSNAME = 'Popover_Wrapper_Content_show';
 
 export default function Popover({
   className = '',
@@ -12,36 +13,28 @@ export default function Popover({
   const contentRef = useRef(null);
   const childRef = useRef(null);
   function calcPosition() {
-    console.log('-----');
     if (!wrapperRef.current) {
       return;
     }
-    setTimeout(() => {
-      const {
-        left,
-        top,
-        height
-      } = wrapperRef.current.getBoundingClientRect();
-      setStyle({
-        left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 21}px`,
-        top: `${top + height}px`
-      });
-      // console.log({
-      //   left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 21}px`,
-      //   top: `${top + height}px`
-      // });
-    }, 500);
+    const {
+      left,
+      top,
+      height
+    } = wrapperRef.current.getBoundingClientRect();
+    setStyle({
+      left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 21}px`,
+      top: `${top + height}px`
+    });
   }
   useEffect(() => {
     calcPosition();
   }, []);
-  console.log('--111---');
-  const throttleCalcPosition = useCallback(debunce(calcPosition));
-  // $(window).resize(function () {
-  //   throttleCalcPosition();
-  // });
-  $('#root').scroll(function () {
-    throttleCalcPosition();
+  $(wrapperRef.current).mouseenter(() => {
+    $(contentRef.current).addClass(SHOW_CLASSNAME);
+    calcPosition();
+  });
+  $(wrapperRef.current).mouseleave(() => {
+    $(contentRef.current).removeClass(SHOW_CLASSNAME);
   });
   return (
     <div ref={wrapperRef}

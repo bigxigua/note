@@ -46,3 +46,7 @@
   font-size: 38px;
   color: #e8e8e8;
 }
+.Table_Actions{
+  color: rgb(16, 142, 233);
+  cursor: pointer;
+}

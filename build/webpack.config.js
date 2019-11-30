@@ -122,7 +122,8 @@ const webpackConfig = {
       '@config': path.resolve(__dirname, '../app/config/'),
       '@public': path.resolve(__dirname, '../app/public/'),
       '@util': path.resolve(__dirname, '../app/util/'),
-      '@page': path.resolve(__dirname, '../app/page/')
+      '@page': path.resolve(__dirname, '../app/page/'),
+      '@layout': path.resolve(__dirname, '../app/layout/')
     },
     // 告诉webpack在解析模块时应该搜索哪些目录。
     modules: ['node_modules', appNodeModules],

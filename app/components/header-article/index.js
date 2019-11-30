@@ -1,13 +1,14 @@
 import React, { useContext } from 'react';
-import { FAV_ICON } from '@config/index';
 import Icon from '@common/icon';
 import Button from '@common/button';
+import Breadcrumb from '@common/breadcrumb';
 import Popover from '@components/popover';
 import { Link, useHistory } from 'react-router-dom';
 import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
-import { formatTimeStamp, parseUrlQuery } from '@util/util';
+import { formatTimeStamp, parseUrlQuery, getIn } from '@util/util';
 import './index.css';
+
 const content = (
   <div className="Article_Header_Fun">
     <p>翻译为英文</p>
@@ -19,8 +20,9 @@ const content = (
   </div>
 );
 export default function ArticleHeader({
-  docInfo = { space: {} }
+  docInfo = {}
 }) {
+  console.log('docInfo:', docInfo);
   const update = useSaveContent({ publish: true });
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
@@ -28,29 +30,33 @@ export default function ArticleHeader({
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   const search = history.location.search;
+  const { spaceId = '' } = parseUrlQuery();
   function jumpToEditor() {
     history.push(`/editor/${docId}${search}`);
   }
+  // 更新发布文档
   async function onUpdate() {
     const [error] = await update(editor);
     if (!error) {
-      const { spaceId = '' } = parseUrlQuery();
       window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
       // history.push(`/article/${docId}?spaceId=${spaceId}&content=origin`);
     }
   }
+  const crumbs = [{
+    text: getIn(docInfo, ['space', 'name'], ''),
+    pathname: `/space/${spaceId}`
+  }, {
+    text: getIn(docInfo, ['title'], ''),
+    pathname: `/editor/${docId}?spaceId=${spaceId}`
+  }];
   return (
     <div className="Article_Header">
       <div className="Article_Header_Wrapper animated">
         <div className="Article_Header_left">
-          {/* <img src={FAV_ICON}
-            className="Article_Header_favicon"
-            alt="" /> */}
-          <Link className="Article_Header_title flex ellipsis"
+          <Link className="Article_Header_title flex"
             to="/">
-            {/* <div></div> */}
-            <span>&nbsp;{docInfo.space.name} > {docInfo.title}</span>
           </Link>
+          <Breadcrumb crumbs={crumbs} />
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>保存于 {formatTimeStamp(new Date())}</span>)}

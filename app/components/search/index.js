@@ -2,8 +2,16 @@ import React, { useEffect, useRef } from 'react';
 import Icon from '@common/icon';
 import './index.css';
 
+/**
+* @description 搜索组件
+* @props {placeholder} String input placeholder
+* @props {className} String 表格元素自定义类名
+* @props {onChange} Function input内容发生改变时回调 onChange(e)
+* @props {onEnter} Function input监听到键盘enter事件后触发  onEnter(input.current.value);
+*/
 export default function Search({
   className = '',
+  placeholder = '搜索试试',
   onChange = () => {},
   onEnter = () => {}
 }) {
@@ -20,7 +28,7 @@ export default function Search({
       <Icon type="search" />
       <input type="text"
         ref={input}
-        placeholder="搜索试试"
+        placeholder={placeholder}
         autoComplete="off"
         spellCheck="true"
         onChange={onChange}

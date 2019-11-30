@@ -2,8 +2,8 @@
     width: 100%;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.06);
     background: #ffffff;
-    /* position: relative; */
-    /* z-index: 11; */
+    position: relative;
+    z-index: 11;
 }
 .Article_Header_Wrapper{
     height: 58px;
@@ -35,18 +35,11 @@
     display: block;
     margin-left: 10px;
     height: 100%;
-}
-.Article_Header_title>div{
-    margin-left: 10px;
-    flex-shrink: 0;
-    background: url(/images/title-2.png) no-repeat 0 0;
-    width: 344px;
-    height: 100%;
-    background-size: cover;
-    -webkit-transform: scale(0.6);
-    transform: scale(0.6);
-    position: relative;
-    left: -74px;
+    background: url('/images/logo.jpeg') no-repeat 0 0;
+    width: 97px;
+    height: 84%;
+    background-size: contain;
+    margin-right: 18px;
 }
 .Article_Header_title>span{
     font-size: 14px;

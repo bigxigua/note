@@ -1,0 +1,15 @@
+.Breadcrumb{
+
+}
+.Breadcrumb_Item{
+  color: #595959;
+  font-size: 14px;
+}
+.Breadcrumb_Item>a{
+  color: #595959;
+  font-size: 14px;
+}
+.Breadcrumb_Item>span{
+  padding: 0 8px;
+  font-size: 14px;
+}

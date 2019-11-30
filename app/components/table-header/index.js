@@ -68,6 +68,7 @@ export default function TableHeader({
       {!isDocsPage && <p className="TableHeader_Title">知识库</p>}
       <div className="TableHeader_Right flex">
         <Search
+          placeholder="输入标题内容进行搜索"
           onEnter={onSearchEnter} />
         <Button type="primary"
           onClick={onButtonClick}>

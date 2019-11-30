@@ -1,8 +1,6 @@
-import React, { useEffect, useState } from 'react';
-import Header from '@components/header/header';
-import SiderBarLayout from '@components/sider-bar/index';
+import React, { useEffect, useState, Fragment } from 'react';
+import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
-import Footer from '@components/footer';
 import Popover from '@components/popover';
 import Table from '@common/table';
 import Tag from '@common/tag';
@@ -61,18 +59,20 @@ function renderRightJsx(info, handle, h, deleteDoc) {
     </div>);
   }
   if (info.title_draft || info.markdown_draft) {
-    return <Link to={`/editor/${info.doc_id}?spaceId=${info.space_id}`}>去更新</Link>;
+    return <Link className="Table_Actions"
+      to={`/editor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
   }
   return <div className="flex">
-    <Link to={'/editor' + info.url.split('article')[1]}>编辑</Link>
+    <Link className="Table_Actions"
+      to={'/editor' + info.url.split('article')[1]}>编辑</Link>
     <Popover content={renderDocOperation(handle, info)}>
       <Icon type="ellipsis"
-        className="Space_Operation_Icon" />
+        className="Space_Operation_Icon Table_Actions" />
     </Popover>
   </div>;
 }
 export default function Space() {
-  const [dataSource, setDataSource] = useState([]);
+  const [dataSource, setDataSource] = useState(null);
   // 显示删除文档modal
   const [visible, setVisible] = useState(false);
   // 文档信息
@@ -175,27 +175,20 @@ export default function Space() {
     setVisible(false);
   };
   const pagingDataSource = () => {
-    return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
+    return (dataSource || []).slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
   };
   const onPaginationChange = (page) => {
     setPageNo(page);
   };
-  return (
-    <div className="Container">
-      <Header />
-      <div className="Content_Wrapper_Index">
-        <SiderBarLayout />
-        <div className="Space_Content">
-          <TableHeader onSomeThingClick={onTypeChange} />
-          <Table
-            dataSourceKey={'id'}
-            className="Space_Table"
-            columns={columns}
-            pagination={{ total: Math.ceil(dataSource.length / 10), onChange: onPaginationChange }}
-            dataSource={pagingDataSource()} />
-        </div>
-      </div>
-      <Footer />
+  return <PageLayout content={
+    <Fragment>
+      <TableHeader onSomeThingClick={onTypeChange} />
+      <Table
+        dataSourceKey={'id'}
+        className="Space_Table"
+        columns={columns}
+        pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
+        dataSource={pagingDataSource()} />
       <Modal
         subTitle="确认移动该文档到回收站？"
         title="移到回收站"
@@ -203,8 +196,8 @@ export default function Space() {
         onConfirm={onConfirmModal}
         confirmText="确认删除"
         visible={visible} >
-        移动到回收站后，可在左下角【回收站】进行恢复
+        移动到回收站后，文档列表页操作恢复
       </Modal>
-    </div>
-  );
+    </Fragment>
+  } />;
 }

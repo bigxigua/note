@@ -1,12 +1,13 @@
 .Popover_Wrapper{
   height: 100%;
 }
-.Popover_Wrapper:hover>.Popover_Wrapper_Box>.Popover_Wrapper_Content{
+/* .Popover_Wrapper:hover>.Popover_Wrapper_Box>.Popover_Wrapper_Content{
   display: block;
   animation-name: zoomIn;
   animation-duration: 200ms;
   z-index: 10;
-}
+} */
+
 .Popover_Wrapper_Box{
   position: absolute;
   top: 0px;
@@ -36,4 +37,10 @@
   right: 25px;
   top: -4px;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, .05);
+}
+.Popover_Wrapper_Content_show{
+  display: block;
+  animation-name: zoomIn;
+  animation-duration: 200ms;
+  z-index: 10;
 }

@@ -32,14 +32,11 @@ export default function Header() {
     <div className="Header_Wrapper animated">
       <div className="Header_container">
         <div className="Header_left">
-          {/* <img src={FAV_ICON}
-            className="Header_left_favicon"
-            alt="" /> */}
           <Link to="/"
             className="Header_title ellipsis">
           </Link>
           <Search />
-          <Link to="/about"
+          <Link to="/"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
           <Link to="/entertainment"
             className="Header_link">娱乐/游戏</Link>

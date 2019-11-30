@@ -10,6 +10,7 @@ import Editor from '@page/editor';
 import Login from '@page/login';
 import New from '@page/new';
 import Space from '@page/space';
+import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
 import Recycle from '@page/recycle';
 import './index.css';
@@ -56,7 +57,13 @@ class App extends React.Component {
             />
             <Route
               path="/space/"
+              exact
               component={PageWrapper(Space, '/space/')}
+            />
+            <Route
+              path="/spacedetail/"
+              exact
+              component={PageWrapper(SpaceDetail, '/spacedetail/')}
             />
             <Route
               path="/docs/"

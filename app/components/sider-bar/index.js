@@ -14,6 +14,7 @@ export default function SiderBarLayout() {
         <span>工作台</span>
       </NavLink>
       <NavLink to="/space/"
+        exact
         activeStyle={{ color: '#000', fontWeight: 'bold' }}
         className="SiderBar_Link">
         <img src="/images/warehouse.png" />

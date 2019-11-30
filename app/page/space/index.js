@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import Header from '@components/header/header';
-import SiderBarLayout from '@components/sider-bar/index';
+import React, { useEffect, useState, Fragment } from 'react';
+import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
-import Footer from '@components/footer';
 import Table from '@common/table';
 import Tag from '@common/tag';
 import axiosInstance from '@util/axiosInstance';
+import { Link } from 'react-router-dom';
 import './index.css';
 
 export default function Docs() {
@@ -29,8 +28,9 @@ export default function Docs() {
   }, {
     title: '操作',
     key: 'action',
-    render: () => {
-      return '管理';
+    render: (i) => {
+      return <Link to={`/spacedetail?spaceId=${i.space_id}`}
+        className="Table_Actions">管理</Link>;
     }
   }];
   async function fetchSpaces(q = '') {
@@ -50,21 +50,16 @@ export default function Docs() {
   useEffect(() => {
     fetchSpaces();
   }, []);
-  return (
-    <div className="Container">
-      <Header />
-      <div className="Content_Wrapper_Index">
-        <SiderBarLayout />
-        <div className="Space_Content">
-          <TableHeader onSomeThingClick={onSomeThingClick} />
-          <Table
-            dataSourceKey={'id'}
-            className="Space_Table"
-            columns={columns}
-            dataSource={dataSource} />
-        </div>
-      </div>
-      <Footer />
-    </div>
-  );
-}
+  const onPaginationChange = () => {};
+  return <PageLayout content={
+    <Fragment>
+      <TableHeader onSomeThingClick={onSomeThingClick} />
+      <Table
+        dataSourceKey={'id'}
+        className="Space_Table"
+        columns={columns}
+        pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
+        dataSource={dataSource} />
+    </Fragment>
+  } />;
+};
