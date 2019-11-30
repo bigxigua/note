@@ -175,7 +175,10 @@ export default function Space() {
     setVisible(false);
   };
   const pagingDataSource = () => {
-    return (dataSource || []).slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
+    if (!Array.isArray(dataSource)) {
+      return null;
+    }
+    return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
   };
   const onPaginationChange = (page) => {
     setPageNo(page);

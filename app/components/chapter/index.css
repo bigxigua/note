@@ -1,0 +1,42 @@
+.Chapter{
+  width: 100%;
+  margin-top: 40px;
+}
+.Chapter_Drop_Box{
+  width: 800px;
+  margin: 0 auto;
+}
+.Chapter_Item{
+  width: 100%;
+  background: #fafafa;
+  height: 44px;
+  margin-bottom: 8px;
+  user-select: none;
+  border-radius: 2px;
+  border: 1px solid #d9d9d9;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  color: #262626;
+  font-size: 14px;
+  padding: 0 20px;
+  position: relative;
+  z-index: 11;
+}
+.Chapter_Item:hover{
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.15);
+}
+.Chapter_Item>div{
+  color: #bfbfbf;
+  font-size: 12px;
+}
+.Chapter_Item_Dash{
+  border-style: dashed;
+  position: fixed;
+  background: #fafafa;
+  border-radius: 2px;
+  border: 1px dashed #d9d9d9;
+  top: 0;
+  left: 0;
+  z-index: 10;
+}

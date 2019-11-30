@@ -39,9 +39,9 @@ export default function CreateDoc({
   };
   // 点击创建文档
   const onChooseSpace = async (info) => {
-    const { scene, space_id } = info;
+    const { space_id } = info;
     const [error, data] = await axiosInstance.post('create/doc', {
-      scene,
+      scene: 'doc',
       space_id,
       title: '无标题'
     });

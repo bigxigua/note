@@ -10,8 +10,7 @@
     "autod": "autod",
     "lint": "eslint ./app/ --ext js --ext jsx"
   },
-  "pre-commit": [
-  ],
+  "pre-commit": [],
   "repository": {
     "type": "git",
     "url": "git+https://github.com/bigxigua/note.git"
@@ -77,6 +76,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.6",
+    "react-beautiful-dnd": "^12.1.1",
     "react-dom": "^16.8.6",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
