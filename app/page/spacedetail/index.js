@@ -23,10 +23,10 @@ export default function SpaceDetail() {
   return (<Fragment>
     <Header />
     <div className="SpaceDetail">
-      <h1>{spaceInfo.space.name}</h1>
+      {/* <h1>{spaceInfo.space.name}</h1>
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}
-        alt="头像" />
+        alt="头像" /> */}
       <Chapter spaceInfo={spaceInfo} />
     </div>
   </Fragment>);

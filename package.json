@@ -76,7 +76,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "react": "^16.8.6",
-    "react-beautiful-dnd": "^12.1.1",
+    "react-beautiful-dnd": "^12.2.0",
     "react-dom": "^16.8.6",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
