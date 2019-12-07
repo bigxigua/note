@@ -10,7 +10,8 @@ export default function Button(props) {
     disabled = false, // 是否禁用
     type = 'default', // 类型
     className = '',
-    onClick = () => {}
+    content = '',
+    onClick = () => { }
   } = props;
   const typeClassName = {
     default: 'Button_default',
@@ -31,7 +32,7 @@ export default function Button(props) {
       {icon && <Icon type={icon} />}
       {loading && <Icon className="Button_loading_Icon"
         type={'loading'} />}
-      {children}
+      {content || children}
     </button>
   );
 };

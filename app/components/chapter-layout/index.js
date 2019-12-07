@@ -98,15 +98,11 @@ ChapterLayout.prototype = {
     this.dashElementRemove();
     const { x, y, w, h } = curSection[0];
     // draggingFromThisWith 表示是drag时id
-    console.log('this.draggingFromThisWith', this.draggingFromThisWith);
     const index = this.draggableElementsInfo.findIndex(n => n.id === this.draggingFromThisWith);
     const curElement = document.querySelector(`${BASE_CLASS}_${this.draggingFromThisWith}`);
     const disparity = curElement.getBoundingClientRect().x - x;
     const offset = this.getOffset(disparity, x) + x;
     const dash = `<div class="${DASH_CLASS.substr(1)}" style="left: ${offset}px; top: ${y}px; height: ${h}px; width: ${w}px"></div>`;
-    // const curItemsIndex = this.items.findIndex(n => n.docId === id);
-    // console.log(this.items[curItemsIndex]);
-    console.log('offset:', offset);
     this.draggableElementsInfo[index].offset = offset;
     $('body').append($(dash));
   },
@@ -193,16 +189,16 @@ ChapterLayout.prototype = {
       return;
     }
     if (sourceIndex === destinationIndex) {
-      console.log({
-        prevLevel,
-        destinationLevel,
-        sourceLevel,
-        level,
-        'offset - this.baselineX': offset - this.baselineX,
-        offset,
-        'this.baselineX': this.baselineX,
-        items
-      });
+      // console.log({
+      //   prevLevel,
+      //   destinationLevel,
+      //   sourceLevel,
+      //   level,
+      //   'offset - this.baselineX': offset - this.baselineX,
+      //   offset,
+      //   'this.baselineX': this.baselineX,
+      //   items
+      // });
       if (destinationLevel < level) {
         console.log('相对右移');
         items[destinationIndex].level = Math.min(prevLevel + 1, level);
@@ -235,7 +231,8 @@ ChapterLayout.prototype = {
     }
     this.items = items;
     this.setState({ items });
-    this.syncDraggableElementsInfo();
+    this.draggableElementsInfo = null;
+    // this.syncDraggableElementsInfo();
   },
   getSubs(index, level) {
     const subs = [];
