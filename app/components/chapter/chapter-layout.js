@@ -1,22 +1,27 @@
-import { getIn } from '@util/util';
-
-const OFFSET = [40, 80, 120];
 const BASE_CLASS = '.Chapter_Item';
 const DASH_CLASS = '.Chapter_Item_Dash';
-
+const OFFSET_MAP_LEVEL = {
+  0: 0,
+  40: 1,
+  80: 2,
+  120: 3
+};
 export default function ChapterLayout() {
+  this.draggingFromThisWith = null;
+  this.draggableElementsInfo = null;
+  this.baselineX = 0;
 }
 ChapterLayout.prototype = {
   /**
   * @description 初始化
-  * @param {Array} items 目录结构json
+  * @param {Array}    items 目录结构json
+  * @param {Function} setState useState,setState
   */
-  init({ items }) {
-    this.draggableElementsInfo = null;
-    this.draggingFromThisWith = null;
+  init({ items, setState }) {
     this.chapterBoxRef = document;
     this.items = [].concat(items);
     this.onMousemove = this.onMousemove.bind(this);
+    this.setState = setState;
   },
   /**
   * @description
@@ -37,29 +42,37 @@ ChapterLayout.prototype = {
   },
   /**
   * @description 获取目录元素的位置
-  * @param {Array} items 目录结构json
   * @return {Num} result 结果
   */
-  getElementPos() {
-    return Array.from(document.querySelectorAll(BASE_CLASS)).map((n, i) => {
+  getDragElementPosition() {
+    return Array.from(document.querySelectorAll(BASE_CLASS)).map((n) => {
       const { x, y, width, height } = n.getBoundingClientRect();
       const id = n.getAttribute('data-tbid');
+      const classes = n.getAttribute('class').split(' ');
+      const offset = parseInt(n.getAttribute('data-offset'));
       const m = 8;
+      if (classes.includes(`${BASE_CLASS.substr(1)}_0`)) {
+        this.baselineX = x;
+      }
       return {
         x,
         y,
         id,
         w: width,
         h: height,
-        index: i,
-        folder: false,
+        offset: offset * 40,
         calcSection: (p) => {
           return p > y && p <= y + height + m;
         }
       };
     });
   },
-  getTargetClassName: function(target) {
+  /**
+  * @description 递归寻找目标元素class
+  * @param {DOM} target dom元素
+  * @return {Array} class 集合
+  */
+  getTargetClassName: function (target) {
     if (!target) {
       return [];
     }
@@ -69,7 +82,14 @@ ChapterLayout.prototype = {
     }
     return c.split(' ');
   },
+  /**
+  * @description 创建占位dash块
+  * @param {Mouse Event} e
+  */
   createDashElement(e) {
+    if (!this.draggingFromThisWith) {
+      return;
+    }
     const { clientY } = e;
     const curSection = this.draggableElementsInfo.filter(n => n.calcSection(clientY));
     if (curSection.length === 0) {
@@ -77,22 +97,44 @@ ChapterLayout.prototype = {
     };
     this.dashElementRemove();
     const { x, y, w, h } = curSection[0];
-    // 当前正在drag的项相对items的index
-    const draggingEleIndex = getIn(this.draggableElementsInfo.filter(n => n.id === this.draggingFromThisWith), [0, 'index'], 'NONE');
-    if (draggingEleIndex === 'NONE') {
-      return;
-    };
-    const curElement = document.querySelectorAll(BASE_CLASS)[draggingEleIndex];
+    // draggingFromThisWith 表示是drag时id
+    console.log('this.draggingFromThisWith', this.draggingFromThisWith);
+    const index = this.draggableElementsInfo.findIndex(n => n.id === this.draggingFromThisWith);
+    const curElement = document.querySelector(`${BASE_CLASS}_${this.draggingFromThisWith}`);
     const disparity = curElement.getBoundingClientRect().x - x;
-    const offset = OFFSET.filter(n => n - disparity < 40).pop() || 0;
-    console.log(offset);
-    const dash = `<div class="${DASH_CLASS.substr(1)}" style="left: ${x + offset}px; top: ${y}px; height: ${h}px; width: ${w}px"></div>`;
-    this.draggableElementsInfo[draggingEleIndex].offset = offset;
+    const offset = this.getOffset(disparity, x) + x;
+    const dash = `<div class="${DASH_CLASS.substr(1)}" style="left: ${offset}px; top: ${y}px; height: ${h}px; width: ${w}px"></div>`;
+    // const curItemsIndex = this.items.findIndex(n => n.docId === id);
+    // console.log(this.items[curItemsIndex]);
+    console.log('offset:', offset);
+    this.draggableElementsInfo[index].offset = offset;
     $('body').append($(dash));
   },
-  _getOffset_(disparity) {
-    if (disparity < 40) {
+  /**
+  * @description 计算占位dash块的位置
+  * @param {Number} 间距
+  */
+  getOffset(d, x) {
+    const l = x + d;
+    const b = this.baselineX;
+    if (d < 0) {
+      if (l >= b && l < b + 40) {
+        return b - x;
+      } else if (l >= b + 40 && l < b + 80) {
+        return b + 40 - x;
+      } else if (l >= b + 80 && l < b + 120) {
+        return b + 80 - x;
+      } else {
+        return b - x;
+      }
+    } else if (d < 40) {
       return 0;
+    } else if (d < 80) {
+      return 40;
+    } else if (d < 120) {
+      return 80;
+    } else {
+      return 120;
     }
   },
   bindEvent() {
@@ -111,7 +153,7 @@ ChapterLayout.prototype = {
   },
   onMousedown(e) {
     if (!this.draggableElementsInfo) {
-      this.draggableElementsInfo = this.getElementPos();
+      this.draggableElementsInfo = this.getDragElementPosition();
     }
     if (!this.getTargetClassName(e.target).includes(BASE_CLASS.substring(1))) {
       return;
@@ -123,85 +165,106 @@ ChapterLayout.prototype = {
   },
   onDragUpdate(result) {
     if (!result.destination) return;
-    this.bindEvent();
+    console.log('onDragUpdate');
   },
   onDragEnd(result) {
+    this.removeEvent();
     if (!result.destination) return;
     const {
-      source: { index: sourceIndex },
-      destination: { index: destinationIndex }
+      source: { index: sourceIndex }, // 当前drag元素位置
+      destination: { index: destinationIndex } // 被放下位置
     } = result;
-    const items = this.items;
-    const [removed] = items.splice(sourceIndex, 1);
-    items.splice(destinationIndex, 0, removed);
-    this.removeEvent();
-    // items新增offset,检测上面是否是folder，如果是folder，非folder加40
-    // if (destinationIndex > 0) {
-    //   const prev = items[destinationIndex - 1];
-    //   const prevOffset = prev.offset || 0;
-    //   const curOffset = this.draggableElementsInfo[destinationIndex].offset || 0;
-    //   // const prevIsFolder = prev.folder;
-    //   const curIsFolder = items[destinationIndex].folder;
-    //   if (curOffset > prevOffset) {
-    //     console.log('相对于上一个元素右移');
-    //     // 相对于上一个元素右移
-    //     prev.folder = true;
-    //     items[destinationIndex].belong = prev.docId;
-    //     // 当前移动元素偏移量为上一个元素偏移量+最小移动值
-    //     items[destinationIndex].offset = prevOffset + OFFSET[0];
-    //     if (curIsFolder) {
-    //       items[destinationIndex].folder = false;
-    //     }
-    //   } else {
-    //     console.log('相对于上一个元素左移或同级');
-    //     // 相对于上一个元素左移或同级
-    //     prev.folder = false;
+    let items = this.items;
+    const draggableElementsInfo = this.draggableElementsInfo;
+    if (sourceIndex === destinationIndex && destinationIndex === 0) {
+      return;
+    }
+    const {
+      offset // drag元素的offset
+    } = this.draggableElementsInfo[destinationIndex];
+    // offset匹配level，且相邻项level相差不得大于1
+    const level = OFFSET_MAP_LEVEL[Math.abs(offset - this.baselineX)];
+    const { level: prevLevel } = items[destinationIndex - 1];
+    const { level: destinationLevel } = items[destinationIndex];
+    const { level: sourceLevel } = items[sourceIndex];
 
-    //     // items[destinationIndex].belong = prev.doc_id;
-    //     // 当前移动项为folder或者是某个的下属，需同时移动下属项
-    //     if (curIsFolder) {
-    //       items[destinationIndex].folder = false;
-    //       const sub = [];
-    //       for (let i = destinationIndex; i < items.length; i++) {
-    //         if (items[i].belong &&
-    //           items[destinationIndex].offset !== curOffset &&
-    //           (items[i].belong === items[destinationIndex].docId)) {
-    //           sub.push(i);
-    //         }
-    //       }
-    //       sub.forEach(n => {
-    //         items[n].offset = curOffset;
-    //       });
-    //       console.log('sub:', sub);
-    //     }
-    //     // 判断是否还有同级元素
-    //     const same = [];
-    //     for (let i = destinationIndex + 1; i < items.length; i++) {
-    //       if (items[i].belong &&
-    //         items[destinationIndex].offset !== curOffset &&
-    //         !curIsFolder &&
-    //         (items[i].belong === items[destinationIndex].belong)) {
-    //         same.push(i);
-    //       }
-    //     }
-    //     if (same.length > 0) {
-    //       // 下一个是否是
-    //       console.log('same:', same);
-    //       items[destinationIndex].folder = true;
-    //       same.forEach(n => {
-    //         items[n].belong = items[destinationIndex].doc_id;
-    //       });
-    //     }
-    //     // 同级时belong为prev belong
-    //     if (curOffset === prevOffset) {
-    //       items[destinationIndex].belong = prev.belong;
-    //     }
-    //     items[destinationIndex].offset = curOffset;
-    //   }
-    // }
-    // items.forEach((n, i) => {
-    //   this.draggableElementsInfo[i].id = n.doc_id;
-    //   this.draggableElementsInfo[i].folder = n.folder;
-    // });
+    if (sourceIndex !== destinationIndex && destinationLevel !== sourceLevel) {
+      // 只有level相同的才可以互换
+      return;
+    }
+    if (sourceIndex === destinationIndex) {
+      console.log({
+        prevLevel,
+        destinationLevel,
+        sourceLevel,
+        level,
+        'offset - this.baselineX': offset - this.baselineX,
+        offset,
+        'this.baselineX': this.baselineX,
+        items
+      });
+      if (destinationLevel < level) {
+        console.log('相对右移');
+        items[destinationIndex].level = Math.min(prevLevel + 1, level);
+      } else if (destinationLevel === level) {
+        console.log('平行位置');
+        items[destinationIndex].level = destinationLevel;
+      } else {
+        console.log('相对左移');
+        items[destinationIndex].level = level;
+        const subs = this.getSubs(destinationIndex, destinationLevel);
+        if (subs.length > 0) {
+          subs.forEach(p => {
+            items[items.findIndex(n => n.docId === p.docId)].level--;
+          });
+        }
+      }
+    } else {
+      const sourceSub = this.getSubs(sourceIndex, sourceLevel);
+      const destinationSub = this.getSubs(destinationIndex, destinationLevel);
+      const [removed] = items.splice(sourceIndex, 1);
+      const [removed2] = draggableElementsInfo.splice(sourceIndex, 1);
+      items.splice(destinationIndex, 0, removed);
+      draggableElementsInfo.splice(destinationIndex, 0, removed2);
+      if (sourceSub.length > 0) {
+        items = this.exchangeSubItemsOrder(sourceSub, destinationIndex, [].concat(items));
+      }
+      if (destinationSub.length > 0) {
+        items = this.exchangeSubItemsOrder(destinationSub, sourceIndex, items);
+      }
+    }
+    this.items = items;
+    this.setState({ items });
+    this.syncDraggableElementsInfo();
+  },
+  getSubs(index, level) {
+    const subs = [];
+    for (let i = index + 1; i < this.items.length; i++) {
+      const n = this.items[i];
+      if (n.level <= level) {
+        break;
+      }
+      subs.push(n);
+    };
+    return subs;
+  },
+  exchangeSubItemsOrder(subs, index, arr) {
+    const items = arr.slice(0);
+    subs.forEach(p => {
+      const l = arr.findIndex(n => n.docId === p.docId);
+      l !== -1 && items.splice(l, 1, null);
+    });
+    items.splice(Math.min(index + 1, items.length), 0, ...subs);
+    return items.filter(n => !!n);
+  },
+  syncDraggableElementsInfo(items = this.items) {
+    const result = [];
+    items.forEach((n, i) => {
+      result.push({
+        ...this.draggableElementsInfo[i],
+        id: n.docId
+      });
+    });
+    this.draggableElementsInfo = result;
   }
 };

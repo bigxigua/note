@@ -10,6 +10,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
 }
 .SpaceDetail>h1{
   color: #262626;

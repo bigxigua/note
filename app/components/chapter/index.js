@@ -18,34 +18,34 @@ export default function Chapter({
     max_level: 3, // 默认可创建的最大目录层级
     type: 'META' // 头一个为meta头部信息
   }, {
-    docId: 1, // 文档id
+    docId: '11', // 文档id
     title: '1111111', // 文档标题
     level: 0, // 展示的时候显示在哪个层级，比如level=0，显示在最左侧，level=1显示offset=40的位置
     type: 'DOC' // 文档类型
   }, {
-    docId: 2, // 文档id
+    docId: '22', // 文档id
     title: '2222222', // 文档标题
     level: 0, //
     type: 'DOC' // 文档类型
   }, {
-    docId: 3, // 文档id
+    docId: '33', // 文档id
     title: '3333333', // 文档标题
     level: 0, //
     type: 'DOC' // 文档类型
   }, {
-    docId: 4, // 文档id
+    docId: '44', // 文档id
     title: '44444444', // 文档标题
-    level: 1, //
+    level: 0, //
     type: 'DOC' // 文档类型
   }, {
-    docId: 5, // 文档id
+    docId: '55', // 文档id
     title: '5555555', // 文档标题
-    level: 2, //
+    level: 0, //
     type: 'DOC' // 文档类型
   }, {
-    docId: 6, // 文档id
+    docId: '66', // 文档id
     title: '66666666', // 文档标题
-    level: 3, //
+    level: 0, //
     type: 'DOC' // 文档类型
   }];
   // function handleDocs(docs) {

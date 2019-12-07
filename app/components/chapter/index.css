@@ -1,6 +1,7 @@
 .Chapter{
   width: 100%;
   margin-top: 40px;
+  overflow-x: hidden;
 }
 .Chapter_Drop_Box{
   width: 550px;
@@ -47,17 +48,6 @@
   top: 0;
   left: 0;
   z-index: 10;
-}
-.Chapter_Item_Offset_40{
-  left: 40px;
-  width: 510px;
-}
-.Chapter_Item_Offset_80{
-  left: 80px;
-  width: 470px;
-}
-.Chapter_Item_0{
-
 }
 .Chapter_Item_1{
   left: 40px;
