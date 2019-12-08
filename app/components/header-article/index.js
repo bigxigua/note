@@ -22,7 +22,6 @@ const content = (
 export default function ArticleHeader({
   docInfo = {}
 }) {
-  console.log('docInfo:', docInfo);
   const update = useSaveContent({ publish: true });
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
@@ -47,7 +46,7 @@ export default function ArticleHeader({
     pathname: `/space/${spaceId}`
   }, {
     text: getIn(docInfo, ['title'], ''),
-    pathname: `/editor/${docId}?spaceId=${spaceId}`
+    pathname: `/${isArticlePage ? 'article' : 'editor'}/${docId}?spaceId=${spaceId}`
   }];
   return (
     <div className="Article_Header">

@@ -1,30 +1,42 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import Icon from '@common/icon';
-import Button from '@common/button';
+import Catalog from './catalog';
 import axiosInstance from '@util/axiosInstance';
+import { parseUrlQuery } from '@util/util';
+import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
 
-export default function ChapterDrop({
+function getStyle(style) {
+  return {
+    ...style,
+    transitionDuration: '0'
+  };
+}
+
+export default function Chapter({
   catalog = [],
   docs = [],
   space = {}
 }) {
+  const { updateCatalog } = useContext(catalogContext);
   const [state, setState] = useState({ items: catalog.slice(1) });
+  const { type = '' } = parseUrlQuery();
+
   useEffect(() => {
-    chapterLayout.init({ items: state.items, setState });
+    chapterLayout.init({
+      items: state.items,
+      setState: (d) => {
+        setState(d);
+        updateCatalog({ catalog: [catalog[0], ...d.items] });
+      }
+    });
     chapterLayout.bindEvent();
     return () => {
       chapterLayout.removeEvent();
     };
   }, []);
-  function getStyle(style) {
-    return {
-      ...style,
-      transitionDuration: '0'
-    };
-  }
   function renderDraggables(provided, snapshot) {
     chapterLayout.draggingFromThisWith = snapshot.draggingFromThisWith || 0;
     return <div
@@ -51,7 +63,6 @@ export default function ChapterDrop({
                 {item.title}
               </h3>
               {/* <div><span>上次更新：</span>{formatTimeStamp(item.updated_at_timestamp)}</div> */}
-              <div>{item.docId}-{item.level}</div>
             </div>
           )}
         </Draggable>
@@ -59,19 +70,14 @@ export default function ChapterDrop({
       {provided.placeholder}
     </div>;
   }
-  async function onUpdateCatalog() {
-    console.log(state.items);
-    const [error, data] = await axiosInstance.post('spaces/update', {
-      space_id: space.space_id,
-      catalog: JSON.stringify([catalog[0], ...state.items])
-    });
-    console.log(error, data);
-    if (data && data.STATUS === 'OK') {
-      console.log('[空间更新成功]');
-    }
-  }
   if (catalog.length === 0) {
     return;
+  }
+  if (type.toLocaleLowerCase() !== 'toc') {
+    return <Catalog
+      space={space}
+      catalog={catalog}
+      docs={docs} />;
   }
   return (
     <Fragment>
@@ -82,11 +88,17 @@ export default function ChapterDrop({
           {renderDraggables}
         </Droppable>
       </DragDropContext>
-      <Button
+      {/* <Button
         className="Chapter_Update"
         content="更新目录"
-        onClick={onUpdateCatalog}
-        type="primary" />
+        onClick={() => {
+          onUpdateCatalog({
+            spaceId: space.space_id,
+            items: state.items,
+            meta: catalog[0]
+          });
+        }}
+        type="primary" /> */}
     </Fragment>
   );
 }

@@ -1,4 +1,7 @@
 
+export function isObject(obj) {
+  return Object.prototype.toString.call(obj) === '[object Object]';
+};
 export function throttle(fn, wait = 2000, immediately = false) {
   let latestTime = Date.now();
   let _immediately_ = immediately;
@@ -36,7 +39,7 @@ export function isEmptyObject(param) {
   }
   return Object.keys(param).length === 0;
 }
-// 格式化时间为：
+// 格式化时间
 export function formatTimeStamp(timestamp) {
   if (isNaN(+parseInt)) {
     timestamp = new Date(timestamp).getTime();
@@ -72,6 +75,24 @@ export function getIn(data, array, initial = null) {
   return obj;
 };
 
+// 安全设置
+export function setIn(data, array, value) {
+  if (!array || array.length === 0) return data;
+  const setRecursively = function (state, array, value, index) {
+    let clone = {};
+    let newState;
+    const prop = array[index];
+    if (array.length > index) {
+      clone = Array.isArray(state) ? state.slice(0) : Object.assign({}, state);
+      newState = ((isObject(state) || Array.isArray(state)) && state[prop] !== undefined) ? state[prop] : {};
+      clone[prop] = setRecursively(newState, array, value, index + 1);
+      return clone;
+    }
+    return value;
+  };
+  return setRecursively(data, array, value, 0);
+};
+
 // 解析url
 export function parseUrlQuery(url = window.location.href) {
   const search = url.substring(url.lastIndexOf('?') + 1);
@@ -88,6 +109,20 @@ export function parseUrlQuery(url = window.location.href) {
   return hash;
 }
 
+// 拆分url字符串为location对象
+export function stringTransformToUrlObject(str) {
+  let url = {};
+  try {
+    url = new URL(str);
+  } catch (error) {
+  }
+  const { pathname = '', search = '' } = url;
+  return {
+    url,
+    pathname: pathname + search
+  };
+}
+
 // 修改url search
 export function coverReplaceUrlSearch({ url = window.location.href, k, v }) {
   const pathname = url.substring(0, url.lastIndexOf('?') + 1);
@@ -101,4 +136,13 @@ export function coverReplaceUrlSearch({ url = window.location.href, k, v }) {
     return `${n}=${temp[n]}`;
   }).join('&');
   return `${pathname}${search}`;
+}
+
+// 延迟
+export async function delay(time = 300) {
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve();
+    }, time);
+  });
 }

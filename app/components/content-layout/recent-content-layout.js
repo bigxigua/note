@@ -4,28 +4,24 @@ import Empty from '@common/empty';
 import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
-  const [docs, setDocs] = useState([]);
+  const [recentLists, setRecentLists] = useState([]);
   useEffect(() => {
     (async () => {
-      const [error, data] = await axiosInstance.get('docs?type=recent&limit=200');
+      const [error, data] = await axiosInstance.get('/recents?limit=20');
       if (error || !Array.isArray(data)) {
         console.log('[获取最近使用列表失败] ', error);
       } else {
-        setDocs(data);
+        setRecentLists(data);
       }
     })();
   }, []);
-  if (docs.length === 0) {
-    return (
-      <Fragment>
-        <Empty />
-      </Fragment>
-    );
+  if (recentLists.length === 0) {
+    return <Empty />;
   }
   return (
     <div className="Recent_Content_Layout">
       {
-        docs.map(n => {
+        recentLists.map(n => {
           return (
             <Fragment key={n.id}>
               <RecentContent {...n} />

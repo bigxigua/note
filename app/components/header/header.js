@@ -1,6 +1,5 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { FAV_ICON } from '@config/index';
 import Search from '@components/search';
 import Avatar from '../avatar/avatar.js';
 import Icon from '@common/icon';

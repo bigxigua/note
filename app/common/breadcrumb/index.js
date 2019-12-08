@@ -4,7 +4,11 @@ import './index.css';
 
 /**
 * @description 面包屑导航
-* @props {crumbs} 配置
+* @props Array {crumbs} 配置  {
+    text: '文本',
+    pathname: `/space/${spaceId}`,
+    render: () => {}
+  }
 * @props {className} String 自定义类名
 */
 export default function Breadcrumb(props) {

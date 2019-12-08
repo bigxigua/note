@@ -120,7 +120,6 @@ export default function NewChooseType() {
   };
   // 提交
   const onCreateSpace = async () => {
-    console.log(menus, info);
     const { title: name, desc: description, scene } = info;
     if (!name || !description) {
       message.error({ content: '请先完善信息' });
@@ -133,7 +132,11 @@ export default function NewChooseType() {
       scene
     });
     if (!error && data && data.spaceId) {
-      message.success({ content: '创建成功', d: 2000, onClose: () => history.push('/space/') });
+      await axiosInstance.post('add/recent', {
+        space_id: data.spaceId,
+        type: 'CreateSpace'
+      });
+      message.success({ content: '创建成功', d: 500, onClose: () => history.push('/space/') });
       return;
     }
     message.error({ content: (error || {}).message || '系统开小差啦，稍等试试吧' });
