@@ -21,18 +21,24 @@ function renderDocOperation(onOperationClick, docInfo) {
     <List className="Docs_operations"
       onTap={onOperationClick}
       list={[{
+        text: '编辑',
+        key: 'editor',
+        docInfo
+      }, {
         text: '删除',
         key: 'delete',
         docInfo
-      }, {
-        text: '复制',
-        key: 'copy',
-        docInfo
-      }, {
-        text: '使用该模版创建',
-        key: 'template',
-        docInfo
-      }]} />);
+      }
+        // {
+        //   text: '复制',
+        //   key: 'copy',
+        //   docInfo
+        // }, {
+        //   text: '使用该模版创建',
+        //   key: 'template',
+        //   docInfo
+        // }
+      ]} />);
 }
 // 恢复文档
 async function onRecovery(info, history) {
@@ -64,7 +70,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   }
   return <div className="flex">
     <Link className="Table_Actions"
-      to={'/editor' + info.url.split('article')[1]}>编辑</Link>
+      to={'/article' + info.url.split('article')[1]}>查看</Link>
     <Popover content={renderDocOperation(handle, info)}>
       <Icon type="ellipsis"
         className="Space_Operation_Icon Table_Actions" />
@@ -114,7 +120,7 @@ export default function Space() {
   }];
   // 获取文档列表
   async function fetchDocs({ type = 'ALL', q = '', page = '' } = {}) {
-    const [error, data] = await axiosInstance.get(`docs?q=${q}&type=${type.toLocaleLowerCase()}${page}`);
+    const [error, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(q)}&type=${type.toLocaleLowerCase()}${page}`);
     if (!error && data && Array.isArray(data) && data.length > 0) {
       setDataSource(data);
     } else {
@@ -152,6 +158,9 @@ export default function Space() {
     if (key === 'delete') {
       setVisible(true);
       setDocInfo(docInfo);
+    }
+    if (key === 'editor') {
+      history.push(`/editor/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
     }
   }
   function onTypeChange(type, { code, q }) {

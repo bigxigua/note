@@ -12,8 +12,8 @@ import './index.css';
 export default function Search({
   className = '',
   placeholder = '搜索试试',
-  onChange = () => {},
-  onEnter = () => {}
+  onChange = () => { },
+  onEnter = () => { }
 }) {
   const input = useRef(null);
   useEffect(() => {

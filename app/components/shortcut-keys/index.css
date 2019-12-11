@@ -9,7 +9,8 @@
   right: 0;
   top: 0;
   padding: 0 32px 20px;
-  display: none;
+  transition: all linear 0.2s;
+  transform: translateX(100%);
 }
 
 .ShortcutKeys_close {
@@ -78,7 +79,5 @@
   color: #595959;
 }
 .ShortcutKeys_show{
-  display: block;
-  animation-name: slideInRight;
-  animation-duration: 200ms;
+  transform: translateX(0);
 }

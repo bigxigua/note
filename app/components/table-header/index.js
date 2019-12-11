@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Dropdown from '@common/dropdown';
 import Icon from '@common/icon';
 import List from '@common/list';
@@ -34,24 +34,20 @@ export default function TableHeader({
     }
   };
   // 确认搜索
-  function onSearchEnter(value) {
+  const onSearchEnter = useCallback((value) => {
     const { code } = types.filter(n => n.checked)[0];
     if (/^\s+$/.test(value)) {
       return;
     }
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
-  };
-  // 显示新建文档modal
-  function onCreateDoc(stat) {
-    setVisible(stat);
-  };
+  }, []);
   // 新建文档/新建知识库
-  function onButtonClick() {
+  const onButtonClick = useCallback(() => {
     if (isDocsPage) {
-      return onCreateDoc(true);
+      return setVisible(true);
     }
     history.push('/new');
-  };
+  }, [isDocsPage]);
   const Overlay = <List
     list={types}
     onTap={onListItemClick} />;
@@ -75,7 +71,7 @@ export default function TableHeader({
           {isDocsPage ? '新建文档' : '新建知识库'}
         </Button>
       </div>
-      {visible && <CreateDoc onModalChange={onCreateDoc} />}
+      {visible && <CreateDoc onModalChange={(a) => { setVisible(a); }} />}
     </div>
   );
 };

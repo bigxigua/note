@@ -110,7 +110,12 @@
 }
 .Catalog_Item_Parent>.Catalog_Item_Name>.Icon{
   margin-right: 4px;
-  top: 2px;
+  transition: all linear 0.2s;
+  transform: rotate(-90deg);
+  cursor: pointer;
+}
+.Catalog_Item_Open>.Catalog_Item_Name>.Icon{
+  transform: rotate(0);
 }
 .Chapter_Header{
   width: 100%;
