@@ -148,6 +148,7 @@ ChapterLayout.prototype = {
     this.createDashElement(e);
   },
   onMousedown(e) {
+    console.log('onMousedown');
     if (!this.draggableElementsInfo) {
       this.draggableElementsInfo = this.getDragElementPosition();
     }
@@ -232,7 +233,6 @@ ChapterLayout.prototype = {
     this.items = items;
     this.setState({ items });
     this.draggableElementsInfo = null;
-    // this.syncDraggableElementsInfo();
   },
   getSubs(index, level) {
     const subs = [];

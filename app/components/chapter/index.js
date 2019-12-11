@@ -1,7 +1,9 @@
 import React, { useReducer, useEffect, useState } from 'react';
 import Chapter from './chapter';
 import ChapterHeader from './chapter-header';
+import Catalog from './catalog';
 import { catalogContext, catalogReducer, initialState } from '@context/catalog-context';
+import { parseUrlQuery } from '@util/util';
 import './index.css';
 
 export default function ChapterWrapper({
@@ -10,6 +12,7 @@ export default function ChapterWrapper({
 }) {
   const [state, dispatch] = useReducer(catalogReducer, initialState);
   const [catalog, setCatalog] = useState([]);
+  const { type = '' } = parseUrlQuery();
   const updateCatalog = (payload) => {
     dispatch({
       type: 'UPDATE_CATALOG',
@@ -85,10 +88,15 @@ export default function ChapterWrapper({
         <ChapterHeader
           space={spaceInfo.space}
           userInfo={userInfo} />
-        <Chapter
-          catalog={catalog}
-          space={spaceInfo.space}
-          docs={spaceInfo.docs} />
+        {
+          type.toLocaleLowerCase() === 'toc'
+            ? <Chapter
+              catalog={catalog}
+              docs={spaceInfo.docs} />
+            : <Catalog
+              catalog={catalog}
+              docs={spaceInfo.docs} />
+        }
       </div>
     </catalogContext.Provider>
   );

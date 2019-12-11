@@ -6,6 +6,7 @@ import Input from '@common/input';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
+import { addRecent } from '@util/commonFun';
 
 function MenuItem({ type, text, checked, len, handle, index }) {
   let className = '';
@@ -132,8 +133,8 @@ export default function NewChooseType() {
       scene
     });
     if (!error && data && data.spaceId) {
-      await axiosInstance.post('add/recent', {
-        space_id: data.spaceId,
+      await addRecent({
+        spaceId: data.spaceId,
         type: 'CreateSpace'
       });
       message.success({ content: '创建成功', d: 500, onClose: () => history.push('/space/') });

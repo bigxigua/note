@@ -43,7 +43,7 @@ export default function ArticleHeader({
   }
   const crumbs = [{
     text: getIn(docInfo, ['space', 'name'], ''),
-    pathname: `/space/${spaceId}`
+    pathname: `/spacedetail?spaceId=${spaceId}`
   }, {
     text: getIn(docInfo, ['title'], ''),
     pathname: `/${isArticlePage ? 'article' : 'editor'}/${docId}?spaceId=${spaceId}`

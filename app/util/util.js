@@ -1,4 +1,3 @@
-
 export function isObject(obj) {
   return Object.prototype.toString.call(obj) === '[object Object]';
 };
@@ -49,7 +48,7 @@ export function formatTimeStamp(timestamp) {
   }
   const date = new Date(+timestamp);
   const completionZero = function (number) {
-    return `${number >= 9 ? '' : '0'}${number}`;
+    return `${number > 9 ? '' : '0'}${number}`;
   };
   return `${date.getFullYear()}-` +
     `${completionZero(date.getMonth() + 1)}-` +
@@ -75,7 +74,7 @@ export function getIn(data, array, initial = null) {
   return obj;
 };
 
-// 安全设置
+// 安全设置对象数据
 export function setIn(data, array, value) {
   if (!array || array.length === 0) return data;
   const setRecursively = function (state, array, value, index) {
@@ -145,4 +144,21 @@ export async function delay(time = 300) {
       resolve();
     }, time);
   });
+}
+
+// 监听键盘按下事件
+export function addKeydownListener({
+  preventDefault = false,
+  handle = () => { }
+}) {
+  const fn = (e) => {
+    const keyCode = e.keyCode || e.which || e.charCode;
+    const ctrlKey = e.ctrlKey || e.metaKey;
+    handle({ keyCode, ctrlKey });
+    preventDefault && e.preventDefault();
+  };
+  document.body.addEventListener('keydown', fn, false);
+  return {
+    remove: () => { document.body.removeEventListener('keydown', fn); }
+  };
 }

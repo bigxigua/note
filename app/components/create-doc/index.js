@@ -6,6 +6,7 @@ import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
 import useMessage from '@hooks/use-message';
 import { delay } from '@util/util';
+import { addRecent } from '@util/commonFun';
 import './index.css';
 
 export default function CreateDoc({
@@ -47,10 +48,10 @@ export default function CreateDoc({
       title: '无标题'
     });
     if (!error && data && data.docId) {
-      await axiosInstance.post('add/recent', {
-        space_id,
+      await addRecent({
+        spaceId: space_id,
         type: 'CreateEdit',
-        doc_id: data.docId
+        docId: data.docId
       });
       await delay();
       history.push(`/editor/${data.docId}?spaceId=${space_id}`);

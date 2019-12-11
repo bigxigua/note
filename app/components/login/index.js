@@ -1,10 +1,10 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Input from '@common/input';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
-import { getIn, parseUrlQuery } from '@util/util';
+import { getIn, parseUrlQuery, addKeydownListener } from '@util/util';
 import userContext from '@context/user/userContext';
 import useMessage from '@hooks/use-message';
 import './index.css';
@@ -22,9 +22,18 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { updateUserInfo } = useContext(userContext);
-  // 1. 空值提示
-  // 2. 格式不对提示
-  // 3. 取服务端返回的错误-服务端需要区分帐号/密码
+
+  useEffect(() => {
+    const listener = addKeydownListener({
+      handle: ({ keyCode }) => {
+        keyCode === 13 && onSubmit();
+      }
+    });
+    return () => {
+      listener.remove();
+    };
+  }, [state, isLoginPage]);
+
   const onChange = (type, e) => {
     setState({
       ...state,
