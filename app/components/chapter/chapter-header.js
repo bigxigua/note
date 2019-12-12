@@ -3,7 +3,7 @@ import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import CreateDoc from '@components/create-doc';
 import { parseUrlQuery } from '@util/util';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
 import { catalogContext } from '@context/catalog-context';
 
@@ -49,13 +49,18 @@ export default function ChapterHeader({
       {type.toLocaleLowerCase() === 'toc'
         ? <Button
           content="更新"
+          disabled={false}
           onClick={() => onUpdateCatalog({
             spaceId,
             catalog
           })}
           type="primary" />
-        : <Button>
-          <Link to={`spacedetail?spaceId=${spaceId}&type=toc`}>编排目录</Link>
+        : <Button
+          content="编排目录"
+          link={{
+            to: `spacedetail?spaceId=${spaceId}&type=toc`
+          }}
+          disabled={catalog.length < 2}>
         </Button>}
     </div>
   </div>;

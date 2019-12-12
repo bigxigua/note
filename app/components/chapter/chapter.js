@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import Icon from '@common/icon';
-import { parseUrlQuery, formatTimeStamp } from '@util/util';
+import { formatTimeStamp } from '@util/util';
 import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
 
@@ -19,21 +19,23 @@ export default function Chapter({
 }) {
   const { updateCatalog } = useContext(catalogContext);
   const [state, setState] = useState({ items: catalog.slice(1) });
-  const { type = '' } = parseUrlQuery();
 
   useEffect(() => {
     chapterLayout.init({
-      items: state.items,
+      items: catalog.slice(1),
       setState: (d) => {
         setState(d);
         updateCatalog({ catalog: [catalog[0], ...d.items] });
       }
     });
+    setState({ items: catalog.slice(1) });
     chapterLayout.bindEvent();
-    return () => {
-      chapterLayout.removeEvent();
-    };
-  }, [type]);
+    return () => chapterLayout.removeEvent();
+  }, [catalog.length]);
+
+  if (!catalog || catalog.length === 0 || !docs || docs.length === 0) {
+    return null;
+  }
   function renderDraggables(provided, snapshot) {
     chapterLayout.draggingFromThisWith = snapshot.draggingFromThisWith || 0;
     return <div

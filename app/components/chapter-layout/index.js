@@ -148,7 +148,6 @@ ChapterLayout.prototype = {
     this.createDashElement(e);
   },
   onMousedown(e) {
-    console.log('onMousedown');
     if (!this.draggableElementsInfo) {
       this.draggableElementsInfo = this.getDragElementPosition();
     }
@@ -201,13 +200,13 @@ ChapterLayout.prototype = {
       //   items
       // });
       if (destinationLevel < level) {
-        console.log('相对右移');
+        // console.log('相对右移');
         items[destinationIndex].level = Math.min(prevLevel + 1, level);
       } else if (destinationLevel === level) {
-        console.log('平行位置');
+        // console.log('平行位置');
         items[destinationIndex].level = destinationLevel;
       } else {
-        console.log('相对左移');
+        // console.log('相对左移');
         items[destinationIndex].level = level;
         const subs = this.getSubs(destinationIndex, destinationLevel);
         if (subs.length > 0) {

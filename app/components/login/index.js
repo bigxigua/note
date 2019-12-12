@@ -1,17 +1,16 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import Input from '@common/input';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
-import { getIn, parseUrlQuery, addKeydownListener } from '@util/util';
+import { getIn, parseUrlQuery, addKeydownListener, stringTransformToUrlObject } from '@util/util';
 import userContext from '@context/user/userContext';
 import useMessage from '@hooks/use-message';
 import './index.css';
 
 export default function Login() {
   // TODO 如果从注册切到登陆时returnUrl的问题
-  const message = useMessage();
   const isLoginPage = window.location.pathname === '/login';
   const { returnUrl = '' } = parseUrlQuery();
   const [state, setState] = useState({ account: '', password: '' });
@@ -20,8 +19,9 @@ export default function Login() {
     passwordErrorMsg: ''
   });
   const [loading, setLoading] = useState(false);
-  const history = useHistory();
   const { updateUserInfo } = useContext(userContext);
+  const history = useHistory();
+  const message = useMessage();
 
   useEffect(() => {
     const listener = addKeydownListener({
@@ -29,6 +29,7 @@ export default function Login() {
         keyCode === 13 && onSubmit();
       }
     });
+    setErrorInfo({});
     return () => {
       listener.remove();
     };
@@ -41,7 +42,7 @@ export default function Login() {
     });
   };
   // 验证用户输入
-  const onVerifyInput = ({ account, password }) => {
+  const onVerifyInput = useCallback(({ account, password }) => {
     const errorInfo = {};
     if (!account || account.length < 5) {
       errorInfo.accountErrorMsg = '请输入正确帐号格式，至少 5 位';
@@ -51,14 +52,11 @@ export default function Login() {
     }
     setErrorInfo(errorInfo);
     return errorInfo.passwordErrorMsg || errorInfo.accountErrorMsg;
-  };
+  }, []);
   // 提交表单
   const onSubmit = async () => {
     const path = isLoginPage ? 'login' : 'register';
-    const verifyNotPass = onVerifyInput(state);
-    if (verifyNotPass) {
-      return;
-    }
+    if (onVerifyInput(state)) return;
     setLoading(true);
     const [error, data] = await axiosInstance.post(path, state);
     setLoading(false);
@@ -66,8 +64,8 @@ export default function Login() {
       updateUserInfo(data);
       // 登陆页回跳原来页面，注册页回跳首页
       if (isLoginPage && returnUrl) {
-        const { pathname, search } = new URL(decodeURIComponent(returnUrl));
-        history.replace(pathname + search);
+        const { pathname } = stringTransformToUrlObject(returnUrl);
+        history.replace(pathname);
       } else {
         history.replace('/');
       }

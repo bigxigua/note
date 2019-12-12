@@ -4,7 +4,8 @@ import editorContext from '@context/editor/editorContext';
 import { addRecent } from '@util/commonFun';
 
 export default function useSaveContent({
-  publish = false // 是否发布
+  publish = false, // 是否发布
+  spaceId = ''
 }) {
   const { updateSaveStatus, saveContentStatus } = useContext(editorContext);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
@@ -34,7 +35,7 @@ export default function useSaveContent({
       ...publishParams
     });
     await addRecent({
-      spaceId: '',
+      spaceId,
       docId,
       type: publish ? 'UpdateEdit' : 'Edit'
     });

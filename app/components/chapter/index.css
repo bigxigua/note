@@ -1,7 +1,7 @@
 .Chapter{
   margin-top: 40px;
   overflow-x: hidden;
-  width: 550px;
+  width: 700px;
 }
 .Chapter_Drop_Box{
   margin: 0 auto;
@@ -52,15 +52,15 @@
 }
 .Chapter_Item_1{
   left: 40px;
-  width: 510px;
+  width: 660px;
 }
 .Chapter_Item_2{
   left: 80px;
-  width: 470px;
+  width: 620px;
 }
 .Chapter_Item_3{
   left: 120px;
-  width: 430px;
+  width: 580px;
 }
 .Catalog{
 

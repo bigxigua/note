@@ -47,6 +47,9 @@ export default function Catalog({
   docs = [],
   catalog = []
 }) {
+  if (!Array.isArray(catalog) || catalog.length < 2) {
+    return null;
+  }
   const [catalogTrees, setCatalogTrees] = useState(extractCatalog(catalog.slice(1)));
   const onToggleExpand = useCallback((trees, item, index) => {
     const { open = false, children = [], docId } = item;
@@ -65,6 +68,7 @@ export default function Catalog({
       setCatalogTrees(result.filter(n => n.belong !== docId));
     }
   }, []);
+
   return <div className="Catalog">
     {
       catalogTrees.map((item, index) => {

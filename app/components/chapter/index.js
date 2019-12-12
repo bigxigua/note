@@ -13,12 +13,14 @@ export default function ChapterWrapper({
   const [state, dispatch] = useReducer(catalogReducer, initialState);
   const [catalog, setCatalog] = useState([]);
   const { type = '' } = parseUrlQuery();
+
   const updateCatalog = (payload) => {
     dispatch({
       type: 'UPDATE_CATALOG',
       payload
     });
   };
+
   useEffect(() => {
     try {
       const d = JSON.parse(spaceInfo.space.catalog);
@@ -27,18 +29,18 @@ export default function ChapterWrapper({
     } catch (error) {
     }
   }, [spaceInfo.space]);
-  if (spaceInfo.docs.length === 0 || !spaceInfo.space.catalog) {
-    return null;
-  }
+  // if (spaceInfo.docs.length === 0 || !spaceInfo.space.catalog) {
+  //   return null;
+  // }
   // 服务端针对每个space保存一个json，用来描述这个space下属的文件的结构和顺序信息
   // 1.文档的展示顺序和json的结构顺序一致
   // 2. 调整顺序也是修改json数据顺序
   // 3. 调整文件为文件夹或者调整文件夹层级直接修改level属性
   // 4. 按顺序展示时，如果相邻2个元素level值不一样(且只能相差1)时，构造自己的childs
 
-  if (catalog.length === 0) {
-    return null;
-  }
+  // if (catalog.length === 0) {
+  //   return null;
+  // }
   // const catalog = [{
   //   display_level: 0, // 默认展示的层级
   //   max_level: 3, // 默认可创建的最大目录层级

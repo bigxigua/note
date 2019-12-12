@@ -1,5 +1,6 @@
 import React from 'react';
 import Icon from '@common/icon';
+import { useHistory } from 'react-router-dom';
 import './index.css';
 
 export default function Button(props) {
@@ -11,6 +12,7 @@ export default function Button(props) {
     type = 'default', // 类型
     className = '',
     content = '',
+    link = null,
     onClick = () => { }
   } = props;
   const typeClassName = {
@@ -19,20 +21,28 @@ export default function Button(props) {
     dashed: 'Button_dash',
     danger: 'Button_danger'
   };
+  const history = useHistory();
   const loadingClassName = loading ? 'Button_loading' : '';
+  const disabledClassName = disabled ? 'Button_disabled' : '';
   const onButtonClick = () => {
-    if (!loading && !disabled) {
-      onClick();
+    if (loading || disabled) {
+      return;
     }
+    if (link) {
+      history.push(link.to);
+    }
+    onClick();
   };
   return (
     <button
       onClick={onButtonClick}
-      className={`Button flex ${className} ${typeClassName[type]} ${loadingClassName}`}>
+      className={`Button flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`}>
       {icon && <Icon type={icon} />}
       {loading && <Icon className="Button_loading_Icon"
         type={'loading'} />}
-      {content || children}
+      {
+        content || children
+      }
     </button>
   );
 };
