@@ -1,9 +1,11 @@
 import React from 'react';
 import Icon from '@common/icon';
-import { useHistory } from 'react-router-dom';
-import { formatTimeStamp, getIn } from '@util/util';
-import Button from '@common/button';
+import List from '@common/list';
 import Tag from '@common/tag';
+import Popover from '@components/popover';
+import { useHistory, Link } from 'react-router-dom';
+import { formatTimeStamp, getIn } from '@util/util';
+import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
 const typeMap = {
@@ -25,28 +27,29 @@ const typeMap = {
     action: ['edit'],
     key: 'doc'
   },
-  DeleteEdit: {
+  PhysicalDeleteEdit: {
     img: '/images/delete.png',
-    text: '删除了文档',
+    text: '彻底删除了文档',
+    key: 'doc'
+  },
+  LogicalDeleteEdit: {
+    img: '/images/delete.png',
+    text: '移除了文档',
     action: ['restore-doc', 'delete'],
     key: 'doc'
   },
   CreateSpace: {
     img: 'images/create_folder.png',
     text: '创建了空间',
+    action: ['management'],
     key: 'space'
   },
   UpdateSpace: {
     img: '',
     text: '更新了空间啦',
+    action: ['management'],
     key: 'space'
   },
-  // DeleteSpace: {
-  //   img: '',
-  //   text: '删除了空间',
-  //   action: ['restore-space'],
-  //   key: 'space'
-  // },
   Share: {
     img: '',
     text: '分享了文档',
@@ -54,8 +57,8 @@ const typeMap = {
   }
 };
 
-function onRestore(e) {
-  // TODO 恢复文档
+function onRestore({ prop = {}, key = '' }, i, e) {
+  console.log();
   e.stopPropagation();
 }
 
@@ -71,52 +74,90 @@ function handleClick(info, props, history) {
     history.push(`/editor/${docId}/?spaceId=${spaceId}`);
   }
 }
+
+// popver下拉项点击
+async function onPopoverItemClick({ props = {}, key = '' }, e, onRecentAction) {
+  e.stopPropagation();
+  onRecentAction('remove', props);
+  // if (key === 'remove') {
+  //   const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
+  //   if (getIn(data, ['STATUS']) === 'OK') {
+  //     onRecentAction('remove', props);
+  //   }
+  // }
+}
+
 // 渲染右侧可操作项
-function renderAction({ action = [], key }, props, history) {
-  return action.map(n => {
+function renderAction({ action = [] }, props, history, onRecentAction) {
+  return action.concat(['more']).map(n => {
     if (n === 'edit') {
       return <Icon
-        key={key}
+        key={n}
         onClick={(e) => { handleClick({ key: 'editor' }, props, history); e.stopPropagation(); }}
         className="Recent_Content_Item"
         type="edit" />;
     } else if (n === 'restore-doc') {
       return <Tag content="恢复"
-        key={key}
+        key={n}
         onClick={(e) => { onRestore(e); }}
         color="#25b864" />;
     } else if (n === 'delete') {
       return <Tag content="彻底删除"
-        key={key}
+        key={n}
+        style={{ marginLeft: '10px' }}
         onClick={(e) => { onRestore(e); }}
-        color="#25b864" />;
+        color="rgb(255, 85, 0)" />;
+    } else if (n === 'management') {
+      return <Link
+        key={n}
+        style={{ color: 'rgb(16, 142, 233)' }}
+        to={`/spacedetail?spaceId=${props.space_id}`}>
+        管理
+      </Link>;
+    } else if (n === 'more') {
+      return <Popover
+        content={
+          <List
+            style={{ boxShadow: 'none', padding: 0 }}
+            onTap={(info, inex, event) => { onPopoverItemClick(info, event, onRecentAction); }}
+            list={[{
+              text: '移除记录',
+              key: 'remove',
+              icon: 'delete',
+              props
+            }
+            ]} />
+        }
+        key={'more'}><Icon type="ellipsis"
+          className="Space_Operation_Icon" /></Popover>;
     }
   });
 };
 
 export default function RecentContent(props) {
-  const { type, doc = {}, space = {}, user = {} } = props;
+  const { type, space = {}, user = {}, created_at, onRecentAction } = props;
   const history = useHistory();
   const info = typeMap[type] || {};
   const weightStyle = {
     fontWeight: 600,
     padding: '0 4px'
   };
+  const title = getIn(props[info.key], [info.key === 'space' ? 'name' : 'title'], '');
   return (
     <div className="Recent_Content"
       onClick={() => { handleClick(info, props, history); }}>
       <div className="Recent_Content_Left">
         <img src={info.img} />
         <div className="Recent_Content_Left_Info">
-          <p>{props[info.key][info.key === 'space' ? 'name' : 'title']}</p>
+          <p>{title}</p>
           {info.key === 'doc' && <span>所属空间:《{`${space.name}`}》</span>}
           <span>
             <span style={weightStyle}>{user.name}</span>
-            在{formatTimeStamp(props[info.key].updated_at)} {info.text}</span>
+            在{formatTimeStamp(+created_at)} {info.text}</span>
         </div>
       </div>
       <div className="Recent_Content_Right">
-        {renderAction(info, props, history)}
+        {renderAction(info, props, history, onRecentAction)}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
 import { formatTimeStamp } from '@util/util';
-import { addRecent } from '@util/commonFun';
+import { addRecent, logicalDeletion, physicalDeletion } from '@util/commonFun';
 import './index.css';
 
 const message = useMessage();
@@ -30,15 +30,6 @@ function renderDocOperation(onOperationClick, docInfo) {
         key: 'delete',
         docInfo
       }
-        // {
-        //   text: '复制',
-        //   key: 'copy',
-        //   docInfo
-        // }, {
-        //   text: '使用该模版创建',
-        //   key: 'template',
-        //   docInfo
-        // }
       ]} />);
 }
 // 恢复文档
@@ -133,33 +124,23 @@ export default function Space() {
   async function deleteDoc(type = '') {
     const docId = docInfo.doc_id;
     const spaceId = docInfo.space_id;
-    const params = {
-      u: 'doc/update',
-      p: { status: '0', doc_id: docId }
-    };
-    if (type === 'thorough') {
-      params.u = 'doc/delete';
-      params.p = { doc_id: docId };
-    }
-    // TODO 删除加动效
-    const [error, data] = await axiosInstance.post(params.u, params.p);
-    if (!error && data && data.STATUS === 'OK') {
+    const isPhysicalDelete = type === 'thorough';
+    const method = isPhysicalDelete ? physicalDeletion : logicalDeletion;
+    const success = await method({ docId });
+    if (success) {
       setDataSource(dataSource.map(n => {
         if (n.doc_id === docId) {
-          type === 'thorough' ? (n = null) : (n.status = '0');
+          isPhysicalDelete ? (n = null) : (n.status = '0');
         }
         return n;
       }).filter(n => n));
-      if (params.u === 'doc/update') {
-        await addRecent({
-          docId,
-          spaceId,
-          type: 'DeleteEdit'
-        });
-      }
+      await addRecent({
+        docId,
+        spaceId,
+        type: isPhysicalDelete ? 'PhysicalDeleteEdit' : 'LogicalDeleteEdit'
+      });
     } else {
       message.error({ content: '系统开小差啦，请稍后重试' });
-      console.log('[获取文档列表失败] ', error);
     }
   }
   function onOperationClick(e) {

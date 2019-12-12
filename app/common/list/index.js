@@ -7,16 +7,17 @@ export default function List(props) {
     list = [],
     className = '',
     listStyle = {},
+    style = {},
     onTap = () => { }
   } = props;
-  const onClickHandle = (n, i) => {
-    onTap(n, i);
+  const onClickHandle = (n, i, e) => {
+    onTap(n, i, e);
   };
   const jsx = list.map((n, i) => {
     return (
       <li key={i}
         style={listStyle}
-        onClick={() => { onClickHandle(n, i); }}
+        onClick={(e) => { onClickHandle(n, i, e); }}
         className={`List flex ${n.checked ? 'List_Checked' : ''}`}>
         {n.icon && <Icon type={n.icon} />}
         <span>{n.text}</span>
@@ -24,7 +25,9 @@ export default function List(props) {
     );
   });
   return (
-    <ul className={`List_Wrapper ${className}`}>
+    <ul
+      style={style}
+      className={`List_Wrapper ${className}`}>
       {jsx}
     </ul>
   );
