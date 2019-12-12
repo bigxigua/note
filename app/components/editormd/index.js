@@ -112,10 +112,10 @@ function getTitle(docInfo = {}, content) {
 }
 
 export default function Editormd({ docInfo }) {
+  const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const { updateEditorInfo } = useContext(editorContext);
-  const update = useSaveContent({});
+  const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
-  const { content = 'draft' } = parseUrlQuery();
   useEffect(() => {
     if (!docInfo) {
       return;

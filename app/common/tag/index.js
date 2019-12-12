@@ -7,6 +7,7 @@ export default function Button(props) {
     style = {},
     className = '',
     children = '',
+    content = '',
     w = 'auto',
     h = 'auto',
     closable = false,
@@ -18,7 +19,7 @@ export default function Button(props) {
       style={{ width: w, height: h, backgroundColor: color, ...style }}
       className={`Tag ${className}`}
       onClick={onClick}>
-      {children}
+      {content || children}
       {closable && <Icon type="close" />}
     </div>
   );

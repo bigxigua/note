@@ -1,7 +1,9 @@
 import React from 'react';
 import Icon from '@common/icon';
 import { useHistory } from 'react-router-dom';
-import { formatTimeStamp } from '@util/util';
+import { formatTimeStamp, getIn } from '@util/util';
+import Button from '@common/button';
+import Tag from '@common/tag';
 import './index.css';
 
 const typeMap = {
@@ -18,15 +20,15 @@ const typeMap = {
     key: 'doc'
   },
   UpdateEdit: {
-    img: '',
+    img: '/images/update.png',
     text: '更新了文档',
     action: ['edit'],
     key: 'doc'
   },
   DeleteEdit: {
-    img: '',
+    img: '/images/delete.png',
     text: '删除了文档',
-    action: ['restore-doc'],
+    action: ['restore-doc', 'delete'],
     key: 'doc'
   },
   CreateSpace: {
@@ -39,12 +41,12 @@ const typeMap = {
     text: '更新了空间啦',
     key: 'space'
   },
-  DeleteSpace: {
-    img: '',
-    text: '删除了空间',
-    action: ['restore-space'],
-    key: 'space'
-  },
+  // DeleteSpace: {
+  //   img: '',
+  //   text: '删除了空间',
+  //   action: ['restore-space'],
+  //   key: 'space'
+  // },
   Share: {
     img: '',
     text: '分享了文档',
@@ -52,15 +54,49 @@ const typeMap = {
   }
 };
 
+function onRestore(e) {
+  // TODO 恢复文档
+  e.stopPropagation();
+}
+
+// 点击每一项的跳转行为
+function handleClick(info, props, history) {
+  const spaceId = getIn(props, ['space', 'space_id'], '');
+  const docId = getIn(props, ['doc', 'doc_id'], '');
+  if (info.key === 'space') {
+    history.push(`/spacedetail?spaceId=${spaceId}`);
+  } else if (info.key === 'doc') {
+    history.push(`/article/${docId}/?spaceId=${spaceId}`);
+  } else if (info.key === 'editor') {
+    history.push(`/editor/${docId}/?spaceId=${spaceId}`);
+  }
+}
+// 渲染右侧可操作项
+function renderAction({ action = [], key }, props, history) {
+  return action.map(n => {
+    if (n === 'edit') {
+      return <Icon
+        key={key}
+        onClick={(e) => { handleClick({ key: 'editor' }, props, history); e.stopPropagation(); }}
+        className="Recent_Content_Item"
+        type="edit" />;
+    } else if (n === 'restore-doc') {
+      return <Tag content="恢复"
+        key={key}
+        onClick={(e) => { onRestore(e); }}
+        color="#25b864" />;
+    } else if (n === 'delete') {
+      return <Tag content="彻底删除"
+        key={key}
+        onClick={(e) => { onRestore(e); }}
+        color="#25b864" />;
+    }
+  });
+};
+
 export default function RecentContent(props) {
   const { type, doc = {}, space = {}, user = {} } = props;
   const history = useHistory();
-  const onJumpToArticle = (type) => {
-    if (type === 'space') {
-      history.push(`/spacedetail?spaceId=${space.space_id}`);
-    }
-    history.push(`/${type}/${doc.doc_id}/?spaceId=${space.space_id}`);
-  };
   const info = typeMap[type] || {};
   const weightStyle = {
     fontWeight: 600,
@@ -68,7 +104,7 @@ export default function RecentContent(props) {
   };
   return (
     <div className="Recent_Content"
-      onClick={() => { onJumpToArticle('article'); }}>
+      onClick={() => { handleClick(info, props, history); }}>
       <div className="Recent_Content_Left">
         <img src={info.img} />
         <div className="Recent_Content_Left_Info">
@@ -80,13 +116,7 @@ export default function RecentContent(props) {
         </div>
       </div>
       <div className="Recent_Content_Right">
-        <Icon
-          onClick={(e) => { onJumpToArticle('editor'); e.stopPropagation(); }}
-          className="Recent_Content_Item"
-          type="edit" />
-        {/* <Icon
-          className="Recent_Content_Item Recent_Content_Item_More"
-          type="ellipsis" /> */}
+        {renderAction(info, props, history)}
       </div>
     </div>
   );

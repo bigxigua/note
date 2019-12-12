@@ -11,6 +11,7 @@ import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
 import { formatTimeStamp } from '@util/util';
+import { addRecent } from '@util/commonFun';
 import './index.css';
 
 const message = useMessage();
@@ -131,8 +132,9 @@ export default function Space() {
   // 删除文档
   async function deleteDoc(type = '') {
     const docId = docInfo.doc_id;
+    const spaceId = docInfo.space_id;
     const params = {
-      u: '/doc/update',
+      u: 'doc/update',
       p: { status: '0', doc_id: docId }
     };
     if (type === 'thorough') {
@@ -148,6 +150,13 @@ export default function Space() {
         }
         return n;
       }).filter(n => n));
+      if (params.u === 'doc/update') {
+        await addRecent({
+          docId,
+          spaceId,
+          type: 'DeleteEdit'
+        });
+      }
     } else {
       message.error({ content: '系统开小差啦，请稍后重试' });
       console.log('[获取文档列表失败] ', error);

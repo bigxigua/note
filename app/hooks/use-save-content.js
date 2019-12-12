@@ -1,9 +1,10 @@
 import { useContext } from 'react';
 import axiosInstance from '@util/axiosInstance';
 import editorContext from '@context/editor/editorContext';
+import { addRecent } from '@util/commonFun';
 
 export default function useSaveContent({
-  publish = false
+  publish = false // 是否发布
 }) {
   const { updateSaveStatus, saveContentStatus } = useContext(editorContext);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
@@ -31,6 +32,11 @@ export default function useSaveContent({
     const [error, data] = await axiosInstance.post('doc/update', {
       doc_id: docId,
       ...publishParams
+    });
+    await addRecent({
+      spaceId: '',
+      docId,
+      type: publish ? 'UpdateEdit' : 'Edit'
     });
     if (!error && data && data.STATUS === 'OK') {
       updateSaveStatus(1);
