@@ -53,7 +53,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
       <span
         onClick={() => { onRecovery(info, h); }}
         style={{ color: 'rgb(37, 184, 100)', marginRight: '10px' }}>恢复</span>
-      <span onClick={() => { deleteDoc('thorough'); }}>彻底删除</span>
+      <span onClick={() => { deleteDoc('thorough', info); }}>彻底删除</span>
     </div>);
   }
   if (info.title_draft || info.markdown_draft) {
@@ -121,9 +121,9 @@ export default function Space() {
     }
   }
   // 删除文档
-  async function deleteDoc(type = '') {
-    const docId = docInfo.doc_id;
-    const spaceId = docInfo.space_id;
+  async function deleteDoc(type = '', info) {
+    const docId = info.doc_id;
+    const spaceId = info.space_id;
     const isPhysicalDelete = type === 'thorough';
     const method = isPhysicalDelete ? physicalDeletion : logicalDeletion;
     const success = await method({ docId });
@@ -170,7 +170,7 @@ export default function Space() {
     setVisible(false);
   };
   const onConfirmModal = () => {
-    deleteDoc();
+    deleteDoc('', docInfo);
     setVisible(false);
   };
   const pagingDataSource = () => {

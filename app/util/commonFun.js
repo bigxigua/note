@@ -25,6 +25,7 @@ export async function logicalDeletion({ docId }) {
 }
 // 物理删除文档接口调用
 export async function physicalDeletion({ docId }) {
+  console.log('---', docId);
   const [error, data] = await axiosInstance.post('doc/delete', {
     doc_id: docId
   });

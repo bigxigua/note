@@ -6,7 +6,10 @@ import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
 import { formatTimeStamp, getIn } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
+import useMessage from '@hooks/use-message';
 import './index.css';
+
+const message = useMessage();
 
 const typeMap = {
   Edit: {
@@ -57,11 +60,6 @@ const typeMap = {
   }
 };
 
-function onRestore({ prop = {}, key = '' }, i, e) {
-  console.log();
-  e.stopPropagation();
-}
-
 // 点击每一项的跳转行为
 function handleClick(info, props, history) {
   const spaceId = getIn(props, ['space', 'space_id'], '');
@@ -78,13 +76,14 @@ function handleClick(info, props, history) {
 // popver下拉项点击
 async function onPopoverItemClick({ props = {}, key = '' }, e, onRecentAction) {
   e.stopPropagation();
-  onRecentAction('remove', props);
-  // if (key === 'remove') {
-  //   const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
-  //   if (getIn(data, ['STATUS']) === 'OK') {
-  //     onRecentAction('remove', props);
-  //   }
-  // }
+  if (key === 'remove') {
+    const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
+    if (getIn(data, ['STATUS']) === 'OK') {
+      onRecentAction('remove', props);
+    } else {
+      message.error({ content: '系统开小差啦，请稍后再试' });
+    }
+  }
 }
 
 // 渲染右侧可操作项
@@ -97,15 +96,15 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
         className="Recent_Content_Item"
         type="edit" />;
     } else if (n === 'restore-doc') {
-      return <Tag content="恢复"
+      return <Tag content="可恢复"
         key={n}
-        onClick={(e) => { onRestore(e); }}
+        onClick={(e) => e.stopPropagation()}
         color="#25b864" />;
     } else if (n === 'delete') {
-      return <Tag content="彻底删除"
+      return <Tag content="已删除"
         key={n}
+        onClick={(e) => e.stopPropagation()}
         style={{ marginLeft: '10px' }}
-        onClick={(e) => { onRestore(e); }}
         color="rgb(255, 85, 0)" />;
     } else if (n === 'management') {
       return <Link

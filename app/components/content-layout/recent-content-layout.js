@@ -16,15 +16,14 @@ export default function RecentContentLayout() {
     })();
   }, []);
   const onRecentAction = useCallback((type, { id }) => {
-    const index = recentLists.findIndex(n => n.id === id);
-    recentLists.splice(index, 1);
-    // console.group(recentLists);
-    setRecentLists(recentLists);
+    const list = recentLists.slice(0);
+    const index = list.findIndex(n => n.id === id);
+    list.splice(index, 1);
+    setRecentLists(list);
   }, [recentLists]);
   if (recentLists.length === 0) {
     return <Empty />;
   }
-  console.group(recentLists);
   return (
     <div className="Recent_Content_Layout">
       {
