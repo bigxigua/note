@@ -46,12 +46,12 @@
   background-color: #fafafa;
   border-color: #16914f;
 }
-.Button_primary:hover{
+.Button_primary:not(.Button_disabled):hover{
   color: #fff;
   background-color: #47c479;
   border-color: #47c479;
 }
-.Button_primary:active{
+.Button_primary:not(.Button_disabled):active{
   color: #fff;
   background-color: #16914f;
   border-color: #16914f;

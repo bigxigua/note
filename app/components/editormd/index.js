@@ -1,9 +1,10 @@
 import React, { useEffect, useContext, useRef } from 'react';
 import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
-import { debunce, parseUrlQuery } from '@util/util';
+import { debunce, parseUrlQuery, addKeydownListener } from '@util/util';
 import useSaveContent from '@hooks/use-save-content';
 import './index.css';
+
 /**
  *  初始化编辑器
  *  @content {String} 默认显示草稿还是最新内容(draft/origin)
@@ -85,22 +86,6 @@ function insertTitleInput(doc, content) {
 }
 
 /**
- *  ctrl+S保存 ctrl+Q 预览
- */
-function interceptKeyUp(editor, update) {
-  document.onkeydown = function (e) {
-    const keyCode = e.keyCode || e.which || e.charCode;
-    const ctrlKey = e.ctrlKey || e.metaKey;
-    // Ctrl-S
-    if (ctrlKey && keyCode === 83) {
-      e.preventDefault();
-      update(editor);
-      return false;
-    }
-  };
-}
-
-/**
  *  获取标题
  */
 function getTitle(docInfo = {}, content) {
@@ -111,15 +96,32 @@ function getTitle(docInfo = {}, content) {
   return title;
 }
 
+/**
+ *  监听键盘事件，设置快捷键操作
+ */
+function monitorKeyupHandle({ editormd, update }) {
+  return addKeydownListener({
+    handle: ({ keyCode, ctrlKey, e }) => {
+      // Ctrl-S,保存
+      if (ctrlKey && keyCode === 83) {
+        e.preventDefault();
+        update(editormd);
+      }
+      // e.preventDefault();
+      // Ctrl-Q,全屏预览
+      console.log({ keyCode, ctrlKey, e });
+    }
+  });
+}
+
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const { updateEditorInfo } = useContext(editorContext);
   const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
+
   useEffect(() => {
-    if (!docInfo) {
-      return;
-    }
+    if (!docInfo) return;
     previewMarkdownToContainer({
       content,
       docInfo,
@@ -127,11 +129,16 @@ export default function Editormd({ docInfo }) {
         addToolTipForEditorIcon();
         insertTitleInput(docInfo, content);
         updateEditorInfo(e);
-        interceptKeyUp(e, update);
+        monitorKeyupHandle({ editormd: e, update });
       },
       onchange: (e) => {
         updateEditorInfo(e);
       }
+    });
+    window.addEventListener('beforeunload', (e) => {
+      const confirmationMessage = '要记得保存！你确定要离开我吗？';
+      (e || window.event).returnValue = confirmationMessage;
+      return confirmationMessage;
     });
   }, [docInfo, content]);
   return (

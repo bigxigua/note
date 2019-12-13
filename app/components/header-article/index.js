@@ -67,7 +67,9 @@ export default function ArticleHeader({
               onClick={jumpToEditor}>编辑</button>
             <Icon type="caret-down" />
           </div>}
-          {isEditPage && <Button type="primary"
+          {isEditPage && <Button
+            disabled={saveContentStatus === -1}
+            type="primary"
             onClick={onUpdate}>更新</Button>}
           <Popover content={content}>
             <Icon type="ellipsis"

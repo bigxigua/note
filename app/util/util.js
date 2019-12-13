@@ -148,14 +148,12 @@ export async function delay(time = 300) {
 
 // 监听键盘按下事件
 export function addKeydownListener({
-  preventDefault = false,
   handle = () => { }
 }) {
   const fn = (e) => {
     const keyCode = e.keyCode || e.which || e.charCode;
     const ctrlKey = e.ctrlKey || e.metaKey;
-    handle({ keyCode, ctrlKey });
-    preventDefault && e.preventDefault();
+    handle({ keyCode, ctrlKey, e });
   };
   document.body.addEventListener('keydown', fn, false);
   return {
