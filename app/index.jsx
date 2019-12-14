@@ -12,7 +12,6 @@ import New from '@page/new';
 import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
-import Recycle from '@page/recycle';
 import './index.css';
 import '@public/css/anima.css';
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
@@ -68,10 +67,6 @@ class App extends React.Component {
             <Route
               path="/docs/"
               component={PageWrapper(Docs, '/docs/')}
-            />
-            <Route
-              path="/recycle/"
-              component={PageWrapper(Recycle, '/recycle/')}
             />
             <Route
               exact

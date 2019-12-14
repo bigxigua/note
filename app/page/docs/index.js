@@ -37,7 +37,8 @@ async function onRecovery(info, history) {
   const { doc_id, space: { space_id } } = info;
   const [error, data] = await axiosInstance.post('/doc/update', {
     status: '1',
-    doc_id
+    doc_id,
+    space_id
   });
   if (!error && data && data.STATUS === 'OK') {
     history.push(`/article/${doc_id}?spaceId=${space_id}`);
@@ -126,7 +127,7 @@ export default function Space() {
     const spaceId = info.space_id;
     const isPhysicalDelete = type === 'thorough';
     const method = isPhysicalDelete ? physicalDeletion : logicalDeletion;
-    const success = await method({ docId });
+    const success = await method({ docId, spaceId });
     if (success) {
       setDataSource(dataSource.map(n => {
         if (n.doc_id === docId) {

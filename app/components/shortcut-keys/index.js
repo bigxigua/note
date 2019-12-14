@@ -3,16 +3,19 @@ import Icon from '@common/icon';
 import { addKeydownListener } from '@util/util';
 import './index.css';
 
+const key = '';
+// editormd.keyMaps
+
 const textKeys = {
   title: '文本格式快捷键',
   list: [{
     symbol: <img src="/images/text_bold.png" />,
     name: '加粗',
-    keys: ['CMD', 'S']
+    keys: ['CMD', 'B']
   }, {
     symbol: <img src="/images/text_itailc.png" />,
     name: '斜体',
-    keys: ['CMD', 'E']
+    keys: ['CMD', 'I']
   }, {
     symbol: <img src="/images/format_strikethrough.png" />,
     name: '删除线',
@@ -64,7 +67,7 @@ const pageKeys = {
   }]
 };
 const articleKeys = {
-  title: '文本对齐快捷键',
+  title: '文本快捷键',
   list: [{
     symbol: <img src="/images/left_alignment.png" />,
     name: '左对齐',
@@ -81,6 +84,10 @@ const articleKeys = {
     symbol: <img src="/images/align_justify.png" />,
     name: '两端对齐',
     keys: ['CMD', 'E']
+  }, {
+    symbol: <img src="/images/align_justify.png" />,
+    name: '创建列表',
+    keys: ['CMD', 'U']
   }]
 };
 export default function ShortcutKeys({

@@ -1764,7 +1764,7 @@
         }
       } else {
         codeMirror.width(editor.width());
-        preview.hide();
+        // preview.hide();
       }
 
       if (state.loaded) {
@@ -2281,6 +2281,25 @@
 
       return this;
     },
+    /**
+     * 将markdown渲染为html--自定义函数
+     *
+     * @returns {editormd}         返回editormd的实例对象
+     */
+    markdownToHTML: function (id, option) {
+      return editormd.markdownToHTML(id, {
+        ...editormd.settings,
+        ...option
+      });
+    },
+    /**
+     * 关闭预览--自定义函数
+     *
+     * @returns {editormd}         返回editormd的实例对象
+     */
+    closeMarkdownToHTML: function (id) {
+      $(`#${id}`).hide();
+    },
 
     /**
          * 隐藏编辑器部分，只预览HTML
@@ -2290,7 +2309,6 @@
          */
 
     previewing: function () {
-      // debugger;
       var _this = this;
       var editor = this.editor;
       var preview = this.preview;
@@ -3375,8 +3393,13 @@
 
     markedRenderer.listitem = function (text) {
       if (settings.taskList && /^\s*\[[x\s]\]\s*/.test(text)) {
-        text = text.replace(/^\s*\[\s\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" /> ')
-          .replace(/^\s*\[x\]\s*/, '<input type="checkbox" class="task-list-item-checkbox" checked disabled /> ');
+        const getTaskHtml = (check = false) => {
+          return `<span class="task-list-item-span ${check ? 'task-list-item-span-check' : ''}">` +
+            '<input type="checkbox" class="task-list-item-checkbox" />' +
+            '</span>';
+        }
+        text = text.replace(/^\s*\[\s\]\s*/, getTaskHtml())
+          .replace(/^\s*\[x\]\s*/, getTaskHtml(true));
 
         return '<li style="list-style: none;">' + this.atLink(this.emoji(text)) + '</li>';
       } else {
@@ -3621,6 +3644,8 @@
     editormd.$marked = marked;
 
     var div = $('#' + id);
+    div.text('');
+    div.show();
     var settings = div.settings = $.extend(true, defaults, options || {});
     var saveTo = div.find('textarea');
 
@@ -3709,7 +3734,11 @@
       var katexHandle = function () {
         div.find('.' + editormd.classNames.tex).each(function () {
           var tex = $(this);
-          katex.render(tex.html().replace(/&lt;/g, '<').replace(/&gt;/g, '>'), tex[0]);
+          try {
+            katex.render(tex.html().replace(/&lt;/g, '<').replace(/&gt;/g, '>'), tex[0]);
+          } catch (error) {
+            console.log('error', error);
+          }
           tex.find('.katex').css('font-size', '1.6em');
         });
       };
@@ -3942,7 +3971,7 @@
     if (options.closed) {
       html += '<a href="javascript:;" class="fa fa-close ' + classPrefix + 'dialog-close"></a>';
     }
-
+    console.log(options);
     html += '<div class="' + classPrefix + 'dialog-container">' + options.content;
 
     if (options.footer || typeof options.footer === 'string') {

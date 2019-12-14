@@ -9,8 +9,8 @@ export default function BookCatalog() {
   const [bookCatalog, setBookCatalog] = useState([]);
   async function fetchDocsBySpaceId() {
     const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
-    if (!error && Array.isArray(data) && data.length > 0) {
-      setBookCatalog(data);
+    if (!error && data && Array.isArray(data.docs) && data.docs.length > 0) {
+      setBookCatalog(data.docs);
     } else {
       console.log('[获取space下doc列表失败] ', error);
     }

@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useEffect, useContext, useRef, useState } from 'react';
 import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
 import { debunce, parseUrlQuery, addKeydownListener } from '@util/util';
@@ -16,6 +16,7 @@ async function previewMarkdownToContainer({
   content,
   docInfo: { markdown, markdown_draft },
   onchange,
+  onSyncChange,
   onload
 }) {
   let md = markdown_draft || markdown;
@@ -25,7 +26,7 @@ async function previewMarkdownToContainer({
   const editor = window.editormd('editormd_edit', {
     toolbar: true,
     path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
-    disabledKeyMaps: ['Ctrl-S', 'F11', 'F10'],
+    disabledKeyMaps: ['Ctrl-S'],
     placeholder: '开始吧！！',
     searchReplace: true,
     markdown: md,
@@ -34,8 +35,11 @@ async function previewMarkdownToContainer({
     previewTheme: 'default',
     editorTheme: 'default',
     emoji: true,
-    tex: true,
+    tex: false,
+    taskList: true,
     tocm: true,
+    flowChart: true,
+    // sequenceDiagram: true,
     watch: false
   });
   const debunceEditorChange = debunce(function () {
@@ -44,6 +48,7 @@ async function previewMarkdownToContainer({
   editor.settings.onload = () => {
     onload(editor);
     editor.cm.on('change', () => {
+      onSyncChange(editor);
       debunceEditorChange(editor);
     });
   };
@@ -96,29 +101,49 @@ function getTitle(docInfo = {}, content) {
   return title;
 }
 
-/**
- *  监听键盘事件，设置快捷键操作
- */
-function monitorKeyupHandle({ editormd, update }) {
-  return addKeydownListener({
-    handle: ({ keyCode, ctrlKey, e }) => {
-      // Ctrl-S,保存
-      if (ctrlKey && keyCode === 83) {
-        e.preventDefault();
-        update(editormd);
-      }
-      // e.preventDefault();
-      // Ctrl-Q,全屏预览
-      console.log({ keyCode, ctrlKey, e });
-    }
-  });
-}
-
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const { updateEditorInfo } = useContext(editorContext);
   const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
+  const editormd = useRef(null);
+  /**
+ *  监听键盘事件，设置快捷键操作
+ */
+  function monitorKeyupHandle() {
+    return addKeydownListener({
+      handle: ({ keyCode, ctrlKey, e }) => {
+        // Ctrl-S,保存
+        if (ctrlKey && keyCode === 83) {
+          e.preventDefault();
+          update(editormd.current);
+        }
+        // Ctrl-J,全屏预览
+        if (ctrlKey && keyCode === 74) {
+          if (editormd.current.isPreving) return;
+          e.preventDefault();
+          const markdown = editormd.current.getMarkdown();
+          console.log('--------');
+          editormd.current.markdownToHTML('preview-container', {
+            ...editormd.current.settings,
+            markdown
+          });
+          editormd.current.isPreving = true;
+          updateEditorInfo(editormd.current);
+        }
+        // esc 退出操作
+        if (keyCode === 27) {
+          if (editormd.current.isPreving) {
+            editormd.current.closeMarkdownToHTML('preview-container');
+            editormd.current.isPreving = false;
+            updateEditorInfo(editormd.current);
+          }
+          e.preventDefault();
+        }
+        // console.log({ keyCode, ctrlKey, e });
+      }
+    });
+  }
 
   useEffect(() => {
     if (!docInfo) return;
@@ -129,20 +154,25 @@ export default function Editormd({ docInfo }) {
         addToolTipForEditorIcon();
         insertTitleInput(docInfo, content);
         updateEditorInfo(e);
-        monitorKeyupHandle({ editormd: e, update });
+        monitorKeyupHandle();
+        editormd.current = e;
       },
       onchange: (e) => {
         updateEditorInfo(e);
+      },
+      onSyncChange: (e) => {
+        editormd.current = e;
       }
     });
-    window.addEventListener('beforeunload', (e) => {
-      const confirmationMessage = '要记得保存！你确定要离开我吗？';
-      (e || window.event).returnValue = confirmationMessage;
-      return confirmationMessage;
-    });
+    // window.addEventListener('beforeunload', (e) => {
+    //   const confirmationMessage = '要记得保存！你确定要离开我吗？';
+    //   (e || window.event).returnValue = confirmationMessage;
+    //   return confirmationMessage;
+    // });
   }, [docInfo, content]);
   return (
     <div className="Editormd_Wrapper flex">
+      <div id="preview-container"></div>
       <div className="Editormd">
         <div id="editormd_edit"
           ref={editorArea}></div>

@@ -65,16 +65,18 @@ export default function ArticleHeader({
           {isArticlePage && <div className="Article_Header_Edit_Btn flex">
             <button className="button"
               onClick={jumpToEditor}>编辑</button>
-            <Icon type="caret-down" />
+            {/* <Icon type="caret-down" /> */}
           </div>}
           {isEditPage && <Button
-            disabled={saveContentStatus === -1}
+            // disabled={saveContentStatus === -1}
             type="primary"
             onClick={onUpdate}>更新</Button>}
-          <Popover content={content}>
+          {/* <Popover content={content}>
             <Icon type="ellipsis"
               className="Article_Header_Fun_Icon" />
-          </Popover>
+          </Popover> */}
+          <Icon type="ellipsis"
+            className="Article_Header_Fun_Icon" />
         </div>
       </div>
     </div>

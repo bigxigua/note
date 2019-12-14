@@ -25,15 +25,21 @@ async function previewMarkdownToContainer({
   // 文档作者，content表示显示草稿内容还是文档内容
   // 非文档作者忽略该参数，直接显示文档内容
   return window.editormd('editormd', {
+    toolbar: false,
     height: 'auto',
     path: '/editor/lib/',
+    htmlDecode: 'style,script,iframe',
     readOnly: true,
     markdown: md,
     styleActiveLine: false,
     lineNumbers: false,
-    toolbar: false,
     watch: false,
+    tex: true,
+    tocm: true,
+    taskList: true,
+    flowChart: true,
     previewCodeHighlight: true,
+    // sequenceDiagram: true,
     onload: function () {
       this.previewing();
       onLoad(this);

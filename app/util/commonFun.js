@@ -16,18 +16,19 @@ export async function addRecent({
 }
 
 // 逻辑删除文档接口调用
-export async function logicalDeletion({ docId }) {
+export async function logicalDeletion({ docId, spaceId }) {
   const [error, data] = await axiosInstance.post('doc/update', {
     status: '0',
-    doc_id: docId
+    doc_id: docId,
+    space_id: spaceId
   });
   return !error && data && data.STATUS === 'OK';
 }
 // 物理删除文档接口调用
-export async function physicalDeletion({ docId }) {
-  console.log('---', docId);
+export async function physicalDeletion({ docId, spaceId }) {
   const [error, data] = await axiosInstance.post('doc/delete', {
-    doc_id: docId
+    doc_id: docId,
+    space_id: spaceId
   });
   return !error && data && data.STATUS === 'OK';
 }
