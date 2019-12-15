@@ -8,6 +8,7 @@ export default function Scene({
   desc,
   index,
   actived = false,
+  disabled = false,
   onClick = console.log
 }) {
   const onClickHandle = () => {
@@ -18,7 +19,7 @@ export default function Scene({
   return (
     <div
       onClick={onClickHandle}
-      className={`Scene flex ${(actived || '') && 'Scene_Actived'}`}>
+      className={`Scene ${disabled ? 'Scene_Disabled' : ''} flex ${(actived || '') && 'Scene_Actived'}`}>
       <div className="Scene_Img flex">
         {icon}
       </div>

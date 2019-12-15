@@ -23,22 +23,29 @@ export default function Catalog({
       catalogTrees.map((item, index) => {
         const doc = docs.find(n => n.doc_id === item.docId) || {};
         const isParenrt = item.children.length > 0;
-        const classes = `Catalog_Item flex ${item.open ? 'Catalog_Item_Open' : ''} ${isParenrt ? 'Catalog_Item_Parent' : ''} Catalog_Item_${Math.min(item.level, 3)}`;
+        const isDelete = item.status === '0';
+        let classes = `Catalog_Item flex ${item.open ? 'Catalog_Item_Open' : ''} ${isParenrt ? 'Catalog_Item_Parent' : ''}`;
+        classes += isDelete ? 'Catalog_Item_Disabeld' : '';
         if (isEmptyObject(doc)) {
           return null;
         }
         return (<div
           key={item.docId}
+          style={{ marginLeft: `${Math.min(item.level, 3) * 40}px` }}
           className={classes}>
           <div className="Catalog_Item_Name flex">
             {isParenrt && <Icon
               onClick={() => { onToggleExpandCatalog(catalogTrees, item, index); }}
               type="caret-down" />}
-            <Link
-              to={`${stringTransformToUrlObject(doc.url).pathname}`}
-              target="blank">
-              {doc.title}
-            </Link>
+            {
+              isDelete
+                ? <span>{doc.title}</span>
+                : <Link
+                  to={`${stringTransformToUrlObject(doc.url).pathname}`}
+                  target="blank">
+                  {doc.title}
+                </Link>
+            }
           </div>
           <span className="Catalog_Item_Update flex">{formatTimeStamp(doc.draft_update_at)}</span>
         </div>);

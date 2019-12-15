@@ -25,6 +25,7 @@
 }
 .New_Main{
     padding: 0 14px;
+    display: flex;
 }
 .New_Choose{
     width: 460px;
@@ -116,4 +117,33 @@
     border: none;
     background-color: #16914f;
     border-color: #16914f;
+}
+.New_Preview{
+    width: 640px;
+    min-height: 640px;
+    padding: 32px;
+    color: #595959;
+    font-size: 14px;
+}
+.New_Preview>p{
+    font-size: 14px;
+    color: #262626;
+    font-weight: 500;
+    margin-top: 20px;
+
+}
+.New_Preview_Header>h2{
+    margin-bottom: 4px;
+    font-size: 16px;
+    line-height: 24px;
+    color: #262626;
+    font-weight: 500;
+}
+.New_Preview_Img{
+    width: 620px;
+    border: 1px solid #e8e8e8;
+    margin-top: 20px;
+}
+.New_Preview_Desc{
+    margin-top: 5px;
 }

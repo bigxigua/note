@@ -45,6 +45,9 @@ export default function Chapter({
     >
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
+        let classes = `Chapter_Item Chapter_Item_${item.docId}`;
+        classes += ` Chapter_Item_${Math.min(item.level, 3)}`;
+        classes += `${docInfo.status === '0' ? ' Chapter_Item_Disabled' : ''}`;
         if (isEmptyObject(docInfo)) {
           return null;
         }
@@ -53,7 +56,7 @@ export default function Chapter({
           index={index}>
           {(provided) => (
             <div
-              className={`Chapter_Item Chapter_Item_${item.docId} Chapter_Item_${Math.min(item.level, 3)}`}
+              className={classes}
               data-tbid={item.docId}
               data-offset={Math.min(item.level, 3)}
               ref={provided.innerRef}

@@ -23,7 +23,6 @@
 .Scene_Img>img{
   width: 24px;
 }
-.Scene_Content {}
 
 .Scene_Content>h6 {
   font-size: 14px;
@@ -36,4 +35,9 @@
   font-size: 12px;
   line-height: 18px;
   color: #8c8c8c;
+}
+
+.Scene_Disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
 }

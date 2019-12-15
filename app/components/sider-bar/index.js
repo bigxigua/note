@@ -26,7 +26,7 @@ export default function SiderBarLayout() {
         <img src="/images/documentation.png" />
         <span>文档</span>
       </NavLink>
-      {/* <span className="SiderBar_Line"></span> */}
+      <span className="SiderBar_Line"></span>
       <Link to="/"
         className="SiderBar_Link">
         <img src="/images/github.png" />
@@ -52,13 +52,6 @@ export default function SiderBarLayout() {
         <img src="/images/more.png" />
         <span>其他</span>
       </Link>
-      {/* <span className="SiderBar_Line"></span> */}
-      {/* <Link to="/recycle"
-        className="SiderBar_Link">
-        <img src="/images/recycling.png"
-          style={{ width: '17px' }} />
-        <span>回收站</span>
-      </Link> */}
     </div>
   );
 };

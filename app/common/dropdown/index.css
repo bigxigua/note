@@ -1,7 +1,7 @@
 .Dropdown {
   position: relative;
   cursor: pointer;
-  height: 100%;
+  /* height: 100%; */
   justify-content: center;
 }
 .Dropdown_disabled {

@@ -45,7 +45,9 @@ function CreateMenu({ menus, onClick }) {
   });
 }
 
-export default function NewChooseType() {
+export default function NewChooseType({
+  setSpace
+}) {
   const message = useMessage();
   const history = useHistory();
   const [menus, setMenus] = useState([{
@@ -67,27 +69,32 @@ export default function NewChooseType() {
   }, {
     icon: <img src="/images/books.png" />,
     title: '资源知识库',
+    disabled: true,
     scene: 'RESOURCE',
     desc: '上传并预览知识库'
   }, {
     icon: <img src="/images/import.png" />,
     title: '导入',
+    disabled: true,
     scene: 'IMPORT',
     desc: '新建并导入本地内容'
   }]);
   const [templateSences, setTemplateSences] = useState([{
     icon: <img src="/images/doc.png" />,
     title: '学习笔记',
+    disabled: true,
     scene: 'TEMPLATE_OF_STUDY',
     desc: '点滴学习，随时记录'
   }, {
     icon: <img src="/images/blog.png" />,
     title: '博客专栏',
+    disabled: true,
     scene: 'TEMPLATE_OF_BLOG',
     desc: '定时总结，与人分享，加深记忆'
   }, {
     icon: <img src="/images/trip.png" />,
     title: '旅行攻略',
+    disabled: true,
     scene: 'TEMPLATE_OF_TRAVEL',
     desc: '行程单、预算、游记'
   }]);
@@ -99,7 +106,8 @@ export default function NewChooseType() {
     }));
   };
   // 切换模版事件
-  const onTemplateScenesChange = (index, type) => {
+  const onTemplateScenesChange = (index, type, item) => {
+    if (item.disabled) return;
     const _templateSences_ = templateSences.map((n, i) => {
       return { ...n, actived: type === 'default' ? false : i === index };
     });
@@ -109,6 +117,7 @@ export default function NewChooseType() {
     setTemplateSences(_templateSences_);
     setTypeSences(_typeScenes_);
     const _info_ = [..._templateSences_, ..._typeScenes_].filter(n => n.actived)[0];
+    setSpace(_info_);
     setInfo(_info_);
   };
   // 输入框输入事件
@@ -133,10 +142,7 @@ export default function NewChooseType() {
       scene
     });
     if (!error && data && data.spaceId) {
-      await addRecent({
-        spaceId: data.spaceId,
-        type: 'CreateSpace'
-      });
+      await addRecent({ spaceId: data.spaceId, type: 'CreateSpace' });
       message.success({ content: '创建成功', d: 500, onClose: () => history.push('/space/') });
       return;
     }
@@ -154,14 +160,14 @@ export default function NewChooseType() {
   const TypeScenes = typeScenes.map((n, i) => {
     return <Scene
       {...n}
-      onClick={(e) => onTemplateScenesChange(e, 'default')}
+      onClick={(e) => onTemplateScenesChange(e, 'default', n)}
       index={i}
       key={i} />;
   });
   const TemplateScenes = templateSences.map((n, i) => {
     return <Scene
       {...n}
-      onClick={(e) => onTemplateScenesChange(e, 'template')}
+      onClick={(e) => onTemplateScenesChange(e, 'template', n)}
       index={i}
       key={i} />;
   });
@@ -191,6 +197,7 @@ export default function NewChooseType() {
       <Input
         defaultValue={info.desc}
         type="textarea"
+        h={'auto'}
         onChange={(e) => { onInputChange(e, 'desc'); }}
         className="New_TextArea" />
       <button

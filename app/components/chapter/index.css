@@ -87,16 +87,6 @@
   z-index: 10;
   padding-right: 32px;
 }
-.Catalog_Item_1{
-  margin-left: 40px;
-}
-.Catalog_Item_2{
-  margin-left: 80px;
-}
-.Catalog_Item_3{
-  margin-left: 120px;
-
-}
 .Catalog_Item_Update{
   color: #bfbfbf;
   height: 100%;
@@ -117,6 +107,14 @@
 .Catalog_Item_Open>.Catalog_Item_Name>.Icon{
   transform: rotate(0);
 }
+.Catalog_Item_Disabeld{
+  opacity: 0.6;
+  cursor: not-allowed;
+  text-decoration: line-through;
+}
+.Catalog_Item_Disabeld a{
+  cursor: not-allowed;
+}
 .Chapter_Header{
   width: 100%;
   height: 58px;
@@ -129,4 +127,7 @@
 }
 .Chapter_Header_Operation>.Button{
   margin-left: 20px;
+}
+.Chapter_Item_Disabled{
+  text-decoration: line-through;
 }

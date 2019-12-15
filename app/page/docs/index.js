@@ -100,7 +100,9 @@ export default function Space() {
   }, {
     title: '归属',
     key: 'space',
-    render: (info) => info.space.name
+    render: (info) => {
+      return info.space && info.space.name;
+    }
   }, {
     title: '最后编辑',
     key: 'updated_at',

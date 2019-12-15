@@ -2287,10 +2287,7 @@
      * @returns {editormd}         返回editormd的实例对象
      */
     markdownToHTML: function (id, option) {
-      return editormd.markdownToHTML(id, {
-        ...editormd.settings,
-        ...option
-      });
+      return editormd.markdownToHTML(id, $.extend(editormd.settings, options || {}));
     },
     /**
      * 关闭预览--自定义函数

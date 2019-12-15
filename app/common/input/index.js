@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
+import { setTextAreaAutoHeight } from '@util/commonFun';
 import './index.css';
 
 export default function Input(props) {
@@ -19,6 +20,7 @@ export default function Input(props) {
   } = props;
   const [value, setValue] = useState(defaultValue);
   const [className, setClassName] = useState('Input_Wrapper flex ');
+  const textArea = useRef(null);
   const _onChange_ = (e) => {
     setValue(e.currentTarget.value);
     onChange(e);
@@ -35,6 +37,7 @@ export default function Input(props) {
   }, [addonBefore, addonAfter]);
   useEffect(() => {
     setValue(defaultValue);
+    setTextAreaAutoHeight(textArea.current, 10);
   }, [defaultValue]);
   return (
     <div className={`${className} ${classN}`}
@@ -55,13 +58,14 @@ export default function Input(props) {
       }
       {
         type === 'textarea' &&
-          <textarea
-            rows={rows}
-            cols={cols}
-            placeholder={placeholder}
-            maxLength={maxLength}
-            value={value || ''}
-            onChange={_onChange_} />
+        <textarea
+          ref={textArea}
+          rows={rows}
+          cols={cols}
+          placeholder={placeholder}
+          maxLength={maxLength}
+          value={value || ''}
+          onChange={_onChange_} />
       }
       {addonAfter && <span className="Input_addonAfter">{addonAfter}</span>}
     </div>

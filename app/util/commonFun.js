@@ -112,3 +112,55 @@ export async function createNewDoc(info, callback) {
     callback(error);
   }
 }
+// textarea 自适应高度
+export function setTextAreaAutoHeight(element, extra = 0, maxHeight) {
+  console.log(element);
+  if (!element) {
+    return;
+  }
+  const getStyle = name => {
+    return window.getComputedStyle(element, null)[name];
+  };
+  const isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window;
+  const isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera');
+  const minHeight = parseFloat(getStyle('height'));
+  const addEvent = document.addEventListener;
+
+  element.style.resize = 'none';
+
+  const change = () => {
+    let scrollTop;
+    let height;
+    let padding = 0;
+    const style = element.style;
+
+    if (element._length === element.value.length) return;
+    element._length = element.value.length;
+
+    if (!isFirefox && !isOpera) {
+      padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+    };
+    scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+    element.style.height = minHeight + 'px';
+    if (element.scrollHeight > minHeight) {
+      if (maxHeight && element.scrollHeight > maxHeight) {
+        height = maxHeight - padding;
+        style.overflowY = 'auto';
+      } else {
+        height = element.scrollHeight - padding;
+        style.overflowY = 'hidden';
+      };
+      style.height = height + extra + 'px';
+      scrollTop += parseInt(style.height) - element.currHeight;
+      document.body.scrollTop = scrollTop;
+      document.documentElement.scrollTop = scrollTop;
+      element.currHeight = parseInt(style.height);
+    };
+  };
+
+  addEvent('propertychange', change);
+  addEvent('input', change);
+  addEvent('focus', change);
+  change();
+}
