@@ -259,6 +259,7 @@ body, button, input, select, textarea {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    display: block;
 }
 .flex{
     display: flex;

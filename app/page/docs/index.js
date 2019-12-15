@@ -81,7 +81,10 @@ export default function Space() {
   const history = useHistory();
   const columns = [{
     title: '名称',
-    key: 'title'
+    key: 'title',
+    render: (info) => {
+      return <span>{info.title}</span>;
+    }
   }, {
     title: '状态',
     key: 'status',

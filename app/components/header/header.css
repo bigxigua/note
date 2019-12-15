@@ -4,7 +4,7 @@
     background: #ffffff;
     box-shadow: 0 2px 2px 0 rgba(0,0,0,.06);
     position: relative;
-    z-index: 2;
+    z-index: 11;
     will-change: margin;
 }
 .Header_Wrapper_Hide{
@@ -123,6 +123,7 @@
 .Header_Spaces_List>span{
     color: #8c8c8c;
     font-size: 14px;
+    flex-shrink: 0;
 }
 .Header_Spaces_List>span:nth-child(3){
     padding: 0 6px;

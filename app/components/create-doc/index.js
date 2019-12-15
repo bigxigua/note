@@ -6,7 +6,7 @@ import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
 import useMessage from '@hooks/use-message';
 import { delay } from '@util/util';
-import { addRecent } from '@util/commonFun';
+import { createNewDoc } from '@util/commonFun';
 import './index.css';
 
 export default function CreateDoc({
@@ -41,24 +41,14 @@ export default function CreateDoc({
   };
   // 点击创建文档
   const onChooseSpace = async (info) => {
-    const { space_id } = info;
-    const [error, data] = await axiosInstance.post('create/doc', {
-      scene: 'doc',
-      space_id,
-      title: '无标题'
+    createNewDoc(info, async ({ docId, spaceId }) => {
+      if (docId && spaceId) {
+        await delay();
+        history.push(`/editor/${docId}?spaceId=${spaceId}`);
+      } else {
+        console.log('[创建文档出错] ');
+      }
     });
-    if (!error && data && data.docId) {
-      await addRecent({
-        spaceId: space_id,
-        type: 'CreateEdit',
-        docId: data.docId
-      });
-      await delay();
-      history.push(`/editor/${data.docId}?spaceId=${space_id}`);
-    } else {
-      // TODO 错误处理
-      console.log('[创建文档出错] ', error);
-    }
   };
   useEffect(() => {
     fetchSpaces();
@@ -72,7 +62,8 @@ export default function CreateDoc({
         <img src={SPACE_TYPE_ICON[n.scene]} />
         <span>{account}</span>
         <span>/</span>
-        <span>{n.name}</span>
+        <span style={{ maxWidth: '300px' }}
+          className="ellipsis">{n.name}</span>
         <img src={`/images/${n.public === 'SELF' ? 'lock' : 'global'}.png`} />
       </div>
     );

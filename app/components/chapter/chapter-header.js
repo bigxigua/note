@@ -1,21 +1,21 @@
-import React, { useContext, useCallback, useState } from 'react';
+import React, { useContext, useCallback } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
-import CreateDoc from '@components/create-doc';
-import { parseUrlQuery } from '@util/util';
+import { parseUrlQuery, delay } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
 import { catalogContext } from '@context/catalog-context';
+import { createNewDoc } from '@util/commonFun';
 
 export default function ChapterHeader({
   userInfo = {},
   space = {}
 }) {
   const { info: { catalog } } = useContext(catalogContext);
-  const [visible, setVisible] = useState(false);
   const history = useHistory();
   const { pathname, search } = window.location;
   const { type = '', spaceId = '' } = parseUrlQuery();
+  // 面包屑导航
   const crumbs = [{
     text: userInfo.name,
     render: n => { return n.text; }
@@ -26,6 +26,7 @@ export default function ChapterHeader({
     text: space.name,
     pathname: `${pathname + search}`
   }];
+  // 点击更新编排后的文档
   const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
     const [error, data] = await axiosInstance.post('spaces/update', {
       space_id: spaceId,
@@ -37,15 +38,28 @@ export default function ChapterHeader({
       console.log('[目录更新失败 ]', error);
     }
   }, []);
+  // 新建文档
+  const onCreateNewDoc = useCallback((info) => {
+    createNewDoc(info, async ({ docId, spaceId }) => {
+      if (docId && spaceId) {
+        await delay();
+        history.push(`/editor/${docId}?spaceId=${spaceId}`);
+      } else {
+        console.log('[创建文档出错] ');
+      }
+    });
+  }, []);
+
   return <div className="Chapter_Header flex">
-    {visible && <CreateDoc onModalChange={(stat) => {
-      setVisible(stat);
-    }} />}
     <Breadcrumb crumbs={crumbs} />
     <div className="Chapter_Header_Operation flex">
       <Button
         content="新建文档"
-        onClick={() => { setVisible(true); }} />
+        onClick={() => {
+          onCreateNewDoc({
+            space_id: spaceId
+          });
+        }} />
       {type.toLocaleLowerCase() === 'toc'
         ? <Button
           content="更新"

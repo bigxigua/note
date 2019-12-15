@@ -2,7 +2,7 @@ import React, { useState, useEffect, Fragment, useContext } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import Icon from '@common/icon';
-import { formatTimeStamp } from '@util/util';
+import { formatTimeStamp, isEmptyObject } from '@util/util';
 import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
 
@@ -45,6 +45,9 @@ export default function Chapter({
     >
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
+        if (isEmptyObject(docInfo)) {
+          return null;
+        }
         return <Draggable key={item.docId}
           draggableId={String(item.docId)}
           index={index}>

@@ -1,6 +1,12 @@
 export function isObject(obj) {
   return Object.prototype.toString.call(obj) === '[object Object]';
 };
+export function isEmptyObject(param) {
+  if (!param || typeof param !== 'object') {
+    return true;
+  }
+  return Object.keys(param).length === 0;
+}
 export function throttle(fn, wait = 2000, immediately = false) {
   let latestTime = Date.now();
   let _immediately_ = immediately;
@@ -32,12 +38,7 @@ export function debunce(fn, wait = 2000, immediately = false) {
     }
   };
 }
-export function isEmptyObject(param) {
-  if (!param || typeof param !== 'object') {
-    return true;
-  }
-  return Object.keys(param).length === 0;
-}
+
 // 格式化时间
 export function formatTimeStamp(timestamp) {
   if (isNaN(+parseInt)) {

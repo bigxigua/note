@@ -3,9 +3,7 @@ import editorContext from '@context/editor/editorContext';
 import './index.css';
 
 function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
-  if (!editormd) {
-    return;
-  }
+  if (!editormd) return;
   const catalogs = [];
   try {
     const $html = dynamic ? $(editormd.getHtmlFromMarkDown()) : $('.markdown-body').children();

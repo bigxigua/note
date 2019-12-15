@@ -1,12 +1,27 @@
 .BookCatalog_Wrapper{
   width: 250px;
-  padding: 0 24px;
-  padding-top: 27px;
+  padding: 27px 24px 24px 30px;
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
   flex-direction: column;
   border-right: 1px solid #e8e8e8;
+}
+.BookCatalog_Item{
+  position: relative;
+}
+.BookCatalog_Item>.Icon{
+  font-size: 12px;
+  transition: all linear 0.2s;
+  transform: rotate(-90deg);
+  position: absolute;
+  left: -12px;
+  cursor: s;
+}
+.BookCatalog_Item_Open>.Icon{
+  transform: rotate(0deg);
+  left: -14px;
+  margin-top: 1px;
 }
 .BookCatalog_NavLink{
   width: 100%;
