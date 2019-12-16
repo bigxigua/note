@@ -49,4 +49,6 @@
 .Table_Actions{
   color: rgb(16, 142, 233);
   cursor: pointer;
+  display: inline-block;
+  min-width: 50px;
 }

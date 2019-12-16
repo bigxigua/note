@@ -82,8 +82,8 @@ function insertTitleInput(doc, content) {
   const title = getTitle(doc, content);
   const titleDom =
     '<div class="CodeMirror_title flex">' +
-    '<div class="CodeMirror_titlle_left flex"><img src="/images/title.png" alt="标题" /></div>' +
-    `<input value='${title}' />` +
+    '<div class="CodeMirror_title_left flex"><img src="/images/title.png" alt="标题" /></div>' +
+    `<input maxlength="30" value='${title.substr(0, 30)}' />` +
     '</div>';
   if ($CodeMirror.length > 0) {
     $(titleDom).insertBefore($($('.CodeMirror').children()[0]));

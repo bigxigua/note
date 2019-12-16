@@ -1,5 +1,6 @@
 .SiderBar_Layout {
   width: 206px;
+  max-width: 20%;
   flex-shrink: 0;
   padding-right: 20px;
 }

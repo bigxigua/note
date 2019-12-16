@@ -13,6 +13,7 @@ import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
 import './index.css';
+import './media.css';
 import '@public/css/anima.css';
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
 // 按需加载

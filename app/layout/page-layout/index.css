@@ -1,18 +1,18 @@
 .Content{
-  width: 100%;
+  width: calc(100% - 206px);
+  max-width: calc(100% - 20%);
 }
 .Container{
   width: 100%;
+  min-width: 375px;
   min-height: 100vh;
   background: #fafafa;
-  /* overflow: hidden; */
 }
 .Content_Wrapper_Index{
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
-  padding: 26px 0;
-  padding-right: 14px;
+  padding: 26px 14px;
   box-sizing: border-box;
   overflow: hidden;
   font-size: 14px;

@@ -34,7 +34,7 @@ export default function Header() {
           <Link to="/"
             className="Header_title ellipsis">
           </Link>
-          <Search />
+          <Search className="Header_Search" />
           <Link to="/"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
           <Link to="/entertainment"

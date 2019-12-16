@@ -1,0 +1,20 @@
+@media screen and (max-width: 800px) {
+  .SiderBar_Layout{
+    display: none;
+  }
+  .Right_Panel_Layout{
+    display: none;
+  }
+  .Header_link{
+    display: none;
+  }
+}
+
+@media screen and (max-width: 490px) {
+  .Header_Search{
+    display: none;
+  }
+  .Header_right>.Popover_Wrapper{
+    margin-right: 20px;
+  }
+}

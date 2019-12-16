@@ -18,9 +18,9 @@ function Content(props) {
   return (
     <div className="header-user-popover animated">
       <div className="header-userpopover-top">
-        <img src={avatar}
+        {/* <img src={avatar}
           alt="头像"
-          className="header-userpopover-avatar" />
+          className="header-userpopover-avatar" /> */}
         <div className="header-userpopover-info">
           <div>昵称: <span>{account || nickname}</span></div>
           <div>介绍: <span>{headline || '空空如也'}</span></div>
@@ -30,11 +30,6 @@ function Content(props) {
         <div className="header-userpopover-link">
           <Icon type="setting" />
           <span>收藏夹</span>
-          <Icon type="right" />
-        </div>
-        <div className="header-userpopover-link">
-          <Icon type="setting" />
-          <span>设置</span>
           <Icon type="right" />
         </div>
         <div className="header-userpopover-link">

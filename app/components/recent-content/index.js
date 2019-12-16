@@ -138,8 +138,7 @@ export default function RecentContent(props) {
   const history = useHistory();
   const info = typeMap[type] || {};
   const weightStyle = {
-    fontWeight: 600,
-    padding: '0 4px'
+    fontWeight: 600
   };
   const title = getIn(props[info.key], [info.key === 'space' ? 'name' : 'title'], '');
   return (
@@ -148,8 +147,8 @@ export default function RecentContent(props) {
       <div className="Recent_Content_Left">
         <img src={info.img} />
         <div className="Recent_Content_Left_Info">
-          <p>{title}</p>
-          {info.key === 'doc' && <span>所属空间:《{`${space.name}`}》</span>}
+          <p className="ellipsis">{title}</p>
+          {info.key === 'doc' && <span className="ellipsis">所属空间:《{`${space.name}`}》</span>}
           <span>
             <span style={weightStyle}>{user.name}</span>
             在{formatTimeStamp(+created_at)} {info.text}</span>

@@ -21,15 +21,17 @@ export default function Breadcrumb(props) {
   }
   const createNavLink = ({ text, pathname }) => {
     return <NavLink to={pathname}
+      className="ellipsis"
       activeStyle={{ color: '#262626', fontWeight: 'bold' }}>{text}</NavLink>;
   };
   const _crumbs_ = crumbs.filter(n => !!n.text);
   const crumbsJsx = _crumbs_.map((n, i) => {
-    return <div className="Breadcrumb_Item"
+    return (<div
+      className="Breadcrumb_Item flex"
       key={i}>
       {n.render ? n.render(n) : createNavLink(n)}
       {(i !== _crumbs_.length - 1) && <span>/</span>}
-    </div>;
+    </div>);
   });
   return (
     <div className={`Breadcrumb flex ${className}`}>

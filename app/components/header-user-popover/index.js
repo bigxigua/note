@@ -10,7 +10,7 @@ export default function HeaderUserPopover() {
       <div className="header-userpopover-top">
         <img src={avatar}
           alt="头像"
-          className="header-userpopover-avatar"/>
+          className="header-userpopover-avatar" />
         <div className="header-userpopover-info">
           <div>昵称: <span>{nickname}</span></div>
           <div>介绍: <span>{intro}</span></div>
@@ -20,11 +20,6 @@ export default function HeaderUserPopover() {
         <div className="header-userpopover-link">
           <Icon type="setting" />
           <span>收藏夹</span>
-          <Icon type="right" />
-        </div>
-        <div className="header-userpopover-link">
-          <Icon type="setting" />
-          <span>设置</span>
           <Icon type="right" />
         </div>
         <div className="header-userpopover-link">

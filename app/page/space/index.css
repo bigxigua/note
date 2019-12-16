@@ -3,6 +3,7 @@
 }
 .Space_Table{
 	width: 100%;
+	display: block;
 }
 .Space_Table_Tags{
 	position: relative;

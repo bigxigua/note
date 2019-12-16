@@ -25,6 +25,7 @@
 }
 .Header_left{
     padding-left: 12px;
+    overflow: hidden;
 }
 .Header_left_favicon{
     width: 32px;
@@ -41,7 +42,8 @@
     height: 84%;
     background-size: contain;
     position: relative;
-    margin-right: 75px;
+    /* margin-right: 75px; */
+    margin-right: 10%;
 }
 
 .Header_link_workspace{

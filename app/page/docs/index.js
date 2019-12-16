@@ -61,7 +61,8 @@ function renderRightJsx(info, handle, h, deleteDoc) {
     return <Link className="Table_Actions"
       to={`/editor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
   }
-  return <div className="flex">
+  return <div className="flex"
+    style={{ width: '100px' }}>
     <Link className="Table_Actions"
       to={'/article' + info.url.split('article')[1]}>查看</Link>
     <Popover content={renderDocOperation(handle, info)}>
@@ -107,7 +108,7 @@ export default function Space() {
     title: '最后编辑',
     key: 'updated_at',
     render: (info) => {
-      return formatTimeStamp(info.updated_at);
+      return <div style={{ width: '140px' }}>{formatTimeStamp(info.updated_at)}</div>;
     }
   }, {
     title: '编辑',

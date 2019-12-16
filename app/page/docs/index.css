@@ -1,6 +1,3 @@
-.Space_Table{
-	width: 100%;
-}
 .Space_Operation_Icon{
 	font-size: 20px;
 	top: 5px;
@@ -19,6 +16,10 @@
 }
 .Docs_operations>li{
 	line-height: 34px;
+}
+.Doc_Action{
+	display: block;
+	width: 100px;
 }
 .Doc_Action>span{
 	cursor: pointer;

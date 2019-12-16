@@ -43,14 +43,14 @@
   font-size: 30px;
   padding-left: 10px;
 }
-.CodeMirror_titlle_left{
+.CodeMirror_title_left{
   width: 48px;
   height: 100%;
   background-color: #f7f7f7;
   flex-shrink: 0;
   justify-content: center;
 }
-.CodeMirror_titlle_left>img{
+.CodeMirror_title_left>img{
   width: 20px;
 }
 #preview-container{

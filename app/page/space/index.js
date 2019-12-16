@@ -13,9 +13,7 @@ export default function Docs() {
     title: '名称',
     key: 'name',
     render: (info) => {
-      return <span
-        style={{ maxWidth: '240px' }}
-        className="ellipsis">{info.name}</span>;
+      return <span>{info.name}</span>;
     }
   }, {
     title: '类型',
@@ -31,9 +29,7 @@ export default function Docs() {
     title: '简介',
     key: 'description',
     render: (info) => {
-      return <span
-        style={{ maxWidth: '450px' }}
-        className="ellipsis">{info.description}</span>;
+      return <span>{info.description}</span>;
     }
   }, {
     title: '操作',
