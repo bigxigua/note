@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment, useContext } from 'react';
+import React, { useState, useEffect, Fragment, useContext, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import Icon from '@common/icon';
@@ -33,9 +33,24 @@ export default function Chapter({
     return () => chapterLayout.removeEvent();
   }, [catalog.length]);
 
+  const onDragItemClick = useCallback((item, index) => {
+    if (!item) return;
+    const level = Math.min(item.level, 3);
+    console.log(level);
+    $('.Chapter_Item_Add').remove();
+    const dom = `<div class="Chapter_Item_Add flex" style="left: ${level * 40}px; top: ${(index + 1) * 44 + index * 16 + 8}px">
+      <img src="/images/add.svg" />
+      <img src="/images/cursor.svg" />
+    </div>`;
+    $('.Chapter_Drop_Box').append($(dom));
+  }, []);
+
   if (!catalog || catalog.length === 0 || !docs || docs.length === 0) {
     return null;
   }
+
+  onDragItemClick(state.items[0], 0);
+
   function renderDraggables(provided, snapshot) {
     chapterLayout.draggingFromThisWith = snapshot.draggingFromThisWith || 0;
     return <div
@@ -51,11 +66,13 @@ export default function Chapter({
         if (isEmptyObject(docInfo)) {
           return null;
         }
-        return <Draggable key={item.docId}
+        return <Draggable
+          key={item.docId}
           draggableId={String(item.docId)}
           index={index}>
           {(provided) => (
             <div
+              onClick={() => { onDragItemClick(item, index, docInfo); }}
               className={classes}
               data-tbid={item.docId}
               data-offset={Math.min(item.level, 3)}

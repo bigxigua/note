@@ -1,10 +1,11 @@
 .Chapter{
   margin-top: 40px;
-  overflow-x: hidden;
+  /* overflow-x: hidden; */
   width: 700px;
 }
 .Chapter_Drop_Box{
   margin: 0 auto;
+  position: relative;
 }
 .Chapter_Update{
   float: right;
@@ -12,7 +13,7 @@
 .Chapter_Item{
   background: #fafafa;
   height: 44px;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   user-select: none;
   border-radius: 2px;
   border: 1px solid #d9d9d9;
@@ -130,4 +131,23 @@
 }
 .Chapter_Item_Disabled{
   text-decoration: line-through;
+}
+.Chapter_Item_Add{
+  width: 100%;
+  position: absolute;
+  z-index: 11;
+}
+.Chapter_Item_Add>img:first-child{
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  left: 0;
+}
+.Chapter_Item_Add>img:last-child{
+  width: 12px;
+  height: 12px;
+  transform: rotate(43deg);
+  margin-left: 10px;
+  position: absolute;
+  left: 26px;
 }
