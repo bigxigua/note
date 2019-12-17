@@ -132,22 +132,3 @@
 .Chapter_Item_Disabled{
   text-decoration: line-through;
 }
-.Chapter_Item_Add{
-  width: 100%;
-  position: absolute;
-  z-index: 11;
-}
-.Chapter_Item_Add>img:first-child{
-  width: 24px;
-  height: 24px;
-  position: absolute;
-  left: 0;
-}
-.Chapter_Item_Add>img:last-child{
-  width: 12px;
-  height: 12px;
-  transform: rotate(43deg);
-  margin-left: 10px;
-  position: absolute;
-  left: 26px;
-}

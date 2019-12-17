@@ -1,6 +1,7 @@
 import React, { useState, useEffect, Fragment, useContext, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
+import InsertCatalog from '@components/insert-catalog';
 import Icon from '@common/icon';
 import { formatTimeStamp, isEmptyObject } from '@util/util';
 import { catalogContext } from '@context/catalog-context';
@@ -19,6 +20,7 @@ export default function Chapter({
 }) {
   const { updateCatalog } = useContext(catalogContext);
   const [state, setState] = useState({ items: catalog.slice(1) });
+  const [tocStyle, setTocStyle] = useState({});
 
   useEffect(() => {
     chapterLayout.init({
@@ -29,27 +31,21 @@ export default function Chapter({
       }
     });
     setState({ items: catalog.slice(1) });
+    onDragItemClick(catalog.slice(1), 0);
     chapterLayout.bindEvent();
     return () => chapterLayout.removeEvent();
   }, [catalog.length]);
 
+  // 点击被拖动项时设置新增节点元素的位置
   const onDragItemClick = useCallback((item, index) => {
     if (!item) return;
     const level = Math.min(item.level, 3);
-    console.log(level);
-    $('.Chapter_Item_Add').remove();
-    const dom = `<div class="Chapter_Item_Add flex" style="left: ${level * 40}px; top: ${(index + 1) * 44 + index * 16 + 8}px">
-      <img src="/images/add.svg" />
-      <img src="/images/cursor.svg" />
-    </div>`;
-    $('.Chapter_Drop_Box').append($(dom));
+    setTocStyle({ left: level * 40, top: (index + 1) * 44 + index * 16 + 8 });
   }, []);
 
   if (!catalog || catalog.length === 0 || !docs || docs.length === 0) {
     return null;
   }
-
-  onDragItemClick(state.items[0], 0);
 
   function renderDraggables(provided, snapshot) {
     chapterLayout.draggingFromThisWith = snapshot.draggingFromThisWith || 0;
@@ -58,6 +54,7 @@ export default function Chapter({
       ref={provided.innerRef}
       className="Chapter_Drop_Box"
     >
+      <InsertCatalog style={tocStyle} />
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
         let classes = `Chapter_Item Chapter_Item_${item.docId}`;

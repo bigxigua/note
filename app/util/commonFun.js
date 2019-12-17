@@ -114,7 +114,6 @@ export async function createNewDoc(info, callback) {
 }
 // textarea 自适应高度
 export function setTextAreaAutoHeight(element, extra = 0, maxHeight) {
-  console.log(element);
   if (!element) {
     return;
   }
