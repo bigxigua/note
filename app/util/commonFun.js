@@ -25,6 +25,7 @@ export async function logicalDeletion({ docId, spaceId }) {
   });
   return !error && data && data.STATUS === 'OK';
 }
+
 // 物理删除文档接口调用
 export async function physicalDeletion({ docId, spaceId }) {
   const [error, data] = await axiosInstance.post('doc/delete', {
@@ -33,6 +34,36 @@ export async function physicalDeletion({ docId, spaceId }) {
   });
   return !error && data && data.STATUS === 'OK';
 }
+
+// 创建文档接口调用
+export async function createNewDoc(info, callback) {
+  const { space_id: spaceId, scene = 'doc', title = '无标题', catalogInfo = {} } = info;
+  const [error, data] = await axiosInstance.post('create/doc', {
+    title,
+    scene,
+    catalogInfo,
+    space_id: spaceId
+  });
+  const docId = getIn(data, ['docId'], '');
+  if (docId) {
+    await addRecent({ spaceId, type: 'CreateEdit', docId });
+    // eslint-disable-next-line standard/no-callback-literal
+    callback({ docId, spaceId });
+  } else {
+    // eslint-disable-next-line standard/no-callback-literal
+    callback(error);
+  }
+}
+
+// 更新目录接口调用
+export async function updateCatalogService({ spaceId, catalog }) {
+  const [error, data] = await axiosInstance.post('spaces/update', {
+    space_id: spaceId,
+    catalog: JSON.stringify(catalog)
+  });
+  return [error, data];
+}
+
 // 找到相同level的项
 export function getEqualLevel(list, index, level) {
   const result = [];
@@ -45,6 +76,7 @@ export function getEqualLevel(list, index, level) {
   }
   return result;
 }
+
 // 格式化目录结构
 export function extractCatalog(source) {
   const sourceData = source.slice(0);
@@ -74,6 +106,7 @@ export function extractCatalog(source) {
   }
   return recursion(source, 0);
 };
+
 // 收起或展开目录
 export function toggleExpandCatalog({
   trees, item, index
@@ -94,24 +127,7 @@ export function toggleExpandCatalog({
     callback(result.filter(n => n.belong !== docId));
   }
 }
-// 创建文档
-export async function createNewDoc(info, callback) {
-  const { space_id: spaceId, scene = 'doc', title = '无标题' } = info;
-  const [error, data] = await axiosInstance.post('create/doc', {
-    title,
-    scene,
-    space_id: spaceId
-  });
-  const docId = getIn(data, ['docId'], '');
-  if (docId) {
-    await addRecent({ spaceId, type: 'CreateEdit', docId });
-    // eslint-disable-next-line standard/no-callback-literal
-    callback({ docId, spaceId });
-  } else {
-    // eslint-disable-next-line standard/no-callback-literal
-    callback(error);
-  }
-}
+
 // textarea 自适应高度
 export function setTextAreaAutoHeight(element, extra = 0, maxHeight) {
   if (!element) {

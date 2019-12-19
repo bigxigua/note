@@ -20,6 +20,7 @@ ChapterLayout.prototype = {
   init({ items, setState }) {
     this.chapterBoxRef = document;
     this.items = [].concat(items);
+    this.removeEvent();
     this.onMousemove = this.onMousemove.bind(this);
     this.setState = setState;
   },
@@ -189,16 +190,6 @@ ChapterLayout.prototype = {
       return;
     }
     if (sourceIndex === destinationIndex) {
-      // console.log({
-      //   prevLevel,
-      //   destinationLevel,
-      //   sourceLevel,
-      //   level,
-      //   'offset - this.baselineX': offset - this.baselineX,
-      //   offset,
-      //   'this.baselineX': this.baselineX,
-      //   items
-      // });
       if (destinationLevel < level) {
         // console.log('相对右移');
         items[destinationIndex].level = Math.min(prevLevel + 1, level);
@@ -230,7 +221,7 @@ ChapterLayout.prototype = {
       }
     }
     this.items = items;
-    this.setState({ items });
+    this.setState({ items, sourceIndex });
     this.draggableElementsInfo = null;
   },
   getSubs(index, level) {

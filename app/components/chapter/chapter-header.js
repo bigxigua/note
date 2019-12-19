@@ -3,9 +3,8 @@ import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import { parseUrlQuery, delay } from '@util/util';
 import { useHistory } from 'react-router-dom';
-import axiosInstance from '@util/axiosInstance';
 import { catalogContext } from '@context/catalog-context';
-import { createNewDoc } from '@util/commonFun';
+import { createNewDoc, updateCatalogService } from '@util/commonFun';
 
 export default function ChapterHeader({
   userInfo = {},
@@ -28,10 +27,7 @@ export default function ChapterHeader({
   }];
   // 点击更新编排后的文档
   const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
-    const [error, data] = await axiosInstance.post('spaces/update', {
-      space_id: spaceId,
-      catalog: JSON.stringify(catalog)
-    });
+    const [error, data] = await updateCatalogService({ spaceId, catalog });
     if (data && data.STATUS === 'OK') {
       history.push(`/spacedetail?spaceId=${spaceId}`);
     } else {

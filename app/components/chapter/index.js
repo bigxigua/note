@@ -24,7 +24,7 @@ export default function ChapterWrapper({
   useEffect(() => {
     try {
       const d = JSON.parse(spaceInfo.space.catalog);
-      updateCatalog({ catalog: d });
+      updateCatalog({ catalog: d, docs: spaceInfo.docs });
       setCatalog(d);
     } catch (error) {
     }
@@ -56,9 +56,7 @@ export default function ChapterWrapper({
           userInfo={userInfo} />
         {
           type.toLocaleLowerCase() === 'toc'
-            ? <Chapter
-              catalog={catalog}
-              docs={spaceInfo.docs} />
+            ? <Chapter />
             : <Catalog
               catalog={catalog}
               docs={spaceInfo.docs} />

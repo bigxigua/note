@@ -1,9 +1,10 @@
-import React, { useCallback, useState, Fragment } from 'react';
+import React, { useCallback, useState, useContext, Fragment } from 'react';
 import Modal from '@common/modal';
 import Select from '@common/select';
 import Input from '@common/input';
-import { createNewDoc } from '@util/commonFun';
+import { createNewDoc, updateCatalogService } from '@util/commonFun';
 import { parseUrlQuery } from '@util/util';
+import { catalogContext } from '@context/catalog-context';
 import './index.css';
 
 const lists = [{
@@ -14,22 +15,42 @@ const lists = [{
   text: '空节点(可用作目录)'
 }];
 
-export default function InsertCatalog({ info = {}, catalog = [] }) {
-  const { top, left, index } = info;
+export default function InsertCatalog({ position = {} }) {
+  const { top, left, index, level } = position;
   const { spaceId = '' } = parseUrlQuery();
   const [state, setState] = useState({ visible: false });
   const [id, setId] = useState('doc');
+  const { info: { catalog = [], docs }, updateCatalog } = useContext(catalogContext);
 
   const onShowModal = useCallback(() => {
     setState({ ...state, visible: true });
   }, []);
 
-  const onConfirm = useCallback(async () => {
-    console.log('---', catalog, index, id, state.value);
-    createNewDoc({ space_id: spaceId, scene: id, title: '' }, ({ docId }) => {
-      console.log(docId);
+  const onConfirm = useCallback(() => {
+    const title = (state.value || '').trim();
+    createNewDoc({
+      space_id: spaceId,
+      scene: id,
+      title
+    }, async ({ docId }) => {
+      if (!docId) return;
+      setState({ ...state, visible: false });
+      const result = catalog.slice(1);
+      result.splice(index + 1, 0, {
+        docId,
+        status: '1',
+        type: id.toLocaleUpperCase(),
+        level: parseInt(level)
+      });
+      // 更新目录
+      updateCatalog({
+        catalog: [catalog[0], ...result],
+        docs: [...docs, { doc_id: docId, title, space_id: spaceId }]
+      });
+      // 调用接口更新目录
+      updateCatalogService({ spaceId, catalog: [catalog[0], ...result] });
     });
-  }, [catalog, index, id, state.value]);
+  }, [catalog, index, level, id, state.value]);
 
   const onSelect = useCallback((e, result) => {
     setId(result.id);

@@ -14,36 +14,39 @@ function getStyle(style) {
   };
 }
 
-export default function Chapter({
-  catalog = [],
-  docs = []
-}) {
-  const { info: { catalog: chapterCatalog }, updateCatalog } = useContext(catalogContext);
+export default function Chapter() {
+  const { info: { catalog, docs }, updateCatalog } = useContext(catalogContext);
   const [state, setState] = useState({ items: catalog.slice(1) });
   const [tocStyle, setTocStyle] = useState({});
 
   useEffect(() => {
+    const [meta, ...items] = catalog;
     chapterLayout.init({
-      items: catalog.slice(1),
-      setState: (d) => {
-        setState(d);
-        updateCatalog({ catalog: [catalog[0], ...d.items] });
+      items,
+      setState: ({ items: lists, sourceIndex }) => {
+        setState({ items: lists });
+        onDragItemClick(lists[sourceIndex], sourceIndex, lists);
+        updateCatalog({ catalog: [meta, ...lists] });
       }
     });
-    setState({ items: catalog.slice(1) });
-    onDragItemClick(catalog.slice(1), 0);
+    setState({ items });
+    onDragItemClick(items[0], 0, items);
     chapterLayout.bindEvent();
     return () => chapterLayout.removeEvent();
   }, [catalog.length]);
-
   // 点击被拖动项时设置新增节点元素的位置
-  const onDragItemClick = useCallback((item, index) => {
+  const onDragItemClick = useCallback((item, index, items) => {
     if (!item) return;
-    const level = Math.min(item.level, 3);
+    let level = Math.min(item.level, 3);
+    const nextItem = items[index + 1];
+    if (nextItem && nextItem.level - level === 1) {
+      level = nextItem.level;
+    }
     setTocStyle({
-      left: level * 40,
+      left: level * 40 - 40,
       top: (index + 1) * 44 + index * 16 + 8,
-      index
+      index,
+      level
     });
   }, []);
 
@@ -58,9 +61,7 @@ export default function Chapter({
       ref={provided.innerRef}
       className="Chapter_Drop_Box"
     >
-      <InsertCatalog
-        catalog={chapterCatalog}
-        info={tocStyle} />
+      <InsertCatalog position={tocStyle} />
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
         let classes = `Chapter_Item Chapter_Item_${item.docId}`;
@@ -69,13 +70,14 @@ export default function Chapter({
         if (isEmptyObject(docInfo)) {
           return null;
         }
+        const isParantNode = chapterLayout.whetherDisplayCaretDown(item, index, state.items);
         return <Draggable
           key={item.docId}
           draggableId={String(item.docId)}
           index={index}>
           {(provided) => (
             <div
-              onClick={() => { onDragItemClick(item, index, docInfo); }}
+              onClick={() => { onDragItemClick(item, index, state.items); }}
               className={classes}
               data-tbid={item.docId}
               data-offset={Math.min(item.level, 3)}
@@ -85,7 +87,7 @@ export default function Chapter({
               style={getStyle(provided.draggableProps.style)}
             >
               <h3>
-                {chapterLayout.whetherDisplayCaretDown(item, index, state.items) && <Icon type="caret-down" />}
+                {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
               </h3>
               <div><span>上次更新：</span>{formatTimeStamp(docInfo.updated_at_timestamp)}</div>
@@ -95,9 +97,6 @@ export default function Chapter({
       })}
       {provided.placeholder}
     </div>;
-  }
-  if (catalog.length === 0) {
-    return;
   }
   return (
     <Fragment>

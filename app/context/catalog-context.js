@@ -3,7 +3,8 @@ import { createContext } from 'react';
 export const catalogContext = createContext();
 
 export const initialState = {
-  catalog: []
+  catalog: [],
+  docs: []
 };
 
 export function catalogReducer(state, action) {

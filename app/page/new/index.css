@@ -107,6 +107,7 @@
     transition: all linear 0.2s;
     outline: none;
     border: 1px solid #25b864;
+    margin-top: 18px;
 }
 .New_Button:hover{
     background-color: #47c479;
