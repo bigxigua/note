@@ -1,9 +1,10 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import './index.css';
 
-const fn = () => {};
+const fn = () => { };
 export default function Modal({
   children = '',
   wrapClassName = '', // 对话框外层容器的类名
@@ -36,8 +37,8 @@ export default function Modal({
       className="Modal_Close" />
   ));
   const hasMaskClass = mask ? 'Modal_Mask_Bg' : '';
-  return (
-    <div className={`Modal_Mask animated ${hasMaskClass} ${visibleClass}`}>
+  return ReactDOM.createPortal(
+    (<div className={`Modal_Mask animated ${hasMaskClass} ${visibleClass}`}>
       <div className={`Modal ${wrapClassName}`}
         style={{
           width: w
@@ -52,6 +53,6 @@ export default function Modal({
         </div>
         {footerJsx}
       </div>
-    </div>
-  );
+    </div>)
+    , document.body);
 };

@@ -32,8 +32,6 @@
 .Dropdown_Overlay_Visible>.Dropdown_Overlay{
   display: block;
 }
-.Dropdown_Child{
-}
 .Dropdown_Hover:hover>.Dropdown_Overlay{
   display: block;
   animation-name: fadeInUp;

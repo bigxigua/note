@@ -1,49 +1,79 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useState, Fragment, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import './index.css';
 
-const list = [{
-  text: '移除记录',
-  key: 'remove',
-  icon: 'delete'
-}];
 const fn = () => { };
+// 创建select options
+function CreateOptions({ options, node, show }) {
+  if (!node.current) {
+    return null;
+  }
+  const { width, height, left, top } = node.current.getBoundingClientRect();
+  const style = {
+    width: `${width}px`,
+    left: `${left}px`,
+    top: `${top + height}px`
+  };
+  return ReactDOM.createPortal(
+    <div
+      className={`select_options animated ${show ? 'select_options_show' : ''}`}
+      style={style}>
+      {options}
+    </div>,
+    document.body
+  );
+}
 
 export default function Select({
-  defaultValue = '', // 默认显示的值
+  defaultKey = '', // 默认显示的项到key
   defaultOpen = false, // 是否默认展开下拉
-  placeholder = '', // 选择框默认文字
+  placeholder = '请选择', // 选择框默认文字
   lists = [], // select options
-  key = 'id', // select options key
   className = '',
   style = {},
-  onBlur = fn,
   onSelect = fn
 }) {
-  useEffect(() => {
-  }, []);
+  const node = useRef(null);
+  const [open, setOpen] = useState(defaultOpen);
+  const [currentKey, setCurrentKey] = useState(defaultKey);
+
   const options = lists.map(n => {
-    return <div key={n[key]}
-      className="select_option">
+    return <div
+      onClick={(e) => { onOptionClick(e, n); }}
+      key={n.id}
+      className={`select_option ${n.id === currentKey ? 'select_option_selected' : ''}`}>
       {n.render ? n.render(n) : n.text}
     </div>;
   });
-  console.log('------');
-  const render = () => {
-    const JSXdom =
-      <div className="Select flex">
-        <span>哈哈哈</span>
-        <Icon className="select_arrow"
-          type="right" />
-        <div className="select_options">
-          {options}
-        </div>
-      </div>;
-    const dom = document.createElement('div');
-    document.body.appendChild(dom);
-    ReactDOM.render(JSXdom, dom);
-  };
-  render();
-  return null;
+
+  const onOptionClick = useCallback((e, item) => {
+    setCurrentKey(item.id);
+    setOpen(false);
+    onSelect(e, item);
+  }, []);
+
+  // 点击展开/收起下拉
+  const onShowSelectOption = useCallback(() => {
+    setOpen(!open);
+  }, [open]);
+
+  // 选择框的value
+  const { text = '' } = (lists.find(n => n.id === currentKey) || {});
+
+  return <Fragment>
+    <div
+      className={`Select flex ${className}`}
+      style={style}
+      ref={node}
+      onClick={onShowSelectOption}>
+      <span className={!text ? 'select_placeholder' : ''}>{text || placeholder}</span>
+      <Icon className="select_arrow"
+        type="right" />
+    </div>
+    <CreateOptions
+      node={node}
+      show={open}
+      options={options} />
+  </Fragment>;
 };

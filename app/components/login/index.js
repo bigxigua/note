@@ -98,12 +98,14 @@ export default function Login() {
       <h1 className="Login_title">一日一记</h1>
       <h2 className="Login_sub_title">工欲善其事，必先利其器</h2>
       <Input
+        style={{ marginBottom: '16px' }}
         onChange={(e) => { onChange('account', e); }}
         addonBefore={<Icon type="user" />} />
       {errorInfo.accountErrorMsg && (
         <span className="Login_Error">{errorInfo.accountErrorMsg}</span>
       )}
       <Input
+        style={{ marginBottom: '16px' }}
         addonBefore={<Icon type="lock" />}
         onChange={(e) => { onChange('password', e); }}
         type="password" />

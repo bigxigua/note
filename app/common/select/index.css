@@ -21,19 +21,23 @@
   transform: rotate(90deg);
 }
 .select_options{
-  width: 100%;
   position: fixed;
-  left: 0;
-  bottom: 0;
-  z-index: 11;
+  z-index: 1000;
   transform: translateZ(0px);
   color: #595959;
   font-size: 14px;
   background-color: #fff;
   border-radius: 4px;
   outline: none;
-  width: 160px;
+  margin-top: 4px;
   box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  padding: 4px 0;
+  display: none;
+}
+.select_options_show{
+  display: block;
+  animation-name: fadeInUp;
+  animation-duration: 200ms;
 }
 .select_option{
   padding: 5px 12px;
@@ -50,5 +54,8 @@
 .select_option_selected{
   color: #595959;
   font-weight: 600;
-  background-color: #fafafa;
+  /* background-color: #e9f7ec; */
+}
+.select_placeholder{
+  color: #bfbfbf;
 }

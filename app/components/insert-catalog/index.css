@@ -18,3 +18,11 @@
   position: absolute;
   left: 26px;
 }
+.insert_catalog_label{
+  padding: 4px 0;
+}
+.insert_tips{
+  color: #bfbfbf;
+  font-size: 12px;
+  margin-top: 10px;
+}

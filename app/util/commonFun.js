@@ -96,11 +96,11 @@ export function toggleExpandCatalog({
 }
 // 创建文档
 export async function createNewDoc(info, callback) {
-  const { space_id: spaceId } = info;
+  const { space_id: spaceId, scene = 'doc', title = '无标题' } = info;
   const [error, data] = await axiosInstance.post('create/doc', {
-    scene: 'doc',
-    space_id: spaceId,
-    title: '无标题'
+    title,
+    scene,
+    space_id: spaceId
   });
   const docId = getIn(data, ['docId'], '');
   if (docId) {

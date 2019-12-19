@@ -14,19 +14,20 @@ export default function Input(props) {
     placeholder = '',
     maxLength = 100,
     onChange = console.log,
-    className: classN,
+    className = '',
+    style = {},
     rows = '3',
     cols = '20'
   } = props;
   const [value, setValue] = useState(defaultValue);
-  const [className, setClassName] = useState('Input_Wrapper flex ');
+  const [classes, setClassName] = useState('Input_Wrapper flex ');
   const textArea = useRef(null);
   const _onChange_ = (e) => {
     setValue(e.currentTarget.value);
     onChange(e);
   };
   useEffect(() => {
-    let cssName = className;
+    let cssName = classes;
     if (!addonBefore && !addonAfter) {
       cssName += 'Input_Full';
     }
@@ -40,10 +41,11 @@ export default function Input(props) {
     setTextAreaAutoHeight(textArea.current, 10);
   }, [defaultValue]);
   return (
-    <div className={`${className} ${classN}`}
+    <div className={`${classes} ${className}`}
       style={{
         width: isNaN(w) ? w : `${w}px`,
-        height: isNaN(h) ? h : `${h}px`
+        height: isNaN(h) ? h : `${h}px`,
+        ...style
       }}>
       {addonBefore && <span className="Input_addonBefore flex">{addonBefore}</span>}
       {

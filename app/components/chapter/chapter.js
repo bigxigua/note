@@ -18,7 +18,7 @@ export default function Chapter({
   catalog = [],
   docs = []
 }) {
-  const { updateCatalog } = useContext(catalogContext);
+  const { info: { catalog: chapterCatalog }, updateCatalog } = useContext(catalogContext);
   const [state, setState] = useState({ items: catalog.slice(1) });
   const [tocStyle, setTocStyle] = useState({});
 
@@ -40,7 +40,11 @@ export default function Chapter({
   const onDragItemClick = useCallback((item, index) => {
     if (!item) return;
     const level = Math.min(item.level, 3);
-    setTocStyle({ left: level * 40, top: (index + 1) * 44 + index * 16 + 8 });
+    setTocStyle({
+      left: level * 40,
+      top: (index + 1) * 44 + index * 16 + 8,
+      index
+    });
   }, []);
 
   if (!catalog || catalog.length === 0 || !docs || docs.length === 0) {
@@ -54,7 +58,9 @@ export default function Chapter({
       ref={provided.innerRef}
       className="Chapter_Drop_Box"
     >
-      <InsertCatalog style={tocStyle} />
+      <InsertCatalog
+        catalog={chapterCatalog}
+        info={tocStyle} />
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
         let classes = `Chapter_Item Chapter_Item_${item.docId}`;

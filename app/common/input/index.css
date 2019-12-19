@@ -7,7 +7,7 @@
   transition: all .3s;
   background-color: #fff;
   border-radius: 4px;
-  margin-bottom: 16px;
+  /* margin-bottom: 16px; */
   /* border-radius: 0 4px 4px 0; */
 }
 
@@ -33,6 +33,14 @@
 
 .Input_Full>input {
   width: 100%;
+}
+
+.Input_Wrapper>input::-webkit-input-placeholder {
+  opacity:0.5;
+}
+
+.Input_Wrapper>textarea::-webkit-input-placeholder {
+  opacity:0.5;
 }
 
 .Input_Full:hover {
