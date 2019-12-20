@@ -42,8 +42,11 @@
     height: 84%;
     background-size: contain;
     position: relative;
-    /* margin-right: 75px; */
     margin-right: 10%;
+}
+.header_disabled{
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 .Header_link_workspace{

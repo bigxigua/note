@@ -7,26 +7,26 @@ import CreateDoc from '@components/create-doc';
 import Popover from '@components/popover';
 import './header.css';
 
+// 创建popver cotent
+function popoverContent({ handle }) {
+  return (
+    <Fragment>
+      <div className="Header_Popover_Add_Item flex"
+        onClick={() => { handle(true); }}>
+        <Icon type="plus-circle" />
+        <span>新建文档</span>
+      </div>
+      <div className="Header_Popover_Add_Item flex">
+        <Icon type="plus-circle" />
+        <Link to="/new">新建知识库</Link>
+      </div>
+    </Fragment>
+  );
+}
+
 export default function Header() {
   const [visible, setVisible] = useState(false);
-  const onCreateDoc = (stat) => {
-    setVisible(stat);
-  };
-  function Content() {
-    return (
-      <Fragment>
-        <div className="Header_Popover_Add_Item flex"
-          onClick={() => { onCreateDoc(true); }}>
-          <Icon type="plus-circle" />
-          <span>新建文档</span>
-        </div>
-        <div className="Header_Popover_Add_Item flex">
-          <Icon type="plus-circle" />
-          <Link to="/new">新建知识库</Link>
-        </div>
-      </Fragment>
-    );
-  }
+
   return (
     <div className="Header_Wrapper animated">
       <div className="Header_container">
@@ -37,17 +37,15 @@ export default function Header() {
           <Search className="Header_Search" />
           <Link to="/"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
-          <Link to="/entertainment"
-            className="Header_link">娱乐/游戏</Link>
-          <Link to="/news"
-            className="Header_link">新闻</Link>
+          <div className="Header_link header_disabled">娱乐/游戏</div>
+          <div className="Header_link header_disabled">新闻</div>
           <Link to="/more"
-            className="Header_link Header_link_more"><Icon type="ellipsis" /></Link>
+            className="Header_link header_disabled Header_link_more"><Icon type="ellipsis" /></Link>
         </div>
         <div className="Header_right">
           <Popover
             className="Header_Popover_Add"
-            content={<Content />}>
+            content={popoverContent({ handle: setVisible })}>
             <Icon
               className="Header_Popover_Add_Icon"
               type="plus-circle" />
@@ -55,7 +53,7 @@ export default function Header() {
           </Popover>
           <Avatar />
         </div>
-        {visible && <CreateDoc onModalChange={onCreateDoc} />}
+        {visible && <CreateDoc onModalChange={setVisible} />}
       </div>
     </div>
   );

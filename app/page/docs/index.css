@@ -25,3 +25,6 @@
 	cursor: pointer;
 	color: rgb(16, 142, 233);
 }
+.docs_name{
+	min-width: 180px;
+}

@@ -161,8 +161,3 @@ export function addKeydownListener({
     remove: () => { document.body.removeEventListener('keydown', fn); }
   };
 }
-
-// Pretty Splice splice方法好看调用
-export function prettySplice() {
-
-};

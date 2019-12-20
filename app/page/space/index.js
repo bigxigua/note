@@ -13,23 +13,25 @@ export default function Docs() {
     title: '名称',
     key: 'name',
     render: (info) => {
-      return <span>{info.name}</span>;
+      return <div>{info.name}</div>;
     }
-  }, {
-    title: '类型',
-    key: 'scene',
-    render: info => {
-      return (
-        <div className="Space_Table_Tags flex">
-          <Tag>{info.scene}</Tag>
-        </div>
-      );
-    }
-  }, {
+  },
+  //  {
+  //   title: '类型',
+  //   key: 'scene',
+  //   render: info => {
+  //     return (
+  //       <div className="Space_Table_Tags flex">
+  //         <Tag>{info.scene}</Tag>
+  //       </div>
+  //     );
+  //   }
+  // },
+  {
     title: '简介',
     key: 'description',
     render: (info) => {
-      return <span>{info.description}</span>;
+      return <div>{info.description}</div>;
     }
   }, {
     title: '操作',

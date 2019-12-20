@@ -84,7 +84,7 @@ export default function Space() {
     title: '名称',
     key: 'title',
     render: (info) => {
-      return <span>{info.title}</span>;
+      return <div className="docs_name">{info.title}</div>;
     }
   }, {
     title: '状态',
@@ -102,7 +102,7 @@ export default function Space() {
     title: '归属',
     key: 'space',
     render: (info) => {
-      return info.space && info.space.name;
+      return <div>{info.space && info.space.name}</div>; ;
     }
   }, {
     title: '最后编辑',

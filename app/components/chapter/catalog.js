@@ -1,22 +1,28 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useContext, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import { Link } from 'react-router-dom';
 import { stringTransformToUrlObject, isEmptyObject, formatTimeStamp } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
+import { catalogContext } from '@context/catalog-context';
 
-export default function Catalog({
-  docs = [],
-  catalog = []
-}) {
-  if (!Array.isArray(catalog) || catalog.length < 2) {
-    return null;
-  }
-  const [catalogTrees, setCatalogTrees] = useState(extractCatalog(catalog.slice(1)));
+export default function Catalog() {
+  const { info: { catalog = [], docs = [] } } = useContext(catalogContext);
+  const [catalogTrees, setCatalogTrees] = useState([]);
+
+  // 目录展开
   const onToggleExpandCatalog = useCallback((trees, item, index) => {
     toggleExpandCatalog({ trees, item, index }, (result) => {
       setCatalogTrees(result);
     });
   }, []);
+
+  useEffect(() => {
+    setCatalogTrees(extractCatalog(catalog.slice(1)));
+  }, [catalog]);
+
+  if (catalogTrees.length === 0) {
+    return null;
+  }
 
   return <div className="Catalog">
     {
@@ -24,8 +30,11 @@ export default function Catalog({
         const doc = docs.find(n => n.doc_id === item.docId) || {};
         const isParenrt = item.children.length > 0;
         const isDelete = item.status === '0';
-        let classes = `Catalog_Item flex ${item.open ? 'Catalog_Item_Open' : ''} ${isParenrt ? 'Catalog_Item_Parent' : ''}`;
-        classes += isDelete ? 'Catalog_Item_Disabeld' : '';
+        const isEmptyNode = item.type === 'EMPTY_NODE';
+        let classes = 'Catalog_Item flex ';
+        classes += `${item.open ? 'Catalog_Item_Open' : ''} `;
+        classes += `${isParenrt ? 'Catalog_Item_Parent' : ''} `;
+        classes += `${isDelete ? 'Catalog_Item_Disabeld' : ''}`;
         if (isEmptyObject(doc)) {
           return null;
         }
@@ -38,7 +47,7 @@ export default function Catalog({
               onClick={() => { onToggleExpandCatalog(catalogTrees, item, index); }}
               type="caret-down" />}
             {
-              isDelete
+              isDelete || isEmptyNode
                 ? <span>{doc.title}</span>
                 : <Link
                   to={`${stringTransformToUrlObject(doc.url).pathname}`}

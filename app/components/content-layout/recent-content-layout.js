@@ -5,6 +5,7 @@ import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
   const [recentLists, setRecentLists] = useState([]);
+
   useEffect(() => {
     (async () => {
       const [error, data] = await axiosInstance.get('/recents?limit=20');
@@ -15,15 +16,18 @@ export default function RecentContentLayout() {
       }
     })();
   }, []);
+
   const onRecentAction = useCallback((type, { id }) => {
     const list = recentLists.slice(0);
     const index = list.findIndex(n => n.id === id);
     list.splice(index, 1);
     setRecentLists(list);
   }, [recentLists]);
+
   if (recentLists.length === 0) {
     return <Empty />;
   }
+
   return (
     <div className="Recent_Content_Layout">
       {

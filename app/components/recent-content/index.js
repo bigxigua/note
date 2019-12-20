@@ -1,7 +1,6 @@
 import React from 'react';
 import Icon from '@common/icon';
 import List from '@common/list';
-import Tag from '@common/tag';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
 import { formatTimeStamp, getIn } from '@util/util';
@@ -95,17 +94,6 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
         onClick={(e) => { handleClick({ key: 'editor' }, props, history); e.stopPropagation(); }}
         className="Recent_Content_Item"
         type="edit" />;
-    } else if (n === 'restore-doc') {
-      return <Tag content="可恢复"
-        key={n}
-        onClick={(e) => e.stopPropagation()}
-        color="#25b864" />;
-    } else if (n === 'delete') {
-      return <Tag content="已删除"
-        key={n}
-        onClick={(e) => e.stopPropagation()}
-        style={{ marginLeft: '10px' }}
-        color="rgb(255, 85, 0)" />;
     } else if (n === 'management') {
       return <Link
         key={n}
