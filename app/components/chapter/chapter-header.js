@@ -68,7 +68,8 @@ export default function ChapterHeader({
         : <Button
           content="编排目录"
           link={{
-            to: `spacedetail?spaceId=${spaceId}&type=toc`
+            to: `/spacedetail?spaceId=${spaceId}&type=toc`,
+            target: 'blank'
           }}
           disabled={catalog.length < 2}>
         </Button>}

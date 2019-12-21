@@ -9,7 +9,7 @@
   width: calc(100% - 404px);
   height: 100vh;
   flex-shrink: 0;
-  background: #ffffff;
+  background: rgb(249, 250, 251);
   box-sizing: border-box;
   overflow-y: scroll;
   overflow-x: hidden;

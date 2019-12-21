@@ -51,7 +51,7 @@ const pageKeys = {
   }, {
     symbol: <img src="/images/color_replacement.png" />,
     name: '查找并替换',
-    keys: ['CMD', 'E']
+    keys: ['CMD', 'F']
   }, {
     symbol: <img src="/images/pictures.png" />,
     name: '插入图片',
@@ -63,7 +63,7 @@ const pageKeys = {
   }, {
     symbol: <img src="/images/paste.png" />,
     name: '粘贴纯文本',
-    keys: ['CMD', 'E']
+    keys: ['CMD', 'V']
   }]
 };
 const articleKeys = {

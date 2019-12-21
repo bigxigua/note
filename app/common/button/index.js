@@ -29,7 +29,12 @@ export default function Button(props) {
       return;
     }
     if (link) {
-      history.push(link.to);
+      const { to, target } = link;
+      if (target === 'blank') {
+        window.location.href = to;
+      } else {
+        history.push(link.to);
+      }
     }
     onClick();
   };
