@@ -1,0 +1,48 @@
+.catalog_skeleton_content{
+  width: 100%;
+}
+.catalog_skeleton{
+  height: 20px;
+  margin-bottom: 18px;
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.catalog_skeleton_icon{
+  flex-shrink: 0;
+  top: 2px;
+  width: 20px;
+}
+.catalog_skeleton>.Icon{
+}
+.catalog_skeleton>.skeleton{
+  position: relative;
+  background-color: #eee;
+  border-radius: 2px;
+  flex: 1;
+  height: 100%;
+  overflow: hidden;
+}
+.catalog_skeleton>.skeleton:after{
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  max-width: 1000px;
+  height: 100%;
+  background: linear-gradient(to right, transparent 0%, #e1e1e1 15%, transparent 30%);
+  animation-duration: 1.5s;
+  animation-fill-mode: forwards;
+  animation-iteration-count: infinite;
+  animation-name: skeletonAnimation;
+  animation-timing-function: linear;
+}
+@keyframes skeletonAnimation {
+  0% {
+      transform: translate3d(-30%, 0, 0);
+  }
+  100% {
+      transform: translate3d(100%, 0, 0);
+  }
+  }

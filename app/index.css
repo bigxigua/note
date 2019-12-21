@@ -120,6 +120,20 @@ input, select {
     border: none;
     line-height: normal !important;
 }
+input::-ms-clear{display: none;} 
+input::-ms-reveal{display: none;}
+input, button, select, textarea {
+    outline: none;
+    -webkit-appearance: none;
+    border-radius: 0;
+}
+input::-webkit-credentials-auto-fill-button {
+    display: none !important;
+    visibility: hidden;
+    pointer-events: none;
+    position: absolute; 
+    right: 0;
+} 
 
 pre {
     white-space: pre;

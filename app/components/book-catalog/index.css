@@ -1,6 +1,6 @@
 .BookCatalog_Wrapper{
-  width: 250px;
-  padding: 27px 24px 24px 30px;
+  width: 190px;
+  padding: 27px 24px 24px 18px;
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;

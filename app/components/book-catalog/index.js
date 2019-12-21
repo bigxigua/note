@@ -1,5 +1,6 @@
-import React, { useState, Fragment, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Icon from '@common/icon';
+import CatalogSkeleton from '@components/catalog-skeleton';
 import axiosInstance from '@util/axiosInstance';
 import { NavLink } from 'react-router-dom';
 import { parseUrlQuery, getIn, isEmptyObject } from '@util/util';
@@ -8,12 +9,18 @@ import './index.css';
 
 export default function BookCatalog() {
   const { spaceId = '' } = parseUrlQuery();
+  // const [loading, setLoading] = useState(false);
+  const loading = useRef(false);
   const [bookCatalog, setBookCatalog] = useState({
     docs: [],
     catalog: []
   });
+
+  // 获取属于同一空间的文档列表
   const fetchDocsBySpaceId = useCallback(async () => {
+    loading.current = true;
     const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
+    loading.current = false;
     const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
     if (catalog.length > 1) {
       setBookCatalog({
@@ -24,6 +31,8 @@ export default function BookCatalog() {
       console.log('[获取space下doc列表失败] ', error);
     }
   }, []);
+
+  // 点击章节目录展开or收起子目录
   const onToggleExpandCatalog = useCallback((trees, item, index) => {
     toggleExpandCatalog({ trees, item, index }, (result) => {
       setBookCatalog({
@@ -32,17 +41,22 @@ export default function BookCatalog() {
       });
     });
   }, [bookCatalog.docs]);
+
   useEffect(() => {
     fetchDocsBySpaceId();
   }, []);
+
   const { docs, catalog } = bookCatalog;
-  if (docs.length === 0 || catalog.length === 0) {
-    return null;
+
+  if (loading.current) {
+    return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
   }
+
   const activeStyle = {
     fontWeight: 'bold',
     color: '#25b864'
   };
+
   const bookCatalogJsx = catalog.map((item, index) => {
     const doc = docs.find(n => n.doc_id === item.docId) || {};
     const isParenrt = item.children.length > 0;
@@ -66,22 +80,6 @@ export default function BookCatalog() {
       </NavLink>
     </div>;
   });
-  // const bookCatalogJsx = bookCatalog.map(n => {
-  //   return (
-  //     <Fragment key={n.id}>
-  // <NavLink
-  //   to={'/article' + n.url.split('article')[1]}
-  //   exact
-  //   className="BookCatalog_NavLink ellipsis"
-  //   activeStyle={{
-  //     fontWeight: 'bold',
-  //     color: '#25b864'
-  //   }}>
-  //   {n.title}
-  // </NavLink>
-  //     </Fragment>
-  //   );
-  // });
   return (
     <div className="BookCatalog_Wrapper">
       {bookCatalogJsx}

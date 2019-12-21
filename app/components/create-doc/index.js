@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import userContext from '@context/user/userContext';
 import Modal from '@common/modal';
+import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
 import useMessage from '@hooks/use-message';
@@ -14,32 +15,25 @@ export default function CreateDoc({
 }) {
   const message = useMessage();
   const [visible, setVisible] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [spaces, setSpaces] = useState([]);
   const history = useHistory();
   const { userInfo: { account } } = useContext(userContext);
+
+  // 取消
   const onCancelModal = () => {
     setVisible(false);
     onModalChange(false);
   };
+
+  // 确认创建文档
   const onConfirmModal = () => {
     setVisible(false);
     onModalChange(false);
     history.push('/new');
   };
-  // 获取空间列表
-  const fetchSpaces = async () => {
-    const [error, data] = await axiosInstance.get('spaces', {});
-    if (error || !data || !Array.isArray(data.spaces)) {
-      message.error({ content: '服务器开小差啦！请稍后再试试呀.嘻嘻' });
-      console.log('[获取空间列表失败] ', error);
-      return;
-    }
-    if (data.spaces.length === 0) {
-      // TODO 提示用户去创建空间
-    }
-    setSpaces(data.spaces);
-  };
-  // 点击创建文档
+
+  // 点击创建文档，显示modal
   const onChooseSpace = async (info) => {
     createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
@@ -50,11 +44,34 @@ export default function CreateDoc({
       }
     });
   };
+
+  // 获取空间列表
+  const fetchSpaces = async () => {
+    setLoading(true);
+    const [error, data] = await axiosInstance.get('spaces', {});
+    setLoading(false);
+    if (error || !data || !Array.isArray(data.spaces) || data.spaces.length === 0) {
+      message.error({ content: '服务器开小差啦！请稍后再试试呀.嘻嘻' });
+      return;
+    }
+    setSpaces(data.spaces);
+  };
+
   useEffect(() => {
     fetchSpaces();
   }, []);
-  const spacesList = spaces.map(n => {
-    return (
+
+  function renderSpaceList() {
+    if (loading) {
+      return <div className="create_loading">
+        <Icon type="loading" />
+        <span>正在加载...</span>
+      </div>;
+    }
+    if (spaces.length === 0) {
+      return <div className="create_modal_tips">您还未创建过知识库哟，文档存在知识库里。分好类，好查询</div>;
+    }
+    return spaces.map(n =>
       <div
         onClick={() => { onChooseSpace(n); }}
         key={n.id}
@@ -67,12 +84,7 @@ export default function CreateDoc({
         <img src={`/images/${n.public === 'SELF' ? 'lock' : 'global'}.png`} />
       </div>
     );
-  });
-  const style = {
-    fontSize: '14px',
-    color: '#333',
-    marginTop: '10px'
-  };
+  }
   return (
     <Modal
       subTitle="点击选择一个知识库"
@@ -82,7 +94,7 @@ export default function CreateDoc({
       onConfirm={onConfirmModal}
       confirmText="创建知识库"
       visible={visible} >
-      {spaces.length > 0 ? spacesList : <div style={style}>您还未创建过知识库哟，文档存在知识库里。分好类，好查询</div>}
+      {renderSpaceList()}
     </Modal>
   );
 };

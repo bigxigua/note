@@ -22,7 +22,7 @@ export default function Modal({
   confirmText = '确定' // 确认按钮文字
 }) {
   const w = isNaN(width) ? width : `${width}px`;
-  const visibleClass = visible ? 'Modal_Show' : '';
+
   const defaultFooter = (
     <div className="Modal_Footer flex">
       <Button onClick={onCancel}>{cancelText}</Button>
@@ -36,9 +36,11 @@ export default function Modal({
       onClick={onCancel}
       className="Modal_Close" />
   ));
-  const hasMaskClass = mask ? 'Modal_Mask_Bg' : '';
+  let classes = 'Modal_Mask animated ';
+  classes += `${mask ? 'Modal_Mask_Bg' : ''} `;
+  classes += `${visible ? 'Modal_Show' : ''} `;
   return ReactDOM.createPortal(
-    (<div className={`Modal_Mask animated ${hasMaskClass} ${visibleClass}`}>
+    (<div className={classes}>
       <div className={`Modal ${wrapClassName}`}
         style={{
           width: w
