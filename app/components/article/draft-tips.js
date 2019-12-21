@@ -11,7 +11,7 @@ export default function DraftTips({
   }
   const { pathname } = window.location;
   const { spaceId = '', content = '' } = parseUrlQuery();
-  const editorLink = pathname.replace(/\/article\//, '/editor/') + `?spaceId=${spaceId}&content=draft`;
+  const editorLink = pathname.replace(/\/article\//, '/edit/') + `?spaceId=${spaceId}&content=draft`;
   const originLink = `${pathname}?spaceId=${spaceId}&content=origin`;
   return (
     <div className="Article_DraftTips_Warpper">

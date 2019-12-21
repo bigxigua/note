@@ -37,6 +37,7 @@ export default function useSaveContent({
     await addRecent({
       spaceId,
       docId,
+      docTitle: title,
       type: publish ? 'UpdateEdit' : 'Edit'
     });
     if (!error && data && data.STATUS === 'OK') {

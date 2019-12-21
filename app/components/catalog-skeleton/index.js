@@ -3,47 +3,41 @@ import Icon from '@common/icon';
 import './index.css';
 
 const skeletons = [{
-  width: 180,
-  arrow: false,
+  width: 150,
+  arrow: false
+}, {
+  width: 150,
+  arrow: true,
   bg: '#ccc'
 }, {
-  width: 200,
-  arrow: true
-}, {
-  width: 160,
+  width: 125,
   left: 24,
   arrow: false
 }, {
-  width: 210,
+  width: 150,
   bg: '#ccc',
   arrow: true
 }, {
-  width: 160,
+  width: 127,
   left: 24,
   arrow: false
 }, {
-  width: 140,
+  width: 127,
   left: 24,
+  bg: '#ccc',
   arrow: true
 }, {
-  width: 140,
+  width: 102,
   left: 48,
   arrow: false
 }, {
-  width: 180,
+  width: 120,
   arrow: false
 }, {
-  width: 140,
+  width: 144,
   arrow: false
 }, {
-  width: 160,
-  arrow: false
-}, {
-  width: 140,
-  arrow: true
-}, {
-  width: 180,
-  left: 24,
+  width: 144,
   arrow: false
 }];
 

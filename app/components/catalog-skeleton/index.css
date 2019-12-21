@@ -2,8 +2,8 @@
   width: 100%;
 }
 .catalog_skeleton{
-  height: 20px;
-  margin-bottom: 18px;
+  height: 17px;
+  margin-bottom: 16px;
   display: flex;
   align-items: center;
   position: relative;
@@ -12,8 +12,6 @@
   flex-shrink: 0;
   top: 2px;
   width: 20px;
-}
-.catalog_skeleton>.Icon{
 }
 .catalog_skeleton>.skeleton{
   position: relative;

@@ -2286,7 +2286,7 @@
      *
      * @returns {editormd}         返回editormd的实例对象
      */
-    markdownToHTML: function (id, option) {
+    markdownToHTML: function (id, options) {
       return editormd.markdownToHTML(id, $.extend(editormd.settings, options || {}));
     },
     /**
@@ -3968,7 +3968,6 @@
     if (options.closed) {
       html += '<a href="javascript:;" class="fa fa-close ' + classPrefix + 'dialog-close"></a>';
     }
-    console.log(options);
     html += '<div class="' + classPrefix + 'dialog-container">' + options.content;
 
     if (options.footer || typeof options.footer === 'string') {

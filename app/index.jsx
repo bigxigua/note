@@ -48,8 +48,8 @@ class App extends React.Component {
               component={PageWrapper(Article, '/article/:id')}
             />
             <Route
-              path="/editor/:id"
-              component={PageWrapper(Editor, '/editor/:id')}
+              path="/edit/:id"
+              component={PageWrapper(Editor, '/edit/:id')}
             />
             <Route
               path="/new/"

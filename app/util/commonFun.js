@@ -6,13 +6,17 @@ import { getIn } from '@util/util';
 // 调用添加最近使用记录接口调用
 export async function addRecent({
   spaceId = '',
-  type = '',
-  docId = ''
+  spaceName = '',
+  docId = '',
+  docTitle = '',
+  type = ''
 }) {
   return axiosInstance.post('add/recent', {
-    space_id: spaceId,
-    type,
-    doc_id: docId
+    space_id: spaceId, // 空间id
+    space_name: spaceName, // 空间名称
+    doc_id: docId, // 文档id
+    doc_title: docTitle, // 文档标题
+    type // 类型
   });
 }
 
@@ -46,7 +50,12 @@ export async function createNewDoc(info, callback) {
   });
   const docId = getIn(data, ['docId'], '');
   if (docId) {
-    await addRecent({ spaceId, type: 'CreateEdit', docId });
+    await addRecent({
+      docTitle: title,
+      type: 'CreateEdit',
+      spaceId,
+      docId
+    });
     // eslint-disable-next-line standard/no-callback-literal
     callback({ docId, spaceId });
   } else {

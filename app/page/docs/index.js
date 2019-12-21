@@ -59,7 +59,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   }
   if (info.title_draft || info.markdown_draft) {
     return <Link className="Table_Actions"
-      to={`/editor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
+      to={`/edit/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
   }
   return <div className="flex"
     style={{ width: '100px' }}>
@@ -129,8 +129,7 @@ export default function Space() {
   }
   // 删除文档
   async function deleteDoc(type = '', info) {
-    const docId = info.doc_id;
-    const spaceId = info.space_id;
+    const { doc_id: docId, space_id: spaceId, title } = info;
     const isPhysicalDelete = type === 'thorough';
     const method = isPhysicalDelete ? physicalDeletion : logicalDeletion;
     const success = await method({ docId, spaceId });
@@ -144,6 +143,7 @@ export default function Space() {
       await addRecent({
         docId,
         spaceId,
+        docTitle: title,
         type: isPhysicalDelete ? 'PhysicalDeleteEdit' : 'LogicalDeleteEdit'
       });
     } else {
@@ -157,7 +157,7 @@ export default function Space() {
       setDocInfo(docInfo);
     }
     if (key === 'editor') {
-      history.push(`/editor/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
+      history.push(`/edit/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
     }
   }
   function onTypeChange(type, { code, q }) {

@@ -43,11 +43,11 @@ const pageKeys = {
   }, {
     symbol: <img src="/images/preview.png" />,
     name: '预览',
-    keys: ['CMD', 'E']
+    keys: ['CMD', 'J']
   }, {
     symbol: <img src="/images/red_undo.png" />,
     name: '撤销',
-    keys: ['CMD', 'E']
+    keys: ['CMD', 'Z']
   }, {
     symbol: <img src="/images/color_replacement.png" />,
     name: '查找并替换',

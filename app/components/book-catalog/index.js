@@ -47,7 +47,6 @@ export default function BookCatalog() {
   }, []);
 
   const { docs, catalog } = bookCatalog;
-
   if (loading.current) {
     return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
   }

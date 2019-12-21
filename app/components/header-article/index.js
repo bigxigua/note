@@ -31,7 +31,7 @@ export default function ArticleHeader({
   const history = useHistory();
   const search = history.location.search;
   function jumpToEditor() {
-    history.push(`/editor/${docId}${search}`);
+    history.push(`/edit/${docId}${search}`);
   }
   // 更新发布文档
   async function onUpdate() {

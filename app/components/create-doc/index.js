@@ -38,7 +38,7 @@ export default function CreateDoc({
     createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         await delay();
-        history.push(`/editor/${docId}?spaceId=${spaceId}`);
+        history.push(`/edit/${docId}?spaceId=${spaceId}`);
       } else {
         console.log('[创建文档出错] ');
       }

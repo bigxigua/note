@@ -1,20 +1,29 @@
 @media screen and (max-width: 800px) {
-  .SiderBar_Layout{
-    display: none;
-  }
-  .Right_Panel_Layout{
-    display: none;
-  }
-  .Header_link{
-    display: none;
-  }
+    .SiderBar_Layout {
+        display: none;
+    }
+    .Right_Panel_Layout {
+        display: none;
+    }
+    .Header_link {
+        display: none;
+    }
 }
 
 @media screen and (max-width: 490px) {
-  .Header_Search{
-    display: none;
-  }
-  .Header_right>.Popover_Wrapper{
-    margin-right: 20px;
-  }
+    .Header_Search {
+        display: none;
+    }
+    .Header_right>.Popover_Wrapper {
+        margin-right: 20px;
+    }
+}
+
+@media screen and (max-width: 1338px) {
+    .Editormd_Wrapper>.Article_Catalog_Wrapper>.Catalog_title {
+        padding-bottom: 23px;
+        padding-top: 34px;
+        line-height: normal;
+        height: auto;
+    }
 }

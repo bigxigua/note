@@ -41,7 +41,6 @@ export default function RecentContentLayout() {
 
   return (
     <div className="Recent_Content_Layout">
-
       {
         recentLists.map(n => {
           return (

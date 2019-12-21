@@ -3,7 +3,7 @@ import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
-import { formatTimeStamp, getIn } from '@util/util';
+import { formatTimeStamp, getIn, isEmptyObject } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import './index.css';
@@ -37,7 +37,6 @@ const typeMap = {
   LogicalDeleteEdit: {
     img: '/images/delete.png',
     text: '移除了文档',
-    action: ['restore-doc', 'delete'],
     key: 'doc'
   },
   CreateSpace: {
@@ -62,13 +61,13 @@ const typeMap = {
 // 点击每一项的跳转行为
 function handleClick(info, props, history) {
   const spaceId = getIn(props, ['space', 'space_id'], '');
-  const docId = getIn(props, ['doc', 'doc_id'], '');
+  const docId = getIn(props, ['doc', 'doc_id'], props.doc_id || '');
   if (info.key === 'space') {
     history.push(`/spacedetail?spaceId=${spaceId}`);
-  } else if (info.key === 'doc') {
+  } else if (info.key === 'doc' && !['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(props.type)) {
     history.push(`/article/${docId}/?spaceId=${spaceId}`);
   } else if (info.key === 'editor') {
-    history.push(`/editor/${docId}/?spaceId=${spaceId}`);
+    history.push(`/edit/${docId}/?spaceId=${spaceId}`);
   }
 }
 
@@ -122,21 +121,31 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
 };
 
 export default function RecentContent(props) {
-  const { type, space = {}, user = {}, created_at, onRecentAction } = props;
+  const { type, space = {}, doc = {}, user = {}, created_at, onRecentAction, doc_title } = props;
   const history = useHistory();
   const info = typeMap[type] || {};
-  const weightStyle = {
-    fontWeight: 600
-  };
-  const title = getIn(props[info.key], [info.key === 'space' ? 'name' : 'title'], '');
+  const weightStyle = { fontWeight: 600 };
+  const title = getIn(props[info.key], [info.key === 'space' ? 'name' : 'title'], doc_title);
+  const isDeleteAction = ['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(type);
+  const spaceUrl = `spacedetail?spaceId=${space.space_id}`;
+  let classes = 'Recent_Content ';
+  classes += `${!isDeleteAction ? 'recent_content_point' : ''} `;
+  // 如果当前文档已被删除，则不展示之前的操作记录
+  if (!isDeleteAction && info.key === 'doc' && isEmptyObject(doc)) {
+    return null;
+  }
   return (
-    <div className="Recent_Content"
+    <div className={classes}
       onClick={() => { handleClick(info, props, history); }}>
       <div className="Recent_Content_Left">
         <img src={info.img} />
         <div className="Recent_Content_Left_Info">
           <p className="ellipsis">{title}</p>
-          {info.key === 'doc' && <span className="ellipsis">所属空间:《{`${space.name}`}》</span>}
+          {info.key === 'doc' &&
+            <span className="ellipsis">
+              所属空间:<Link to={spaceUrl}>《{`${space.name}`}》</Link>
+            </span>
+          }
           <span>
             <span style={weightStyle}>{user.name}</span>
             在{formatTimeStamp(+created_at)} {info.text}</span>

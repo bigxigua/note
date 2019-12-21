@@ -5,7 +5,8 @@
 .Container{
   width: 100%;
   min-width: 375px;
-  min-height: 100vh;
+  height: 100vh;
+  overflow: hidden;
   background: #fafafa;
 }
 .Content_Wrapper_Index{
