@@ -28,6 +28,7 @@ async function previewMarkdownToContainer({
     toolbar: false,
     height: 'auto',
     path: '/editor/lib/',
+    previewTheme: 'mkfx',
     htmlDecode: 'style,script,iframe',
     readOnly: true,
     markdown: md,

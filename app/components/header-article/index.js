@@ -26,7 +26,7 @@ export default function ArticleHeader({
   const update = useSaveContent({ publish: true, spaceId });
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
-  const isEditPage = /^\/editor\//.test(window.location.pathname);
+  const isEditPage = /^\/edit\//.test(window.location.pathname);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   const search = history.location.search;

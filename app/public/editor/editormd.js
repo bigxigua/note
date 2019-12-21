@@ -3142,7 +3142,7 @@
 
   // Emoji graphics files url path
   editormd.emoji = {
-    path: 'http://www.emoji-cheat-sheet.com/graphics/emojis/',
+    path: '/editor/plugins/emoji-dialog/emoji/',
     ext: '.png'
   };
 
@@ -3764,7 +3764,7 @@
 
   // Preview area themes
   // added @1.5.0
-  editormd.previewThemes = ['default', 'dark'];
+  editormd.previewThemes = ['default', 'dark', 'mkfx'];
 
   // CodeMirror / editor area themes
   // @1.5.0 rename -> editorThemes, old version -> themes

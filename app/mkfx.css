@@ -1,0 +1,181 @@
+/* Preview mkfx theme  */
+.editormd-preview-theme-mkfx {
+    background: rgb(249, 250, 251);
+    font-family: "Helvetica Neue",Arial,"Hiragino Sans GB","STHeiti","Microsoft YaHei","WenQuanYi Micro Hei",SimSun,Song,sans-serif;
+    color: #2c3f51;
+    font-size: 16px;
+}
+.editormd-preview-theme-mkfx .editormd-preview-container{
+    background: rgb(249, 250, 251);
+    color: #2c3f51;
+    font-size: 16px;
+}
+.editormd-preview-theme-mkfx .editormd-preview-container a{
+    color: #1980e6;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container pre.prettyprint {
+    border: none;
+    font-size: 16px;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container blockquote {
+    border-left-width: 10px;
+    background-color: rgba(102,128,153,0.05);
+    border-top-right-radius: 5px;
+    border-bottom-right-radius: 5px;
+    padding: 15px 20px;
+    font-style: normal;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container blockquote strong{
+    color: #2c3f51;
+    font-weight: bold;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container abbr {
+    color: #fff;
+    padding: 1px 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background: #ff9900;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container code {
+    color: #fff;
+    border: none;
+    padding: 1px 3px;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    -ms-border-radius: 3px;
+    -o-border-radius: 3px;
+    border-radius: 3px;
+    background: #5A9600;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container table {
+    border: none;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container .fa-emoji {
+    color: #B4BF42;
+}
+
+.editormd-preview-theme-mkfx .editormd-preview-container .katex {
+    color: #FEC93F;
+}
+
+.editormd-preview-theme-mkfx .editormd-toc-menu>.markdown-toc {
+    background: #fff;
+    border: none;
+}
+
+.editormd-preview-theme-mkfx .editormd-toc-menu>.markdown-toc h1 {
+    border-color: #ddd;
+}
+
+.editormd-preview-theme-mkfx .markdown-body h1,
+.editormd-preview-theme-mkfx .markdown-body h2 {
+    border-color: #222;
+}
+.editormd-preview-theme-mkfx .markdown-body hr{}
+
+.editormd-preview-theme-mkfx pre {
+    background: #23241f;
+    color: #f8f8f2;
+}
+
+.editormd-preview-theme-mkfx pre .pln {
+    color: #999;
+}
+
+.editormd-preview-theme-mkfx li.L1,
+.editormd-preview-theme-mkfx li.L3,
+.editormd-preview-theme-mkfx li.L5,
+.editormd-preview-theme-mkfx li.L7,
+.editormd-preview-theme-mkfx li.L9 {
+    background: none;
+}
+
+.editormd-preview-theme-mkfx [class*=editormd-logo] {
+    color: #2196F3;
+}
+
+.editormd-preview-theme-mkfx .sequence-diagram text {
+    fill: #fff;
+}
+
+.editormd-preview-theme-mkfx .sequence-diagram rect,
+.editormd-preview-theme-mkfx .sequence-diagram path {
+    color: #fff;
+    fill: #64D1CB;
+    stroke: #64D1CB;
+}
+
+.editormd-preview-theme-mkfx .flowchart rect,
+.editormd-preview-theme-mkfx .flowchart path {
+    stroke: #A6C6FF;
+}
+
+.editormd-preview-theme-mkfx .flowchart rect {
+    fill: #A6C6FF;
+}
+
+.editormd-preview-theme-mkfx .flowchart text {
+    fill: #5879B4;
+}
+
+@media screen {
+    .editormd-preview-theme-mkfx {
+        /* string content */
+        /* a keyword */
+        /* a comment */
+        /* a type name */
+        /* a literal value */
+        /* punctuation, lisp open bracket, lisp close bracket */
+        /* a markup tag name */
+        /* a markup attribute name */
+        /* a markup attribute value */
+        /* a declaration; a variable name */
+        /* a function name */
+    }
+    .editormd-preview-theme-mkfx .str {
+        color: #080;
+    }
+    .editormd-preview-theme-mkfx .kwd {
+        color: #ff9900;
+    }
+    .editormd-preview-theme-mkfx .com {
+        color: #444444;
+    }
+    .editormd-preview-theme-mkfx .typ {
+        color: #606;
+    }
+    .editormd-preview-theme-mkfx .lit {
+        color: #066;
+    }
+    .editormd-preview-theme-mkfx .pun,
+    .editormd-preview-theme-mkfx .opn,
+    .editormd-preview-theme-mkfx .clo {
+        color: #660;
+    }
+    .editormd-preview-theme-mkfx .tag {
+        color: #ff9900;
+    }
+    .editormd-preview-theme-mkfx .atn {
+        color: #6C95F5;
+    }
+    .editormd-preview-theme-mkfx .atv {
+        color: #080;
+    }
+    .editormd-preview-theme-mkfx .dec,
+    .editormd-preview-theme-mkfx .var {
+        color: #008BA7;
+    }
+    .editormd-preview-theme-mkfx .fun {
+        color: red;
+    }
+}
