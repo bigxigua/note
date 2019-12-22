@@ -79,10 +79,10 @@ export default function CreateDoc({
         <img src={SPACE_TYPE_ICON[n.scene]} />
         <span>{account}</span>
         <span>/</span>
-        <span style={{ maxWidth: '300px' }}
+        <span style={{ maxWidth: 'calc(100% - 100px)' }}
           className="ellipsis">{n.name}</span>
         <img src={`/images/${n.public === 'SELF' ? 'lock' : 'global'}.png`} />
-      </div>
+      </div >
     );
   }
   return (

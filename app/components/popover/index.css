@@ -1,29 +1,27 @@
-.Popover_Wrapper{
+.Popover_Wrapper {
   height: 100%;
+  display: flex;
+  align-items: center;
 }
-/* .Popover_Wrapper:hover>.Popover_Wrapper_Box>.Popover_Wrapper_Content{
-  display: block;
-  animation-name: zoomIn;
-  animation-duration: 200ms;
-  z-index: 10;
-} */
 
-.Popover_Wrapper_Box{
+.Popover_Wrapper_Box {
   position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
 }
-.Popover_Wrapper_Content{
+
+.Popover_Wrapper_Content {
   display: none;
   position: absolute;
   background: #ffffff;
   border-radius: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
   padding: 8px 0;
   border: none;
   z-index: 10;
 }
+
 .Popover_Wrapper_Content::before {
   content: '';
   width: 11px;
@@ -38,7 +36,8 @@
   top: -4px;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, .05);
 }
-.Popover_Wrapper_Content_show{
+
+.Popover_Wrapper_Content_show {
   display: block;
   animation-name: zoomIn;
   animation-duration: 200ms;

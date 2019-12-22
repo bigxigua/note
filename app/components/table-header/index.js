@@ -4,25 +4,29 @@ import Icon from '@common/icon';
 import List from '@common/list';
 import Button from '@common/button';
 import Search from '@components/search';
+import MobileNav from '@components/mobile-nav';
 import { useHistory } from 'react-router-dom';
 import CreateDoc from '@components/create-doc';
+import { checkBrowser } from '@util/util';
 import './index.css';
+
+const isDocsPage = /^\/docs/g.test(window.location.pathname);
+const { isMobile } = checkBrowser();
 
 export default function TableHeader({
   onSomeThingClick = () => { }
 }) {
-  const isDocsPage = /^\/docs/g.test(window.location.pathname);
   const history = useHistory();
   const [types, setTypes] = useState([
     { text: '所有文档', code: 'ALL', checked: true },
     { text: '已更新的', code: 'UPDATED' },
     { text: '未更新的', code: 'UN_UPDATED' },
     { text: '已删除的', code: 'DELETE' }
-  ]
-  );
+  ]);
   const [visible, setVisible] = useState(false);
+
   // 切换查看的文档类型
-  function onListItemClick(info, index) {
+  const onListItemClick = useCallback((info, index) => {
     if (!info.checked) {
       onSomeThingClick('TYPE_CHANGE', info);
       setTypes(types.map((n, i) => {
@@ -32,7 +36,8 @@ export default function TableHeader({
         };
       }));
     }
-  };
+  }, []);
+
   // 确认搜索
   const onSearchEnter = useCallback((value) => {
     const { code } = types.filter(n => n.checked)[0];
@@ -41,6 +46,7 @@ export default function TableHeader({
     }
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
   }, []);
+
   // 新建文档/新建知识库
   const onButtonClick = useCallback(() => {
     if (isDocsPage) {
@@ -48,11 +54,28 @@ export default function TableHeader({
     }
     history.push('/new');
   }, [isDocsPage]);
+
   const Overlay = <List
     list={types}
     onTap={onListItemClick} />;
+  const tableHeaderClasses = 'TableHeader flex ';
+
+  if (isMobile) {
+    return <div className="table-header-mobile">
+      <div className="flex table-header-mobile-head">
+        <MobileNav current="space" />
+        <Button type="primary"
+          onClick={onButtonClick}>
+          {isDocsPage ? '新建文档' : '新建知识库'}
+        </Button>
+      </div>
+      <Search
+        placeholder="输入标题内容进行搜索"
+        onEnter={onSearchEnter} />
+    </div>;
+  }
   return (
-    <div className="TableHeader flex">
+    <div className={tableHeaderClasses}>
       {isDocsPage && <Dropdown
         trigger="click"
         overlay={Overlay}>

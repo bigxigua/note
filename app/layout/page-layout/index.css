@@ -1,15 +1,15 @@
-.Content{
+.Content {
   width: calc(100% - 206px);
   max-width: calc(100% - 20%);
 }
-.Container{
+
+.Container {
   width: 100%;
-  min-width: 375px;
-  /* height: 100vh; */
-  /* overflow: hidden; */
+  /* min-width: 375px; */
   background: #fafafa;
 }
-.Content_Wrapper_Index{
+
+.Content_Wrapper_Index {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;

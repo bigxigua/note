@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Link } from 'react-router-dom';
-import Search from '@components/search';
+// import Search from '@components/search';
 import Avatar from '../avatar/avatar.js';
 import Icon from '@common/icon';
 import CreateDoc from '@components/create-doc';
@@ -34,7 +34,7 @@ export default function Header() {
           <Link to="/"
             className="Header_title ellipsis">
           </Link>
-          <Search className="Header_Search" />
+          {/* <Search className="Header_Search" /> */}
           <Link to="/"
             className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
           <div className="Header_link header_disabled">娱乐/游戏</div>

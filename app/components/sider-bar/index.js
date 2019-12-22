@@ -27,7 +27,7 @@ export default function SiderBarLayout() {
         <span>文档</span>
       </NavLink>
       <span className="SiderBar_Line"></span>
-      <Link to="/"
+      {/* <Link to="/"
         className="SiderBar_Link">
         <img src="/images/github.png" />
         <span>GitHub Trending</span>
@@ -46,7 +46,7 @@ export default function SiderBarLayout() {
         className="SiderBar_Link">
         <img src="/images/csdn.png" />
         <span>CSDN日榜</span>
-      </Link>
+      </Link> */}
       <Link to="/"
         className="SiderBar_Link">
         <img src="/images/more.png" />

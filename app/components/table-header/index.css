@@ -1,4 +1,4 @@
-.TableHeader{
+.TableHeader {
   width: 100%;
   border: 1px solid #e8e8e8;
   border-radius: 2px 2px 0 0;
@@ -9,16 +9,34 @@
   position: relative;
   z-index: 1;
 }
-.TableHeader_Title{
+
+.TableHeader_Title {
   color: #262626;
   font-size: 14px;
   cursor: pointer;
   font-weight: 500;
 }
-.TableHeader_Icon_Down{
+
+.TableHeader_Icon_Down {
   top: 2px;
   margin-left: 4px;
 }
-.TableHeader_Right>.Button{
+
+.TableHeader_Right>.Button {
   margin-left: 10px;
+}
+
+.table-header-mobile {}
+
+.table-header-mobile>.Search {
+  width: 100%;
+  height: 46px;
+  border-bottom: 1px solid #e8e8e8;
+  border-radius: 0;
+}
+
+.table-header-mobile-head {
+  justify-content: space-between;
+  padding: 10px 14px;
+  border: 1px solid #e8e8e8;
 }

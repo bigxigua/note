@@ -41,7 +41,7 @@ class App extends React.Component {
           <Router>
             <Route
               exact
-              path="/"
+              path="/(index|)"
               component={PageWrapper(Index, '/')}
             />
             <Route

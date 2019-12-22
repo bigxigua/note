@@ -1,0 +1,16 @@
+.content-recent-edit-m-text {
+  color: #262626;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+.content-recent-edit-m {
+  display: none;
+}
+
+.content-recent-edit-m-icon {
+  color: #262626;
+  top: 1px;
+  margin-left: 4px;
+  font-size: 12px;
+}

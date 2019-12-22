@@ -73,7 +73,6 @@ function handleClick(info, props, history) {
 
 // popver下拉项点击
 async function onPopoverItemClick({ props = {}, key = '' }, e, onRecentAction) {
-  e.stopPropagation();
   if (key === 'remove') {
     const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
     if (getIn(data, ['STATUS']) === 'OK') {

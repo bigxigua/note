@@ -2,11 +2,42 @@
     .SiderBar_Layout {
         display: none;
     }
+
+    .Content {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .space>.Content_Wrapper_Index {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+    }
+
+    .docs>.Content_Wrapper_Index {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+    }
+
+    .Space_Table {
+        border: none;
+    }
+
     .Right_Panel_Layout {
         display: none;
     }
+
     .Header_link {
         display: none;
+    }
+
+    .content-recent-edit {
+        display: none;
+    }
+
+    .content-recent-edit-m {
+        display: flex;
     }
 }
 
@@ -14,8 +45,28 @@
     .Header_Search {
         display: none;
     }
+
     .Header_right>.Popover_Wrapper {
         margin-right: 20px;
+    }
+
+    .Footer_Wrapper>.Footer_Wrapper_Tip {
+        flex-direction: column;
+    }
+
+    .Footer_Wrapper>.Footer_Wrapper_Tip>div>img {
+        width: 30px;
+    }
+}
+
+/* 450以下为mobile */
+@media screen and (max-width: 450px) {
+    .Space_Operation_Icon {
+        display: none;
+    }
+
+    .Header_title {
+        margin-left: 0;
     }
 }
 

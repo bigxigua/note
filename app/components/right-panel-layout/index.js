@@ -3,21 +3,14 @@ import Panel from './panel.js';
 import './index.css';
 
 export default function RightPanelLayout() {
+  return null;
   return (
     <div className="Right_Panel_Layout">
-      {/* 待办 */}
       <div className="Right_Panel_Block_Head">
         <p>待办提醒</p>
-        <button className="button">添加</button>
+        <button className="button">待办理</button>
       </div>
       <Panel />
-      {/* 常用地址 */}
-      <div className="Right_Panel_Block_Head">
-        <p>常用地址</p>
-        <button className="button">添加</button>
-      </div>
-      <Panel />
-      {/*  */}
     </div>
   );
 };

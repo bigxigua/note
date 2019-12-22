@@ -1,4 +1,5 @@
 .Modal {
+  max-width: calc(100vw - 16px);
   position: fixed;
   background: #ffffff;
   top: 100px;
@@ -13,7 +14,6 @@
 
 .Modal_Header {
   padding: 24px 0 0 24px;
-  /* border-bottom: 1px solid #e8e8e8; */
   border-radius: 4px 4px 0 0;
 }
 

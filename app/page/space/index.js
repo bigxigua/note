@@ -2,7 +2,6 @@ import React, { useEffect, useState, Fragment } from 'react';
 import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
 import Table from '@common/table';
-import Tag from '@common/tag';
 import axiosInstance from '@util/axiosInstance';
 import { Link } from 'react-router-dom';
 import './index.css';
@@ -16,17 +15,6 @@ export default function Docs() {
       return <div>{info.name}</div>;
     }
   },
-  //  {
-  //   title: '类型',
-  //   key: 'scene',
-  //   render: info => {
-  //     return (
-  //       <div className="Space_Table_Tags flex">
-  //         <Tag>{info.scene}</Tag>
-  //       </div>
-  //     );
-  //   }
-  // },
   {
     title: '简介',
     key: 'description',
@@ -59,15 +47,17 @@ export default function Docs() {
     fetchSpaces();
   }, []);
   const onPaginationChange = () => { };
-  return <PageLayout content={
-    <Fragment>
-      <TableHeader onSomeThingClick={onSomeThingClick} />
-      <Table
-        dataSourceKey={'id'}
-        className="Space_Table"
-        columns={columns}
-        pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
-        dataSource={dataSource} />
-    </Fragment>
-  } />;
+  return <PageLayout
+    className="space"
+    content={
+      <Fragment>
+        <TableHeader onSomeThingClick={onSomeThingClick} />
+        <Table
+          dataSourceKey={'id'}
+          className="Space_Table"
+          columns={columns}
+          pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
+          dataSource={dataSource} />
+      </Fragment>
+    } />;
 };

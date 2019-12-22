@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from 'react';
+import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
 import Popover from '@components/popover';
@@ -10,11 +10,12 @@ import Modal from '@common/modal';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
-import { formatTimeStamp } from '@util/util';
+import { formatTimeStamp, checkBrowser } from '@util/util';
 import { addRecent, logicalDeletion, physicalDeletion } from '@util/commonFun';
 import './index.css';
 
 const message = useMessage();
+const { isMobile } = checkBrowser();
 
 // 下拉选项
 function renderDocOperation(onOperationClick, docInfo) {
@@ -71,6 +72,49 @@ function renderRightJsx(info, handle, h, deleteDoc) {
     </Popover>
   </div>;
 }
+
+// 渲染tag
+function renderTag(info) {
+  if (info.status === '0') {
+    return <Tag color="rgb(255, 85, 0)">已删除</Tag>;
+  }
+  if (!info.markdown_draft && !info.title_draft) {
+    return <Tag color="#25b864">已更新</Tag>;
+  }
+  return <Tag>未更新</Tag>;
+}
+
+// 移动端显示到文档列表
+function renderDoclistsForMobile(lists = [], loading) {
+  if (!isMobile) {
+    return null;
+  }
+  if (loading) {
+    return <Icon
+      className="docs_m_loading"
+      type="loading" />;
+  }
+  if (!lists || lists.length === 0) {
+    return <span className="docs_m_empty">暂无数据</span>;
+  }
+
+  return lists.map(item => {
+    const { user, space, title } = item;
+    return <div className="docs_item"
+      key={item.doc_id}>
+      <div className="flex docs_row_head">
+        <span>{user.name}</span>
+        <span>{formatTimeStamp(item.updated_at_timestamp)}</span>
+        <span>「{space.name}」</span>
+      </div>
+      <div className="docs_item_title">{title}</div>
+      <div className="flex docs_item_sub">
+        {renderTag(item)}
+      </div>
+    </div>;
+  });
+}
+
 export default function Space() {
   const [dataSource, setDataSource] = useState(null);
   // 显示删除文档modal
@@ -79,6 +123,8 @@ export default function Space() {
   const [docInfo, setDocInfo] = useState(false);
   // 分页参数
   const [pageNo, setPageNo] = useState(1);
+  // 正在请求接口
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const columns = [{
     title: '名称',
@@ -119,7 +165,9 @@ export default function Space() {
   }];
   // 获取文档列表
   async function fetchDocs({ type = 'ALL', q = '', page = '' } = {}) {
+    setLoading(true);
     const [error, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(q)}&type=${type.toLocaleLowerCase()}${page}`);
+    setLoading(false);
     if (!error && data && Array.isArray(data) && data.length > 0) {
       setDataSource(data);
     } else {
@@ -150,8 +198,8 @@ export default function Space() {
       message.error({ content: '系统开小差啦，请稍后重试' });
     }
   }
-  function onOperationClick(e) {
-    const { key, docInfo } = e;
+
+  const onOperationClick = useCallback(({ key, docInfo }) => {
     if (key === 'delete') {
       setVisible(true);
       setDocInfo(docInfo);
@@ -159,8 +207,9 @@ export default function Space() {
     if (key === 'editor') {
       history.push(`/edit/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
     }
-  }
-  function onTypeChange(type, { code, q }) {
+  }, []);
+
+  const onTypeChange = useCallback((type, { code, q }) => {
     // 切换最近编辑/我创建的
     if (type === 'TYPE_CHANGE') {
       fetchDocs({ type: code });
@@ -169,44 +218,49 @@ export default function Space() {
     if (type === 'SEARCH_CHANGE') {
       fetchDocs({ type: code, q });
     }
-  }
+  }, []);
+
   useEffect(() => {
     fetchDocs();
   }, []);
-  const onCancelModal = () => {
-    setVisible(false);
-  };
+
   const onConfirmModal = () => {
     deleteDoc('', docInfo);
     setVisible(false);
   };
+
   const pagingDataSource = () => {
     if (!Array.isArray(dataSource)) {
       return null;
     }
     return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
   };
+
   const onPaginationChange = (page) => {
     setPageNo(page);
   };
-  return <PageLayout content={
-    <Fragment>
-      <TableHeader onSomeThingClick={onTypeChange} />
-      <Table
-        dataSourceKey={'id'}
-        className="Space_Table"
-        columns={columns}
-        pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
-        dataSource={pagingDataSource()} />
-      <Modal
-        subTitle="确认移动该文档到回收站？"
-        title="移到回收站"
-        onCancel={onCancelModal}
-        onConfirm={onConfirmModal}
-        confirmText="确认删除"
-        visible={visible} >
-        移动到回收站后，文档列表页操作恢复
-      </Modal>
-    </Fragment>
-  } />;
+
+  return <PageLayout
+    className="docs"
+    content={
+      <Fragment>
+        <TableHeader onSomeThingClick={onTypeChange} />
+        {renderDoclistsForMobile(dataSource, loading)}
+        {!isMobile && <Table
+          dataSourceKey={'id'}
+          className="Space_Table"
+          columns={columns}
+          pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
+          dataSource={pagingDataSource()} />}
+        <Modal
+          subTitle="确认移动该文档到回收站？"
+          title="移到回收站"
+          onCancel={() => setVisible(false)}
+          onConfirm={onConfirmModal}
+          confirmText="确认删除"
+          visible={visible} >
+          移动到回收站后，文档列表页操作恢复
+        </Modal>
+      </Fragment>
+    } />;
 }
