@@ -1,7 +1,9 @@
 import React from 'react';
 import Tag from '@common/tag';
-import { formatTimeStamp, parseUrlQuery } from '@util/util';
+import { formatTimeStamp, parseUrlQuery, checkBrowser } from '@util/util';
 import { Link } from 'react-router-dom';
+
+const { isMobile } = checkBrowser();
 
 export default function DraftTips({
   docInfo
@@ -13,8 +15,12 @@ export default function DraftTips({
   const { spaceId = '', content = '' } = parseUrlQuery();
   const editorLink = pathname.replace(/\/article\//, '/edit/') + `?spaceId=${spaceId}&content=draft`;
   const originLink = `${pathname}?spaceId=${spaceId}&content=origin`;
+
+  let draftClasses = 'Article_DraftTips_Warpper ';
+  draftClasses += `${isMobile ? 'article_draftTip_mobile' : ''}`;
+
   return (
-    <div className="Article_DraftTips_Warpper">
+    <div className={draftClasses}>
       <div className="Article_DraftTips flex">
         <img src="/images/draft.png" />
         <div>

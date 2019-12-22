@@ -81,6 +81,7 @@
   color: #2e3135;
   font-weight: 600;
   padding: 4px 0;
+  display: block;
 }
 
 .docs_item_sub>.Tag {

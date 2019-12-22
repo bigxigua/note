@@ -14,10 +14,12 @@
   overflow-y: scroll;
   overflow-x: hidden;
 }
-.Article_Preview_Wrapper_Big{
+
+.Article_Preview_Wrapper_Big {
   width: calc(100% - 260px);
 }
-.Article_Preview_Wrapper_Big>#editormd>.editormd-preview{
+
+.Article_Preview_Wrapper_Big>#editormd>.editormd-preview {
   width: 100% !important;
 }
 
@@ -64,30 +66,59 @@
   border-bottom: 1px solid #e8e8e8;
   background: rgb(249, 250, 251);
 }
-.Article_DraftTips_Warpper{
+
+.article_preview_wrapper_m {
+  width: 100%;
+}
+
+.Article_DraftTips_Warpper {
   width: 100%;
   padding: 16px 20px;
   margin-bottom: 24px;
 }
-.Article_DraftTips{
+
+.article_draftTip_mobile {
+  padding: 0;
+  font-size: 12px;
+  margin-bottom: 0;
+}
+
+.article_draftTip_mobile .Article_DraftTips_P {
+  font-size: 12px;
+}
+
+.article_draftTip_mobile .Article_DraftTips_P .Tag {
+  transform: scale(0.8);
+  margin-right: 0;
+}
+
+.article_preview_wrapper_m>h1 {
+  font-size: 30px;
+}
+
+.Article_DraftTips {
   background-color: #fafafa;
   border-radius: 4px;
   padding: 16px 20px;
 }
-.Article_DraftTips>img{
+
+.Article_DraftTips>img {
   width: 40px;
   margin-right: 12px;
 }
-.Article_DraftTips_P{
+
+.Article_DraftTips_P {
   color: #595959;
   font-size: 14px;
 }
-.Article_DraftTips_P>.Tag{
+
+.Article_DraftTips_P>.Tag {
   cursor: pointer;
   margin-right: 14px;
 }
-.Article_DraftTips>div>p>span{
-font-size: 12px;
-font-weight: 600;
-padding: 0 4px;
+
+.Article_DraftTips>div>p>span {
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0 4px;
 }

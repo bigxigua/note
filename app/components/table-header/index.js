@@ -60,10 +60,11 @@ export default function TableHeader({
     onTap={onListItemClick} />;
   const tableHeaderClasses = 'TableHeader flex ';
 
+  // 移动端渲染条目
   if (isMobile) {
     return <div className="table-header-mobile">
       <div className="flex table-header-mobile-head">
-        <MobileNav current="space" />
+        <MobileNav current={isDocsPage ? 'docs' : 'space'} />
         <Button type="primary"
           onClick={onButtonClick}>
           {isDocsPage ? '新建文档' : '新建知识库'}
@@ -72,8 +73,10 @@ export default function TableHeader({
       <Search
         placeholder="输入标题内容进行搜索"
         onEnter={onSearchEnter} />
+      {visible && <CreateDoc onModalChange={(a) => { setVisible(a); }} />}
     </div>;
   }
+  // pc端
   return (
     <div className={tableHeaderClasses}>
       {isDocsPage && <Dropdown

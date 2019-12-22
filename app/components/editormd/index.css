@@ -27,6 +27,10 @@
     border: 1px solid #ddd;
 }
 
+.editormd_mobile {
+    width: 100%;
+}
+
 #editormd_edit {
     margin: 0;
     min-height: calc(100vh - 58px);

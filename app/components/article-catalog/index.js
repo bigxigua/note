@@ -48,12 +48,6 @@ export default function ArticleCatalog({ dynamic = false }) {
     createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx });
   }, [(editor || d).getMarkdown()]);
 
-  // if (!editor || !catalogsJsx || catalogsJsx.length === 0) {
-  //   if ($('.Article_Preview_Wrapper').length > 0 && catalogsJsx && catalogsJsx.length === 0) {
-  //     $('.Article_Preview_Wrapper').addClass('Article_Preview_Wrapper_Big');
-  //   }
-  //   return null;
-  // }
   return (
     <div className="Article_Catalog_Wrapper">
       <div className="Catalog_title">文章目录</div>

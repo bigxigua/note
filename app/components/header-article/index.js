@@ -2,23 +2,14 @@ import React, { useContext } from 'react';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import Breadcrumb from '@common/breadcrumb';
-import Popover from '@components/popover';
 import { Link, useHistory } from 'react-router-dom';
 import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
-import { formatTimeStamp, parseUrlQuery, getIn } from '@util/util';
+import { formatTimeStamp, parseUrlQuery, getIn, checkBrowser } from '@util/util';
 import './index.css';
 
-const content = (
-  <div className="Article_Header_Fun">
-    <p>翻译为英文</p>
-    <p>查看HTML</p>
-    <p>查看Markdown</p>
-    <span></span>
-    <p>导出</p>
-    <p>TODO...</p>
-  </div>
-);
+const { isMobile } = checkBrowser();
+
 export default function ArticleHeader({
   docInfo = {}
 }) {
@@ -55,7 +46,7 @@ export default function ArticleHeader({
           <Link className="Article_Header_title flex"
             to="/">
           </Link>
-          <Breadcrumb crumbs={crumbs} />
+          {!isMobile && <Breadcrumb crumbs={crumbs} />}
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>保存于 {formatTimeStamp(new Date())}</span>)}
@@ -63,18 +54,14 @@ export default function ArticleHeader({
         </div>
         <div className="Article_Header_right">
           {isArticlePage && <div className="Article_Header_Edit_Btn flex">
-            <button className="button"
-              onClick={jumpToEditor}>编辑</button>
-            {/* <Icon type="caret-down" /> */}
+            <Button
+              type="primary"
+              content="编辑"
+              onClick={jumpToEditor} />
           </div>}
           {isEditPage && <Button
-            // disabled={saveContentStatus === -1}
             type="primary"
             onClick={onUpdate}>更新</Button>}
-          {/* <Popover content={content}>
-            <Icon type="ellipsis"
-              className="Article_Header_Fun_Icon" />
-          </Popover> */}
           <Icon type="ellipsis"
             className="Article_Header_Fun_Icon" />
         </div>

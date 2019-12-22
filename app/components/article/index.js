@@ -5,8 +5,10 @@ import Footer from '@components/footer';
 import editorContext from '@context/editor/editorContext';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery } from '@util/util';
+import { parseUrlQuery, checkBrowser } from '@util/util';
 import './index.css';
+
+const { isMobile } = checkBrowser();
 
 async function previewMarkdownToContainer({
   content,
@@ -70,17 +72,19 @@ export default function Article({ docInfo }) {
       }
     });
   }, [docInfo, content]);
+  let articleClasses = 'Article_Preview_Wrapper ';
+  articleClasses += `${isMobile ? 'article_preview_wrapper_m' : ''}`;
   return (
     <div className="Article_Wrapper">
-      <BookCatalog />
-      <div className="Article_Preview_Wrapper">
+      {!isMobile && <BookCatalog />}
+      <div className={articleClasses}>
         <DraftTips docInfo={docInfo} />
         <h1>{getTitle(docInfo, content)}</h1>
         <article id="editormd"></article>
         <FooterMeta docInfo={docInfo || {}} />
         <Footer style={{ marginTop: '40px' }} />
       </div>
-      <ArticleCatalog dynamic={true} />
+      {!isMobile && <ArticleCatalog dynamic={true} />}
     </div>
   );
 };

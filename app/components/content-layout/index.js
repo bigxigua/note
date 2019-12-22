@@ -7,7 +7,6 @@ import './index.css';
 
 export default function ContentLayout() {
   const [visible, setVisible] = useState(false);
-
   return (
     <div className="Content_Layout">
       <div className="Content_Layout_Head">

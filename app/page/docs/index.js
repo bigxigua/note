@@ -10,7 +10,7 @@ import Modal from '@common/modal';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
-import { formatTimeStamp, checkBrowser } from '@util/util';
+import { formatTimeStamp, stringTransformToUrlObject, checkBrowser } from '@util/util';
 import { addRecent, logicalDeletion, physicalDeletion } from '@util/commonFun';
 import './index.css';
 
@@ -107,7 +107,8 @@ function renderDoclistsForMobile(lists = [], loading) {
         <span>{formatTimeStamp(item.updated_at_timestamp)}</span>
         <span>「{space.name}」</span>
       </div>
-      <div className="docs_item_title">{title}</div>
+      <Link className="docs_item_title"
+        to={stringTransformToUrlObject(item.url).pathname}>{title}</Link>
       <div className="flex docs_item_sub">
         {renderTag(item)}
       </div>

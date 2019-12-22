@@ -1,7 +1,7 @@
-import React, { useEffect, useContext, useRef, useState } from 'react';
+import React, { useEffect, useContext, useRef } from 'react';
 import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
-import { debunce, parseUrlQuery, addKeydownListener } from '@util/util';
+import { debunce, parseUrlQuery, addKeydownListener, checkBrowser } from '@util/util';
 import useSaveContent from '@hooks/use-save-content';
 import './index.css';
 
@@ -101,12 +101,15 @@ function getTitle(docInfo = {}, content) {
   return title;
 }
 
+const { isMobile } = checkBrowser();
+
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const { updateEditorInfo } = useContext(editorContext);
   const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
   const editormd = useRef(null);
+
   /**
  *  监听键盘事件，设置快捷键操作
  */
@@ -123,7 +126,6 @@ export default function Editormd({ docInfo }) {
           if (editormd.current.isPreving) return;
           e.preventDefault();
           const markdown = editormd.current.getMarkdown();
-          console.log('--------');
           editormd.current.markdownToHTML('preview-container', {
             ...editormd.current.settings,
             markdown
@@ -170,15 +172,18 @@ export default function Editormd({ docInfo }) {
     //   return confirmationMessage;
     // });
   }, [docInfo, content]);
+
+  let editormdClasses = 'Editormd ';
+  editormdClasses += `${isMobile ? 'editormd_mobile' : ''}`;
+
   return (
     <div className="Editormd_Wrapper flex">
       <div id="preview-container"></div>
-      <div className="Editormd">
+      <div className={editormdClasses}>
         <div id="editormd_edit"
           ref={editorArea}></div>
       </div>
-      <ArticleCatalog
-        dynamic={true} />
+      {!isMobile && <ArticleCatalog dynamic={true} />}
     </div>
   );
 };
