@@ -17,14 +17,14 @@ export default function FooterMeta({
         <Icon type="clock-circle" />
         <span>{formatTimeStamp(updated_at_timestamp)}</span>
       </div>
-      <div className="Footer_Meta_Item">
+      {/* <div className="Footer_Meta_Item">
         <Icon type="read" />
         <span>0</span>
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="message" />
         <span>0</span>
-      </div>
+      </div> */}
     </div>
   );
 };

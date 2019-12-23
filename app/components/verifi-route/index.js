@@ -9,11 +9,13 @@ export default function VerifiRoute(props) {
   const { component: Component } = props;
   const { pathname } = useLocation();
   const { userInfo, updateUserInfo } = useContext(userContext);
+
   const checkAuthorization = async () => {
     const [, data] = await axiosInstance.post('login');
     const isLogin = getIn(data, ['uuid'], false);
     return { isLogin, isHasAuth: true, data };
   };
+
   useEffect(() => {
     const asyncFn = async () => {
       const match = matchPath(pathname, props.pathname);
@@ -37,18 +39,24 @@ export default function VerifiRoute(props) {
     };
     asyncFn();
   }, []);
+
   if (!state) return null;
+
   if (!state.isLogin) {
     return <Redirect to={{
       pathname: '/login',
       search: `?returnUrl=${state.currentLocation}`
     }} />;
   }
+
   if (!state.isHasAuth) {
     return <Redirect to={{
       pathname: '/login',
       search: `?returnUrl=${state.currentLocation}`
     }} />;
   }
+  // scroll top
+  window.scrollTo(0, 0);
+
   return <Component />;
 }

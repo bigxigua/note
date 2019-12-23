@@ -1,8 +1,11 @@
 import React, { useEffect, useState, useContext } from 'react';
 import editorContext from '@context/editor/editorContext';
+import { checkBrowser } from '@util/util';
 import './index.css';
 
-function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
+const { isMobile } = checkBrowser();
+
+function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx, catalogsUpdate }) {
   if (!editormd) return;
   const catalogs = [];
   try {
@@ -32,6 +35,7 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
       </div>
     );
   });
+  catalogsUpdate(catalogsJsx);
   setCatalogsJsx(catalogsJsx);
 }
 
@@ -39,14 +43,18 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx }) {
  *  @editor {object} 编辑器对象
  *  @dynamic {boolean} 是否需要动态同步修改后目录
  */
-export default function ArticleCatalog({ dynamic = false }) {
+export default function ArticleCatalog({ dynamic = false, catalogsUpdate }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
   const { editor } = useContext(editorContext);
   const d = { getMarkdown: () => { } };
 
   useEffect(() => {
-    createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx });
+    createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx, catalogsUpdate });
   }, [(editor || d).getMarkdown()]);
+
+  if (isMobile || !Array.isArray(catalogsJsx) || catalogsJsx.length === 0) {
+    return null;
+  }
 
   return (
     <div className="Article_Catalog_Wrapper">

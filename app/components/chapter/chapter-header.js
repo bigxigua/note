@@ -1,10 +1,12 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, Fragment } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
-import { parseUrlQuery, delay } from '@util/util';
+import { parseUrlQuery, delay, checkBrowser } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
 import { createNewDoc, updateCatalogService } from '@util/commonFun';
+
+const { isMobile } = checkBrowser();
 
 export default function ChapterHeader({
   userInfo = {},
@@ -14,6 +16,7 @@ export default function ChapterHeader({
   const history = useHistory();
   const { pathname, search } = window.location;
   const { type = '', spaceId = '' } = parseUrlQuery();
+
   // 面包屑导航
   const crumbs = [{
     text: userInfo.name,
@@ -25,6 +28,7 @@ export default function ChapterHeader({
     text: space.name,
     pathname: `${pathname + search}`
   }];
+
   // 点击更新编排后的文档
   const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
     const [error, data] = await updateCatalogService({ spaceId, catalog });
@@ -34,6 +38,7 @@ export default function ChapterHeader({
       console.log('[目录更新失败 ]', error);
     }
   }, []);
+
   // 新建文档
   const onCreateNewDoc = useCallback((info) => {
     createNewDoc(info, async ({ docId, spaceId }) => {
@@ -46,6 +51,30 @@ export default function ChapterHeader({
     });
   }, []);
 
+  function renderActionButton() {
+    if (isMobile) {
+      return null;
+    } else if (type.toLocaleLowerCase() === 'toc') {
+      return <Button
+        content="更新"
+        disabled={false}
+        onClick={() => onUpdateCatalog({
+          spaceId,
+          catalog
+        })}
+        type="primary" />;
+    } else {
+      return <Button
+        content="编排目录"
+        link={{
+          to: `/spacedetail?spaceId=${spaceId}&type=toc`,
+          target: 'blank'
+        }}
+        disabled={catalog.length < 2}>
+      </Button>;
+    }
+  }
+
   return <div className="Chapter_Header flex">
     <Breadcrumb crumbs={crumbs} />
     <div className="Chapter_Header_Operation flex">
@@ -56,23 +85,7 @@ export default function ChapterHeader({
             space_id: spaceId
           });
         }} />
-      {type.toLocaleLowerCase() === 'toc'
-        ? <Button
-          content="更新"
-          disabled={false}
-          onClick={() => onUpdateCatalog({
-            spaceId,
-            catalog
-          })}
-          type="primary" />
-        : <Button
-          content="编排目录"
-          link={{
-            to: `/spacedetail?spaceId=${spaceId}&type=toc`,
-            target: 'blank'
-          }}
-          disabled={catalog.length < 2}>
-        </Button>}
+      {renderActionButton()}
     </div>
   </div>;
 }

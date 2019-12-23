@@ -1,4 +1,4 @@
-import React, { useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import ArticleCatalog from '@components/article-catalog';
 import BookCatalog from '@components/book-catalog';
 import Footer from '@components/footer';
@@ -49,6 +49,7 @@ async function previewMarkdownToContainer({
     }
   });
 }
+
 // 获取标题
 function getTitle(docInfo = {}, content) {
   let title = docInfo.title_draft || docInfo.title;
@@ -57,7 +58,9 @@ function getTitle(docInfo = {}, content) {
   }
   return title;
 }
+
 export default function Article({ docInfo }) {
+  const [classes, setClassess] = useState(`Article_Preview_Wrapper ${isMobile ? 'article_preview_wrapper_m' : ''}`);
   const { updateEditorInfo } = useContext(editorContext);
   const { content = 'draft' } = parseUrlQuery();
   useEffect(() => {
@@ -72,19 +75,26 @@ export default function Article({ docInfo }) {
       }
     });
   }, [docInfo, content]);
-  let articleClasses = 'Article_Preview_Wrapper ';
-  articleClasses += `${isMobile ? 'article_preview_wrapper_m' : ''}`;
+
+  const catalogsUpdate = useCallback((list) => {
+    if (list.length === 0) {
+      setClassess(classes + ' article_preview_wrapper_m');
+    }
+  }, [classes]);
+
   return (
     <div className="Article_Wrapper">
       {!isMobile && <BookCatalog />}
-      <div className={articleClasses}>
+      <div className={classes}>
         <DraftTips docInfo={docInfo} />
         <h1>{getTitle(docInfo, content)}</h1>
         <article id="editormd"></article>
         <FooterMeta docInfo={docInfo || {}} />
         <Footer style={{ marginTop: '40px' }} />
       </div>
-      {!isMobile && <ArticleCatalog dynamic={true} />}
+      <ArticleCatalog
+        catalogsUpdate={catalogsUpdate}
+        dynamic={true} />
     </div>
   );
 };

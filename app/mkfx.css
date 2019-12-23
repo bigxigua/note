@@ -21,6 +21,10 @@
     font-size: 16px;
 }
 
+.editormd-preview-theme-mkfx+.editormd-container-mask {
+    background: rgb(249, 250, 251);
+}
+
 .editormd-preview-theme-mkfx .editormd-preview-container blockquote {
     border-left-width: 10px;
     background-color: rgba(102, 128, 153, 0.05);

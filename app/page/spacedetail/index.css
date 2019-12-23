@@ -12,19 +12,26 @@
   align-items: center;
   overflow-x: hidden;
 }
-.SpaceDetail>h1{
+
+.space_detail_mobile {
+  margin-top: 0;
+}
+
+.SpaceDetail>h1 {
   color: #262626;
   font-size: 24px;
   font-weight: 600;
   padding: 0 32px;
 }
-.SpaceDetail>h4{
+
+.SpaceDetail>h4 {
   font-size: 14px;
   color: #595959;
   margin-top: 12px;
   padding: 0 32px;
 }
-.SpaceDetail>img{
+
+.SpaceDetail>img {
   width: 40px;
   height: 40px;
   border-radius: 100%;

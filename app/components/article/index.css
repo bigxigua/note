@@ -13,6 +13,7 @@
   box-sizing: border-box;
   overflow-y: scroll;
   overflow-x: hidden;
+  padding-bottom: 60px;
 }
 
 .Article_Preview_Wrapper_Big {
@@ -27,6 +28,7 @@
   min-height: calc(100vh - 260px);
   border: none;
   margin-bottom: 0;
+  background: rgb(249, 250, 251);
 }
 
 .Footer_Meta {
@@ -69,6 +71,7 @@
 
 .article_preview_wrapper_m {
   width: 100%;
+  padding-bottom: 40px;
 }
 
 .Article_DraftTips_Warpper {
