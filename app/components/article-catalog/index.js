@@ -43,7 +43,7 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx, catalogsUpdate }
  *  @editor {object} 编辑器对象
  *  @dynamic {boolean} 是否需要动态同步修改后目录
  */
-export default function ArticleCatalog({ dynamic = false, catalogsUpdate }) {
+export default function ArticleCatalog({ dynamic = false, catalogsUpdate = () => { } }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
   const { editor } = useContext(editorContext);
   const d = { getMarkdown: () => { } };

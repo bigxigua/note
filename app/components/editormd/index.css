@@ -31,6 +31,10 @@
     width: 100%;
 }
 
+.editormd_mobile .CodeMirror {
+    width: 100% !important;
+}
+
 #editormd_edit {
     margin: 0;
     min-height: calc(100vh - 58px);

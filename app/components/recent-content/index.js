@@ -141,9 +141,10 @@ export default function RecentContent(props) {
         <div className="Recent_Content_Left_Info">
           <p className="ellipsis">{title}</p>
           {info.key === 'doc' &&
-            <span className="ellipsis">
+            <div className="ellipsis"
+              onClick={(e) => { e.stopPropagation(); }}>
               所属空间:<Link to={spaceUrl}>《{`${space.name}`}》</Link>
-            </span>
+            </div>
           }
           <span>
             <span style={weightStyle}>{user.name}</span>

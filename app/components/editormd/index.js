@@ -1,4 +1,4 @@
-import React, { useEffect, useContext, useRef } from 'react';
+import React, { useState, useEffect, useContext, useRef, useCallback } from 'react';
 import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
 import { debunce, parseUrlQuery, addKeydownListener, checkBrowser } from '@util/util';
@@ -105,6 +105,7 @@ const { isMobile } = checkBrowser();
 
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
+  const [classes, setClassess] = useState(`Editormd ${isMobile ? 'editormd_mobile' : ''}`);
   const { updateEditorInfo } = useContext(editorContext);
   const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
@@ -173,17 +174,22 @@ export default function Editormd({ docInfo }) {
     // });
   }, [docInfo, content]);
 
-  let editormdClasses = 'Editormd ';
-  editormdClasses += `${isMobile ? 'editormd_mobile' : ''}`;
+  const catalogsUpdate = useCallback((list) => {
+    if (list.length === 0) {
+      setClassess(classes + ' editormd_mobile');
+    }
+  }, []);
 
   return (
     <div className="Editormd_Wrapper flex">
       <div id="preview-container"></div>
-      <div className={editormdClasses}>
+      <div className={classes}>
         <div id="editormd_edit"
           ref={editorArea}></div>
       </div>
-      {!isMobile && <ArticleCatalog dynamic={true} />}
+      <ArticleCatalog
+        catalogsUpdate={catalogsUpdate}
+        dynamic={true} />
     </div>
   );
 };
