@@ -147,10 +147,6 @@
   border-bottom: 1px solid #e8e8e8;
 }
 
-.Chapter_Header_Operation>.Button {
-  margin-left: 20px;
-}
-
 .Chapter_Item_Disabled {
   text-decoration: line-through;
 }

@@ -13,7 +13,8 @@ export default function Button(props) {
     className = '',
     content = '',
     link = null,
-    onClick = () => { }
+    onClick = () => { },
+    style = {}
   } = props;
   const typeClassName = {
     default: 'Button_default',
@@ -40,6 +41,7 @@ export default function Button(props) {
   };
   return (
     <button
+      style={style}
       onClick={onButtonClick}
       className={`Button flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`}>
       {icon && <Icon type={icon} />}

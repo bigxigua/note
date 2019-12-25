@@ -34,9 +34,11 @@
 .Footer_Meta {
   display: flex;
   align-items: center;
+  justify-content: space-between;
   padding: 0 22px;
   box-sizing: border-box;
   padding-top: 20px;
+  border-top: 1px solid #e8e8e8;
 }
 
 .Footer_Meta_Item {
@@ -51,6 +53,10 @@
   margin-right: 7px;
   position: relative;
   top: 2px;
+}
+
+.Footer_Meta_Item:first-child>span {
+  max-width: 120px;
 }
 
 .editormd-preview {
@@ -72,6 +78,10 @@
 .article_preview_wrapper_m {
   width: 100%;
   padding-bottom: 40px;
+}
+
+.article_no_catalog {
+  width: calc(100% - 190px);
 }
 
 .Article_DraftTips_Warpper {

@@ -11,7 +11,7 @@ export default function FooterMeta({
     <div className="Footer_Meta">
       <div className="Footer_Meta_Item">
         <Icon type="usergroup-delete" />
-        <span>{userInfo.account || userInfo.nickname}</span>
+        <span className="ellipsis">{userInfo.account || userInfo.nickname}</span>
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="clock-circle" />

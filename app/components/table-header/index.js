@@ -10,7 +10,6 @@ import CreateDoc from '@components/create-doc';
 import { checkBrowser } from '@util/util';
 import './index.css';
 
-const isDocsPage = /^\/docs/g.test(window.location.pathname);
 const { isMobile } = checkBrowser();
 
 export default function TableHeader({
@@ -24,6 +23,7 @@ export default function TableHeader({
     { text: '已删除的', code: 'DELETE' }
   ]);
   const [visible, setVisible] = useState(false);
+  const isDocsPage = /^\/docs/g.test(window.location.pathname);
 
   // 切换查看的文档类型
   const onListItemClick = useCallback((info, index) => {

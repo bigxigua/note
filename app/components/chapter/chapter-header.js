@@ -1,4 +1,4 @@
-import React, { useContext, useCallback, Fragment } from 'react';
+import React, { useContext, useCallback } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import { parseUrlQuery, delay, checkBrowser } from '@util/util';
@@ -19,15 +19,19 @@ export default function ChapterHeader({
 
   // 面包屑导航
   const crumbs = [{
-    text: userInfo.name,
-    render: n => { return n.text; }
-  }, {
     text: '空间',
     pathname: '/space/'
   }, {
     text: space.name,
     pathname: `${pathname + search}`
   }];
+
+  if (!isMobile) {
+    crumbs.unshift({
+      text: userInfo.name,
+      render: n => n.text
+    });
+  }
 
   // 点击更新编排后的文档
   const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
@@ -66,6 +70,7 @@ export default function ChapterHeader({
     } else {
       return <Button
         content="编排目录"
+        style={{ marginLeft: '20px' }}
         link={{
           to: `/spacedetail?spaceId=${spaceId}&type=toc`,
           target: 'blank'

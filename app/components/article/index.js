@@ -38,6 +38,7 @@ async function previewMarkdownToContainer({
     lineNumbers: false,
     watch: false,
     tex: true,
+    emoji: true,
     tocm: true,
     taskList: true,
     flowChart: true,
@@ -77,8 +78,11 @@ export default function Article({ docInfo }) {
   }, [docInfo, content]);
 
   const catalogsUpdate = useCallback((list) => {
+    const str = !isMobile ? 'article_no_catalog' : '';
     if (list.length === 0) {
-      setClassess(classes + ' article_preview_wrapper_m');
+      setClassess(classes + ` ${str}`);
+    } else {
+      setClassess(classes.replace(/article_no_catalog/, ''));
     }
   }, [classes]);
 
@@ -90,7 +94,7 @@ export default function Article({ docInfo }) {
         <h1>{getTitle(docInfo, content)}</h1>
         <article id="editormd"></article>
         <FooterMeta docInfo={docInfo || {}} />
-        <Footer style={{ marginTop: '40px' }} />
+        <Footer style={{ marginTop: '20px' }} />
       </div>
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}
