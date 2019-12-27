@@ -45,7 +45,7 @@ export default function Catalog() {
           key={item.docId}
           style={{ marginLeft: `${Math.min(item.level, 3) * 40}px` }}
           className={classes}>
-          <div className="Catalog_Item_Name flex">
+          <div className="Catalog_Item_Name flex ellipsis">
             {isParenrt && <Icon
               onClick={() => { onToggleExpandCatalog(catalogTrees, item, index); }}
               type="caret-down" />}
@@ -53,6 +53,7 @@ export default function Catalog() {
               isDelete || isEmptyNode
                 ? <span>{doc.title}</span>
                 : <Link
+                  className="ellipsis"
                   to={`${stringTransformToUrlObject(doc.url).pathname}`}
                   target="blank">
                   {doc.title}

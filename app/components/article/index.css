@@ -31,6 +31,10 @@
   background: rgb(249, 250, 251);
 }
 
+.editormd_mobile .editormd-preview .editormd-preview-active {
+  padding: 16px;
+}
+
 .Footer_Meta {
   display: flex;
   align-items: center;
@@ -70,7 +74,6 @@
   font-weight: 700;
   font-size: 36px;
   padding: 16px;
-  padding-bottom: 16px;
   border-bottom: 1px solid #e8e8e8;
   background: rgb(249, 250, 251);
 }
@@ -106,7 +109,8 @@
 }
 
 .article_preview_wrapper_m>h1 {
-  font-size: 30px;
+  font-size: 22px;
+  padding: 10px 16px;
 }
 
 .Article_DraftTips {

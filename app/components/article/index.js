@@ -92,7 +92,9 @@ export default function Article({ docInfo }) {
       <div className={classes}>
         <DraftTips docInfo={docInfo} />
         <h1>{getTitle(docInfo, content)}</h1>
-        <article id="editormd"></article>
+        <article
+          className={`${isMobile ? 'editormd_mobile' : ''}`}
+          id="editormd" />
         <FooterMeta docInfo={docInfo || {}} />
         <Footer style={{ marginTop: '20px' }} />
       </div>

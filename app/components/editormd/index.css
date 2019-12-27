@@ -6,7 +6,7 @@
     background-color: rgba(0, 0, 0, 0.75);
     padding: 6px 8px;
     border-radius: 4px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+    box-shadow: 0 2px 8px rgba(218, 188, 188, 0.15);
     color: #fff;
     font-size: 14px;
     text-align: center;
@@ -42,7 +42,6 @@
 
 .CodeMirror_title {
     width: 100%;
-    /* padding: 48px 60px 16px 0; */
     border-bottom: 1px solid #e8e8e8;
     height: 60px;
     overflow: hidden;
@@ -67,6 +66,18 @@
 
 .CodeMirror_title_left>img {
     width: 20px;
+}
+
+.codemirror_title_mobile {
+    height: 44px;
+}
+
+.codemirror_title_mobile>.CodeMirror_title_left {
+    display: none;
+}
+
+.codemirror_title_mobile>input {
+    font-size: 20px;
 }
 
 #preview-container {

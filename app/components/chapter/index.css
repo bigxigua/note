@@ -99,7 +99,7 @@
   background: #fff;
   position: relative;
   z-index: 10;
-  padding-right: 32px;
+  padding-right: 4%;
 }
 
 .Catalog_Item_Update {
@@ -108,7 +108,8 @@
   background: #fff;
   position: relative;
   z-index: 10;
-  padding-left: 32px;
+  padding-left: 4%;
+  flex-shrink: 0;
 }
 
 .Catalog_Item_Parent>.Catalog_Item_Name {

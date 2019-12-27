@@ -37,8 +37,9 @@ export default function ArticleHeader({
     pathname: `/spacedetail?spaceId=${spaceId}`
   }, {
     text: getIn(docInfo, ['title'], ''),
-    pathname: `/${isArticlePage ? 'article' : 'editor'}/${docId}?spaceId=${spaceId}`
+    pathname: `/${isArticlePage ? 'article' : 'edit'}/${docId}?spaceId=${spaceId}`
   }];
+  const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   return (
     <div className="Article_Header">
       <div className="Article_Header_Wrapper animated">
@@ -49,7 +50,7 @@ export default function ArticleHeader({
           {!isMobile && <Breadcrumb crumbs={crumbs} />}
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
-            {saveContentStatus === 1 && (<span>保存于 {formatTimeStamp(new Date())}</span>)}
+            {saveContentStatus === 1 && (<span>{saveText}</span>)}
           </div>
         </div>
         <div className="Article_Header_right">

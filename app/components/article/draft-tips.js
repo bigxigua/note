@@ -31,7 +31,7 @@ export default function DraftTips({
             </Tag>
             {content !== 'origin' && <Tag><Link to={`${originLink}`}>显示原文档</Link></Tag>}
           </div>
-          <p>
+          <p style={{ marginTop: '5px' }}>
             <span>{docInfo.user.name}</span>
             最后更改于
             <span>{formatTimeStamp(docInfo.draft_update_at)}</span>

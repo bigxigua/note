@@ -5,6 +5,8 @@ import { debunce, parseUrlQuery, addKeydownListener, checkBrowser } from '@util/
 import useSaveContent from '@hooks/use-save-content';
 import './index.css';
 
+const { isMobile } = checkBrowser();
+
 /**
  *  初始化编辑器
  *  @content {String} 默认显示草稿还是最新内容(draft/origin)
@@ -31,6 +33,7 @@ async function previewMarkdownToContainer({
     searchReplace: true,
     markdown: md,
     codeFold: true,
+    lineNumbers: !isMobile,
     theme: 'default',
     previewTheme: 'default',
     editorTheme: 'default',
@@ -81,7 +84,7 @@ function insertTitleInput(doc, content) {
   const $CodeMirror = $('.CodeMirror');
   const title = getTitle(doc, content);
   const titleDom =
-    '<div class="CodeMirror_title flex">' +
+    `<div class="CodeMirror_title ${isMobile ? 'codemirror_title_mobile' : ''} flex">` +
     '<div class="CodeMirror_title_left flex"><img src="/images/title.png" alt="标题" /></div>' +
     `<input maxlength="30" value='${title.substr(0, 30)}' />` +
     '</div>';
@@ -100,8 +103,6 @@ function getTitle(docInfo = {}, content) {
   }
   return title;
 }
-
-const { isMobile } = checkBrowser();
 
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();

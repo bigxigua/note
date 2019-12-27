@@ -90,43 +90,45 @@ export default function Login() {
     setErrorInfo(errorInfo);
   };
   return (
-    <div className="Login_Wrapper">
-      <img
-        src="https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg"
-        alt=""
-        className="Login_logo" />
-      <h1 className="Login_title">一日一记</h1>
-      <h2 className="Login_sub_title">工欲善其事，必先利其器</h2>
-      <Input
-        style={{ marginBottom: '16px' }}
-        onChange={(e) => { onChange('account', e); }}
-        addonBefore={<Icon type="user" />} />
-      {errorInfo.accountErrorMsg && (
-        <span className="Login_Error">{errorInfo.accountErrorMsg}</span>
-      )}
-      <Input
-        style={{ marginBottom: '16px' }}
-        addonBefore={<Icon type="lock" />}
-        onChange={(e) => { onChange('password', e); }}
-        type="password" />
-      {errorInfo.passwordErrorMsg && (
-        <span className="Login_Error">{errorInfo.passwordErrorMsg}</span>
-      )}
-      <Button
-        type="primary"
-        className="Login_submit"
-        loading={loading}
-        onClick={onSubmit}>
-        {isLoginPage ? '立即登陆' : '立即注册'}
-      </Button>
-      <Link
-        className="Login_action"
-        to={isLoginPage ? '/register' : '/login'}>
-        {isLoginPage ? '立即注册' : '立即登陆'}
-      </Link>
-      <span className="Login_Tips">
-        一定要记住你的帐号哟，忘记了可是没办法找回来的。
-      </span>
+    <div className="login_bg">
+      <div className="Login_Wrapper">
+        <img
+          src="https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg"
+          alt=""
+          className="Login_logo" />
+        <h1 className="Login_title">一日一记</h1>
+        <h2 className="Login_sub_title">工欲善其事，必先利其器</h2>
+        <Input
+          style={{ marginBottom: '16px' }}
+          onChange={(e) => { onChange('account', e); }}
+          addonBefore={<Icon type="user" />} />
+        {errorInfo.accountErrorMsg && (
+          <span className="Login_Error">{errorInfo.accountErrorMsg}</span>
+        )}
+        <Input
+          style={{ marginBottom: '16px' }}
+          addonBefore={<Icon type="lock" />}
+          onChange={(e) => { onChange('password', e); }}
+          type="password" />
+        {errorInfo.passwordErrorMsg && (
+          <span className="Login_Error">{errorInfo.passwordErrorMsg}</span>
+        )}
+        <Button
+          type="primary"
+          className="Login_submit"
+          loading={loading}
+          onClick={onSubmit}>
+          {isLoginPage ? '立即登陆' : '立即注册'}
+        </Button>
+        <Link
+          className="Login_action"
+          to={isLoginPage ? '/register' : '/login'}>
+          {isLoginPage ? '立即注册' : '立即登陆'}
+        </Link>
+        <span className="Login_Tips">
+          一定要记住你的帐号哟，忘记了可是没办法找回来的。
+        </span>
+      </div>
     </div>
   );
 };
