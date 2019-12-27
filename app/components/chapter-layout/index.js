@@ -8,7 +8,6 @@ const OFFSET_MAP_LEVEL = {
 };
 export default function ChapterLayout() {
   this.draggingFromThisWith = null;
-  this.draggableElementsInfo = null;
   this.baselineX = 0;
 }
 ChapterLayout.prototype = {
@@ -23,6 +22,7 @@ ChapterLayout.prototype = {
     this.removeEvent();
     this.onMousemove = this.onMousemove.bind(this);
     this.setState = setState;
+    this.draggableElementsInfo = null;
   },
   /**
   * @description

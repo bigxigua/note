@@ -1,8 +1,13 @@
-.editor_container{
+.editor_container {
     width: 100%;
     height: 100%;
 }
-.editor_content{
+
+.content_wrapper_editor {
+    height: calc(100vh - 58px);
+}
+
+.editor_content {
     width: 100%;
     height: 100%;
     display: flex;

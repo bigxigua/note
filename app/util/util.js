@@ -41,8 +41,8 @@ export function debunce(fn, wait = 2000, immediately = false) {
 
 // 格式化时间
 export function formatTimeStamp(timestamp) {
-  if (isNaN(+parseInt)) {
-    timestamp = new Date(timestamp).getTime();
+  if (isNaN(+timestamp) && timestamp) {
+    timestamp = new Date(timestamp.replace(/-/g, '/')).getTime();
   }
   if (!timestamp) {
     return '-';
@@ -180,4 +180,9 @@ export function checkBrowser() {
     isMobile,
     isChrome
   };
+}
+
+// getClass 少写三目运算符
+export function getClass(condition, str1, str2 = '') {
+  return condition ? str1 : str2;
 }

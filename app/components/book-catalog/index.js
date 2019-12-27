@@ -3,7 +3,7 @@ import Icon from '@common/icon';
 import CatalogSkeleton from '@components/catalog-skeleton';
 import axiosInstance from '@util/axiosInstance';
 import { NavLink } from 'react-router-dom';
-import { parseUrlQuery, getIn, isEmptyObject } from '@util/util';
+import { parseUrlQuery, getIn, isEmptyObject, getClass } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
 import './index.css';
 
@@ -59,7 +59,9 @@ export default function BookCatalog() {
   const bookCatalogJsx = catalog.map((item, index) => {
     const doc = docs.find(n => n.doc_id === item.docId) || {};
     const isParenrt = item.children.length > 0;
-    const classes = `BookCatalog_Item flex ${item.open ? 'BookCatalog_Item_Open' : ''} ${isParenrt ? 'BookCatalog_Item_Parent' : ''}`;
+    let classes = 'BookCatalog_Item flex ';
+    classes += `${item.open ? 'BookCatalog_Item_Open' : ''} `;
+    classes += `${isParenrt ? 'BookCatalog_Item_Parent' : ''} `;
     if (isEmptyObject(doc)) {
       return null;
     }
@@ -73,7 +75,7 @@ export default function BookCatalog() {
       <NavLink
         to={'/article' + doc.url.split('article')[1]}
         exact
-        className="BookCatalog_NavLink ellipsis"
+        className="bookcatalog ellipsis"
         activeStyle={activeStyle}>
         {doc.title}
       </NavLink>

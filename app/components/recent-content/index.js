@@ -4,6 +4,7 @@ import List from '@common/list';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
 import { formatTimeStamp, getIn, isEmptyObject } from '@util/util';
+import { fromNow } from '@util/fromNow';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import './index.css';
@@ -148,7 +149,8 @@ export default function RecentContent(props) {
           }
           <span>
             <span style={weightStyle}>{user.name}</span>
-            在{formatTimeStamp(+created_at)} {info.text}</span>
+            <span>{fromNow(created_at)} {info.text}</span>
+          </span>
         </div>
       </div>
       <div className="Recent_Content_Right">

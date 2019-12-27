@@ -62,6 +62,7 @@ export default function ChapterHeader({
       return <Button
         content="更新"
         disabled={false}
+        style={{ marginLeft: '20px' }}
         onClick={() => onUpdateCatalog({
           spaceId,
           catalog

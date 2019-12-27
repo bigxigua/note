@@ -3,7 +3,8 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import InsertCatalog from '@components/insert-catalog';
 import Icon from '@common/icon';
-import { formatTimeStamp, isEmptyObject } from '@util/util';
+import { isEmptyObject } from '@util/util';
+import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
 
@@ -90,7 +91,7 @@ export default function Chapter() {
                 {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
               </h3>
-              <div><span>上次更新：</span>{formatTimeStamp(docInfo.updated_at_timestamp)}</div>
+              <div>{fromNow(docInfo.updated_at_timestamp)}<span>更新</span></div>
             </div>
           )}
         </Draggable>;

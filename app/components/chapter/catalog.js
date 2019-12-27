@@ -1,9 +1,12 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import { Link } from 'react-router-dom';
-import { stringTransformToUrlObject, isEmptyObject, formatTimeStamp } from '@util/util';
+import { stringTransformToUrlObject, isEmptyObject, formatTimeStamp, checkBrowser } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
+import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
+
+const { isMobile } = checkBrowser();
 
 export default function Catalog() {
   const { info: { catalog = [], docs = [] } } = useContext(catalogContext);
@@ -56,7 +59,9 @@ export default function Catalog() {
                 </Link>
             }
           </div>
-          <span className="Catalog_Item_Update flex">{formatTimeStamp(doc.draft_update_at)}</span>
+          <span className="Catalog_Item_Update flex">
+            {isMobile ? `${fromNow(doc.draft_update_at)}更新` : formatTimeStamp(doc.draft_update_at)}
+          </span>
         </div>);
       })
     }

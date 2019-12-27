@@ -4,7 +4,10 @@ import Editormd from '@components/editormd';
 import SiderTips from '@components/sider-tips';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
+import { checkBrowser } from '@util/util';
 import './index.css';
+
+const { isMobile } = checkBrowser();
 
 export default function Editor() {
   const message = useMessage();
@@ -25,9 +28,9 @@ export default function Editor() {
   return (
     <div className="Container">
       <ArticleHeader docInfo={docInfo} />
-      <div className="Content_Wrapper">
+      <div className="content_wrapper_editor">
         <Editormd docInfo={docInfo} />
-        <SiderTips />
+        {!isMobile && <SiderTips />}
       </div>
     </div>
   );

@@ -1737,7 +1737,9 @@
         }
 
         if (settings.toolbar && !settings.readOnly) {
-          codeMirror.css('margin-top', toolbar.height() + 1).height(editor.height() - toolbar.height());
+          setTimeout(() => {
+            codeMirror.css('margin-top', toolbar.height() + 1).height(editor.height() - toolbar.height());
+          }, 0);
         } else {
           codeMirror.css('margin-top', 0).height(editor.height());
         }
