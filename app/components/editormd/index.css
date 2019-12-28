@@ -35,6 +35,11 @@
     width: 100% !important;
 }
 
+.editormd_mobile #editormd_edit .editormd-dialog .editormd-dialog-container {
+    padding-left: 20px;
+    padding-right: 15px
+}
+
 #editormd_edit {
     margin: 0;
     min-height: calc(100vh - 58px);
@@ -96,4 +101,25 @@
 
 .CodeMirror-sizer {
     padding-bottom: 70px !important;
+}
+
+.mobile_save {
+    position: fixed;
+    bottom: 8%;
+    right: 8%;
+    background: #fff;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
+    color: #595959;
+    z-index: 1111;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile_save>img {
+    width: 25px;
+    height: 25px;
 }

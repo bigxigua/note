@@ -66,6 +66,7 @@ async function previewMarkdownToContainer({
  *  鼠标hover编辑器上的图标，给予文字提示
  */
 function addToolTipForEditorIcon() {
+  if (isMobile) return;
   const oEditormdMenus = document.querySelectorAll('.editormd-menu>li>a');
   if (oEditormdMenus.length > 0) {
     oEditormdMenus.forEach(oMenu => {
@@ -110,6 +111,17 @@ function getTitle(docInfo = {}, content) {
   return title;
 }
 
+/**
+ *  移动端保存悬浮按钮
+ */
+function renderSaveIconForMobile(update, editormd) {
+  if (!isMobile) return null;
+  return <div className="mobile_save"
+    onClick={() => update(editormd.current)}>
+    <img src="/images/save.svg" />
+  </div>;
+}
+
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const [classes, setClassess] = useState(`Editormd ${isMobile ? 'editormd_mobile' : ''}`);
@@ -119,9 +131,10 @@ export default function Editormd({ docInfo }) {
   const editormd = useRef(null);
 
   /**
- *  监听键盘事件，设置快捷键操作
- */
+   *  监听键盘事件，设置快捷键操作
+   */
   function monitorKeyupHandle() {
+    if (isMobile) return;
     return addKeydownListener({
       handle: ({ keyCode, ctrlKey, e }) => {
         // Ctrl-S,保存
@@ -150,7 +163,6 @@ export default function Editormd({ docInfo }) {
           }
           e.preventDefault();
         }
-        // console.log({ keyCode, ctrlKey, e });
       }
     });
   }
@@ -197,6 +209,7 @@ export default function Editormd({ docInfo }) {
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}
         dynamic={true} />
+      {renderSaveIconForMobile(update, editormd)}
     </div>
   );
 };

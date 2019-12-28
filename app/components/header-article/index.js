@@ -21,17 +21,19 @@ export default function ArticleHeader({
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   const search = history.location.search;
+
   function jumpToEditor() {
     history.push(`/edit/${docId}${search}`);
   }
+
   // 更新发布文档
   async function onUpdate() {
     const [error] = await update(editor);
     if (!error) {
       window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
-      // history.push(`/article/${docId}?spaceId=${spaceId}&content=origin`);
     }
   }
+
   const crumbs = [{
     text: getIn(docInfo, ['space', 'name'], ''),
     pathname: `/spacedetail?spaceId=${spaceId}`
@@ -39,6 +41,7 @@ export default function ArticleHeader({
     text: getIn(docInfo, ['title'], ''),
     pathname: `/${isArticlePage ? 'article' : 'edit'}/${docId}?spaceId=${spaceId}`
   }];
+
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   return (
     <div className="Article_Header">
@@ -62,6 +65,7 @@ export default function ArticleHeader({
           </div>}
           {isEditPage && <Button
             type="primary"
+            disabled={false}
             onClick={onUpdate}>更新</Button>}
           <Icon type="ellipsis"
             className="Article_Header_Fun_Icon" />

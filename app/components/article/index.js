@@ -39,7 +39,7 @@ async function previewMarkdownToContainer({
     watch: false,
     tex: true,
     emoji: true,
-    tocm: true,
+    tocm: false,
     taskList: true,
     flowChart: true,
     previewCodeHighlight: true,

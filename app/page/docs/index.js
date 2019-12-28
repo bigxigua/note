@@ -240,7 +240,6 @@ export default function Space() {
   const onPaginationChange = (page) => {
     setPageNo(page);
   };
-
   return <PageLayout
     className="docs"
     content={
