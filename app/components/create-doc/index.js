@@ -51,7 +51,7 @@ export default function CreateDoc({
     const [error, data] = await axiosInstance.get('spaces', {});
     setLoading(false);
     if (error || !data || !Array.isArray(data.spaces) || data.spaces.length === 0) {
-      message.error({ content: '服务器开小差啦！请稍后再试试呀.嘻嘻' });
+      // message.error({ content: '服务器开小差啦！请稍后再试试呀.嘻嘻' });
       return;
     }
     setSpaces(data.spaces);

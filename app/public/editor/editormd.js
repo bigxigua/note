@@ -627,6 +627,7 @@
       }
 
       var codeMirrorConfig = {
+        inputStyle: 'textarea',
         mode: settings.mode,
         theme: settings.editorTheme,
         tabSize: settings.tabSize,
@@ -639,6 +640,7 @@
         lineWrapping: settings.lineWrapping,
         extraKeys: {
           'Ctrl-Q': function (cm) {
+            console.log('-----------Ctrl-Q--------');
             cm.foldCode(cm.getCursor());
           }
         },

@@ -1,6 +1,8 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
+import { checkBrowser } from '@util/util';
 import './index.css';
 
+const { isMobile } = checkBrowser();
 const SHOW_CLASSNAME = 'Popover_Wrapper_Content_show';
 
 export default function Popover({
@@ -27,19 +29,43 @@ export default function Popover({
   }, []);
 
   const bindEvent = useCallback(() => {
-    $(wrapperRef.current).mouseenter(() => {
+    const mouseenterFn = () => {
       $(contentRef.current).addClass(SHOW_CLASSNAME);
       calcPosition();
-    });
-    $(wrapperRef.current).mouseleave(() => {
+    };
+    const mouseleaveFn = () => {
       $(contentRef.current).removeClass(SHOW_CLASSNAME);
-    });
+    };
+    wrapperRef.current.addEventListener('mouseenter', mouseenterFn, false);
+    wrapperRef.current.addEventListener('mouseleave', mouseleaveFn, false);
+    return [{
+      name: 'mouseenter',
+      fn: mouseenterFn
+    }, {
+      name: 'mouseleave',
+      fn: mouseleaveFn
+    }];
+  }, []);
+
+  const bindClickEvent = useCallback(() => {
+    const fn = function () {
+      const hasClass = $(contentRef.current).hasClass(SHOW_CLASSNAME);
+      $('.Popover_Wrapper_Content').removeClass(SHOW_CLASSNAME);
+      !hasClass && $(contentRef.current).addClass(SHOW_CLASSNAME);
+      calcPosition();
+    };
+    wrapperRef.current.addEventListener('click', fn, false);
+    return [{ name: 'click', fn }];
   }, []);
 
   useEffect(() => {
     calcPosition();
-    bindEvent();
-    return () => { };
+    const listeners = isMobile ? bindClickEvent() : bindEvent();
+    return () => {
+      listeners.forEach(({ name, fn }) => {
+        wrapperRef.current.removeEventListener(name, fn);
+      });
+    };
   }, []);
 
   return (
