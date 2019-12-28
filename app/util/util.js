@@ -164,21 +164,11 @@ export function addKeydownListener({
 
 // 判断是否为移动端浏览器
 export function checkBrowser() {
-  const ua = navigator.userAgent;
-  const isWindowsPhone = /(?:Windows Phone)/.test(ua);
-  const isSymbian = /(?:SymbianOS)/.test(ua) || isWindowsPhone;
-  const isAndroid = /(?:Android)/.test(ua);
-  const isFireFox = /(?:Firefox)/.test(ua);
-  const isChrome = /(?:Chrome|CriOS)/.test(ua);
-  const isTablet = /(?:iPad|PlayBook)/.test(ua) || (isAndroid && !/(?:Mobile)/.test(ua)) || (isFireFox && /(?:Tablet)/.test(ua));
-  const isPhone = /(?:iPhone)/.test(ua) && !isTablet;
-  const isIos = /(iPhone|iPad|iPod|iOS)/i.test(ua);
-  const isPc = !isPhone && !isAndroid && !isSymbian;
-  const isMobile = isPhone || isAndroid || isIos;
+  const isIos = /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent);
+  const isMobile = isIos || /Android|webOS|BlackBerry|Opera Mini|Opera Mobi|IEMobile/i.test(navigator.userAgent);
   return {
-    isPc,
-    isMobile,
-    isChrome
+    isIos,
+    isMobile
   };
 }
 

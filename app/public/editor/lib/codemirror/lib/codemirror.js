@@ -5212,7 +5212,8 @@
   }, true);
   option("specialCharPlaceholder", defaultSpecialCharPlaceholder, function (cm) { cm.refresh(); }, true);
   option("electricChars", true);
-  option("inputStyle", mobile ? "contenteditable" : "textarea", function () {
+  // contenteditable
+  option("inputStyle", mobile ? "textarea" : "textarea", function () {
     throw new Error("inputStyle can not (yet) be changed in a running editor"); // FIXME
   }, true);
   option("rtlMoveVisually", !windows);
