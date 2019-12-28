@@ -88,7 +88,7 @@
 #preview-container {
     background: #fff;
     position: absolute;
-    max-width: 100vw;
+    width: 100vw;
     height: 100vh;
     z-index: 12;
     top: 1px;
@@ -96,7 +96,16 @@
     padding: 40px 10%;
     padding-bottom: 100px;
     box-sizing: border-box;
-    display: none;
+    transition: all linear 0.2s;
+    transform: translateX(100%);
+}
+
+#preview-container.preview_mobile {
+    padding: 40px 16px;
+}
+
+#preview-container.preview_show {
+    transform: translateX(0);
 }
 
 .CodeMirror-sizer {
@@ -113,7 +122,7 @@
     border-radius: 100%;
     color: #595959;
     z-index: 1111;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
+    box-shadow: 0 3px 20px rgba(0, 0, 0, .25);
     display: flex;
     align-items: center;
     justify-content: center;

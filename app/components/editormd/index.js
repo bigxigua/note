@@ -11,6 +11,8 @@ const mobileToolbars = [
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'image', 'code', 'code-block', 'preformatted-text',
   'list-ul', 'list-ol', 'hr', 'clear', 'table'
 ];
+const PREVIEW_SHOW = 'preview_show';
+const PREVIEW_IMAGES = ['/images/preview1.png', '/images/close.png'];
 /**
  *
  *  初始化编辑器
@@ -112,13 +114,26 @@ function getTitle(docInfo = {}, content) {
 }
 
 /**
- *  移动端保存悬浮按钮
+ *  移动端预览悬浮按钮
  */
-function renderSaveIconForMobile(update, editormd) {
-  if (!isMobile) return null;
+function renderPreviewIconForMobile(preview, hide, previewmd, editormd) {
+  if (!isMobile || !previewmd.current) return null;
+
+  const fn = () => {
+    $('.mobile_save>img').attr('src', PREVIEW_IMAGES[editormd.current.isPreving ? 1 : 0]);
+  };
+  previewmd.current.addEventListener('transitionend', fn, false);
+  function onClickHandle() {
+    if (!editormd.current.isPreving) {
+      preview();
+    } else {
+      hide();
+    }
+    previewmd.current.removeEventListener('transitionend', fn);
+  }
   return <div className="mobile_save"
-    onClick={() => update(editormd.current)}>
-    <img src="/images/save.svg" />
+    onClick={onClickHandle}>
+    <img src={PREVIEW_IMAGES[0]} />
   </div>;
 }
 
@@ -129,7 +144,26 @@ export default function Editormd({ docInfo }) {
   const update = useSaveContent({ spaceId });
   const editorArea = useRef(null);
   const editormd = useRef(null);
+  const previewmd = useRef(null);
 
+  const editormdPreviewShow = useCallback(() => {
+    const markdown = editormd.current.getMarkdown();
+    editormd.current.markdownToHTML('preview-container', {
+      ...editormd.current.settings,
+      markdown
+    });
+    previewmd.current.classList.add(PREVIEW_SHOW);
+    editormd.current.isPreving = true;
+    updateEditorInfo(editormd.current);
+  }, []);
+
+  const editormdPreviewHide = useCallback(() => {
+    if (editormd.current.isPreving) {
+      editormd.current.isPreving = false;
+      updateEditorInfo(editormd.current);
+      previewmd.current.classList.remove(PREVIEW_SHOW);
+    }
+  }, []);
   /**
    *  监听键盘事件，设置快捷键操作
    */
@@ -146,21 +180,11 @@ export default function Editormd({ docInfo }) {
         if (ctrlKey && keyCode === 74) {
           if (editormd.current.isPreving) return;
           e.preventDefault();
-          const markdown = editormd.current.getMarkdown();
-          editormd.current.markdownToHTML('preview-container', {
-            ...editormd.current.settings,
-            markdown
-          });
-          editormd.current.isPreving = true;
-          updateEditorInfo(editormd.current);
+          editormdPreviewShow();
         }
         // esc 退出操作
         if (keyCode === 27) {
-          if (editormd.current.isPreving) {
-            editormd.current.closeMarkdownToHTML('preview-container');
-            editormd.current.isPreving = false;
-            updateEditorInfo(editormd.current);
-          }
+          editormdPreviewHide();
           e.preventDefault();
         }
       }
@@ -201,7 +225,9 @@ export default function Editormd({ docInfo }) {
 
   return (
     <div className="Editormd_Wrapper flex">
-      <div id="preview-container"></div>
+      <div id="preview-container"
+        ref={previewmd}
+        className={`${isMobile ? 'preview_mobile' : ''}`}></div>
       <div className={classes}>
         <div id="editormd_edit"
           ref={editorArea}></div>
@@ -209,7 +235,7 @@ export default function Editormd({ docInfo }) {
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}
         dynamic={true} />
-      {renderSaveIconForMobile(update, editormd)}
+      {renderPreviewIconForMobile(editormdPreviewShow, editormdPreviewHide, previewmd, editormd)}
     </div>
   );
 };
