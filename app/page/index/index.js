@@ -1,5 +1,5 @@
 import React from 'react';
-import Header from '@components/header/header.js';
+import Header from '@components/header/header';
 import SiderBarLayout from '@components/sider-bar';
 import Footer from '@components/footer';
 import ContentLayout from '@components/content-layout';

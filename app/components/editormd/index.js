@@ -6,8 +6,13 @@ import useSaveContent from '@hooks/use-save-content';
 import './index.css';
 
 const { isMobile } = checkBrowser();
-
+const mobileToolbars = [
+  'bold', 'del', 'italic', 'quote', 'uppercase', 'lowercase',
+  'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'image', 'code', 'code-block', 'preformatted-text',
+  'list-ul', 'list-ol', 'hr', 'clear', 'table'
+];
 /**
+ *
  *  初始化编辑器
  *  @content {String} 默认显示草稿还是最新内容(draft/origin)
  *  @docInfo {Object} 文档信息
@@ -29,6 +34,7 @@ async function previewMarkdownToContainer({
     toolbar: true,
     path: '/editor/lib/', // Autoload modules mode, codemirror, marked... dependents libs path
     disabledKeyMaps: ['Ctrl-S'],
+    toolbarIcons: isMobile ? mobileToolbars : 'full',
     placeholder: '开始吧！！',
     searchReplace: true,
     markdown: md,

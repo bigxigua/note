@@ -282,6 +282,7 @@
     position: fixed;
     z-index: 99999;
     display: none;
+    max-width: 100%;
     -webkit-border-radius: 3px;
     -moz-border-radius: 3px;
     -ms-border-radius: 3px;

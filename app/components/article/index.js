@@ -86,12 +86,14 @@ export default function Article({ docInfo }) {
     }
   }, [classes]);
 
+  const title = getTitle(docInfo, content);
+
   return (
     <div className="Article_Wrapper">
       {!isMobile && <BookCatalog />}
       <div className={classes}>
         <DraftTips docInfo={docInfo} />
-        <h1>{getTitle(docInfo, content)}</h1>
+        {title && <h1>{title}</h1>}
         <article
           className={`${isMobile ? 'editormd_mobile' : ''}`}
           id="editormd" />
