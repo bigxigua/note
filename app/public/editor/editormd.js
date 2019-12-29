@@ -1802,6 +1802,14 @@
     },
 
     /**
+     * 暴露filterHTMLTags方法，具体的查看editormd.filterHTMLTags
+     *
+     */
+    filterHTMLTags: function () {
+      return editormd.filterHTMLTags(...arguments);
+    },
+
+    /**
      * 解析和保存Markdown代码
      * Parse & Saving Markdown source code
      *

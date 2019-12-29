@@ -14,8 +14,8 @@ const actions = [{
   key: 'collection'
 }, {
   icon: '/images/catalog.png',
-  text: '目录',
-  key: 'catalog'
+  text: '更多',
+  key: 'more'
 }];
 
 function renderCatalog(editormd, setVisible, visible) {
