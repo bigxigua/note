@@ -2,6 +2,7 @@ import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
 import Popover from '@components/popover';
+import DocItem from '@components/doc-item';
 import Table from '@common/table';
 import Tag from '@common/tag';
 import List from '@common/list';
@@ -10,7 +11,7 @@ import Modal from '@common/modal';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
-import { formatTimeStamp, stringTransformToUrlObject, checkBrowser } from '@util/util';
+import { formatTimeStamp, checkBrowser } from '@util/util';
 import { addRecent, logicalDeletion, physicalDeletion } from '@util/commonFun';
 import './index.css';
 
@@ -73,17 +74,6 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   </div>;
 }
 
-// 渲染tag
-function renderTag(info) {
-  if (info.status === '0') {
-    return <Tag color="rgb(255, 85, 0)">已删除</Tag>;
-  }
-  if (!info.markdown_draft && !info.title_draft) {
-    return <Tag color="#25b864">已更新</Tag>;
-  }
-  return <Tag>未更新</Tag>;
-}
-
 // 移动端显示到文档列表
 function renderDoclistsForMobile(lists = [], loading) {
   if (!isMobile) {
@@ -97,22 +87,10 @@ function renderDoclistsForMobile(lists = [], loading) {
   if (!lists || lists.length === 0) {
     return <span className="docs_m_empty">暂无数据</span>;
   }
-
   return lists.map(item => {
-    const { user, space, title } = item;
-    return <div className="docs_item"
-      key={item.doc_id}>
-      <div className="flex docs_row_head">
-        <span>{user.name}</span>
-        <span>{formatTimeStamp(item.updated_at_timestamp)}</span>
-        <span>「{space.name}」</span>
-      </div>
-      <Link className="docs_item_title"
-        to={stringTransformToUrlObject(item.url).pathname}>{title}</Link>
-      <div className="flex docs_item_sub">
-        {renderTag(item)}
-      </div>
-    </div>;
+    return <DocItem
+      docInfo={item}
+      key={item.doc_id} />;
   });
 }
 

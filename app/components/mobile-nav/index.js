@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import Popover from '@components/popover';
 import Icon from '@common/icon';
 import List from '@common/list';
@@ -12,15 +12,13 @@ const defaultLists = [{
   text: '知识库',
   key: 'space'
 }, {
-  text: '文档',
+  text: '文档列表',
   key: 'docs'
-}, {
-  text: '其他',
-  key: 'other'
 }];
 
-export default function MobileNav({ current = 'index' }) {
+export default function MobileNav({ defaultCurrent = 'index' }) {
   const history = useHistory();
+  const [current, setCurrent] = useState(defaultCurrent);
 
   const list = defaultLists.map(n => {
     return {
@@ -29,9 +27,16 @@ export default function MobileNav({ current = 'index' }) {
     };
   });
 
+  useEffect(() => {
+    setCurrent(defaultCurrent);
+  }, [defaultCurrent]);
+
   const onPopoverItemClick = useCallback((info) => {
+    setCurrent(info.key);
     history.push(info.key);
   }, []);
+
+  const text = list.filter(n => n.checked)[0].text;
 
   return <Popover
     className="content-recent-edit-m"
@@ -41,7 +46,7 @@ export default function MobileNav({ current = 'index' }) {
         onTap={(info, index, event) => { onPopoverItemClick(info, event); }}
         list={list} />
     }>
-    <span className="content-recent-edit-m-text">最近编辑</span>
+    <span className="content-recent-edit-m-text">{text}</span>
     <Icon className="content-recent-edit-m-icon"
       type="caret-down" />
   </Popover>;

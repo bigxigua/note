@@ -1,0 +1,83 @@
+.mobile_toolbar {
+  position: fixed;
+  z-index: 999;
+  bottom: 0;
+  left: 0;
+  width: 100vw;
+  background: #fff;
+  height: 50px;
+  display: flex;
+  justify-content: space-between;
+  padding: 12px 60px;
+  border-top: 1px solid #e8e8e8;
+}
+
+.mobile_toolbar_item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.mobile_toolbar_item>img {
+  width: 20px;
+  height: 22px;
+}
+
+.mobile_catalogs-mask {
+  position: fixed;
+  bottom: 49px;
+  left: 0;
+  width: 100vw;
+  height: calc(100vh - 49px);
+  background-color: rgba(0, 0, 0, .3);
+  transition: opacity .3s ease-in-out;
+  display: none;
+}
+
+.mobile_catalogs-show {
+  display: block;
+  animation-name: fadeInUp;
+  animation-duration: 200ms;
+}
+
+.mobile_catalogs {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  max-height: 60vh;
+  overflow-y: scroll;
+  background-color: #fff;
+  padding: 0 16px;
+  text-align: left;
+  line-height: 22px;
+  font-size: 16px;
+}
+
+.mobile_catalogs-title {
+  padding: 16px 0;
+  border-bottom: 1px solid #e8e8e8;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.mobile_catalogs-title>span {
+  font-weight: 600;
+}
+
+.mobile_catalogs-title>.Icon {
+  font-size: 16px;
+  color: #595959;
+}
+
+.mobile_toolbar_catalog {
+  color: #595959;
+  padding: 8px 0;
+  display: block;
+}
+
+.mobile_toolbar_catalog:last-child {
+  margin-bottom: 8px;
+}

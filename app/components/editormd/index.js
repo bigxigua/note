@@ -150,6 +150,7 @@ export default function Editormd({ docInfo }) {
     const markdown = editormd.current.getMarkdown();
     editormd.current.markdownToHTML('preview-container', {
       ...editormd.current.settings,
+      htmlDecode: 'style,script,iframe',
       markdown
     });
     previewmd.current.classList.add(PREVIEW_SHOW);

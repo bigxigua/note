@@ -64,7 +64,7 @@ export default function TableHeader({
   if (isMobile) {
     return <div className="table-header-mobile">
       <div className="flex table-header-mobile-head">
-        <MobileNav current={isDocsPage ? 'docs' : 'space'} />
+        <MobileNav defaultCurrent={isDocsPage ? 'docs' : 'space'} />
         <Button type="primary"
           onClick={onButtonClick}>
           {isDocsPage ? '新建文档' : '新建知识库'}

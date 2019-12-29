@@ -2,6 +2,7 @@
   color: #262626;
   font-weight: bold;
   font-size: 14px;
+  min-width: 60px;
 }
 
 .content-recent-edit-m {

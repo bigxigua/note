@@ -1,29 +1,13 @@
 import React, { useEffect, useState, useContext } from 'react';
 import editorContext from '@context/editor/editorContext';
-import { checkBrowser } from '@util/util';
+import { checkBrowser, getCatalogs } from '@util/util';
 import './index.css';
 
 const { isMobile } = checkBrowser();
 
 function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx, catalogsUpdate }) {
   if (!editormd) return;
-  const catalogs = [];
-  try {
-    const $html = dynamic ? $(editormd.getHtmlFromMarkDown()) : $('.markdown-body').children();
-    Array.from($html).forEach((dom, index) => {
-      const tagName = dom.tagName;
-      if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
-        catalogs.push({
-          index,
-          text: $(dom).children('a').attr('name'),
-          id: $(dom).attr('id'),
-          type: tagName.toLowerCase()
-        });
-      }
-    });
-  } catch (error) {
-    console.log(error);
-  }
+  const catalogs = getCatalogs(editormd, dynamic);
 
   const catalogsJsx = catalogs.map(p => {
     return (

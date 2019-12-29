@@ -40,23 +40,29 @@ export function debunce(fn, wait = 2000, immediately = false) {
 }
 
 // 格式化时间
-export function formatTimeStamp(timestamp) {
-  if (isNaN(+timestamp) && timestamp) {
-    timestamp = new Date(timestamp.replace(/-/g, '/')).getTime();
-  }
+export function formatTimeStamp(timestamp, type = 'normal') {
   if (!timestamp) {
     return '-';
+  }
+  if (isNaN(+timestamp) && timestamp) {
+    timestamp = new Date(timestamp.replace(/-/g, '/')).getTime();
   }
   const date = new Date(+timestamp);
   const completionZero = function (number) {
     return `${number > 9 ? '' : '0'}${number}`;
   };
-  return `${date.getFullYear()}-` +
+  const base =
     `${completionZero(date.getMonth() + 1)}-` +
     `${completionZero(date.getDate())}` +
-    `  ${completionZero(date.getHours())}:` +
-    `${completionZero(date.getMinutes())}:` +
-    `${completionZero(date.getSeconds())}`;
+    `\xa0\xa0${completionZero(date.getHours())}:` +
+    `${completionZero(date.getMinutes())}`;
+
+  if (type === 'simple') {
+    return base;
+  }
+  if (type === 'normal') {
+    return `${date.getFullYear()}-${base}:${completionZero(date.getSeconds())}`;
+  }
 }
 
 // 防空取参
@@ -175,4 +181,26 @@ export function checkBrowser() {
 // getClass 少写三目运算符
 export function getClass(condition, str1, str2 = '') {
   return condition ? str1 : str2;
+}
+
+// 提取editormd目录
+export function getCatalogs(editormd, dynamic = false) {
+  const catalogs = [];
+  try {
+    const $html = dynamic ? $(editormd.getHtmlFromMarkDown()) : $('.markdown-body').children();
+    Array.from($html).forEach((dom, index) => {
+      const tagName = dom.tagName;
+      if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
+        catalogs.push({
+          index,
+          text: $(dom).children('a').attr('name'),
+          id: $(dom).attr('id'),
+          type: tagName.toLowerCase()
+        });
+      }
+    });
+  } catch (error) {
+    console.log(error);
+  }
+  return catalogs;
 }

@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext, useCallback } from 'react';
 import ArticleCatalog from '@components/article-catalog';
 import BookCatalog from '@components/book-catalog';
 import Footer from '@components/footer';
+import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import editorContext from '@context/editor/editorContext';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
@@ -99,6 +100,7 @@ export default function Article({ docInfo }) {
           id="editormd" />
         <FooterMeta docInfo={docInfo || {}} />
         <Footer style={{ marginTop: '20px' }} />
+        <MobileArticleToolbar />
       </div>
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}

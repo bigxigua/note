@@ -43,27 +43,27 @@
         var dialogContent = ((settings.imageUpload)
           ? '<form action="' + action + '" target="' + iframeName + '" method="post" enctype="multipart/form-data" class="' + classPrefix + 'form">'
           : '<div class="' + classPrefix + 'form">') +
-                    ((settings.imageUpload)
-                      ? '<iframe name="' + iframeName + '" id="' + iframeName + '" guid="' + guid + '"></iframe>' : '') +
-                    '<label>' + imageLang.url + '</label>' +
-                    '<input type="text" data-url />' + (function () {
-          return (settings.imageUpload)
-            ? '<div class="' + classPrefix + 'file-input">' +
-                            '<input type="file" name="' + classPrefix + 'image-file" accept="image/*" />' +
-                            '<input type="submit" value="' + imageLang.uploadButton + '" />' +
-                            '</div>' : '';
-        })() +
-                    '<br/>' +
-                    '<label>' + imageLang.alt + '</label>' +
-                    '<input type="text" value="' + selection + '" data-alt />' +
-                    '<br/>' +
-                    // '<label>' + imageLang.size + '</label>' +
-                    // '<input type="text" value="max100%-auto" data-size />' +
-                    // '<br/>' +
-                    '<label>' + imageLang.link + '</label>' +
-                    '<input type="text" value="" data-link />' +
-                    '<br/>' +
-                    ((settings.imageUpload) ? '</form>' : '</div>');
+          ((settings.imageUpload)
+            ? '<iframe name="' + iframeName + '" id="' + iframeName + '" guid="' + guid + '"></iframe>' : '') +
+          '<label>' + imageLang.url + '</label>' +
+          '<input type="text" data-url />' + (function () {
+            return (settings.imageUpload)
+              ? '<div class="' + classPrefix + 'file-input">' +
+              '<input type="file" name="' + classPrefix + 'image-file" accept="image/*" />' +
+              '<input type="submit" value="' + imageLang.uploadButton + '" />' +
+              '</div>' : '';
+          })() +
+          '<br/>' +
+          '<label>' + imageLang.alt + '</label>' +
+          '<input type="text" value="' + selection + '" data-alt />' +
+          '<br/>' +
+          // '<label>' + imageLang.size + '</label>' +
+          // '<input type="text" value="max100%-auto" data-size />' +
+          // '<br/>' +
+          '<label>' + imageLang.link + '</label>' +
+          '<input type="text" value="" data-link />' +
+          '<br/>' +
+          ((settings.imageUpload) ? '</form>' : '</div>');
 
         // var imageFooterHTML = "<button class=\"" + classPrefix + "btn " + classPrefix + "image-manager-btn\" style=\"float:left;\">" + imageLang.managerButton + "</button>";
 
@@ -93,7 +93,8 @@
 
               var altAttr = (alt !== '') ? ' "' + alt + '"' : '';
               if (link === '' || link === 'http://') {
-                cm.replaceSelection('![' + alt + '](' + url + altAttr + ')');
+                cm.replaceSelection('<img src="https://codemirror.net/doc/yinyang.png" />');
+                // cm.replaceSelection('![' + alt + '](' + url + altAttr + ')');
               } else {
                 cm.replaceSelection('[![' + alt + '](' + url + altAttr + ')](' + link + altAttr + ')');
               }

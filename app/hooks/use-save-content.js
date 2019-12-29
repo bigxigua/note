@@ -14,7 +14,9 @@ export default function useSaveContent({
       return;
     }
     const markdown = editor.getMarkdown();
+    const covers = markdown.match(/(?<=\!\[.*\]\()(.+)(?=\))/g) || [];
     const html = editor.getHtmlFromMarkDown(markdown);
+    const abstract = html.replace(/<\/?[^>]*>/g, '').substr(0, 160).replace(/[\r\n]/g, '');
     const title = $('.CodeMirror_title>input').val();
     const publishParams = !publish
       ? {
@@ -22,8 +24,10 @@ export default function useSaveContent({
         title_draft: title,
         markdown_draft: markdown
       } : {
+        cover: covers[0],
         html,
         title,
+        abstract,
         markdown,
         html_draft: '',
         title_draft: '',

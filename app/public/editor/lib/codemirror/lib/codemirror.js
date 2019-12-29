@@ -5212,7 +5212,6 @@
   option("specialCharPlaceholder", defaultSpecialCharPlaceholder, function (cm) { cm.refresh(); }, true);
   option("electricChars", true);
   // contenteditable
-  console.log('--- option("inputStyle")-----');
   option("inputStyle", mobile ? "textarea" : "textarea", function () {
     throw new Error("inputStyle can not (yet) be changed in a running editor"); // FIXME
   }, true);
