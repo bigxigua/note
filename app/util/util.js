@@ -54,7 +54,7 @@ export function formatTimeStamp(timestamp, type = 'normal') {
   const base =
     `${completionZero(date.getMonth() + 1)}-` +
     `${completionZero(date.getDate())}` +
-    `\xa0\xa0${completionZero(date.getHours())}:` +
+    `\xa0${completionZero(date.getHours())}:` +
     `${completionZero(date.getMinutes())}`;
 
   if (type === 'simple') {

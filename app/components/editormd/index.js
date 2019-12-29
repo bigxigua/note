@@ -13,6 +13,7 @@ const mobileToolbars = [
 ];
 const PREVIEW_SHOW = 'preview_show';
 const PREVIEW_IMAGES = ['/images/preview1.png', '/images/close.png'];
+let saveInterval = 0;
 /**
  *
  *  初始化编辑器
@@ -137,6 +138,15 @@ function renderPreviewIconForMobile(preview, hide, previewmd, editormd) {
   </div>;
 }
 
+/**
+ *  定时器，定时保存草稿
+ */
+function autoSaveContentToDraft(editormd, update) {
+  return setInterval(() => {
+    update(editormd.current);
+  }, 10000);
+}
+
 export default function Editormd({ docInfo }) {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const [classes, setClassess] = useState(`Editormd ${isMobile ? 'editormd_mobile' : ''}`);
@@ -192,6 +202,8 @@ export default function Editormd({ docInfo }) {
     });
   }
 
+  // 5s定时保存草稿
+
   useEffect(() => {
     if (!docInfo) return;
     previewMarkdownToContainer({
@@ -203,6 +215,7 @@ export default function Editormd({ docInfo }) {
         updateEditorInfo(e);
         monitorKeyupHandle();
         editormd.current = e;
+        // saveInterval = autoSaveContentToDraft(editormd, update);
       },
       onchange: (e) => {
         updateEditorInfo(e);
@@ -211,6 +224,9 @@ export default function Editormd({ docInfo }) {
         editormd.current = e;
       }
     });
+    return () => {
+      clearInterval(saveInterval);
+    };
     // window.addEventListener('beforeunload', (e) => {
     //   const confirmationMessage = '要记得保存！你确定要离开我吗？';
     //   (e || window.event).returnValue = confirmationMessage;

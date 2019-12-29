@@ -33,7 +33,7 @@ export default function MobileNav({ defaultCurrent = 'index' }) {
 
   const onPopoverItemClick = useCallback((info) => {
     setCurrent(info.key);
-    history.push(info.key);
+    history.push(`/${info.key}`);
   }, []);
 
   const text = list.filter(n => n.checked)[0].text;

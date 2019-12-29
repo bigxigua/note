@@ -35,6 +35,9 @@ export default function ArticleHeader({
   }
 
   const crumbs = [{
+    text: '文档列表',
+    pathname: '/docs'
+  }, {
     text: getIn(docInfo, ['space', 'name'], ''),
     pathname: `/spacedetail?spaceId=${spaceId}`
   }, {
@@ -43,14 +46,14 @@ export default function ArticleHeader({
   }];
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
+  const classes = `Article_Header ${isMobile ? 'article_header_mobile' : ''}`;
   return (
-    <div className="Article_Header">
-      <div className="Article_Header_Wrapper animated">
+    <div className={classes}>
+      <div className="Article_Header_Wrapper">
         <div className="Article_Header_left">
-          <Link className="Article_Header_title flex"
-            to="/">
-          </Link>
-          {!isMobile && <Breadcrumb crumbs={crumbs} />}
+          {!isMobile && <Link className="Article_Header_title flex"
+            to="/"></Link>}
+          <Breadcrumb crumbs={isMobile ? crumbs.slice(1) : crumbs} />
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>{saveText}</span>)}
@@ -67,8 +70,8 @@ export default function ArticleHeader({
             type="primary"
             disabled={false}
             onClick={onUpdate}>更新</Button>}
-          <Icon type="ellipsis"
-            className="Article_Header_Fun_Icon" />
+          {/* <Icon type="ellipsis"
+            className="Article_Header_Fun_Icon" /> */}
         </div>
       </div>
     </div>

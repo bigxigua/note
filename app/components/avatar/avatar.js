@@ -23,20 +23,20 @@ function Content(props) {
           className="header-userpopover-avatar" /> */}
         <div className="header-userpopover-info">
           <div>昵称: <span>{account || nickname}</span></div>
-          <div>介绍: <span>{headline || '空空如也'}</span></div>
+          {/* <div>介绍: <span>{headline || '空空如也'}</span></div> */}
         </div>
       </div>
       <div className="header-userpopover-bom">
-        <div className="header-userpopover-link">
+        {/* <div className="header-userpopover-link">
           <Icon type="setting" />
           <span>收藏夹</span>
           <Icon type="right" />
-        </div>
-        <div className="header-userpopover-link">
+        </div> */}
+        {/* <div className="header-userpopover-link">
           <Icon type="setting" />
           <span>设置</span>
           <Icon type="right" />
-        </div>
+        </div> */}
         <div className="header-userpopover-link"
           onClick={onOutLogin}>
           <Icon type="setting" />

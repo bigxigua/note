@@ -22,14 +22,16 @@
 
 .Article_Header_left,
 .Article_Header_right {
+    max-width: 80%;
     height: 100%;
     display: flex;
     align-items: center;
     box-sizing: border-box;
 }
 
-.Article_Header_left {
-    /* padding-left: 12px; */
+
+.Article_Header_left>.Breadcrumb {
+    width: 100%;
 }
 
 .Article_Header_favicon {
