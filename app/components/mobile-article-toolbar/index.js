@@ -21,16 +21,20 @@ const actions = [{
 function renderCatalog(editormd, setVisible, visible) {
   const catalogs = getCatalogs(editormd);
   const classes = `mobile_catalogs-mask animated ${visible ? 'mobile_catalogs-show' : ''}`;
+  const onItemClick = function (e) {
+    setVisible(false);
+  };
   return <div className={classes}>
     <div className="mobile_catalogs">
       <div className="mobile_catalogs-title">
         <span>目录</span>
         <Icon onClick={() => { setVisible(false); }} type="close" />
       </div>
-      {
-        catalogs.map(item => {
+      {catalogs.length === 0
+        ? <div>该文档未定义目录</div> : catalogs.map(item => {
           return <div
             key={item.index}
+            onClick={onItemClick}
             className="mobile_toolbar_catalog">
             <a href={`#${item.id}`}
               className={'Catalog_item_' + item.type}>{item.text}
