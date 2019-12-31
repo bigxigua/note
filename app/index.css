@@ -416,3 +416,7 @@ textarea {
     overflow: hidden;
     background: #fafafa;
 }
+
+.codemirror-mobile-textarea:focus {
+    top: -9000px;
+}

@@ -1180,6 +1180,7 @@
     else te.setAttribute("wrap", "off");
     // If border: 0; -- iOS fails to open keyboard (issue #1287)
     if (ios) te.style.border = "1px solid black";
+    te.classList.add('codemirror-mobile-textarea');
     disableBrowserMagic(te);
     return div;
   }
