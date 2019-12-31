@@ -42,13 +42,13 @@
 
 .Article_Header_title {
     display: block;
-    /* margin-left: 10px; */
     height: 100%;
     background: url('/images/logo.jpeg') no-repeat 0 0;
     width: 97px;
     height: 84%;
     background-size: contain;
     margin-right: 18px;
+    flex-shrink: 0;
 }
 
 .Article_Header_title>span {

@@ -100,7 +100,7 @@ export default function Article({ docInfo }) {
           id="editormd" />
         <FooterMeta docInfo={docInfo || {}} />
         <Footer style={{ marginTop: '20px' }} />
-        <MobileArticleToolbar />
+        {isMobile && <MobileArticleToolbar />}
       </div>
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}

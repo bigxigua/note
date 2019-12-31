@@ -191,13 +191,15 @@ export default function NewChooseType({
       <h1>名称</h1>
       <Input
         defaultValue={info.title}
+        w={'100%'}
         onChange={(e) => { onInputChange(e, 'title'); }}
         className="New_Input" />
-      <h1>简介</h1>
+      <h1 style={{ marginTop: '10px' }}>简介</h1>
       <Input
         defaultValue={info.desc}
         type="textarea"
         h={'auto'}
+        w={'100%'}
         onChange={(e) => { onInputChange(e, 'desc'); }}
         className="New_TextArea" />
       <button

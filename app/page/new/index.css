@@ -1,5 +1,5 @@
-.New_Wrapper{
-    width: 1200px;
+.New_Wrapper {
+    max-width: 1200px;
     margin: 0 auto;
     border: 1px solid #e8e8e8;
     border-radius: 4px;
@@ -7,96 +7,118 @@
     min-height: 600px;
     margin-top: 24px;
 }
-.New_Header{
+
+.New_Header {
     width: 100%;
     padding: 16px 24px 8px;
     border-bottom: 1px solid #e8e8e8;
 }
-.New_Header>h1{
+
+.New_Header>h1 {
     margin-bottom: 4px;
     font-size: 18px;
     line-height: 26px;
     color: #262626;
     font-weight: 500;
 }
-.New_Header>p{
+
+.New_Header>p {
     color: #595959;
     font-size: 14px;
 }
-.New_Main{
+
+.New_Main {
     padding: 0 14px;
     display: flex;
 }
-.New_Choose{
+
+.New_Choose {
     width: 460px;
     padding: 24px 12px;
     border-right: 1px solid #e8e8e8;
 }
-.New_Choose>h1{
+
+.New_Choose>h1 {
     color: #262626;
     font-size: 14px;
     margin-bottom: 12px;
     font-weight: 500;
 }
-.New_Choose>.Dropdown>.Dropdown_Overlay{
-  margin-top: 4px;
+
+.New_Choose>.Dropdown>.Dropdown_Overlay {
+    margin-top: 4px;
 }
-.New_Permission{
+
+.New_Permission {
     padding: 10px 16px;
     position: relative;
-    width: 435px;
+    /* width: 435px; */
+    width: 100%;
 }
-.New_Permission_Show{
+
+.New_Permission_Show {
     border: 1px solid #e8e8e8;
     transition: all linear 0.2s;
     border-radius: 4px;
 }
-.New_Permission_Show:hover{
+
+.New_Permission_Show:hover {
     border-color: #25b864;
-    box-shadow: 0 0 0 2px rgba(37,184,100,.2);
+    box-shadow: 0 0 0 2px rgba(37, 184, 100, .2);
 }
-.New_Permission_Mul{
+
+.New_Permission_Mul {
     background: #f9f9f9;
 }
-.New_Permission>.Icon:first-child{
+
+.New_Permission>.Icon:first-child {
     margin-right: 12px;
     color: #8c8c8c;
     font-size: 18px;
     top: 3px;
 }
-.New_Permission>p{
+
+.New_Permission>p {
     font-size: 14px;
     font-weight: 500;
     color: #262626;
 }
-.New_Permission>.Icon:last-child{
+
+.New_Permission>.Icon:last-child {
     position: absolute;
     right: 20px;
 }
-.New_Permission_Checked{
+
+.New_Permission_Checked {
     background-color: #e9f7ec;
 }
-.New_Permission_Checked>.Icon{
+
+.New_Permission_Checked>.Icon {
     color: #25b864;
 }
-.New_Scenes{
+
+.New_Scenes {
     width: 100%;
     border-top: 1px solid #e8e8e8;
     margin-top: 18px;
     padding-top: 40px;
     flex-wrap: wrap;
 }
-.New_Scenes_Template{
+
+.New_Scenes_Template {
     border-top: none;
     padding-top: 0;
 }
-.New_Input{
+
+.New_Input {
     width: 100%;
 }
-.New_TextArea{
+
+.New_TextArea {
     width: 100%;
 }
-.New_Button{
+
+.New_Button {
     width: 100%;
     height: 32px;
     color: #fff;
@@ -109,42 +131,49 @@
     border: 1px solid #25b864;
     margin-top: 18px;
 }
-.New_Button:hover{
+
+.New_Button:hover {
     background-color: #47c479;
     border-color: #47c479;
     border-color: #47c479;
 }
-.New_Button:active{
+
+.New_Button:active {
     border: none;
     background-color: #16914f;
     border-color: #16914f;
 }
-.New_Preview{
+
+.New_Preview {
     width: 640px;
     min-height: 640px;
     padding: 32px;
     color: #595959;
     font-size: 14px;
 }
-.New_Preview>p{
+
+.New_Preview>p {
     font-size: 14px;
     color: #262626;
     font-weight: 500;
     margin-top: 20px;
 
 }
-.New_Preview_Header>h2{
+
+.New_Preview_Header>h2 {
     margin-bottom: 4px;
     font-size: 16px;
     line-height: 24px;
     color: #262626;
     font-weight: 500;
 }
-.New_Preview_Img{
+
+.New_Preview_Img {
     width: 620px;
     border: 1px solid #e8e8e8;
     margin-top: 20px;
 }
-.New_Preview_Desc{
+
+.New_Preview_Desc {
     margin-top: 5px;
 }

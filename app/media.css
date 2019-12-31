@@ -59,9 +59,35 @@
     }
 }
 
+@media screen and (max-width: 750px) {
+    .New_Choose {
+        width: 100%;
+        border-right: none;
+    }
+
+    .New_Preview {
+        display: none;
+    }
+
+    .Scene {
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 600px) {
+    .BookCatalog_Wrapper {
+        display: none;
+    }
+
+    .Article_Preview_Wrapper {
+        width: 100%;
+    }
+
+}
+
 /* 450以下为mobile */
 @media screen and (max-width: 450px) {
-    .Space_Operation_Icon {
+    .SpacBookCatalog_Wrappere_Operation_Icon {
         display: none;
     }
 
