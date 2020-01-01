@@ -40,6 +40,7 @@
 .Login_submit {
   width: 320px;
   height: 40px;
+  font-weight: bold;
 }
 
 .Login_submit:active {

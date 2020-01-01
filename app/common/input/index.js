@@ -13,7 +13,8 @@ export default function Input(props) {
     autocomplete = 'off',
     placeholder = '',
     maxLength = 100,
-    onChange = console.log,
+    onChange = () => { },
+    onFocus = () => { },
     className = '',
     style = {},
     rows = '3',
@@ -56,6 +57,7 @@ export default function Input(props) {
           placeholder={placeholder}
           maxLength={maxLength}
           value={value || ''}
+          onFocus={onFocus}
           onChange={_onChange_} />
       }
       {
@@ -67,6 +69,7 @@ export default function Input(props) {
           placeholder={placeholder}
           maxLength={maxLength}
           value={value || ''}
+          onFocus={onFocus}
           onChange={_onChange_} />
       }
       {addonAfter && <span className="Input_addonAfter">{addonAfter}</span>}

@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { NavLink, useHistory } from 'react-router-dom';
 import Input from '@common/input';
 import Icon from '@common/icon';
 import Button from '@common/button';
@@ -9,11 +9,41 @@ import userContext from '@context/user/userContext';
 import useMessage from '@hooks/use-message';
 import './index.css';
 
+const copywriting = {
+  login: {
+    title: '一日一记',
+    subTitle: '工欲善其事，必先利其器'
+  },
+  register: {
+    title: '欢迎欢迎',
+    subTitle: '若人间有情，那是开始，也是尽头'
+  }
+};
+
+const message = useMessage();
+
+function handleError(error, setErrorInfo) {
+  const code = getIn(error, ['code']);
+  const content = getIn(error, ['message'], '系统开小差了，请稍后再试');
+  const errorInfo = {};
+  if (code === 20003) {
+    // 帐号不存在
+    errorInfo.accountErrorMsg = content;
+  } else if (code === 20004) {
+    // 密码错误
+    errorInfo.passwordErrorMsg = content;
+  } else {
+    message.error({ content });
+  }
+  setErrorInfo(errorInfo);
+}
+
 export default function Login() {
   // TODO 如果从注册切到登陆时returnUrl的问题
   const isLoginPage = window.location.pathname === '/login';
   const { returnUrl = '' } = parseUrlQuery();
   const [state, setState] = useState({ account: '', password: '' });
+  const [logo, setLogo] = useState('/images/pikachu_front.svg');
   const [errorInfo, setErrorInfo] = useState({
     accountErrorMsg: '',
     passwordErrorMsg: ''
@@ -21,7 +51,6 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const { updateUserInfo } = useContext(userContext);
   const history = useHistory();
-  const message = useMessage();
 
   useEffect(() => {
     const listener = addKeydownListener({
@@ -41,6 +70,7 @@ export default function Login() {
       [`${type}`]: e.currentTarget.value
     });
   };
+
   // 验证用户输入
   const onVerifyInput = useCallback(({ account, password }) => {
     const errorInfo = {};
@@ -53,6 +83,7 @@ export default function Login() {
     setErrorInfo(errorInfo);
     return errorInfo.passwordErrorMsg || errorInfo.accountErrorMsg;
   }, []);
+
   // 提交表单
   const onSubmit = async () => {
     const path = isLoginPage ? 'login' : 'register';
@@ -70,36 +101,23 @@ export default function Login() {
         history.replace('/');
       }
     } else {
-      handleError(error);
+      handleError(error, setErrorInfo);
     }
   };
-  const handleError = (error) => {
-    const code = getIn(error, ['code']);
-    const content = getIn(error, ['message'], '系统开小差了，请稍后再试');
-    const errorInfo = {};
-    console.log(`[${isLoginPage ? '登陆' : '注册'}失败] `, error);
-    if (code === 20003) {
-      // 帐号不存在
-      errorInfo.accountErrorMsg = content;
-    } else if (code === 20004) {
-      // 密码错误
-      errorInfo.passwordErrorMsg = content;
-    } else {
-      message.error({ content });
-    }
-    setErrorInfo(errorInfo);
-  };
+
+  const text = copywriting[isLoginPage ? 'login' : 'register'];
+
   return (
     <div className="login_bg">
       <div className="Login_Wrapper">
         <img
-          src="https://pic4.zhimg.com/v2-a026c6cf35d9c35765d6af1f9101b74e.jpeg"
-          alt=""
+          src={logo}
           className="Login_logo" />
-        <h1 className="Login_title">一日一记</h1>
-        <h2 className="Login_sub_title">工欲善其事，必先利其器</h2>
+        <h1 className="Login_title">{text.title}</h1>
+        <h2 className="Login_sub_title">{text.subTitle}</h2>
         <Input
           style={{ marginBottom: '16px' }}
+          onFocus={() => { setLogo('/images/pikachu_front.svg'); }}
           onChange={(e) => { onChange('account', e); }}
           addonBefore={<Icon type="user" />} />
         {errorInfo.accountErrorMsg && (
@@ -108,6 +126,7 @@ export default function Login() {
         <Input
           style={{ marginBottom: '16px' }}
           addonBefore={<Icon type="lock" />}
+          onFocus={() => { setLogo('/images/pikachu.svg'); }}
           onChange={(e) => { onChange('password', e); }}
           type="password" />
         {errorInfo.passwordErrorMsg && (
@@ -120,11 +139,11 @@ export default function Login() {
           onClick={onSubmit}>
           {isLoginPage ? '立即登陆' : '立即注册'}
         </Button>
-        <Link
+        <NavLink
           className="Login_action"
           to={isLoginPage ? '/register' : '/login'}>
-          {isLoginPage ? '立即注册' : '立即登陆'}
-        </Link>
+          {isLoginPage ? '立即注册' : '已有账号登陆'}
+        </NavLink>
         <span className="Login_Tips">
           一定要记住你的帐号哟，忘记了可是没办法找回来的。
         </span>
