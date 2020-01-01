@@ -2,8 +2,12 @@ import React, { useState, useEffect, Fragment, useContext, useCallback } from 'r
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import InsertCatalog from '@components/insert-catalog';
+import Popover from '@components/popover';
 import Icon from '@common/icon';
+import List from '@common/list';
+import Modal from '@common/modal';
 import { isEmptyObject } from '@util/util';
+import { physicalDeletion } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
@@ -14,6 +18,52 @@ function getStyle(style) {
     transitionDuration: '0'
   };
 }
+
+function getSub(catalog, start, level) {
+  const result = [];
+  for (let i = start; i < catalog.length; i++) {
+    if (catalog[i].level === level + 1) {
+      result.push(catalog[i]);
+    } else {
+      break;
+    }
+  }
+  return result;
+}
+
+function onPopoverItemClick(info, docInfo, e, catalog, updateCatalog) {
+  const { key } = info;
+  const { doc_id: docId, space_id: spaceId } = docInfo;
+  e.stopPropagation();
+  if (key === 'edit') {
+    window.location.href = `/edit/${docId}/?spaceId=${spaceId}`;
+  } else if (key === 'delete') {
+    Modal.confirm({
+      title: '确认删除该节点吗？QAQ',
+      subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
+      onOk: async () => {
+        console.log(catalog);
+        const index = catalog.findIndex(n => n.docId === docId);
+        const subs = getSub(catalog, index);
+        console.log(subs);
+        // const success = await physicalDeletion({ docId, spaceId });
+        // console.log('siucees', success);
+        // TODO 找到当前元素和其子元素
+        // TODO 删除成功后调用updateCatalog，更新目录
+      }
+    });
+  }
+}
+
+const settingList = [{
+  text: '删除',
+  icon: 'delete',
+  key: 'delete'
+}, {
+  text: '编辑',
+  icon: 'edit',
+  key: 'edit'
+}];
 
 export default function Chapter() {
   const { info: { catalog, docs }, updateCatalog } = useContext(catalogContext);
@@ -91,7 +141,17 @@ export default function Chapter() {
                 {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
               </h3>
-              <div>{fromNow(docInfo.updated_at_timestamp)}<span>更新</span></div>
+              <div className="chapter_item_info">
+                <span>{fromNow(docInfo.updated_at_timestamp)}更新</span>
+                <Popover
+                  className="chapter_item_setting"
+                  content={<List
+                    style={{ boxShadow: 'none', padding: 0 }}
+                    onTap={(info, index, event) => { onPopoverItemClick(info, docInfo, event, catalog, updateCatalog); }}
+                    list={settingList} />}>
+                  <Icon type="ellipsis" />
+                </Popover>
+              </div>
             </div>
           )}
         </Draggable>;

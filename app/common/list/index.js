@@ -18,7 +18,7 @@ export default function List(props) {
       <li key={i}
         style={listStyle}
         onClick={(e) => { onClickHandle(n, i, e); }}
-        className={`List flex ${n.checked ? 'List_Checked' : ''}`}>
+        className={`List ${n.checked ? 'List_Checked' : ''}`}>
         {n.icon && <Icon type={n.icon} />}
         <span>{n.text}</span>
       </li>

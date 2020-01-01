@@ -23,11 +23,12 @@ export default function Popover({
       height
     } = wrapperRef.current.getBoundingClientRect();
     setStyle({
-      left: `${left - $(contentRef.current).width() + $(childRef.current).width() + 21}px`,
+      left: `${left - $(contentRef.current).width() / 2 + 5}px`,
       top: `${top + height}px`
     });
   }, []);
 
+  // 绑定mouse事件
   const bindEvent = useCallback(() => {
     const mouseenterFn = () => {
       $(contentRef.current).addClass(SHOW_CLASSNAME);
@@ -47,6 +48,7 @@ export default function Popover({
     }];
   }, []);
 
+  // 绑定click事件
   const bindClickEvent = useCallback(() => {
     const fn = function () {
       const hasClass = $(contentRef.current).hasClass(SHOW_CLASSNAME);
@@ -67,7 +69,6 @@ export default function Popover({
       });
     };
   }, []);
-
   return (
     <div ref={wrapperRef}
       className={`Popover_Wrapper ${className}`}>

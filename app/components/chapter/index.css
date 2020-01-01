@@ -27,7 +27,6 @@
   font-size: 14px;
   padding: 0 20px;
   position: relative;
-  z-index: 10
 }
 
 .Chapter_Item:hover {
@@ -41,12 +40,21 @@
 .Chapter_Item>h3>.Icon {
   top: 2px;
   margin-right: 4px;
-  /* cursor: pointer; */
 }
 
-.Chapter_Item>div {
+.chapter_item_info {
   color: #bfbfbf;
   font-size: 12px;
+  display: flex;
+}
+
+.chapter_item_setting {
+  cursor: pointer;
+}
+
+.chapter_item_setting>.Popover_Wrapper_Child>.Icon {
+  font-size: 20px;
+  margin-left: 4px;
 }
 
 .Chapter_Item_Dash {

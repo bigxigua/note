@@ -7,6 +7,9 @@ export function isEmptyObject(param) {
   }
   return Object.keys(param).length === 0;
 }
+export function isPromise(fn) {
+  return fn && typeof fn.then === 'function';
+}
 export function throttle(fn, wait = 2000, immediately = false) {
   let latestTime = Date.now();
   let _immediately_ = immediately;

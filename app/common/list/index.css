@@ -1,4 +1,5 @@
 .List_Wrapper {
+  display: inline-block;
   padding: 4px 0;
   background-color: #fff;
   border-radius: 4px;
@@ -7,19 +8,20 @@
 
 .List {
   height: 32px;
+  line-height: 32px;
   padding: 0 14px;
-  /* min-width: 120px; */
   min-width: 100px;
   color: #595959;
   font-weight: 400;
   font-size: 14px;
   cursor: pointer;
   transition: all linear 0.2s;
+  display: flex;
 }
 
 .List>.Icon {
   font-size: 15px;
-  top: 1px;
+  top: 3px;
   margin-right: 7px;
 }
 

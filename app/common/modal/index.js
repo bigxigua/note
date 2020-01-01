@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import Button from '@common/button';
+import confirm from './confirm';
 import './index.css';
 
 const fn = () => { };
@@ -58,3 +59,5 @@ export default function Modal({
     </div>)
     , document.body);
 };
+
+Modal.confirm = confirm;

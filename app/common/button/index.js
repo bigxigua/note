@@ -1,9 +1,10 @@
 import React from 'react';
 import Icon from '@common/icon';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 import './index.css';
 
 export default function Button(props) {
+  // const history = useHistory();
   const {
     icon, // 按钮图标
     children,
@@ -22,7 +23,7 @@ export default function Button(props) {
     dashed: 'Button_dash',
     danger: 'Button_danger'
   };
-  const history = useHistory();
+
   const loadingClassName = loading ? 'Button_loading' : '';
   const disabledClassName = disabled ? 'Button_disabled' : '';
   const onButtonClick = () => {
@@ -34,7 +35,8 @@ export default function Button(props) {
       if (target === 'blank') {
         window.location.href = to;
       } else {
-        history.push(link.to);
+        window.location.href = `/${link.to}`;
+        // history.push(link.to);
       }
     }
     onClick();
