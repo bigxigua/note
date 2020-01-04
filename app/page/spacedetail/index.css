@@ -13,6 +13,10 @@
   overflow-x: hidden;
 }
 
+.space_detail_header .Header_container {
+  max-width: 1056px;
+}
+
 .space_detail_mobile {
   margin-top: 0;
 }

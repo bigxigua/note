@@ -1,8 +1,14 @@
-import React, { useEffect, useState, useContext } from 'react';
+import React, { useEffect, useState, useContext, useCallback } from 'react';
 import axiosInstance from '../../util/axiosInstance';
 import userContext from '../../context/user/userContext.js';
 import { Redirect, useLocation, matchPath } from 'react-router-dom';
 import { getIn } from '../../util/util';
+
+const checkAuthorization = async () => {
+  const [, data] = await axiosInstance.post('login');
+  const isLogin = getIn(data, ['uuid'], false);
+  return { isLogin, isHasAuth: true, data };
+};
 
 export default function VerifiRoute(props) {
   const [state, setState] = useState(null);
@@ -10,34 +16,28 @@ export default function VerifiRoute(props) {
   const { pathname } = useLocation();
   const { userInfo, updateUserInfo } = useContext(userContext);
 
-  const checkAuthorization = async () => {
-    const [, data] = await axiosInstance.post('login');
-    const isLogin = getIn(data, ['uuid'], false);
-    return { isLogin, isHasAuth: true, data };
-  };
+  const init = useCallback(async () => {
+    const match = matchPath(pathname, props.pathname);
+    document.title = props.title;
+    window.scrollTo(0, 0);
+    if (match && !userInfo.uuid) {
+      const { isLogin, isHasAuth, data } = await checkAuthorization();
+      setState({
+        isLogin,
+        isHasAuth,
+        currentLocation: encodeURIComponent(window.location.href)
+      });
+      // 更新用户信息到context
+      updateUserInfo(data);
+    }
+    // TODO 文章访问权限控制
+    if (userInfo.uuid) {
+      setState({ isLogin: true, isHasAuth: true });
+    }
+  }, []);
 
   useEffect(() => {
-    const asyncFn = async () => {
-      const match = matchPath(pathname, props.pathname);
-      if (match && !userInfo.uuid) {
-        const { isLogin, isHasAuth, data } = await checkAuthorization();
-        setState({
-          isLogin,
-          isHasAuth,
-          currentLocation: encodeURIComponent(window.location.href)
-        });
-        // 更新用户信息到context
-        updateUserInfo(data);
-      }
-      // TODO 文章访问权限控制
-      if (userInfo.uuid) {
-        setState({
-          isLogin: true,
-          isHasAuth: true
-        });
-      }
-    };
-    asyncFn();
+    init();
   }, []);
 
   if (!state) return null;
@@ -55,8 +55,6 @@ export default function VerifiRoute(props) {
       search: `?returnUrl=${state.currentLocation}`
     }} />;
   }
-  // scroll top
-  window.scrollTo(0, 0);
 
   return <Component />;
 }

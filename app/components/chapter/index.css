@@ -112,12 +112,13 @@
 
 .Catalog_Item_Update {
   color: #bfbfbf;
-  height: 100%;
   background: #fff;
   position: relative;
   z-index: 10;
   padding-left: 4%;
+  box-sizing: border-box;
   flex-shrink: 0;
+  cursor: pointer;
 }
 
 .Catalog_Item_Parent>.Catalog_Item_Name {

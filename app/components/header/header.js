@@ -24,11 +24,13 @@ function popoverContent({ handle }) {
   );
 }
 
-export default function Header() {
+export default function Header({
+  className = ''
+}) {
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className="Header_Wrapper animated">
+    <div className={`Header_Wrapper animated ${className}`}>
       <div className="Header_container">
         <div className="Header_left">
           <Link to="/"

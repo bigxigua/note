@@ -18,9 +18,10 @@ import './mkfx.css';
 import '@public/css/anima.css';
 // TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
 // 按需加载
-const PageWrapper = (Compoment, pathname) => {
+const PageWrapper = (Compoment, pathname, title) => {
   return () => {
     return <VerifiRoute
+      title={title}
       component={Compoment}
       pathname={pathname} />;
   };
@@ -41,33 +42,33 @@ class App extends React.Component {
             <Route
               exact
               path="/(index|)"
-              component={PageWrapper(Index, '/')}
+              component={PageWrapper(Index, '/', '工作台 · 一日一记')}
             />
             <Route
               path="/article/:id"
-              component={PageWrapper(Article, '/article/:id')}
+              component={PageWrapper(Article, '/article/:id', '文档 · 一日一记')}
             />
             <Route
               path="/edit/:id"
-              component={PageWrapper(Editor, '/edit/:id')}
+              component={PageWrapper(Editor, '/edit/:id', '编辑 · 一日一记')}
             />
             <Route
               path="/new/"
-              component={PageWrapper(New, '/new/')}
+              component={PageWrapper(New, '/new/', '新建空间 · 一日一记')}
             />
             <Route
               path="/space/"
               exact
-              component={PageWrapper(Space, '/space/')}
+              component={PageWrapper(Space, '/space/', '空间 · 一日一记')}
             />
             <Route
               path="/spacedetail/"
               exact
-              component={PageWrapper(SpaceDetail, '/spacedetail/')}
+              component={PageWrapper(SpaceDetail, '/spacedetail/', '空间 · 一日一记')}
             />
             <Route
               path="/docs/"
-              component={PageWrapper(Docs, '/docs/')}
+              component={PageWrapper(Docs, '/docs/', '文档 · 一日一记')}
             />
             <Route
               exact

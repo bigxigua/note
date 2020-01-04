@@ -27,7 +27,7 @@ export default function SpaceDetail() {
   }, []);
 
   return (<Fragment>
-    <Header />
+    <Header className="space_detail_header" />
     <div className={`SpaceDetail ${isMobile ? 'space_detail_mobile' : ''}`}>
       <h1>{spaceInfo.space.name}</h1>
       <h4>{spaceInfo.space.description}</h4>

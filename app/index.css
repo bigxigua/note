@@ -415,6 +415,7 @@ textarea {
     min-height: 100vh;
     overflow: hidden;
     background: #fafafa;
+    position: relative;
 }
 
 .codemirror-mobile-textarea:focus {

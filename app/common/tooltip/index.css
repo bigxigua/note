@@ -1,0 +1,62 @@
+.tooltip_wrapper {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+}
+
+.tooltip {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  min-width: 30px;
+  min-height: 32px;
+  padding: 6px 8px;
+  color: #fff;
+  text-align: left;
+  word-wrap: break-word;
+  background-color: rgba(0, 0, 0, 0.75);
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+  display: none;
+}
+
+.tooltip_show {
+  display: block;
+  animation-name: fadeIn;
+  animation-duration: 200ms;
+}
+
+.tooltip_content {
+  font-size: 14px;
+  max-width: 250px;
+}
+
+.tooltip_arrow {
+  position: absolute;
+  display: block;
+  width: 14px;
+  height: 14px;
+  overflow: hidden;
+  background: transparent;
+  pointer-events: none;
+  bottom: -12px;
+}
+
+.tooltip_arrow::before {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  display: block;
+  width: 5px;
+  height: 5px;
+  margin: auto;
+  background-color: rgba(0, 0, 0, 0.75);
+  content: '';
+  pointer-events: auto;
+  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.07);
+  transform: translateY(-6.53553391px) rotate(45deg);
+}
