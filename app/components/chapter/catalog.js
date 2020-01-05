@@ -62,7 +62,7 @@ export default function Catalog() {
             }
           </div>
           <Tooltip className="Catalog_Item_Update flex"
-            tips="更新时间更新时间更新时间更新时间更新时间更新时间">
+            tips="更新时间">
             {isMobile ? `${fromNow(doc.draft_update_at)}更新` : formatTimeStamp(doc.draft_update_at)}
           </Tooltip>
         </div>);

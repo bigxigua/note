@@ -20,8 +20,9 @@ export default function Tooltip({
     const rect = tooltipRef.current.getBoundingClientRect();
     // console.log('innerRef', dom.getBoundingClientRect());
     // console.log('toolTipRef', rect);
-    let posLeft = left + width / 2;
-    const posTop = top - rect.height - 4;
+    const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
+    let posLeft = left + width / 2 - rect.width / 2;
+    const posTop = top + scrollTop - rect.height - 5;
     if (rect.width > width) {
       posLeft = left;
     }
