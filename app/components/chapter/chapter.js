@@ -46,17 +46,11 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
         const item = catalog.find(n => n.docId === docId);
         const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
         const result = await physicalDeletion({ docId: subs, spaceId });
-        console.log('subs:', subs);
-        console.log('result:', result);
-        // const promiseQueue = subs.map(n => {
-        //   return physicalDeletion({ docId: n.docId, spaceId });
-        // });
-        // const result = await Promise.all(promiseQueue);
-        // if (result.every(n => n)) {
-        //   // window.location.reload();
-        // } else {
-        //   console.log('[删除失败]');
-        // }
+        if (result) {
+          window.location.reload();
+        } else {
+          console.log('[删除失败]');
+        }
       }
     });
   }
