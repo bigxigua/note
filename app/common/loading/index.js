@@ -1,9 +1,13 @@
 import React from 'react';
 import './index.css';
 
-export default function Loading() {
+export default function Loading({
+  className = '',
+  style = {}
+}) {
   return (
-    <ul className="loading">
+    <ul className={`loading ${className}`}
+      style={style}>
       <li className="loading-item loading-item-1"></li>
       <li className="loading-item loading-item-2"></li>
       <li className="loading-item loading-item-3"></li>

@@ -46,6 +46,7 @@
   color: #bfbfbf;
   font-size: 12px;
   display: flex;
+  align-items: center;
 }
 
 .chapter_item_setting {
@@ -55,6 +56,7 @@
 .chapter_item_setting>.Popover_Wrapper_Child>.Icon {
   font-size: 20px;
   margin-left: 4px;
+  top: 3px;
 }
 
 .Chapter_Item_Dash {
@@ -130,6 +132,10 @@
   transition: all linear 0.2s;
   transform: rotate(-90deg);
   cursor: pointer;
+}
+
+.Catalog_Item_Parent>.Catalog_Item_Name>span {
+  font-weight: 700;
 }
 
 .Catalog_Item_Open>.Catalog_Item_Name>.Icon {

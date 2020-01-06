@@ -161,8 +161,7 @@ ChapterLayout.prototype = {
     this.removeEvent();
   },
   onDragUpdate(result) {
-    if (!result.destination) return;
-    console.log('onDragUpdate');
+    // if (!result.destination) return;
   },
   onDragEnd(result) {
     this.removeEvent();

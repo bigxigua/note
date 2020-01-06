@@ -1,6 +1,7 @@
 .loading {
   position: relative;
   transform: scale(0.4);
+  background: #f5d4a1;
 }
 
 .loading-item {
@@ -10,7 +11,7 @@
   left: 0px;
   width: 20px;
   height: 20px;
-  background: #f5d4a1;
+  background: inherit;
   border-radius: 50%;
 }
 

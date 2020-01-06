@@ -22,7 +22,7 @@ function getStyle(style) {
 function getSub(catalog, start, level) {
   const result = [];
   for (let i = start; i < catalog.length; i++) {
-    if (catalog[i].level === level + 1) {
+    if (catalog[i].level > level) {
       result.push(catalog[i]);
     } else {
       break;
@@ -31,7 +31,7 @@ function getSub(catalog, start, level) {
   return result;
 }
 
-function onPopoverItemClick(info, docInfo, e, catalog, updateCatalog) {
+function onPopoverItemClick(info, docInfo, e, catalog) {
   const { key } = info;
   const { doc_id: docId, space_id: spaceId } = docInfo;
   e.stopPropagation();
@@ -42,14 +42,21 @@ function onPopoverItemClick(info, docInfo, e, catalog, updateCatalog) {
       title: '确认删除该节点吗？QAQ',
       subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
       onOk: async () => {
-        console.log(catalog);
         const index = catalog.findIndex(n => n.docId === docId);
-        const subs = getSub(catalog, index);
-        console.log(subs);
-        // const success = await physicalDeletion({ docId, spaceId });
-        // console.log('siucees', success);
-        // TODO 找到当前元素和其子元素
-        // TODO 删除成功后调用updateCatalog，更新目录
+        const item = catalog.find(n => n.docId === docId);
+        const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
+        const result = await physicalDeletion({ docId: subs, spaceId });
+        console.log('subs:', subs);
+        console.log('result:', result);
+        // const promiseQueue = subs.map(n => {
+        //   return physicalDeletion({ docId: n.docId, spaceId });
+        // });
+        // const result = await Promise.all(promiseQueue);
+        // if (result.every(n => n)) {
+        //   // window.location.reload();
+        // } else {
+        //   console.log('[删除失败]');
+        // }
       }
     });
   }
@@ -147,7 +154,7 @@ export default function Chapter() {
                   className="chapter_item_setting"
                   content={<List
                     style={{ boxShadow: 'none', padding: 0 }}
-                    onTap={(info, index, event) => { onPopoverItemClick(info, docInfo, event, catalog, updateCatalog); }}
+                    onTap={(info, index, event) => { onPopoverItemClick(info, docInfo, event, catalog); }}
                     list={settingList} />}>
                   <Icon type="ellipsis" />
                 </Popover>

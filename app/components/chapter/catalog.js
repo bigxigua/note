@@ -21,6 +21,13 @@ export default function Catalog() {
   }, []);
 
   useEffect(() => {
+    // let trees = extractCatalog(catalog.slice(1));
+    // trees.forEach((item, index) => {
+    //   toggleExpandCatalog({ trees, item, index }, (result) => {
+    //     trees = result;
+    //     setCatalogTrees(result);
+    //   });
+    // });
     setCatalogTrees(extractCatalog(catalog.slice(1)));
   }, [catalog]);
 

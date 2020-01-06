@@ -31,7 +31,8 @@ export async function logicalDeletion({ docId, spaceId }) {
 }
 
 // 物理删除文档接口调用
-export async function physicalDeletion({ docId, spaceId }) {
+export async function physicalDeletion({ docId, spaceId } = {}) {
+  console.log('--------');
   const [error, data] = await axiosInstance.post('doc/delete', {
     doc_id: docId,
     space_id: spaceId
@@ -62,6 +63,7 @@ export async function createNewDoc(info, callback) {
     // eslint-disable-next-line standard/no-callback-literal
     callback(error);
   }
+  return [error, data];
 }
 
 // 更新目录接口调用
@@ -77,10 +79,11 @@ export async function updateCatalogService({ spaceId, catalog }) {
 export function getEqualLevel(list, index, level) {
   const result = [];
   for (let i = index; i < list.length; i++) {
-    if (list[i].level - level === 0) {
-      result.push(list[i]);
-    } else {
+    if (list[i].level < level) {
       break;
+    }
+    if (list[i].level === level) {
+      result.push(list[i]);
     }
   }
   return result;

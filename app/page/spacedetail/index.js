@@ -1,6 +1,7 @@
 import React, { Fragment, useState, useEffect, useCallback, useContext } from 'react';
 import Header from '@components/header/header';
 import Footer from '@components/footer';
+import Loading from '@common/loading';
 import ChapterWrapper from '@components/chapter';
 import axiosInstance from '@util/axiosInstance';
 import userContext from '@context/user/userContext';
@@ -11,11 +12,14 @@ const { isMobile } = checkBrowser();
 
 export default function SpaceDetail() {
   const [spaceInfo, setSpaceInfo] = useState({ docs: [], space: {} });
+  const [loading, setLoading] = useState(false);
   const { userInfo } = useContext(userContext);
   const { spaceId = '' } = parseUrlQuery();
 
   const fetchSpaceInfo = useCallback(async () => {
+    setLoading(true);
     const [, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
+    setLoading(false);
     setSpaceInfo({
       docs: getIn(data, ['docs'], []),
       space: getIn(data, ['space'], {})
@@ -33,9 +37,11 @@ export default function SpaceDetail() {
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}
         alt="头像" />
-      <ChapterWrapper
-        userInfo={userInfo}
-        spaceInfo={spaceInfo} />
+      {loading
+        ? <Loading className="space_detail_loading" />
+        : <ChapterWrapper
+          userInfo={userInfo}
+          spaceInfo={spaceInfo} />}
     </div>
     <Footer />
   </Fragment>);

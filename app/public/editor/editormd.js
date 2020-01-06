@@ -673,7 +673,9 @@
       }
 
       if (!settings.lineNumbers) {
-        this.codeMirror.find('.CodeMirror-gutters').css('border-right', 'none');
+        this.codeMirror.find('.CodeMirror-gutters').remove();
+        this.codeMirror.find('.CodeMirror-sizer').css('margin-left', 0);
+        // this.codeMirror.find('.CodeMirror-gutters').css('border-right', 'none');
       }
 
       return this;

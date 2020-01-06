@@ -1,4 +1,4 @@
-import React, { useContext, useCallback } from 'react';
+import React, { useContext, useCallback, useState } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import { parseUrlQuery, delay, checkBrowser } from '@util/util';
@@ -13,6 +13,7 @@ export default function ChapterHeader({
   space = {}
 }) {
   const { info: { catalog } } = useContext(catalogContext);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { pathname, search } = window.location;
   const { type = '', spaceId = '' } = parseUrlQuery();
@@ -44,8 +45,9 @@ export default function ChapterHeader({
   }, []);
 
   // 新建文档
-  const onCreateNewDoc = useCallback((info) => {
-    createNewDoc(info, async ({ docId, spaceId }) => {
+  const onCreateNewDoc = useCallback(async (info) => {
+    setLoading(true);
+    await createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         await delay();
         history.push(`/edit/${docId}?spaceId=${spaceId}`);
@@ -53,6 +55,7 @@ export default function ChapterHeader({
         console.log('[创建文档出错] ');
       }
     });
+    setLoading(false);
   }, []);
 
   function renderActionButton() {
@@ -86,6 +89,7 @@ export default function ChapterHeader({
     <div className="Chapter_Header_Operation flex">
       <Button
         content="新建文档"
+        loading={loading}
         onClick={() => {
           onCreateNewDoc({
             space_id: spaceId
