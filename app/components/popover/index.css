@@ -5,7 +5,7 @@
 }
 
 .Popover_Wrapper_Box {
-  position: fixed;
+  position: absolute;
   top: 0px;
   left: 0px;
   width: 100%;
@@ -23,17 +23,15 @@
   z-index: 10;
 }
 
-.Popover_Wrapper_Content::before {
-  content: '';
-  width: 11px;
-  height: 11px;
+.popover_wrapper_arrow {
+  width: 8px;
+  height: 8px;
   border-width: 5px;
   border-top-left-radius: 2px;
-  margin-top: -1px;
-  position: absolute;
   background: #ffffff;
   transform: rotate(45deg);
-  right: 25px;
+  position: absolute;
+  left: 10px;
   top: -4px;
   box-shadow: -2px -2px 5px rgba(0, 0, 0, .05);
 }

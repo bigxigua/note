@@ -4,7 +4,7 @@ import userReducer from './userReducer';
 
 const UserState = props => {
   const initialState = {
-    avatar: '/images/pikachu.svg',
+    avatar: '/images/pikachu_front.svg',
     nickname: ''
   };
   const [state, dispatch] = useReducer(userReducer, initialState);
