@@ -421,3 +421,17 @@ textarea {
 .codemirror-mobile-textarea:focus {
     top: -9000px;
 }
+
+.footer-myssl {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    width: 65px;
+    height: 65px;
+    z-index: 99;
+}
+
+.footer-myssl>a>img {
+    width: 100%;
+    height: 100%
+}

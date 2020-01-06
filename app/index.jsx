@@ -77,6 +77,11 @@ class App extends React.Component {
             />
           </Router>
         </EditorState>
+        <div className="footer-myssl ">
+          <a href="https://myssl.com/www.bigxigua.net?from=mysslid">
+            <img src="https://static.myssl.com/res/images/myssl-id.png" />
+          </a>
+        </div>
       </UserState>
     );
   }
