@@ -57,6 +57,5 @@
   background-color: rgba(0, 0, 0, 0.75);
   content: '';
   pointer-events: auto;
-  box-shadow: 3px 3px 7px rgba(0, 0, 0, 0.07);
-  transform: translateY(-6.53553391px) rotate(45deg);
+  transform: translateY(-6px) rotate(45deg);
 }

@@ -24,15 +24,20 @@ export default function Popover({
       width,
       height
     } = wrapperRef.current.getBoundingClientRect();
+    // 内容宽度
+    const contentWidth = $(contentRef.current).width();
+    // 窗口滚动高度
     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-
-    let l = left - $(contentRef.current).width() / 2 + 5;
+    // 窗口宽度
+    const bodyWidth = document.body.getBoundingClientRect().width;
+    let l = left - contentWidth / 2 + 5;
     const h = top + scrollTop + height;
-    if (l < 0) {
-      l = 10;
+    if (l < 10) { l = 10; }
+    if (l + contentWidth >= bodyWidth) {
+      l = bodyWidth - contentWidth - 10;
     }
     setStyle({
-      left: `${l < 0 ? 10 : l}px`,
+      left: `${l}px`,
       top: `${h}px`
     });
     arrowRef.current.style.left = `${(left + width / 2) - l}px`;
@@ -41,11 +46,11 @@ export default function Popover({
   // 绑定mouse事件
   const bindEvent = useCallback(() => {
     const mouseenterFn = () => {
-      $(contentRef.current).addClass(SHOW_CLASSNAME);
+      contentRef.current.classList.add(SHOW_CLASSNAME);
       calcPosition();
     };
     const mouseleaveFn = () => {
-      $(contentRef.current).removeClass(SHOW_CLASSNAME);
+      contentRef.current.classList.remove(SHOW_CLASSNAME);
     };
     wrapperRef.current.addEventListener('mouseenter', mouseenterFn, false);
     wrapperRef.current.addEventListener('mouseleave', mouseleaveFn, false);
@@ -60,22 +65,28 @@ export default function Popover({
     }];
   }, []);
 
-  // 绑定click事件
-  const bindClickEvent = useCallback(() => {
-    const fn = function () {
-      const hasClass = $(contentRef.current).hasClass(SHOW_CLASSNAME);
+  // 移动端绑定click事件
+  const onBindClick = useCallback((e) => {
+    if (!isMobile) return;
+    e.stopPropagation();
+    const hasClass = Array.from(contentRef.current.classList).includes(SHOW_CLASSNAME);
+    if (hasClass) {
       contentRef.current.classList.remove(SHOW_CLASSNAME);
-      !hasClass && $(contentRef.current).addClass(SHOW_CLASSNAME);
+    } else {
+      contentRef.current.classList.add(SHOW_CLASSNAME);
       calcPosition();
-    };
-    wrapperRef.current.addEventListener('click', fn, false);
-    contentRef.current.addEventListener('click', fn, false);
-    // TODO 点击其他地方隐藏
-    return [{ name: 'click', fn }];
+    }
+  }, []);
+
+  // 失去焦点
+  const onBlur = useCallback(() => {
+    setTimeout(() => {
+      contentRef.current.classList.remove(SHOW_CLASSNAME);
+    }, 0);
   }, []);
 
   useEffect(() => {
-    const listeners = isMobile ? bindClickEvent() : bindEvent();
+    const listeners = isMobile ? [] : bindEvent();
     return () => {
       listeners.forEach(({ name, fn }) => {
         wrapperRef.current.removeEventListener(name, fn);
@@ -85,6 +96,9 @@ export default function Popover({
   }, []);
   return (
     <div className={`Popover_Wrapper ${className}`}
+      tabIndex="1"
+      onClick={onBindClick}
+      onBlur={onBlur}
       ref={wrapperRef}>
       {children}
       {ReactDOM.createPortal(

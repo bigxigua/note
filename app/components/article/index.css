@@ -6,7 +6,7 @@
 }
 
 .Article_Preview_Wrapper {
-  width: calc(100% - 404px);
+  width: calc(100% - 445px);
   height: 100vh;
   flex-shrink: 0;
   background: rgb(249, 250, 251);
@@ -56,7 +56,7 @@
 .Footer_Meta_Item>div {
   margin-right: 7px;
   position: relative;
-  top: 2px;
+  top: 1px;
 }
 
 .Footer_Meta_Item:first-child>span {
@@ -84,7 +84,7 @@
 }
 
 .article_no_catalog {
-  width: calc(100% - 190px);
+  width: calc(100% - 224px);
 }
 
 .Article_DraftTips_Warpper {

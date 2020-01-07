@@ -136,7 +136,7 @@ export default function RecentContent(props) {
   }
   return (
     <div className={classes}
-      onClick={() => { handleClick(info, props, history); }}>
+      onClick={(e) => { handleClick(info, props, history, e); }}>
       <div className="Recent_Content_Left">
         <img src={info.img} />
         <div className="Recent_Content_Left_Info">

@@ -10,33 +10,40 @@ export default function Tooltip({
   placement = 'top', // 气泡框位置，可选 top left right bottom
   children = null
 }) {
+  // TODO mobile return null;
   const [style, setStyle] = useState({});
-  const [arrowStyle, setArrowStyle] = useState({});
   const innerRef = useRef(null);
   const tooltipRef = useRef(null);
+  const arrowRef = useRef(null);
 
-  const getStyle = useCallback((dom, place) => {
-    const { left, top, width } = dom.getBoundingClientRect();
-    const rect = tooltipRef.current.getBoundingClientRect();
-    // console.log('innerRef', dom.getBoundingClientRect());
-    // console.log('toolTipRef', rect);
+  const getStyle = useCallback((dom) => {
+    const { left, top, height, width } = dom.getBoundingClientRect();
+    // 内容宽度
+    const contentWidth = $(tooltipRef.current).width();
+    // 内容高度
+    const contentHeight = $(tooltipRef.current).height();
+    // 窗口滚动高度
     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
-    let posLeft = left + width / 2 - rect.width / 2;
-    const posTop = top + scrollTop - rect.height - 5;
-    if (rect.width > width) {
-      posLeft = left;
+    // 窗口宽度
+    const bodyWidth = document.body.getBoundingClientRect().width;
+    let l = left - contentWidth / 2 + 5;
+    const h = top + scrollTop - contentHeight - height;
+
+    if (l < 10) { l = 10; }
+    if (l + contentWidth >= bodyWidth) {
+      l = bodyWidth - contentWidth - 10;
     }
-    setArrowStyle({
-      left: `${rect.width / 2 - 7}px`
-    });
+    // 设置气泡框箭头位置
+    arrowRef.current.style.left = `${(left + width / 2) - l}px`;
+
     return {
-      left: `${posLeft}px`,
-      top: `${posTop}px`
+      left: `${l}px`,
+      top: `${h}px`
     };
   }, []);
 
-  const calcToolTipStyle = useCallback((place) => {
-    setStyle(getStyle(innerRef.current, place));
+  const calcToolTipStyle = useCallback(() => {
+    setStyle(getStyle(innerRef.current));
   }, []);
 
   const bindMouseEvent = useCallback((placement) => {
@@ -49,6 +56,8 @@ export default function Tooltip({
     };
     innerRef.current.addEventListener('mouseenter', mouseenterFn, false);
     innerRef.current.addEventListener('mouseleave', mouseleaveFn, false);
+    tooltipRef.current.addEventListener('mouseenter', mouseenterFn, false);
+    tooltipRef.current.addEventListener('mouseleave', mouseleaveFn, false);
     return [{
       name: 'mouseenter',
       fn: mouseenterFn
@@ -63,6 +72,7 @@ export default function Tooltip({
     return () => {
       listeners.forEach(({ name, fn }) => {
         innerRef.current.removeEventListener(name, fn);
+        tooltipRef.current.removeEventListener(name, fn);
       });
     };
   }, [placement]);
@@ -78,7 +88,7 @@ export default function Tooltip({
             style={style}>
             <div className="tooltip_content">{tips}</div>
             <div className="tooltip_arrow"
-              style={arrowStyle}></div>
+              ref={arrowRef}></div>
           </div>
         </div>
         , document.body)}

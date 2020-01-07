@@ -1,6 +1,6 @@
 .BookCatalog_Wrapper {
-  width: 190px;
-  padding: 27px 24px 24px 18px;
+  width: 224px;
+  padding: 27px 24px 24px 24px;
   box-sizing: border-box;
   flex-shrink: 0;
   display: flex;
@@ -19,7 +19,7 @@
   transform: rotate(-90deg);
   position: absolute;
   left: -12px;
-  cursor: s;
+  cursor: pointer;
 }
 
 .BookCatalog_Item_Open>.Icon {

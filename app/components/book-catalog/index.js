@@ -1,11 +1,30 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Icon from '@common/icon';
+import Tooltip from '@common/tooltip';
 import CatalogSkeleton from '@components/catalog-skeleton';
 import axiosInstance from '@util/axiosInstance';
 import { NavLink } from 'react-router-dom';
-import { parseUrlQuery, getIn, isEmptyObject, getClass } from '@util/util';
+import { parseUrlQuery, getIn, isEmptyObject } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
 import './index.css';
+
+const activeStyle = {
+  fontWeight: 'bold',
+  color: '#25b864'
+};
+
+// 渲染目录项
+function renderCatalogItem(type, doc) {
+  return type.toLocaleUpperCase() === 'EMPTY_NODE'
+    ? <Tooltip tips="空节点"><span>{doc.title}</span></Tooltip>
+    : <NavLink
+      to={'/article' + doc.url.split('article')[1]}
+      exact
+      className="bookcatalog ellipsis"
+      activeStyle={activeStyle}>
+      {doc.title}
+    </NavLink>;
+}
 
 export default function BookCatalog() {
   const { spaceId = '' } = parseUrlQuery();
@@ -51,11 +70,6 @@ export default function BookCatalog() {
     return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
   }
 
-  const activeStyle = {
-    fontWeight: 'bold',
-    color: '#25b864'
-  };
-
   const bookCatalogJsx = catalog.map((item, index) => {
     const doc = docs.find(n => n.doc_id === item.docId) || {};
     const isParenrt = item.children.length > 0;
@@ -72,13 +86,7 @@ export default function BookCatalog() {
       {isParenrt && <Icon
         onClick={() => { onToggleExpandCatalog(catalog, item, index); }}
         type="caret-down" />}
-      <NavLink
-        to={'/article' + doc.url.split('article')[1]}
-        exact
-        className="bookcatalog ellipsis"
-        activeStyle={activeStyle}>
-        {doc.title}
-      </NavLink>
+      {renderCatalogItem(item.type, doc)}
     </div>;
   });
   return (

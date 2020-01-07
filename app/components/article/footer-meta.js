@@ -1,10 +1,12 @@
 import React, { useContext } from 'react';
 import Icon from '@common/icon';
+import Tooltip from '@common/tooltip';
 import userContext from '@context/user/userContext';
 import { formatTimeStamp } from '@util/util';
+import { fromNow } from '@util/fromNow';
 
 export default function FooterMeta({
-  docInfo: { updated_at_timestamp }
+  docInfo: { updated_at_timestamp: time }
 }) {
   const { userInfo } = useContext(userContext);
   return (
@@ -15,16 +17,10 @@ export default function FooterMeta({
       </div>
       <div className="Footer_Meta_Item">
         <Icon type="clock-circle" />
-        <span>{formatTimeStamp(updated_at_timestamp)}</span>
+        <Tooltip tips={`更新于${formatTimeStamp(time)}`}>
+          <span>{fromNow(time)}</span>
+        </Tooltip>
       </div>
-      {/* <div className="Footer_Meta_Item">
-        <Icon type="read" />
-        <span>0</span>
-      </div>
-      <div className="Footer_Meta_Item">
-        <Icon type="message" />
-        <span>0</span>
-      </div> */}
     </div>
   );
 };
