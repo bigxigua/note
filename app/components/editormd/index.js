@@ -3,17 +3,23 @@ import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
 import { debunce, parseUrlQuery, addKeydownListener, checkBrowser } from '@util/util';
 import useSaveContent from '@hooks/use-save-content';
+import DropUploaderWrapper from '@common/drop-uploader-wrapper';
 import './index.css';
 
 const { isMobile } = checkBrowser();
+// 移动端toolbars
 const mobileToolbars = [
   'bold', 'del', 'italic', 'quote', 'uppercase', 'lowercase',
   'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'image', 'code', 'code-block', 'preformatted-text',
   'list-ul', 'list-ol', 'hr', 'clear', 'table'
 ];
+// 预览时className
 const PREVIEW_SHOW = 'preview_show';
+// 预览相关的图片
 const PREVIEW_IMAGES = ['/images/preview1.png', '/images/close.png'];
+// 自动保存的定时器
 let saveInterval = 0;
+
 /**
  *
  *  初始化编辑器
@@ -152,7 +158,6 @@ export default function Editormd({ docInfo }) {
   const [classes, setClassess] = useState(`Editormd ${isMobile ? 'editormd_mobile' : ''}`);
   const { updateEditorInfo } = useContext(editorContext);
   const update = useSaveContent({ spaceId });
-  const editorArea = useRef(null);
   const editormd = useRef(null);
   const previewmd = useRef(null);
 
@@ -246,8 +251,7 @@ export default function Editormd({ docInfo }) {
         ref={previewmd}
         className={`${isMobile ? 'preview_mobile' : ''}`}></div>
       <div className={classes}>
-        <div id="editormd_edit"
-          ref={editorArea}></div>
+        <DropUploaderWrapper id="editormd_edit" />
       </div>
       <ArticleCatalog
         catalogsUpdate={catalogsUpdate}

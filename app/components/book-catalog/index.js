@@ -15,12 +15,16 @@ const activeStyle = {
 
 // 渲染目录项
 function renderCatalogItem(type, doc) {
+  const cls = 'bookcatalog ellipsis';
   return type.toLocaleUpperCase() === 'EMPTY_NODE'
-    ? <Tooltip tips="空节点"><span>{doc.title}</span></Tooltip>
+    ? <Tooltip className={cls}
+      tips="空节点">
+      <span>{doc.title}</span>
+    </Tooltip>
     : <NavLink
       to={'/article' + doc.url.split('article')[1]}
       exact
-      className="bookcatalog ellipsis"
+      className={cls}
       activeStyle={activeStyle}>
       {doc.title}
     </NavLink>;

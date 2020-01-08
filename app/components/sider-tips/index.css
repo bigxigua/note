@@ -1,10 +1,11 @@
-.SiderTips{
+.SiderTips {
   position: fixed;
-  right: 30px;
-  bottom: 25px;
+  right: 12px;
+  bottom: 75px;
   z-index: 11;
 }
-.SiderTips_block{
+
+.SiderTips_block {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -14,15 +15,17 @@
   margin-top: 16px;
   background: #fff;
   border-radius: 40px;
-  box-shadow: 0 2px 6px rgba(0,0,0,.15);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, .15);
   cursor: pointer;
 }
-.SiderTips_block>img{
+
+.SiderTips_block>img {
   width: 20px;
   position: relative;
   top: 3px;
 }
-.SiderTips_block>span{
+
+.SiderTips_block>span {
   transform: scale(0.7);
   font-weight: bold;
   position: relative;
