@@ -1,6 +1,6 @@
 node_modules
 package-lock.json
-dist
+app/dist
 deploy.js
 .DS_Store
 app/public/.DS_Store
