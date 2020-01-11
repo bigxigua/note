@@ -11,14 +11,11 @@ notifications:
 before_install:
   # Update the npm client. Older clients cannot, e.g., handle scoped modules.
   - echo "before_install running..."
-  - cat /home/travis/.ssh/id_rsa.pub
-  # - ssh-keygen -t rsa -f /home/travis/.ssh/id_rsa -P '' -C "bigxigua"
   - pwd
 install:
   - echo "install running..."
   # - npm install
 before_script:
-  # - ssh root@139.196.84.53
   - echo "before_install running..."
 script:
   - echo "script running..."
@@ -29,7 +26,7 @@ after_failure:
   - echo "after_failure running..."
 branches:
   only:
-    - master
+    - travis-test
 env:
  global:
    # 我将其添加到了travis-ci的环境变量中1

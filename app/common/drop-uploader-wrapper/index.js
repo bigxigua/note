@@ -40,7 +40,6 @@ export default function DropUploaderWrapper({
   }, []);
 
   useEffect(() => {
-    console.log('--');
     if (!editor) return;
     const events = bindEvent();
     return () => {
