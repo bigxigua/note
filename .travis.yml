@@ -9,7 +9,6 @@ notifications:
   email: false
 # S: Build Lifecycle
 before_install:
-  # Update the npm client. Older clients cannot, e.g., handle scoped modules.
   - echo "before_install running..."
   - pwd
 install:
@@ -20,8 +19,11 @@ before_script:
 script:
   - echo "script running..."
   # - npm run build
+  - tar -cvf bunder.tar ./app/dist
 after_success:
   - echo "after_success running..."
+  # - node deploy.js
+  - echo "压缩build 文件，上传到服务器"
 after_failure:
   - echo "after_failure running..."
 branches:
@@ -29,6 +31,3 @@ branches:
     - travis-test
 env:
  global:
-   # 我将其添加到了travis-ci的环境变量中1
-   #- GH_REF: github.com/yimogit/metools.git 
-# scp -r ./public/* root@139.196.84.53:/root/workspace
