@@ -47,12 +47,12 @@
             ? '<iframe name="' + iframeName + '" id="' + iframeName + '" guid="' + guid + '"></iframe>' : '') +
           '<label>' + imageLang.url + '</label>' +
           '<input type="text" data-url />' + (function () {
-            return (settings.imageUpload)
-              ? '<div class="' + classPrefix + 'file-input">' +
+          return (settings.imageUpload)
+            ? '<div class="' + classPrefix + 'file-input">' +
               '<input type="file" name="' + classPrefix + 'image-file" accept="image/*" />' +
               '<input type="submit" value="' + imageLang.uploadButton + '" />' +
               '</div>' : '';
-          })() +
+        })() +
           '<br/>' +
           '<label>' + imageLang.alt + '</label>' +
           '<input type="text" value="' + selection + '" data-alt />' +

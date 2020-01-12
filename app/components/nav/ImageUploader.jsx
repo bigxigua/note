@@ -153,7 +153,7 @@ export default class ImageUploader extends Component {
         return Promise.resolve({});
       }
       return async (resolve, reject) => {
-        const [error, data] = await asyncUploader({ file, fileId }, this);;
+        const [error, data] = await asyncUploader({ file, fileId }, this); ;
         if (!error && data) {
           resolve(data);
         } else {
@@ -263,37 +263,37 @@ export default class ImageUploader extends Component {
                     <input type="file"
                       onChange={this.handleChange}></input>
                     点击选择图片
-                    </Button>
+                  </Button>
                   <span className="image-uploader-drag-tips">或将照片拖到这里，单次最多可选3张</span>
                 </div>
               </div>
             </div>
           ) : (
-              <div className="image-preview-container">
-                <h1>图片</h1>
-                <ul className="image-preview-filelist">
-                  {fileListsJsx}
-                </ul>
-                <div className="image-preview-footer">
-                  <div className="image-preview-footer-info">
+            <div className="image-preview-container">
+              <h1>图片</h1>
+              <ul className="image-preview-filelist">
+                {fileListsJsx}
+              </ul>
+              <div className="image-preview-footer">
+                <div className="image-preview-footer-info">
                     选中{fileList.length}张图片，共{imageTotalSize}K。
-                  </div>
-                  <div className="image-preview-footer-buttons">
-                    <Button disabled={disabledChoseImage}
-                      type="dashed"
-                      onClick={this.onChoseImageHandle}
-                      className="image-uploader-button">
-                      <input type="file"
-                        onChange={this.handleChange}></input>继续添加
-                    </Button>
-                    <Button disabled={disabledUploader}
-                      type="primary"
-                      loading={uploadLoading}
-                      onClick={this.onStartUploaderHandle}>开始上传</Button>
-                  </div>
+                </div>
+                <div className="image-preview-footer-buttons">
+                  <Button disabled={disabledChoseImage}
+                    type="dashed"
+                    onClick={this.onChoseImageHandle}
+                    className="image-uploader-button">
+                    <input type="file"
+                      onChange={this.handleChange}></input>继续添加
+                  </Button>
+                  <Button disabled={disabledUploader}
+                    type="primary"
+                    loading={uploadLoading}
+                    onClick={this.onStartUploaderHandle}>开始上传</Button>
                 </div>
               </div>
-            )}
+            </div>
+          )}
         </div>
       </div>
     );

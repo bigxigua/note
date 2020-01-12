@@ -71,6 +71,7 @@ export const FAV_ICON = '/images/pikachu.svg';
 
 export const ENV = process.env.NODE_ENV;
 export const DOMAIN = ENV === 'development' ? 'http://127.0.0.1:8080/' : 'https://www.bigxigua.net:8080/';
+export const UPLOAD_DOMAIN = ENV === 'development' ? 'http://127.0.0.1:3000/upload' : 'https://www.bigxigua.net/upload';
 
 // 空间类型对应ICON
 export const SPACE_TYPE_ICON = {
