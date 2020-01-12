@@ -82,3 +82,25 @@ export const SPACE_TYPE_ICON = {
   TEMPLATE_OF_BLOG: '/images/blog.png',
   TEMPLATE_OF_TRAVEL: '/images/trip.png'
 };
+
+// simditor浏览器PC端toolbar
+const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'];
+// simditor默认配置项
+export const simditorParams = {
+  placeholder: '开始输入吧',
+  toolbar,
+  toolbarFloat: true, // Fixed the toolbar on the top of the browser when scrolling.
+  toolbarFloatOffset: 58, // Top offset of the toolbar when fixed
+  toolbarHidden: false, // Hide the toolbar. Can not work together with `toolbarFloat`.
+  defaultImage: '/images/book.png', // Default image placeholder. Used when inserting pictures in Simditor.
+  tabIndent: true, // Use 'tab' key to make an indent.
+  upload: { // Accept false or key/value pairs. Extra options for uploading images:
+    url: `${UPLOAD_DOMAIN}/image`, // upload api url;
+    params: null, // extra params sent to the server;
+    fileKey: 'file', // key of the file param;
+    connectionCount: 1, // how many images can be uploaded simultaneously;
+    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?' // messages will be shown if one leave the page while file is being uploaded;
+  },
+  pasteImage: true, // Support uploading by pasting images from the clipboard. Work together with upload and only supported by Firefox and Chrome.
+  cleanPaste: false // Remove all styles in paste content automatically.
+};

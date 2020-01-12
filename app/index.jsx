@@ -8,6 +8,7 @@ import Index from '@page/index';
 import Article from '@page/article';
 import Editor from '@page/editor';
 import Login from '@page/login';
+import Simditor from '@page/simditor';
 import New from '@page/new';
 import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
@@ -43,6 +44,10 @@ class App extends React.Component {
               exact
               path="/(index|)"
               component={PageWrapper(Index, '/', '工作台 · 一日一记')}
+            />
+            <Route
+              path="/simditor/:id"
+              component={PageWrapper(Simditor, '/simditor/:id', '文档 · Simditor')}
             />
             <Route
               path="/article/:id"

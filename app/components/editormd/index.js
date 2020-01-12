@@ -18,7 +18,7 @@ const PREVIEW_SHOW = 'preview_show';
 // 预览相关的图片
 const PREVIEW_IMAGES = ['/images/preview1.png', '/images/close.png'];
 // 自动保存的定时器
-let saveInterval = 0;
+const saveInterval = 0;
 
 /**
  *

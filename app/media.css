@@ -104,3 +104,11 @@
         height: auto;
     }
 }
+
+/* 编辑器 toolbar高度 */
+@media screen and (max-width: 835px) {
+    .simditor {
+        border: none;
+        padding-top: 138px;
+    }
+}

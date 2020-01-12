@@ -83,6 +83,7 @@
     "react-dom": "^16.8.6",
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
+    "simditor": "^2.3.22",
     "use-force-update": "^1.0.7",
     "use-react-router": "^1.0.7"
   }

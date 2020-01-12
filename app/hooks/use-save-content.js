@@ -25,12 +25,25 @@ export default function useSaveContent({
   const { updateSaveStatus, saveContentStatus } = useContext(editorContext);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   async function update(editor) {
+    console.log('editor', editor.getValue());
     if (saveContentStatus === 0) {
       return;
     }
-    const markdown = editor.getMarkdown();
-    const html = editor.getHtmlFromMarkDown(markdown);
-    const cover = getImageFormMakeDown(markdown, html, editor) || '';
+    // editormd方式获取markdown
+    // const markdown = editor.getMarkdown();
+
+    const markdown = '';
+
+    // editormd方式获取html
+    // const html = editor.getHtmlFromMarkDown(markdown);
+
+    // simditor方式获取html
+    const html = editor.getValue();
+
+    // editormd方式获取cover背景图
+    // const cover = getImageFormMakeDown(markdown, html, editor) || '';
+    const cover = '';
+
     const abstract = html.replace(/<\/?[^>]*>/g, '').substr(0, 160).replace(/[\r\n]/g, '');
     const title = $('.CodeMirror_title>input').val();
     const publishParams = !publish

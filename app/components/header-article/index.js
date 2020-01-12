@@ -11,13 +11,14 @@ import './index.css';
 const { isMobile } = checkBrowser();
 
 export default function ArticleHeader({
-  docInfo = {}
+  docInfo = {},
+  className = ''
 }) {
   const { spaceId = '' } = parseUrlQuery();
   const update = useSaveContent({ publish: true, spaceId });
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
-  const isEditPage = /^\/edit\//.test(window.location.pathname);
+  const isEditPage = /^\/edit|simditor\//.test(window.location.pathname);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   const search = history.location.search;
@@ -30,7 +31,7 @@ export default function ArticleHeader({
   async function onUpdate() {
     const [error] = await update(editor);
     if (!error) {
-      window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
+      // window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
     }
   }
 
@@ -46,13 +47,16 @@ export default function ArticleHeader({
   }];
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
-  const classes = `Article_Header ${isMobile ? 'article_header_mobile' : ''}`;
+  const classes = `Article_Header ${isMobile ? 'article_header_mobile' : ''} ${className}`;
+
   return (
     <div className={classes}>
       <div className="Article_Header_Wrapper">
         <div className="Article_Header_left">
-          {!isMobile && <Link className="Article_Header_title flex"
-            to="/"></Link>}
+          {!isMobile &&
+            <Link
+              className="Article_Header_title flex"
+              to="/" />}
           <Breadcrumb crumbs={isMobile ? crumbs.slice(1) : crumbs} />
           <div className="Article_Header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
@@ -70,8 +74,8 @@ export default function ArticleHeader({
             type="primary"
             disabled={false}
             onClick={onUpdate}>更新</Button>}
-          {/* <Icon type="ellipsis"
-            className="Article_Header_Fun_Icon" /> */}
+          <Icon type="ellipsis"
+            className="Article_Header_Fun_Icon" />
         </div>
       </div>
     </div>
