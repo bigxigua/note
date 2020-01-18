@@ -24,7 +24,7 @@ export default function ArticleHeader({
   const search = history.location.search;
 
   function jumpToEditor() {
-    history.push(`/edit/${docId}${search}`);
+    history.push(`/simditor/${docId}${search}`);
   }
 
   // 更新发布文档

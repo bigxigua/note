@@ -50,6 +50,7 @@
     border-bottom: 1px solid #e8e8e8;
     height: 60px;
     overflow: hidden;
+    margin-bottom: 20px;
 }
 
 .CodeMirror_title>input {

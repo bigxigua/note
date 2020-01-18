@@ -30,11 +30,11 @@ function createCatalogsJsx({ editormd, dynamic, setCatalogsJsx, catalogsUpdate }
 export default function ArticleCatalog({ dynamic = false, catalogsUpdate = () => { } }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
   const { editor } = useContext(editorContext);
-  const d = { getMarkdown: () => { } };
+  const noop = { getValue: () => { } };
 
   useEffect(() => {
     createCatalogsJsx({ editormd: editor, dynamic, setCatalogsJsx, catalogsUpdate });
-  }, [(editor || d).getMarkdown()]);
+  }, [(editor || noop).getValue()]);
 
   if (isMobile || !Array.isArray(catalogsJsx) || catalogsJsx.length === 0) {
     return null;

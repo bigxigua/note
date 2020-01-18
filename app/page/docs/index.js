@@ -61,7 +61,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   }
   if (info.title_draft || info.markdown_draft) {
     return <Link className="Table_Actions"
-      to={`/edit/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
+      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
   }
   return <div className="flex"
     style={{ width: '100px' }}>
@@ -184,7 +184,7 @@ export default function Space() {
       setDocInfo(docInfo);
     }
     if (key === 'editor') {
-      history.push(`/edit/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
+      history.push(`/simditor/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
     }
   }, []);
 

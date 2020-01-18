@@ -187,17 +187,16 @@ export function getClass(condition, str1, str2 = '') {
 }
 
 // 提取editormd目录
-export function getCatalogs(editormd, dynamic = false) {
+export function getCatalogs(editormd) {
   const catalogs = [];
   try {
-    const $html = dynamic ? $(editormd.getHtmlFromMarkDown()) : $('.markdown-body').children();
-    Array.from($html).forEach((dom, index) => {
+    Array.from($(editormd.getValue())).forEach((dom, index) => {
       const tagName = dom.tagName;
-      if (['H1', 'H2', 'H3', 'H4'].includes(tagName)) {
+      if (['H1', 'H2', 'H3', 'H4', 'H5'].includes(tagName)) {
         catalogs.push({
           index,
-          text: $(dom).children('a').attr('name'),
-          id: $(dom).attr('id'),
+          text: dom.innerText,
+          id: $(dom).attr('id') || '',
           type: tagName.toLowerCase()
         });
       }

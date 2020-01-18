@@ -36,7 +36,7 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
   const { doc_id: docId, space_id: spaceId } = docInfo;
   e.stopPropagation();
   if (key === 'edit') {
-    window.location.href = `/edit/${docId}/?spaceId=${spaceId}`;
+    window.location.href = `/simditor/${docId}/?spaceId=${spaceId}`;
   } else if (key === 'delete') {
     Modal.confirm({
       title: '确认删除该节点吗？QAQ',

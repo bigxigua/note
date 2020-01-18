@@ -2,13 +2,14 @@
     width: 221px;
     height: 100vh;
     overflow: hidden;
-    padding-left: 20px;
+    padding-left: 34px;
     padding-right: 6px;
+    padding-top: 54px;
     position: absolute;
     right: 0;
     top: 0;
     border-top: 1px solid #e8e8e8;
-    background: #fff;;
+    z-index: 1;
 }
 
 .Catalog_title {

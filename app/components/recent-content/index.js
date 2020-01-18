@@ -68,7 +68,7 @@ function handleClick(info, props, history) {
   } else if (info.key === 'doc' && !['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(props.type)) {
     history.push(`/article/${docId}/?spaceId=${spaceId}`);
   } else if (info.key === 'editor') {
-    history.push(`/edit/${docId}/?spaceId=${spaceId}`);
+    history.push(`/simditor/${docId}/?spaceId=${spaceId}`);
   }
 }
 

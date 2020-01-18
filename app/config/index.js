@@ -87,7 +87,7 @@ export const SPACE_TYPE_ICON = {
 const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'];
 // simditor默认配置项
 export const simditorParams = {
-  placeholder: '开始输入吧',
+  // placeholder: '',
   toolbar,
   toolbarFloat: true, // Fixed the toolbar on the top of the browser when scrolling.
   toolbarFloatOffset: 58, // Top offset of the toolbar when fixed

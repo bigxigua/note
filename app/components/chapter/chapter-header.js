@@ -50,7 +50,7 @@ export default function ChapterHeader({
     await createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         await delay();
-        history.push(`/edit/${docId}?spaceId=${spaceId}`);
+        history.push(`/simditor/${docId}?spaceId=${spaceId}`);
       } else {
         console.log('[创建文档出错] ');
       }

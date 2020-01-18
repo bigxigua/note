@@ -1,68 +1,46 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { simditorParams } from '@config/index';
 import ArticleHeader from '@components/header-article';
-import axiosInstance from '@util/axiosInstance';
+import ArticleCatalog from '@components/article-catalog';
 import editorContext from '@context/editor/editorContext';
-import { getIn, checkBrowser, parseUrlQuery } from '@util/util';
-import 'simple-module';
-import 'simple-hotkeys';
-import 'simple-uploader';
-import Simditor from 'simditor';
-import 'simditor/styles/simditor.css';
+import useSaveContent from '@hooks/use-save-content';
+import { parseUrlQuery } from '@util/util';
+import { monitorKeyupHandle, fetchDocDetail, insertTitleInputToSimditor } from './handle';
 import './index.css';
 
-// 检测浏览器为移动端
-const { isMobile } = checkBrowser();
-
-// 获取文档数据
-async function fetchDocDetail() {
-  const docId = window.location.pathname.split('/').filter(n => n)[1];
-  const [, data] = await axiosInstance.get(`docs?type=detail&docId=${docId}`);
-  return getIn(data, [0], {}) || {};
-};
-
-// 获取标题
-function getTitle(docInfo = {}, content) {
-  const title = docInfo.title_draft || docInfo.title;
-  return content === 'origin' ? docInfo.title : title;
-}
-
-// 往simditor body内插入标题input
-function insertTitleInput(doc, content) {
-  const simditorBody = document.querySelector('.simditor-body');
-  const title = getTitle(doc, content);
-  const titleDom =
-    `<div class="CodeMirror_title ${isMobile ? 'codemirror_title_mobile' : ''} flex">` +
-    `<input maxlength="30" value='${title.substr(0, 30)}' />` +
-    '</div>';
-  if (simditorBody) {
-    $(titleDom).insertBefore($($('.simditor-body').children()[0]));
-  }
-}
+// 空函数
+const loop = () => { };
 
 export default function Page() {
+  const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const [doc, updateDoc] = useState({});
   const { updateEditorInfo } = useContext(editorContext);
-  const { content = 'draft', spaceId = '' } = parseUrlQuery();
+  const saveHandle = useSaveContent({ spaceId });
+  const simditorInstance = useRef({});
 
   const renderSimditor = useCallback(async () => {
     const info = await fetchDocDetail();
     updateDoc(info);
-    const simditor = new Simditor({
+
+    const simditor = new window.Simditor({
       ...simditorParams,
       textarea: $('#editor')
     });
+
     // simditor.on('valuechanged', () => {
     //   console.log(simditor.getValue());
     // });
+
     // 保存simditor实例到context
     updateEditorInfo(simditor);
+    simditorInstance.current = simditor;
     // 插入标题
-    insertTitleInput(info, content);
+    insertTitleInputToSimditor(info, content);
   }, []);
 
   useEffect(() => {
     renderSimditor();
+    monitorKeyupHandle({ save: saveHandle, simditor: simditorInstance });
   }, []);
 
   return (
@@ -70,13 +48,16 @@ export default function Page() {
       <ArticleHeader
         className="simditor_header"
         docInfo={doc} />
-      <input
-        type="text"
-        className="simditor_title" />
-      <textarea
-        value={doc.html}
-        onChange={() => { }}
-        id="editor" />
+      <div className="simditor_content">
+        <textarea
+          className="simditor_textarea"
+          value={doc.html_draft || doc.html}
+          onChange={loop}
+          id="editor" />
+        <ArticleCatalog
+          catalogsUpdate={loop}
+          dynamic={true} />
+      </div>
     </div>
   );
 }

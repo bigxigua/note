@@ -71,7 +71,8 @@ export default function BookCatalog() {
 
   const { docs, catalog } = bookCatalog;
   if (loading.current) {
-    return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
+    return <div className="BookCatalog_Wrapper"></div>;
+    // return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
   }
 
   const bookCatalogJsx = catalog.map((item, index) => {

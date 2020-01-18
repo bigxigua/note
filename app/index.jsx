@@ -1,24 +1,26 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
+
+import './index.css';
+import './media.css';
+import './mkfx.css';
+import '@public/css/anima.css';
+
 import UserState from '@context/user/userState';
 import EditorState from '@context/editor/editorState';
 import VerifiRoute from '@components/verifi-route';
 import Index from '@page/index';
 import Article from '@page/article';
-import Editor from '@page/editor';
 import Login from '@page/login';
 import Simditor from '@page/simditor';
 import New from '@page/new';
 import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
-import './index.css';
-import './media.css';
-import './mkfx.css';
-import '@public/css/anima.css';
-// TODO 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
-// 按需加载
+
+// 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
+
 const PageWrapper = (Compoment, pathname, title) => {
   return () => {
     return <VerifiRoute
@@ -27,6 +29,7 @@ const PageWrapper = (Compoment, pathname, title) => {
       pathname={pathname} />;
   };
 };
+
 class App extends React.Component {
   componentDidMount() {
   }
@@ -52,10 +55,6 @@ class App extends React.Component {
             <Route
               path="/article/:id"
               component={PageWrapper(Article, '/article/:id', '文档 · 一日一记')}
-            />
-            <Route
-              path="/edit/:id"
-              component={PageWrapper(Editor, '/edit/:id', '编辑 · 一日一记')}
             />
             <Route
               path="/new/"

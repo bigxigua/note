@@ -25,7 +25,6 @@ export default function useSaveContent({
   const { updateSaveStatus, saveContentStatus } = useContext(editorContext);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   async function update(editor) {
-    console.log('editor', editor.getValue());
     if (saveContentStatus === 0) {
       return;
     }
