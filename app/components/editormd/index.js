@@ -100,8 +100,8 @@ function insertTitleInput(doc, content) {
   const $CodeMirror = $('.CodeMirror');
   const title = getTitle(doc, content);
   const titleDom =
-    `<div class="CodeMirror_title ${isMobile ? 'codemirror_title_mobile' : ''} flex">` +
-    '<div class="CodeMirror_title_left flex"><img src="/images/title.png" alt="标题" /></div>' +
+    `<div class="simditor-title ${isMobile ? 'simditor-title_mobile' : ''} flex">` +
+    '<div class="simditor-title_left flex"><img src="/images/title.png" alt="标题" /></div>' +
     `<input maxlength="30" value='${title.substr(0, 30)}' />` +
     '</div>';
   if ($CodeMirror.length > 0) {

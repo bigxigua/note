@@ -44,7 +44,7 @@ export default function useSaveContent({
     const cover = '';
 
     const abstract = html.replace(/<\/?[^>]*>/g, '').substr(0, 160).replace(/[\r\n]/g, '');
-    const title = $('.CodeMirror_title>input').val();
+    const title = $('.simditor-title>input').val();
     const publishParams = !publish
       ? {
         html_draft: html,

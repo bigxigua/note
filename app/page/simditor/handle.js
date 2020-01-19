@@ -1,13 +1,7 @@
-import { getIn, checkBrowser, addKeydownListener } from '@util/util';
-import axiosInstance, { fetchApi } from '@util/axiosInstance';
+import { getIn, checkBrowser, addKeydownListener, isObject } from '@util/util';
+import axiosInstance from '@util/axiosInstance';
 
 const { isMobile } = checkBrowser();
-
-// 获取标题
-export function getTitle(docInfo = {}, content) {
-  const title = docInfo.title_draft || docInfo.title;
-  return content === 'origin' ? docInfo.title : title;
-}
 
 // 获取文档信息
 export async function fetchDocDetail() {
@@ -16,15 +10,16 @@ export async function fetchDocDetail() {
   return getIn(data, [0], {}) || {};
 }
 
-export function insertTitleInputToSimditor(doc, content) {
+// 插入标题编辑input
+export function insertTitleInputToSimditor(doc, storageKey) {
   const simditorBody = document.querySelector('.simditor-body');
-  const title = getTitle(doc, content);
+  const title = getTileAndHtml(doc, storageKey).title;
   const titleDom =
-    `<div class="CodeMirror_title ${isMobile ? 'codemirror_title_mobile' : ''} flex">` +
+    `<div class="simditor-title ${isMobile ? 'simditor-title_mobile' : ''}">` +
     `<input maxlength="30" value='${title.substr(0, 30)}' />` +
     '</div>';
   if (simditorBody) {
-    $(titleDom).insertBefore($($('.simditor-body').children()[0]));
+    $(titleDom).insertBefore($($('.simditor-wrapper').children()[0]));
   }
 }
 
@@ -35,7 +30,6 @@ export function monitorKeyupHandle({ save, simditor }) {
     handle: ({ keyCode, ctrlKey, e }) => {
       if (ctrlKey && keyCode === 83) {
         e.preventDefault();
-        console.log(simditor);
         save(simditor.current);
       }
     }
@@ -59,4 +53,31 @@ export function addUnloadListener() {
     //   console.log('------', error);
     // });
   }, false);
+}
+
+// 获取content和title
+export function getTileAndHtml(info, key) {
+  const draftCached = JSON.parse(window.localStorage.getItem(key));
+  const title = info.title_draft || info.title;
+  const content = info.html_draft || info.html;
+  if (isObject(draftCached)) {
+    return {
+      title: draftCached.title || '',
+      content: draftCached.content || ''
+    };
+  } else {
+    return {
+      content,
+      title
+    };
+  }
+}
+
+// 更新编辑草稿到浏览器缓存
+export function setDraftToStorage(storageKey, key, value) {
+  const storage = JSON.parse(window.localStorage.getItem(storageKey) || '{}');
+  window.localStorage.setItem(storageKey, JSON.stringify({
+    ...storage,
+    [`${key}`]: value
+  }));
 }

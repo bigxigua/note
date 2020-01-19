@@ -1976,7 +1976,7 @@
           top: 0,
           left: 0
         } : $(this.opts.toolbarScrollContainer).offset();
-        this.wrapper.css('top', scrollContainerOffset.top + this.opts.toolbarFloatOffset);
+        // this.wrapper.css('top', scrollContainerOffset.top + this.opts.toolbarFloatOffset);
         toolbarHeight = 0;
         initToolbarFloat = (function (_this) {
           return function () {

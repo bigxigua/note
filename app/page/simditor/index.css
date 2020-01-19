@@ -3,10 +3,16 @@
   background: #fff;
 }
 
-.simditor_content {
+.simditor-content {
   margin: 0 auto;
-  margin-top: 58px;
   position: relative;
+  background: #fafafa;
+  width: 1280px;
+}
+
+.simditor-content_mobile {
+  width: 100%;
+  background: #fff;
 }
 
 .simditor_textarea {
@@ -27,9 +33,6 @@
 }
 
 .simditor_header {
-  position: fixed;
-  left: 0;
-  top: 0;
   box-shadow: none;
 }
 
@@ -43,23 +46,32 @@
   font-weight: bold;
 }
 
-.CodeMirror_title {
-  width: 100%;
-  border-bottom: 1px solid #e8e8e8;
-  height: 60px;
+.simditor-title {
+  width: 872px;
+  max-width: 100%;
+  height: 106px;
   overflow: hidden;
-  margin-bottom: 20px;
+  margin: 0 auto;
+  margin-top: 16px;
+  border: 1px solid #eeeeee;
+  border-bottom: none;
+  padding-left: 32px;
+  background: #fff;
+  position: relative;
+  z-index: 100;
 }
 
-.CodeMirror_title>input {
-  width: 100%;
-  height: 100%;
+.simditor-title>input {
+  width: 90%;
+  height: 50px;
   color: #262626;
   font-weight: 700;
   font-size: 30px;
+  margin-top: 36px;
+  border-bottom: 1px solid #eeeeee;
 }
 
-.CodeMirror_title_left {
+.simditor-title_left {
   width: 48px;
   height: 100%;
   background-color: #f7f7f7;
@@ -67,6 +79,21 @@
   justify-content: center;
 }
 
-.CodeMirror_title_left>img {
+.simditor-title_left>img {
   width: 20px;
+}
+
+.simditor-title_mobile {
+  margin-top: 0;
+  padding-left: 16px;
+  height: 78px;
+}
+
+.simditor-title_mobile>.simditor-title_left {
+  display: none;
+}
+
+.simditor-title_mobile>input {
+  font-size: 20px;
+  margin-top: 16px;
 }
