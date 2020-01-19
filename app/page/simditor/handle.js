@@ -1,5 +1,5 @@
 import { getIn, checkBrowser, addKeydownListener } from '@util/util';
-import axiosInstance from '@util/axiosInstance';
+import axiosInstance, { fetchApi } from '@util/axiosInstance';
 
 const { isMobile } = checkBrowser();
 
@@ -40,4 +40,23 @@ export function monitorKeyupHandle({ save, simditor }) {
       }
     }
   });
+}
+
+// 监听onunload事件，自动保存数据
+export function addUnloadListener() {
+  window.addEventListener('unload', () => {
+    // 保存草稿数据到localStorage
+    // fetchApi({
+    //   url: '/doc/update',
+    //   method: 'POST',
+    //   keepalive: true,
+    //   body: {
+    //     doc_id: docId,
+    //     html_draft: '',
+    //     title_draft: ''
+    //   }
+    // }).catch((error) => {
+    //   console.log('------', error);
+    // });
+  }, false);
 }

@@ -8,15 +8,17 @@ const actions = [{
   icon: '/images/catalog.png',
   text: '目录',
   key: 'catalog'
-}, {
-  icon: '/images/catalog.png',
-  text: '收藏',
-  key: 'collection'
-}, {
-  icon: '/images/catalog.png',
-  text: '更多',
-  key: 'more'
-}];
+}
+  // , {
+  //   icon: '/images/catalog.png',
+  //   text: '收藏',
+  //   key: 'collection'
+  // }, {
+  //   icon: '/images/catalog.png',
+  //   text: '更多',
+  //   key: 'more'
+  // }
+];
 
 function renderCatalog(editormd, setVisible, visible) {
   const catalogs = getCatalogs(editormd);

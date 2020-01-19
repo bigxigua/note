@@ -1063,6 +1063,8 @@
       if (key in this._keystrokeHandlers) {
         result = typeof (base = this._keystrokeHandlers[key])['*'] === "function" ? base['*'](e) : void 0;
         if (!result) {
+          var startNodes = this.editor.selection.startNodes();
+          if (!startNodes) return;
           this.editor.selection.startNodes().each((function (_this) {
             return function (i, node) {
               var handler, ref1;
@@ -1978,14 +1980,14 @@
         toolbarHeight = 0;
         initToolbarFloat = (function (_this) {
           return function () {
-            _this.wrapper.css('position', 'static');
-            _this.wrapper.width('auto');
-            _this.editor.util.reflow(_this.wrapper);
-            _this.wrapper.width(_this.wrapper.outerWidth());
-            _this.wrapper.css('left', _this.editor.util.os.mobile ? _this.wrapper.position().left : _this.wrapper.offset().left - scrollContainerOffset.left);
-            _this.wrapper.css('position', '');
-            toolbarHeight = _this.wrapper.outerHeight();
-            _this.editor.placeholderEl.css('top', scrollContainerOffset.top);
+            // _this.wrapper.css('position', 'static');
+            // _this.wrapper.width('auto');
+            // _this.editor.util.reflow(_this.wrapper);
+            // _this.wrapper.width(_this.wrapper.outerWidth());
+            // _this.wrapper.css('left', _this.editor.util.os.mobile ? _this.wrapper.position().left : _this.wrapper.offset().left - scrollContainerOffset.left);
+            // _this.wrapper.css('position', '');
+            // toolbarHeight = _this.wrapper.outerHeight();
+            // _this.editor.placeholderEl.css('top', scrollContainerOffset.top);
             return true;
           };
         })(this);

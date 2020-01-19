@@ -3,7 +3,7 @@ import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
-import { formatTimeStamp, getIn, isEmptyObject } from '@util/util';
+import { getIn, isEmptyObject } from '@util/util';
 import { fromNow } from '@util/fromNow';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';

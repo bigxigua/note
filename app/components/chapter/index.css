@@ -35,6 +35,8 @@
 
 .Chapter_Item>h3 {
   display: flex;
+  font-weight: normal;
+  font-size: 14px;
 }
 
 .Chapter_Item>h3>.Icon {

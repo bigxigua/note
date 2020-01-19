@@ -41,7 +41,7 @@ export default function Index() {
   }, [docId]);
 
   return (
-    <div className="Container">
+    <div className="article">
       {renderHeader(error, docInfo)}
       <div className="Content_Wrapper">
         {renderContent(error, docInfo)}

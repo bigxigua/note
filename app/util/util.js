@@ -187,10 +187,10 @@ export function getClass(condition, str1, str2 = '') {
 }
 
 // 提取editormd目录
-export function getCatalogs(editormd) {
+export function getCatalogs(html) {
   const catalogs = [];
   try {
-    Array.from($(editormd.getValue())).forEach((dom, index) => {
+    Array.from($(html)).forEach((dom, index) => {
       const tagName = dom.tagName;
       if (['H1', 'H2', 'H3', 'H4', 'H5'].includes(tagName)) {
         catalogs.push({

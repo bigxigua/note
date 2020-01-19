@@ -3,10 +3,12 @@
   position: relative;
   display: flex;
   overflow: hidden;
+  background-color: #fff;
 }
 
 .Article_Preview_Wrapper {
-  width: calc(100% - 445px);
+  width: calc(100% - 224px);
+  max-width: 850px;
   height: 100vh;
   flex-shrink: 0;
   background-color: #fff;
@@ -14,10 +16,27 @@
   overflow-y: scroll;
   overflow-x: hidden;
   padding-bottom: 60px;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+.Article_Preview_Wrapper::-webkit-scrollbar {
+  width: 0 !important
 }
 
 .Article_Preview_Wrapper_Big {
   width: calc(100% - 260px);
+}
+
+.article_catalog {
+  padding-top: 0;
+  position: fixed;
+  padding-top: 60px;
+}
+
+.article_catalog>.Catalog_box>.Catalog_item {
+  padding-left: 14px;
+  border-left: 2px solid #e8e8e8;
 }
 
 .Footer_Meta {
@@ -62,6 +81,7 @@
   font-size: 16px;
   font-family: arial, sans-serif;
   line-height: 1.6;
+  padding-bottom: 80px;
 }
 
 .article_html h1,

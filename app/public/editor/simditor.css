@@ -228,6 +228,8 @@
 
 .simditor .simditor-body .simditor-table {
   position: relative;
+  width: 100%;
+  overflow-x: scroll;
 }
 
 .simditor .simditor-body .simditor-table.resizing {
@@ -273,9 +275,15 @@
 }
 
 .simditor .simditor-toolbar {
-  border-bottom: 1px solid #eeeeee;
   background: #ffffff;
+  min-width: 900px;
   width: 100%;
+  position: fixed;
+  left: 0;
+  z-index: 999;
+  border-top: 1px solid #eeeeee;
+  display: flex;
+  justify-content: center;
 }
 
 .simditor .simditor-toolbar>ul {
@@ -670,11 +678,37 @@
   width: 28px;
 }
 
+.simditor {
+  padding-top: 42px;
+  border: none;
+  height: calc(100vh - 58px);
+  overflow-y: scroll;
+  padding-bottom: 80px;
+}
+
+.simditor-mobile {
+  padding-top: 81px;
+}
+
 .simditor.simditor-mobile .simditor-wrapper.toolbar-floating .simditor-toolbar {
   position: absolute;
   top: 0;
   z-index: 10;
   box-shadow: 0 0 6px rgba(0, 0, 0, 0.1);
+}
+
+.simditor-mobile .simditor-wrapper .simditor-toolbar {
+  width: 100%;
+  min-width: 100%;
+}
+
+.simditor-mobile .simditor-wrapper .simditor-body {
+  width: 100%;
+  margin-top: 0;
+  padding: 12px;
+  box-shadow: none;
+  border: none;
+  overflow-x: hidden;
 }
 
 .simditor .simditor-body,
@@ -687,9 +721,8 @@
   word-wrap: break-word;
 }
 
-.simditor .simditor-body> :first-child,
-.editor-style> :first-child {
-  margin-top: 0 !important;
+.simditor .simditor-body> :nth-child(2) {
+  margin-top: 20px;
 }
 
 .simditor .simditor-body a,
@@ -912,7 +945,8 @@
 
 .simditor .simditor-body table,
 .editor-style table {
-  width: 100%;
+  /* width: 100%; */
+  min-width: 875px;
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;

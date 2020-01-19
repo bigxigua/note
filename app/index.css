@@ -428,7 +428,7 @@ textarea {
     bottom: 0;
     width: 65px;
     height: 65px;
-    z-index: 99;
+    z-index: 9999;
 }
 
 .footer-myssl>a>img {

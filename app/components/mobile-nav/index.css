@@ -2,7 +2,6 @@
   color: #262626;
   font-weight: bold;
   font-size: 14px;
-  min-width: 60px;
 }
 
 .content-recent-edit-m {
@@ -11,7 +10,7 @@
 
 .content-recent-edit-m-icon {
   color: #262626;
-  top: 1px;
+  top: 3px;
   margin-left: 4px;
   font-size: 12px;
 }

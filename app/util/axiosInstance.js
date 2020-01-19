@@ -66,4 +66,18 @@ axiosInstance.post = async function () {
   }
 };
 
+export const fetchApi = function ({ url, method = 'GET', keepalive = false, body = {} }) {
+  return window.fetch(url, {
+    method,
+    headers: {
+      'X-Requested-With': 'XMLHttpRequest',
+      // 'Content-Type': 'application/x-www-form-urlencoded'
+      'Content-Type': 'application/json; charset=utf-8'
+    },
+    body,
+    referrer: window.location.href,
+    keepalive
+  });
+};
+
 export default axiosInstance;

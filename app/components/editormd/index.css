@@ -50,7 +50,6 @@
     border-bottom: 1px solid #e8e8e8;
     height: 60px;
     overflow: hidden;
-    margin-bottom: 20px;
 }
 
 .CodeMirror_title>input {
@@ -59,7 +58,6 @@
     color: #262626;
     font-weight: 700;
     font-size: 30px;
-    padding-left: 10px;
 }
 
 .CodeMirror_title_left {

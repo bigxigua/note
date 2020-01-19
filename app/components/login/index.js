@@ -4,7 +4,7 @@ import Input from '@common/input';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
-import { getIn, parseUrlQuery, addKeydownListener, stringTransformToUrlObject } from '@util/util';
+import { getIn, parseUrlQuery, addKeydownListener } from '@util/util';
 import userContext from '@context/user/userContext';
 import useMessage from '@hooks/use-message';
 import './index.css';
@@ -95,8 +95,7 @@ export default function Login() {
       updateUserInfo(data);
       // 登陆页回跳原来页面，注册页回跳首页
       if (isLoginPage && returnUrl) {
-        const { pathname } = stringTransformToUrlObject(returnUrl);
-        history.replace(pathname);
+        window.location.href = decodeURIComponent(returnUrl);
       } else {
         history.replace('/');
       }

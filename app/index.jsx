@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
 import './index.css';
-import './media.css';
 import './mkfx.css';
 import '@public/css/anima.css';
 
@@ -18,6 +17,8 @@ import New from '@page/new';
 import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
+
+import './media.css';
 
 // 动态路由 http://react-guide.github.io/react-router-cn/docs/guides/advanced/DynamicRouting.html
 

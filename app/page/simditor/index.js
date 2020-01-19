@@ -14,6 +14,7 @@ const loop = () => { };
 export default function Page() {
   const { content = 'draft', spaceId = '' } = parseUrlQuery();
   const [doc, updateDoc] = useState({});
+  const [html, setHtml] = useState('');
   const { updateEditorInfo } = useContext(editorContext);
   const saveHandle = useSaveContent({ spaceId });
   const simditorInstance = useRef({});
@@ -21,15 +22,17 @@ export default function Page() {
   const renderSimditor = useCallback(async () => {
     const info = await fetchDocDetail();
     updateDoc(info);
+    setHtml(info.html_draft || info.html);
 
     const simditor = new window.Simditor({
       ...simditorParams,
       textarea: $('#editor')
     });
 
-    // simditor.on('valuechanged', () => {
-    //   console.log(simditor.getValue());
-    // });
+    simditor.on('valuechanged', () => {
+      setHtml(simditor.getValue());
+      // 保存到window.localStorage
+    });
 
     // 保存simditor实例到context
     updateEditorInfo(simditor);
@@ -54,9 +57,7 @@ export default function Page() {
           value={doc.html_draft || doc.html}
           onChange={loop}
           id="editor" />
-        <ArticleCatalog
-          catalogsUpdate={loop}
-          dynamic={true} />
+        <ArticleCatalog html={html} />
       </div>
     </div>
   );

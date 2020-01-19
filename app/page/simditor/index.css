@@ -1,20 +1,12 @@
 .simditor_page {
   width: 100%;
+  background: #fff;
 }
 
 .simditor_content {
   margin: 0 auto;
   margin-top: 58px;
   position: relative;
-  width: 1280px;
-}
-
-.simditor {
-  padding-top: 42px;
-  border: none;
-  height: calc(100vh - 58px);
-  overflow-y: scroll;
-  padding-bottom: 80px;
 }
 
 .simditor_textarea {
@@ -24,16 +16,6 @@
 .simditor .simditor-wrapper {
   background: transparent;
   padding-top: 0 !important;
-}
-
-.simditor .simditor-toolbar {
-  width: 1280px !important;
-  position: fixed;
-  left: 0 !important;
-  z-index: 999;
-  border-top: 1px solid #eeeeee;
-  display: flex;
-  justify-content: center;
 }
 
 .simditor .simditor-body p,
@@ -59,4 +41,32 @@
   margin: 0;
   padding: 6px 0;
   font-weight: bold;
+}
+
+.CodeMirror_title {
+  width: 100%;
+  border-bottom: 1px solid #e8e8e8;
+  height: 60px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.CodeMirror_title>input {
+  width: 100%;
+  height: 100%;
+  color: #262626;
+  font-weight: 700;
+  font-size: 30px;
+}
+
+.CodeMirror_title_left {
+  width: 48px;
+  height: 100%;
+  background-color: #f7f7f7;
+  flex-shrink: 0;
+  justify-content: center;
+}
+
+.CodeMirror_title_left>img {
+  width: 20px;
 }
