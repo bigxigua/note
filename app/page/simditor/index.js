@@ -4,7 +4,8 @@ import ArticleHeader from '@components/header-article';
 import ArticleCatalog from '@components/article-catalog';
 import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
-import { parseUrlQuery, checkBrowser, isObject } from '@util/util';
+import Simditor from '@public/editor/simditor';
+import { parseUrlQuery, checkBrowser } from '@util/util';
 import {
   fetchDocDetail,
   getTileAndHtml,
@@ -35,7 +36,7 @@ export default function Page() {
 
     setHtml(getTileAndHtml(docInfo, storageKey).content);
 
-    const simditor = new window.Simditor({
+    const simditor = new Simditor({
       ...simditorParams,
       textarea: $('#editor')
     });

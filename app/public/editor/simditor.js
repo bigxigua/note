@@ -1,19 +1,23 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    define('simditor', ["jquery", "simple-module", "simple-hotkeys", "simple-uploader", "dompurify"], function ($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
-      return (root['Simditor'] = factory($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify));
+    define('simditor', ["@public/editor/module", "@public/editor/hotkeys", "@public/editor/uploader", "@public/editor/dompurify"], function (SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
+      return (root['Simditor'] = factory(jQuery, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify));
     });
   } else if (typeof exports === 'object') {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
-    module.exports = factory(require("jquery"), require("simple-module"), require("simple-hotkeys"), require("simple-uploader"), require("dompurify"));
+    module.exports = factory(
+      require("jquery"),
+      require("simple-module"),
+      require("simple-hotkeys"),
+      require("simple-uploader"),
+      require("dompurify"));
   } else {
     root['Simditor'] = factory(jQuery, SimpleModule, simple.hotkeys, simple.uploader, window.DOMPurify);
   }
 }(this, function ($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
-
   var AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, Util,
     extend = function (child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty,
@@ -2035,7 +2039,6 @@
     Toolbar.prototype._render = function () {
       var k, len, name, ref;
       this.buttons = [];
-      console.log(this.editor);
       // this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.wrapper);
       this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.el);
       this.list = this.wrapper.find('ul');
@@ -2556,11 +2559,11 @@
   })(SimpleModule);
 
   Simditor = (function (superClass) {
-    extend(Simditor, superClass);
-
     function Simditor() {
       return Simditor.__super__.constructor.apply(this, arguments);
     }
+
+    extend(Simditor, superClass);
 
     Simditor.connect(Util);
 

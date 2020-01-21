@@ -397,8 +397,8 @@ const webpackConfig = {
     // In development, this will be an empty string.
     new InterpolateHtmlPlugin(HtmlWebpackPlugin, {
       PUBLIC_URL: publicUrl,
-      TITLE: '一日一记',
-      OFFLINE_TITLE: '离线笔记本'
+      LOGO: 'https://www.bigxigua.net/images/logo.jpeg',
+      MD5: ''
     }),
     // This gives some necessary context to module not found errors, such as
     // the requesting resource.

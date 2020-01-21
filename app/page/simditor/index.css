@@ -73,4 +73,5 @@
 .simditor-title_mobile>input {
   font-size: 20px;
   margin-top: 16px;
+  width: calc(100% - 16px);
 }
