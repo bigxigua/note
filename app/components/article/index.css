@@ -15,9 +15,10 @@
   box-sizing: border-box;
   overflow-y: scroll;
   overflow-x: hidden;
-  padding-bottom: 60px;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
+  padding: 0 36px;
+  padding-bottom: 60px;
 }
 
 .Article_Preview_Wrapper::-webkit-scrollbar {
@@ -43,7 +44,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 22px;
   box-sizing: border-box;
   padding-top: 20px;
   border-top: 1px solid #e8e8e8;
@@ -54,7 +54,6 @@
   align-items: center;
   color: #8c8c8c;
   font-size: 14px;
-  margin-right: 16px;
 }
 
 .Footer_Meta_Item>.Icon {
@@ -68,20 +67,19 @@
 }
 
 .Article_Preview_Wrapper>h1 {
-  color: #262626;
   font-weight: 700;
   font-size: 36px;
-  padding: 16px 36px;
+  padding: 16px 0;
   background: #fff;
   color: #262626;
 }
 
 .article_html {
-  padding: 0 36px;
   font-size: 16px;
   font-family: arial, sans-serif;
   line-height: 1.6;
   padding-bottom: 80px;
+  min-height: calc(100vh - 86px);
 }
 
 .article_html h1,

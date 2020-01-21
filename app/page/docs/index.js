@@ -133,7 +133,7 @@ export default function Space() {
     title: '最后编辑',
     key: 'updated_at',
     render: (info) => {
-      return <div style={{ width: '140px' }}>{formatTimeStamp(info.updated_at)}</div>;
+      return <div style={{ width: '156px' }}>{formatTimeStamp(info.updated_at)}</div>;
     }
   }, {
     title: '编辑',

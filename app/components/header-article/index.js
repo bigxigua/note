@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import Breadcrumb from '@common/breadcrumb';
@@ -16,6 +16,7 @@ export default function ArticleHeader({
 }) {
   const { spaceId = '' } = parseUrlQuery();
   const update = useSaveContent({ publish: true, spaceId });
+  const [updateDisabled, setUpdateState] = useState(true);
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
   const isEditPage = /^\/edit|simditor\//.test(window.location.pathname);
@@ -26,6 +27,12 @@ export default function ArticleHeader({
   function jumpToEditor() {
     history.push(`/simditor/${docId}${search}`);
   }
+
+  useEffect(() => {
+    editor && editor.on('valuechanged', () => {
+      setUpdateState(false);
+    });
+  }, [editor]);
 
   // 更新发布文档
   async function onUpdate() {
@@ -72,7 +79,7 @@ export default function ArticleHeader({
           </div>}
           {isEditPage && <Button
             type="primary"
-            disabled={false}
+            disabled={updateDisabled}
             onClick={onUpdate}>更新</Button>}
           <Icon type="ellipsis"
             className="Article_Header_Fun_Icon" />

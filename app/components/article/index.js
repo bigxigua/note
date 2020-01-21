@@ -66,7 +66,7 @@ export default function Article({ docInfo }) {
 
         {isMobile && <MobileArticleToolbar />}
 
-        <Footer style={{ marginTop: '20px' }} />
+        <Footer style={{ marginTop: '100px' }} />
       </div>
       <ArticleCatalog
         className="article_catalog"

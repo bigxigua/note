@@ -104,3 +104,21 @@
         height: auto;
     }
 }
+
+/* 文章页面/article/ 隐藏右侧文章目录 */
+@media screen and (max-width: 1280px) {
+    .article_catalog {
+        display: none;
+    }
+}
+
+/* 文章页面/article/ 隐藏左侧目录 */
+@media screen and (max-width: 1000px) {
+    .BookCatalog_Wrapper {
+        display: none;
+    }
+
+    .Article_Preview_Wrapper {
+        width: 100%;
+    }
+}
