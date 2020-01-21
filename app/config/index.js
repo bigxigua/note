@@ -66,13 +66,13 @@ export const SPACE_TYPE_ICON = {
 
 // simditor浏览器PC端toolbar
 const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'];
-const mobileToolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'link', 'image', 'hr'];
+const mobileToolbar = ['title', 'bold', 'fontScale', 'ol', 'ul', 'blockquote', 'code', 'hr'];
 // simditor默认配置项
 export const simditorParams = {
   // placeholder: '',
   toolbar: isMobile ? mobileToolbar : toolbar,
   toolbarFloat: true, // Fixed the toolbar on the top of the browser when scrolling.
-  toolbarFloatOffset: 0, // Top offset of the toolbar when fixed
+  toolbarFloatOffset: 58, // Top offset of the toolbar when fixed
   toolbarHidden: false, // Hide the toolbar. Can not work together with `toolbarFloat`.
   defaultImage: '/images/book.png', // Default image placeholder. Used when inserting pictures in Simditor.
   tabIndent: true, // Use 'tab' key to make an indent.

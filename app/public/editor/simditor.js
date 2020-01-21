@@ -1993,29 +1993,30 @@
         })(this);
         floatInitialized = null;
         $(window).on('resize.simditor-' + this.editor.id, function (e) {
+          console.log('toolbar resize change');
           return floatInitialized = initToolbarFloat();
         });
         $(this.opts.toolbarScrollContainer).on('scroll.simditor-' + this.editor.id, (function (_this) {
           return function (e) {
-            var bottomEdge, scrollTop, topEdge;
-            if (!_this.wrapper.is(':visible')) {
-              return;
-            }
-            topEdge = _this.opts.toolbarScrollContainer === window ? _this.editor.wrapper.get(0).getBoundingClientRect().top : _this.editor.wrapper.offset().top - scrollContainerOffset.top;
-            bottomEdge = topEdge + _this.editor.wrapper.outerHeight() - 80;
-            scrollTop = $(_this.opts.toolbarScrollContainer).scrollTop() + _this.opts.toolbarFloatOffset;
-            if (topEdge > 0 || bottomEdge < 0) {
-              _this.editor.wrapper.removeClass('toolbar-floating').css('padding-top', '');
-              if (_this.editor.util.os.mobile) {
-                return _this.wrapper.css('top', _this.opts.toolbarFloatOffset);
-              }
-            } else {
-              floatInitialized || (floatInitialized = initToolbarFloat());
-              _this.editor.wrapper.addClass('toolbar-floating').css('padding-top', toolbarHeight);
-              if (_this.editor.util.os.mobile) {
-                return _this.wrapper.css('top', scrollTop - topEdge + _this.opts.toolbarFloatOffset);
-              }
-            }
+            // var bottomEdge, scrollTop, topEdge;
+            // if (!_this.wrapper.is(':visible')) {
+            //   return;
+            // }
+            // topEdge = _this.opts.toolbarScrollContainer === window ? _this.editor.wrapper.get(0).getBoundingClientRect().top : _this.editor.wrapper.offset().top - scrollContainerOffset.top;
+            // bottomEdge = topEdge + _this.editor.wrapper.outerHeight() - 80;
+            // scrollTop = $(_this.opts.toolbarScrollContainer).scrollTop() + _this.opts.toolbarFloatOffset;
+            // if (topEdge > 0 || bottomEdge < 0) {
+            //   _this.editor.wrapper.removeClass('toolbar-floating').css('padding-top', '');
+            //   if (_this.editor.util.os.mobile) {
+            //     return _this.wrapper.css('top', _this.opts.toolbarFloatOffset);
+            //   }
+            // } else {
+            //   floatInitialized || (floatInitialized = initToolbarFloat());
+            //   _this.editor.wrapper.addClass('toolbar-floating').css('padding-top', toolbarHeight);
+            //   if (_this.editor.util.os.mobile) {
+            //     return _this.wrapper.css('top', scrollTop - topEdge + _this.opts.toolbarFloatOffset);
+            //   }
+            // }
           };
         })(this));
       }
@@ -2034,7 +2035,9 @@
     Toolbar.prototype._render = function () {
       var k, len, name, ref;
       this.buttons = [];
-      this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.wrapper);
+      console.log(this.editor);
+      // this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.wrapper);
+      this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.el);
       this.list = this.wrapper.find('ul');
       ref = this.opts.toolbar;
       for (k = 0, len = ref.length; k < len; k++) {
