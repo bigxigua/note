@@ -196,7 +196,7 @@
 }
 
 .simditor .simditor-body {
-  padding: 22px 32px 0;
+  padding: 2px 32px 0;
   outline: none;
   cursor: text;
   position: relative;
@@ -983,4 +983,28 @@
 .editor-style img {
   margin: 0 5px;
   vertical-align: middle;
+}
+
+.simditor-checkbox-wrapper {
+  display: flex;
+  align-items: center;
+}
+
+.simditor-checkbox-item {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  vertical-align: middle;
+  border: 1px solid #d9d9d9;
+  margin-right: 8px !important;
+  border-radius: 2px;
+  position: relative;
+}
+
+.simditor-checkbox-item>input {
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  cursor: pointer;
+  position: absolute;
 }

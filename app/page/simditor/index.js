@@ -42,7 +42,6 @@ export default function Page() {
     });
 
     simditor.on('valuechanged', () => {
-      console.log('---2--');
       const content = simditor.getValue();
       setHtml(content);
       // 保存内容到浏览器缓存

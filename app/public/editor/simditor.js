@@ -18,7 +18,7 @@
     root['Simditor'] = factory(jQuery, SimpleModule, simple.hotkeys, simple.uploader, window.DOMPurify);
   }
 }(this, function ($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
-  var AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, Util,
+  var AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, checkBoxButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, Util,
     extend = function (child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty,
     indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
@@ -974,6 +974,7 @@
     };
 
     InputManager.prototype._onKeyDown = function (e) {
+      console.log('--_onKeyDown--');
       var ref, ref1;
       if (this.editor.triggerHandler(e) === false) {
         return false;
@@ -1959,7 +1960,7 @@
         return;
       }
       if (!$.isArray(this.opts.toolbar)) {
-        this.opts.toolbar = ['bold', 'italic', 'underline', 'strikethrough', '|', 'ol', 'ul', 'blockquote', 'code', '|', 'link', 'image', '|', 'indent', 'outdent'];
+        this.opts.toolbar = ['bold', 'italic', 'underline', 'strikethrough', '|', 'ol', 'ul', 'blockquote', 'code', '|', 'link', 'image', '|', 'checkbox', 'indent', 'outdent'];
       }
       this._render();
       this.list.on('click', function (e) {
@@ -3730,6 +3731,8 @@
       anotherType = this.type === 'ul' ? 'ol' : 'ul';
       this.editor.selection.save();
       $list = null;
+      // 判断当前行元素类型，如果不是div.checkbox就替换成div.checkbox
+
       $rootNodes.each((function (_this) {
         return function (i, node) {
           var $node;
@@ -5727,6 +5730,87 @@
   })(Button);
 
   Simditor.Toolbar.addButton(AlignmentButton);
+
+  // todo button
+  checkBoxButton = (function (superClass) {
+    extend(checkBoxButton, superClass);
+
+    function checkBoxButton() {
+      return checkBoxButton.__super__.constructor.apply(this, arguments);
+    }
+
+    checkBoxButton.prototype.name = "checkbox";
+
+    checkBoxButton.prototype.type = 'checkbox';
+
+    checkBoxButton.prototype.icon = "checklist";
+
+    checkBoxButton.prototype.htmlTag = 'div';
+
+    checkBoxButton.prototype.disableTag = 'pre, table';
+
+    checkBoxButton.prototype._init = function () {
+      return checkBoxButton.__super__._init.call(this);
+    }
+
+
+    checkBoxButton.prototype._activeStatus = function () {
+      var active, endNode, endNodes, startNode, startNodes;
+      startNodes = this.editor.selection.startNodes();
+      endNodes = this.editor.selection.endNodes();
+      startNode = startNodes.filter('div.simditor-checkbox-wrapper');
+      endNode = endNodes.filter('div.simditor-checkbox-wrapper');
+      active = startNode.length > 0 && endNode.length > 0 && startNode.is(endNode);
+      this.node = active ? startNode : null;
+      this.setActive(active);
+      return this.active;
+    };
+
+    checkBoxButton.prototype.command = function () {
+      var $rootNodes = this.editor.selection.blockNodes();
+      this.editor.selection.save();
+      var checkbox =
+        '<div class="simditor-checkbox-item">' +
+        '<input type="checkbox" class="simditor-checkbox-input" value="" />' +
+        '</div>'
+      $rootNodes.each((function (_this) {
+        return function (i, node) {
+          var $node = $(node);
+          if ($node.is('div.simditor-checkbox-wrapper') || $node.is(_this.disableTag) || _this.editor.util.isDecoratedNode($node) || !$.contains(document, node)) {
+            return;
+          }
+          var $checkbox = $(`<div class='simditor-checkbox-wrapper'>${checkbox} ${$node.html() || _this.editor.util.phBr}</div>`);
+          return $checkbox.replaceAll($node);
+          // if ($node.is(_this.type)) {
+          //   $node.children('li').each(function (i, li) {
+          //     var $childList, $li;
+          //     $li = $(li);
+          //     $childList = $li.children('ul, ol').insertAfter($node);
+          //     return $('<p/>').append($(li).html() || _this.editor.util.phBr).insertBefore($node);
+          //   });
+          //   return $node.remove();
+          // } else if ($node.is(anotherType)) {
+          //   return $('<' + _this.type + '/>').append($node.contents()).replaceAll($node);
+          // } else if ($list && $node.prev().is($list)) {
+          //   $('<li/>').append($node.html() || _this.editor.util.phBr).appendTo($list);
+          //   return $node.remove();
+          // } else {
+          //   $list = $("<" + _this.type + "><li></li></" + _this.type + ">");
+          //   $list.find('li').append($node.html() || _this.editor.util.phBr);
+          //   return $list.replaceAll($node);
+          // }
+        };
+      })(this));
+      this.editor.selection.restore();
+      return this.editor.trigger('valuechanged');
+      // return $(document).trigger('selectionchange');
+    };
+
+    return checkBoxButton;
+
+  })(Button);
+
+  Simditor.Toolbar.addButton(checkBoxButton);
 
   return Simditor;
 

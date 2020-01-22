@@ -65,7 +65,7 @@ export const SPACE_TYPE_ICON = {
 };
 
 // simditor浏览器PC端toolbar
-const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'indent', 'outdent', 'alignment'];
+const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'checkbox', 'indent', 'outdent', 'alignment'];
 const mobileToolbar = ['title', 'bold', 'fontScale', 'ol', 'ul', 'blockquote', 'code', 'hr'];
 // simditor默认配置项
 export const simditorParams = {
