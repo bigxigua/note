@@ -5,6 +5,8 @@ import ArticleCatalog from '@components/article-catalog';
 import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
 import Simditor from '@public/editor/simditor';
+import '@public/editor/simditor-checklist';
+
 import { parseUrlQuery, checkBrowser } from '@util/util';
 import {
   fetchDocDetail,

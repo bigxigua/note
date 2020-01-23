@@ -985,26 +985,33 @@
   vertical-align: middle;
 }
 
-.simditor-checkbox-wrapper {
-  display: flex;
-  align-items: center;
+.simditor .simditor-body .simditor-checklist {
+  margin: 15px 0;
+  padding: 0 0 0 40px;
+  line-height: 1.6;
+  list-style-type: none;
 }
 
-.simditor-checkbox-item {
+.simditor .simditor-body .simditor-checklist>li {
+  margin: 0;
+  pointer-events: none;
+}
+
+.simditor .simditor-body .simditor-checklist>li::before {
+  content: '';
+  pointer-events: all;
+  display: inline-block;
+  margin: 0 5px 0 -25px;
   width: 20px;
   height: 20px;
-  cursor: pointer;
+  cursor: default;
   vertical-align: middle;
-  border: 1px solid #d9d9d9;
-  margin-right: 8px !important;
-  border-radius: 2px;
-  position: relative;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-image: url("/images/un-check-box.svg");
 }
 
-.simditor-checkbox-item>input {
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  cursor: pointer;
-  position: absolute;
+.simditor .simditor-body .simditor-checklist>li[checked]::before {
+  background-image: url("/images/check.svg");
 }
