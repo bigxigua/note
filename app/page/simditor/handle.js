@@ -81,3 +81,7 @@ export function setDraftToStorage(storageKey, key, value) {
     [`${key}`]: value
   }));
 }
+
+// 监听scroll事件
+export function onSimditorWrapperScroll() {
+}

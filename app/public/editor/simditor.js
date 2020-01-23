@@ -2030,7 +2030,7 @@
       var k, len, name, ref;
       this.buttons = [];
       // this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.wrapper);
-      this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.el);
+      this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.el.parent().parent());
       this.list = this.wrapper.find('ul');
       ref = this.opts.toolbar;
       for (k = 0, len = ref.length; k < len; k++) {
@@ -2638,7 +2638,6 @@
     Simditor.prototype._tpl = "<div class=\"simditor\">\n  <div class=\"simditor-wrapper\">\n    <div class=\"simditor-placeholder\"></div>\n    <div class=\"simditor-body\" contenteditable=\"true\">\n    </div>\n  </div>\n</div>";
 
     Simditor.prototype._render = function () {
-      // debugger;
       // TODO this.body添加drop事件
       var key, ref, results, val;
       this.el = $(this._tpl).insertBefore(this.textarea);

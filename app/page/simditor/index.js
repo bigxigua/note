@@ -19,6 +19,7 @@ import {
   getTileAndHtml,
   setDraftToStorage,
   monitorKeyupHandle,
+  onSimditorWrapperScroll,
   insertTitleInputToSimditor
 } from './handle';
 import './index.css';
@@ -68,6 +69,8 @@ export default function Page() {
       setDraftToStorage(storageKey, 'title', e.currentTarget.value);
     });
 
+    onSimditorWrapperScroll();
+
     // 启动定时更新草稿定时器(20s自动保存数据到服务端)
     // TODO 最好的做法应该是在停止输入后几秒开启定时刷新定时器。
     // const timer = setInterval(() => {
@@ -81,15 +84,12 @@ export default function Page() {
     //     console.log('error', error);
     //   }
     // }, 5000);
-
-    return () => {
-      // clearInterval(timer);
-    };
   }, []);
 
   useEffect(() => {
     renderSimditor();
     monitorKeyupHandle({ save: saveHandle, simditor: simditorInstance });
+    // TODO bind scrollwrapper scroll event add shadow
   }, []);
 
   return (
