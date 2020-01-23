@@ -6,6 +6,12 @@ import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
 import Simditor from '@public/editor/simditor';
 import '@public/editor/simditor-checklist';
+import '@public/editor/simditor-markdown';
+import '@public/editor/simditor-emoji';
+import '@public/editor/simditor-html';
+// https://github.com/mycolorway/simditor-livemd
+import '@public/editor/simditor-livemd';
+// import '@public/editor/simditor-mark';
 
 import { parseUrlQuery, checkBrowser } from '@util/util';
 import {
@@ -95,13 +101,15 @@ export default function Page() {
             docInfo={doc} />
           : null
       }
-      <div className={`simditor-content ${isMobile ? 'simditor-content_mobile' : ''}`}>
-        <textarea
-          className="simditor_textarea"
-          value={html}
-          onChange={loop}
-          id="editor" />
-        <ArticleCatalog html={html} />
+      <div className="simditor-container">
+        <div className={`simditor-content ${isMobile ? 'simditor-content_mobile' : ''}`}>
+          <textarea
+            className="simditor_textarea"
+            value={html}
+            onChange={loop}
+            id="editor" />
+          <ArticleCatalog html={html} />
+        </div>
       </div>
     </div>
   );

@@ -65,7 +65,9 @@ export const SPACE_TYPE_ICON = {
 };
 
 // simditor浏览器PC端toolbar
-const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'link', 'image', 'hr', 'checklist', 'indent', 'outdent', 'alignment'];
+// TODO markdown支持 html支持
+// simditor-mention 支持
+const toolbar = ['title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'emoji', 'link', 'image', 'hr', 'checklist', 'indent', 'outdent', 'alignment'];
 const mobileToolbar = ['title', 'bold', 'fontScale', 'ol', 'ul', 'blockquote', 'code', 'hr'];
 // simditor默认配置项
 export const simditorParams = {
@@ -82,6 +84,10 @@ export const simditorParams = {
     fileKey: 'file', // key of the file param;
     connectionCount: 1, // how many images can be uploaded simultaneously;
     leaveConfirm: 'Uploading is in progress, are you sure to leave this page?' // messages will be shown if one leave the page while file is being uploaded;
+  },
+  livemd: true,
+  emoji: {
+    imagePath: '/images/emoji/'
   },
   pasteImage: true, // Support uploading by pasting images from the clipboard. Work together with upload and only supported by Firefox and Chrome.
   cleanPaste: false // Remove all styles in paste content automatically.

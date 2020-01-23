@@ -1,6 +1,13 @@
 .simditor_page {
   width: 100%;
   background: #fafafa;
+  position: relative;
+}
+
+.simditor-container {
+  width: 100%;
+  overflow-x: scroll;
+  overflow-y: hidden;
 }
 
 .simditor-content {
@@ -8,6 +15,8 @@
   position: relative;
   background: #fafafa;
   width: 1280px;
+  height: 100%;
+  overflow-y: hidden;
 }
 
 .simditor-content_mobile {

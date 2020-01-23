@@ -964,7 +964,6 @@
     };
 
     InputManager.prototype._onKeyDown = function (e) {
-      console.log('--_onKeyDown--');
       var ref, ref1;
       if (this.editor.triggerHandler(e) === false) {
         return false;

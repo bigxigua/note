@@ -147,7 +147,18 @@
 .simditor .simditor-wrapper {
   position: relative;
   background: transparent;
+  overflow-y: scroll;
+  height: calc(100% - 40px);
+  margin-top: 50px;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
 }
+
+.simditor .simditor-wrapper::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+
 
 .simditor .simditor-wrapper>textarea {
   display: none !important;
@@ -271,16 +282,15 @@
 
 .simditor .simditor-toolbar {
   background: #fafafa;
-  min-width: 900px;
+  min-width: 1000px;
   width: 100%;
-  position: fixed;
-  left: 0;
-  top: 58px;
-  z-index: 999;
   border-top: 1px solid #eeeeee;
   border-bottom: 1px solid #eeeeee;
   display: flex;
   justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 .simditor .simditor-toolbar>ul {
@@ -686,10 +696,10 @@
 }
 
 .simditor {
-  padding-top: 42px;
   border: none;
   height: calc(100vh - 58px);
   overflow-y: scroll;
+  min-width: 1280px;
 }
 
 .simditor-mobile {
@@ -1014,4 +1024,55 @@
 
 .simditor .simditor-body .simditor-checklist>li[checked]::before {
   background-image: url("/images/check.svg");
+}
+
+.simditor .simditor-toolbar .toolbar-item-emoji span.fa {
+  color: #888;
+  font-weight: bold;
+}
+
+.simditor .simditor-toolbar .toolbar-menu-emoji {
+  width: 296px;
+}
+
+.simditor .simditor-toolbar ul.emoji-list {
+  padding: 6px 8px;
+  overflow: hidden;
+}
+
+.simditor .simditor-toolbar ul.emoji-list li {
+  float: left;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+}
+
+.simditor .simditor-toolbar ul.emoji-list li:hover {
+  background-color: #f0f0f0;
+}
+
+.simditor .simditor-toolbar ul.emoji-list img {
+  display: block;
+}
+
+.editor-style img[data-emoji],
+.simditor .simditor-body img[data-emoji] {
+  width: 26px;
+  height: 21px;
+  display: inline-block;
+  margin: 0;
+  padding: 0 3px;
+  vertical-align: text-top;
+  max-width: inherit;
+  box-shadow: none;
+  cursor: default;
+}
+
+.simditor.simditor-html .simditor-wrapper>textarea {
+  display: block !important;
+}
+
+.simditor.simditor-html .simditor-body,
+.simditor.simditor-html .simditor-placeholder {
+  display: none;
 }
