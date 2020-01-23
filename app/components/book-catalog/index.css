@@ -10,11 +10,11 @@
   background: #fafafa;
 }
 
-.BookCatalog_Item {
+.Bookcatalog-item {
   position: relative;
 }
 
-.BookCatalog_Item>.Icon {
+.Bookcatalog-item>.Icon {
   font-size: 12px;
   transition: all linear 0.2s;
   transform: rotate(-90deg);
@@ -23,7 +23,7 @@
   cursor: pointer;
 }
 
-.BookCatalog_Item_Open>.Icon {
+.Bookcatalog-item_Open>.Icon {
   transform: rotate(0deg);
   left: -14px;
   margin-top: 1px;

@@ -54,24 +54,24 @@ export default function ArticleHeader({
   }];
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
-  const classes = `Article_Header ${isMobile ? 'article_header_mobile' : ''} ${className}`;
+  const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
 
   return (
     <div className={classes}>
-      <div className="Article_Header_Wrapper">
-        <div className="Article_Header_left">
+      <div className="article-header_content">
+        <div className="article-header_left">
           {!isMobile &&
             <Link
-              className="Article_Header_title flex"
+              className="article-header_title flex"
               to="/" />}
           <Breadcrumb crumbs={isMobile ? crumbs.slice(1) : crumbs} />
-          <div className="Article_Header_Save">
+          <div className="article-header_Save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>{saveText}</span>)}
           </div>
         </div>
-        <div className="Article_Header_right">
-          {isArticlePage && <div className="Article_Header_Edit_Btn flex">
+        <div className="article-header_right">
+          {isArticlePage && <div className="article-header_Edit_Btn flex">
             <Button
               type="primary"
               content="编辑"
@@ -82,7 +82,7 @@ export default function ArticleHeader({
             disabled={updateDisabled}
             onClick={onUpdate}>更新</Button>}
           <Icon type="ellipsis"
-            className="Article_Header_Fun_Icon" />
+            className="article-header_Fun_Icon" />
         </div>
       </div>
     </div>

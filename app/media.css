@@ -97,7 +97,7 @@
 }
 
 @media screen and (max-width: 1338px) {
-    .Editormd_Wrapper>.Article_Catalog_Wrapper>.Catalog_title {
+    .Editormd_Wrapper>.article-catalog-wrapper>.catalog-title {
         padding-bottom: 23px;
         padding-top: 34px;
         line-height: normal;

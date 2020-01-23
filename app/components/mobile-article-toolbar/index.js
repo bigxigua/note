@@ -39,7 +39,7 @@ function renderCatalog(editormd, setVisible, visible) {
             onClick={onItemClick}
             className="mobile_toolbar_catalog">
             <a href={`#${item.id}`}
-              className={'Catalog_item_' + item.type}>{item.text}
+              className={'catalog-item_' + item.type}>{item.text}
             </a>
           </div>;
         })

@@ -42,10 +42,10 @@ export default function Catalog() {
         const isParenrt = item.children.length > 0;
         const isDelete = item.status === '0';
         const isEmptyNode = item.type === 'EMPTY_NODE';
-        let classes = 'Catalog_Item flex ';
-        classes += `${item.open ? 'Catalog_Item_Open' : ''} `;
-        classes += `${isParenrt ? 'Catalog_Item_Parent' : ''} `;
-        classes += `${isDelete ? 'Catalog_Item_Disabeld' : ''}`;
+        let classes = 'catalog-item flex ';
+        classes += `${item.open ? 'catalog-item_Open' : ''} `;
+        classes += `${isParenrt ? 'catalog-item_Parent' : ''} `;
+        classes += `${isDelete ? 'catalog-item_Disabeld' : ''}`;
         if (isEmptyObject(doc)) {
           return null;
         }
@@ -53,7 +53,7 @@ export default function Catalog() {
           key={item.docId}
           style={{ marginLeft: `${Math.min(item.level, 3) * 40}px` }}
           className={classes}>
-          <div className="Catalog_Item_Name flex ellipsis">
+          <div className="catalog-item_Name flex ellipsis">
             {isParenrt && <Icon
               onClick={() => { onToggleExpandCatalog(catalogTrees, item, index); }}
               type="caret-down" />}
@@ -68,7 +68,7 @@ export default function Catalog() {
                 </Link>
             }
           </div>
-          <Tooltip className="Catalog_Item_Update flex"
+          <Tooltip className="catalog-item_Update flex"
             tips="更新时间">
             {isMobile ? `${fromNow(doc.draft_update_at)}更新` : formatTimeStamp(doc.draft_update_at)}
           </Tooltip>

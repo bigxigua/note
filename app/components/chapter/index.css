@@ -89,14 +89,14 @@
 
 .Catalog {}
 
-.Catalog_Item {
+.catalog-item {
   justify-content: space-between;
   height: 42px;
   font-size: 14px;
   position: relative;
 }
 
-.Catalog_Item::after {
+.catalog-item::after {
   content: " ";
   width: 100%;
   border-bottom: 1px dashed #e8e8e8;
@@ -105,7 +105,7 @@
   right: 0;
 }
 
-.Catalog_Item_Name {
+.catalog-item_Name {
   color: #595959;
   height: 100%;
   background: #fff;
@@ -114,7 +114,7 @@
   padding-right: 4%;
 }
 
-.Catalog_Item_Update {
+.catalog-item_Update {
   color: #bfbfbf;
   background: #fff;
   position: relative;
@@ -125,32 +125,32 @@
   cursor: pointer;
 }
 
-.Catalog_Item_Parent>.Catalog_Item_Name {
+.catalog-item_Parent>.catalog-item_Name {
   font-weight: 700
 }
 
-.Catalog_Item_Parent>.Catalog_Item_Name>.Icon {
+.catalog-item_Parent>.catalog-item_Name>.Icon {
   margin-right: 4px;
   transition: all linear 0.2s;
   transform: rotate(-90deg);
   cursor: pointer;
 }
 
-.Catalog_Item_Parent>.Catalog_Item_Name>span {
+.catalog-item_Parent>.catalog-item_Name>span {
   font-weight: 700;
 }
 
-.Catalog_Item_Open>.Catalog_Item_Name>.Icon {
+.catalog-item_Open>.catalog-item_Name>.Icon {
   transform: rotate(0);
 }
 
-.Catalog_Item_Disabeld {
+.catalog-item_Disabeld {
   opacity: 0.6;
   cursor: not-allowed;
   text-decoration: line-through;
 }
 
-.Catalog_Item_Disabeld a {
+.catalog-item_Disabeld a {
   cursor: not-allowed;
 }
 

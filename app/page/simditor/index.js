@@ -93,11 +93,11 @@ export default function Page() {
   }, []);
 
   return (
-    <div className="simditor_page">
+    <div className="simditor-page">
       {
         !isMobile
           ? <ArticleHeader
-            className="simditor_header"
+            className="simditor-header"
             docInfo={doc} />
           : null
       }

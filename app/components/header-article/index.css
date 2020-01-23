@@ -1,4 +1,4 @@
-.Article_Header {
+.article-header {
     width: 100%;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .06);
     background: #ffffff;
@@ -6,7 +6,7 @@
     z-index: 11;
 }
 
-.Article_Header_Wrapper {
+.article-header_content {
     max-width: 1200px;
     height: 58px;
     will-change: margin;
@@ -17,12 +17,12 @@
     padding: 0 10px;
 }
 
-.Article_Header_Wrapper_Hide {
+.article-header_content_Hide {
     margin-top: -58px;
 }
 
-.Article_Header_left,
-.Article_Header_right {
+.article-header_left,
+.article-header_right {
     max-width: 80%;
     height: 100%;
     display: flex;
@@ -31,17 +31,17 @@
 }
 
 
-.Article_Header_left>.Breadcrumb {
+.article-header_left>.Breadcrumb {
     width: 100%;
 }
 
-.Article_Header_favicon {
+.article-header_favicon {
     width: 32px;
     height: 32px;
     border-radius: 4px;
 }
 
-.Article_Header_title {
+.article-header_title {
     display: block;
     height: 100%;
     background: url('/images/logo.jpeg') no-repeat 0 0;
@@ -52,7 +52,7 @@
     flex-shrink: 0;
 }
 
-.Article_Header_title>span {
+.article-header_title>span {
     font-size: 14px;
     font-weight: 700;
     color: #262626;
@@ -60,19 +60,19 @@
     left: -134px;
 }
 
-.Article_Header_Edit_Btn {
+.article-header_Edit_Btn {
     border-radius: 4px;
     overflow: hidden;
 }
 
-.Article_Header_Edit_Btn>.button {
+.article-header_Edit_Btn>.button {
     background: #47c479;
     color: #ffffff;
     border: 1px solid #47c479;
     border-radius: 0;
 }
 
-.Article_Header_Edit_Btn>div {
+.article-header_Edit_Btn>div {
     height: 32px;
     background: #47c479;
     display: flex;
@@ -83,13 +83,13 @@
     cursor: pointer;
 }
 
-.Article_Header_Edit_Btn>div>i {
+.article-header_Edit_Btn>div>i {
     position: relative;
     top: 1px;
     color: #ffffff;
 }
 
-.Article_Header_Fun_Icon>i {
+.article-header_Fun_Icon>i {
     font-size: 23px;
     position: relative;
     top: 1px;
@@ -97,7 +97,7 @@
     cursor: pointer;
 }
 
-.Article_Header_Fun>p {
+.article-header_Fun>p {
     width: 100%;
     height: 32px;
     line-height: 32px;
@@ -108,18 +108,18 @@
     cursor: pointer;
 }
 
-.Article_Header_Fun>p:hover {
+.article-header_Fun>p:hover {
     color: #595959;
     background: #e9f7ec;
     transition: background .3s cubic-bezier(.645, .045, .355, 1);
 }
 
-.Article_Header_right>.Popover_Wrapper>.Popover_Wrapper_Content {
+.article-header_right>.Popover_Wrapper>.Popover_Wrapper_Content {
     left: -60px;
     top: 56px;
 }
 
-.Article_Header_Save {
+.article-header_Save {
     line-height: 22px;
     font-size: 12px;
     color: #8c8c8c;

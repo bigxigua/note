@@ -152,6 +152,7 @@
   min-height: 800px;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
+  padding-bottom: 50px;
 }
 
 .simditor .simditor-wrapper::-webkit-scrollbar {
@@ -289,6 +290,8 @@
   display: flex;
   justify-content: center;
   transition: all linear 0.2s;
+  position: relative;
+  z-index: 999;
 }
 
 .simditor-toolbar>ul {

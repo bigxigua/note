@@ -78,9 +78,9 @@ export default function BookCatalog() {
   const bookCatalogJsx = catalog.map((item, index) => {
     const doc = docs.find(n => n.doc_id === item.docId) || {};
     const isParenrt = item.children.length > 0;
-    let classes = 'BookCatalog_Item flex ';
-    classes += `${item.open ? 'BookCatalog_Item_Open' : ''} `;
-    classes += `${isParenrt ? 'BookCatalog_Item_Parent' : ''} `;
+    let classes = 'Bookcatalog-item flex ';
+    classes += `${item.open ? 'Bookcatalog-item_Open' : ''} `;
+    classes += `${isParenrt ? 'Bookcatalog-item_Parent' : ''} `;
     if (isEmptyObject(doc)) {
       return null;
     }

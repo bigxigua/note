@@ -35,7 +35,7 @@
   padding-top: 60px;
 }
 
-.article_catalog>.Catalog_box>.Catalog_item {
+.article_catalog>.catalog-box>.catalog-item {
   padding-left: 14px;
   border-left: 2px solid #e8e8e8;
 }
