@@ -480,7 +480,8 @@
         h4: ['id'],
         h5: ['id'],
         font: ['color'],
-        code: ['class']
+        code: ['class'],
+        pre: ['class']
       }, this.opts.allowedAttributes);
       this._allowedStyles = $.extend({
         span: ['color', 'font-size'],
@@ -3989,7 +3990,11 @@
           if (!(nodeCache.length > 0)) {
             return;
           }
-          $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
+          // var $code = $(`<pre><code class="lang-java"></code></pre>`);
+          // $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
+          $pre = $(`<pre class="language-java" />`).insertBefore(nodeCache[0]).html($(`<code class="language-java">${_this.editor.formatter.clearHtml(nodeCache) || '<br>'}</code>`));
+          console.log('$pre:', $pre[0]);
+          console.log('nodeCache:', nodeCache);
           resultNodes.push($pre[0]);
           return nodeCache.length = 0;
         };

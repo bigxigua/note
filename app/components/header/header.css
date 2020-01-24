@@ -1,4 +1,4 @@
-.Header_Wrapper {
+.header-wrapper {
     width: 100%;
     height: 58px;
     background: #ffffff;
@@ -8,11 +8,11 @@
     will-change: margin;
 }
 
-.Header_Wrapper_Hide {
+.header-wrapper_Hide {
     margin-top: -58px;
 }
 
-.Header_container {
+.header-container {
     max-width: 1200px;
     height: 100%;
     margin: 0 auto;
@@ -21,19 +21,19 @@
     justify-content: space-between;
 }
 
-.Header_left,
-.Header_right {
+.header-left,
+.header-right {
     height: 100%;
     display: flex;
     align-items: center;
 }
 
-.Header_left {
+.header-left {
     padding-left: 12px;
     overflow: hidden;
 }
 
-.Header_left_favicon {
+.header-left_favicon {
     width: 32px;
     height: 32px;
     border-radius: 4px;

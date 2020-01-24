@@ -84,9 +84,9 @@ export default function ChapterHeader({
     }
   }
 
-  return <div className="Chapter_Header flex">
+  return <div className="chapter-header flex">
     <Breadcrumb crumbs={crumbs} />
-    <div className="Chapter_Header_Operation flex">
+    <div className="flex">
       <Button
         content="新建文档"
         loading={loading}

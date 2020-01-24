@@ -89,14 +89,14 @@
 
 .Catalog {}
 
-.catalog-item {
+.chapter-item {
   justify-content: space-between;
   height: 42px;
   font-size: 14px;
   position: relative;
 }
 
-.catalog-item::after {
+.chapter-item::after {
   content: " ";
   width: 100%;
   border-bottom: 1px dashed #e8e8e8;
@@ -105,7 +105,7 @@
   right: 0;
 }
 
-.catalog-item_Name {
+.chapter-item_name {
   color: #595959;
   height: 100%;
   background: #fff;
@@ -114,7 +114,7 @@
   padding-right: 4%;
 }
 
-.catalog-item_Update {
+.chapter-item_update {
   color: #bfbfbf;
   background: #fff;
   position: relative;
@@ -125,36 +125,36 @@
   cursor: pointer;
 }
 
-.catalog-item_Parent>.catalog-item_Name {
+.chapter-item_Parent>.chapter-item_name {
   font-weight: 700
 }
 
-.catalog-item_Parent>.catalog-item_Name>.Icon {
+.chapter-item_Parent>.chapter-item_name>.Icon {
   margin-right: 4px;
   transition: all linear 0.2s;
   transform: rotate(-90deg);
   cursor: pointer;
 }
 
-.catalog-item_Parent>.catalog-item_Name>span {
+.chapter-item_Parent>.chapter-item_name>span {
   font-weight: 700;
 }
 
-.catalog-item_Open>.catalog-item_Name>.Icon {
+.chapter-item_Open>.chapter-item_name>.Icon {
   transform: rotate(0);
 }
 
-.catalog-item_Disabeld {
+.chapter-item_Disabeld {
   opacity: 0.6;
   cursor: not-allowed;
   text-decoration: line-through;
 }
 
-.catalog-item_Disabeld a {
+.chapter-item_Disabeld a {
   cursor: not-allowed;
 }
 
-.Chapter_Header {
+.chapter-header {
   width: 100%;
   height: 58px;
   position: absolute;

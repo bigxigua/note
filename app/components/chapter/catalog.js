@@ -35,17 +35,18 @@ export default function Catalog() {
     return null;
   }
 
-  return <div className="Catalog">
+  return <div>
     {
       catalogTrees.map((item, index) => {
         const doc = docs.find(n => n.doc_id === item.docId) || {};
         const isParenrt = item.children.length > 0;
         const isDelete = item.status === '0';
         const isEmptyNode = item.type === 'EMPTY_NODE';
-        let classes = 'catalog-item flex ';
-        classes += `${item.open ? 'catalog-item_Open' : ''} `;
-        classes += `${isParenrt ? 'catalog-item_Parent' : ''} `;
-        classes += `${isDelete ? 'catalog-item_Disabeld' : ''}`;
+        let classes = 'chapter-item flex ';
+        classes += `${item.open ? 'chapter-item_Open' : ''} `;
+        classes += `${isParenrt ? 'chapter-item_Parent' : ''} `;
+        classes += `${isDelete ? 'chapter-item_Disabeld' : ''}`;
+        classes = $.trim(classes);
         if (isEmptyObject(doc)) {
           return null;
         }
@@ -53,7 +54,7 @@ export default function Catalog() {
           key={item.docId}
           style={{ marginLeft: `${Math.min(item.level, 3) * 40}px` }}
           className={classes}>
-          <div className="catalog-item_Name flex ellipsis">
+          <div className="chapter-item_name flex ellipsis">
             {isParenrt && <Icon
               onClick={() => { onToggleExpandCatalog(catalogTrees, item, index); }}
               type="caret-down" />}
@@ -68,7 +69,7 @@ export default function Catalog() {
                 </Link>
             }
           </div>
-          <Tooltip className="catalog-item_Update flex"
+          <Tooltip className="chapter-item_update flex"
             tips="更新时间">
             {isMobile ? `${fromNow(doc.draft_update_at)}更新` : formatTimeStamp(doc.draft_update_at)}
           </Tooltip>

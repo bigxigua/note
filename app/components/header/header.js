@@ -30,9 +30,9 @@ export default function Header({
   const [visible, setVisible] = useState(false);
 
   return (
-    <div className={`Header_Wrapper animated ${className}`}>
-      <div className="Header_container">
-        <div className="Header_left">
+    <div className={`header-wrapper animated ${className}`}>
+      <div className="header-container">
+        <div className="header-left">
           <Link to="/"
             className="Header_title ellipsis">
           </Link>
@@ -44,7 +44,7 @@ export default function Header({
           <Link to="/more"
             className="Header_link header_disabled Header_link_more"><Icon type="ellipsis" /></Link>
         </div>
-        <div className="Header_right">
+        <div className="header-right">
           <Popover
             className="Header_Popover_Add"
             content={popoverContent({ handle: setVisible })}>
