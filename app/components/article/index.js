@@ -68,13 +68,13 @@ export default function Article({ docInfo }) {
 
         {title && <h1>{title}</h1>}
 
-        <div className={$.trim(wrapperClasses)}></div>
+        <article className={$.trim(wrapperClasses)}></article>
 
         <FooterMeta docInfo={docInfo || {}} />
 
-        {isMobile && <MobileArticleToolbar />}
+        {isMobile && <MobileArticleToolbar html={getHtml(docInfo, content)} />}
 
-        <Footer style={{ marginTop: '100px' }} />
+        <Footer />
       </div>
       <ArticleCatalog
         className="article_catalog"

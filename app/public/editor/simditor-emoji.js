@@ -38,7 +38,7 @@
       var args;
       args = 1 <= arguments.length ? __slice.call(arguments, 0) : [];
       EmojiButton.__super__.constructor.apply(this, args);
-      $.merge(this.editor.formatter._allowedAttributes['img'], ['data-emoji', 'alt']);
+      $.merge(this.editor.formatter._allowedAttributes['img'], ['data-emoji', 'alt', 'data-non-image']);
     }
 
     EmojiButton.prototype.renderMenu = function () {

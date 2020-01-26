@@ -19,7 +19,7 @@ export default function ArticleHeader({
   const [updateDisabled, setUpdateState] = useState(true);
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
-  const isEditPage = /^\/edit|simditor\//.test(window.location.pathname);
+  const isEditPage = /^\/simditor\//.test(window.location.pathname);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const history = useHistory();
   const search = history.location.search;
@@ -55,7 +55,7 @@ export default function ArticleHeader({
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
-
+  console.log('isArticlePage:', isArticlePage);
   return (
     <div className={classes}>
       <div className="article-header_content">

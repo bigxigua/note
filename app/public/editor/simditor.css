@@ -1049,7 +1049,8 @@
 }
 
 .editor-style img[data-emoji],
-.simditor .simditor-body img[data-emoji] {
+.simditor .simditor-body img[data-emoji],
+.simditor .simditor-body img[data-non-image] {
   width: 28px;
   height: 28px;
   display: inline-block;

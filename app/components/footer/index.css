@@ -2,28 +2,38 @@
   width: 100%;
   padding: 10px 0 20px 0;
   position: relative;
+  margin-top: 32px;
 }
 
-.footer-wrapper_Tip {
+.footer-wrapper_tip {
   justify-content: center;
   flex: 1;
   font-size: 14px;
   max-width: 600px;
   margin: auto;
   padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
-.footer-wrapper_Tip>div>span {
+.footer-wrapper_tip>div>span {
   font-weight: 500;
 }
 
-.footer-wrapper_Tip>div>img {
+.footer-wrapper_tip>div>img {
   width: 40px;
   padding: 10px;
   box-sizing: content-box;
 }
 
-.footer-wrapper_Tip>span {
+.footer-wrapper_tip>span {
   color: #595959;
   padding: 0 10px;
+}
+
+.footer-icp {
+  color: #8c8c8c;
+  font-size: 12px;
+  margin-top: 4px;
 }

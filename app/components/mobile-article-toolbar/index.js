@@ -1,6 +1,5 @@
-import React, { useState, useCallback, Fragment, useContext } from 'react';
+import React, { useState, useCallback, Fragment } from 'react';
 import Icon from '@common/icon';
-import editorContext from '@context/editor/editorContext';
 import { getCatalogs } from '@util/util';
 import './index.css';
 
@@ -20,17 +19,18 @@ const actions = [{
   // }
 ];
 
-function renderCatalog(editormd, setVisible, visible) {
-  const catalogs = getCatalogs(editormd);
+function renderCatalog(html, setVisible, visible) {
+  const catalogs = getCatalogs(html);
   const classes = `mobile_catalogs-mask animated ${visible ? 'mobile_catalogs-show' : ''}`;
-  const onItemClick = function (e) {
+  const onItemClick = function () {
     setVisible(false);
   };
   return <div className={classes}>
     <div className="mobile_catalogs">
       <div className="mobile_catalogs-title">
         <span>目录</span>
-        <Icon onClick={() => { setVisible(false); }} type="close" />
+        <Icon onClick={() => { setVisible(false); }}
+          type="close" />
       </div>
       {catalogs.length === 0
         ? <div>该文档未定义目录</div> : catalogs.map(item => {
@@ -48,12 +48,11 @@ function renderCatalog(editormd, setVisible, visible) {
   </div>;
 }
 
-export default function MobileArticleToolbar() {
+export default function MobileArticleToolbar({
+  html = ''
+}) {
   // 是否显示目录
   const [visible, setVisible] = useState(false);
-
-  // editormd
-  const { editor } = useContext(editorContext);
 
   // toolbar点击事件处理函数
   const onActionClick = useCallback((item) => {
@@ -62,9 +61,12 @@ export default function MobileArticleToolbar() {
       setVisible(true);
     }
   }, []);
+
+  if (!html) return null;
+
   return (
     <Fragment>
-      {renderCatalog(editor, setVisible, visible)}
+      {renderCatalog(html, setVisible, visible)}
       <div className="mobile_toolbar">
         {
           actions.map(item => {
