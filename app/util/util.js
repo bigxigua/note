@@ -206,3 +206,11 @@ export function getCatalogs(html) {
   }
   return catalogs;
 }
+
+// 预览html，用prism转pre>code
+export function codeBeautiful(pre, Prism) {
+  if (!pre || pre.length === 0) return;
+  Array.from(pre).forEach(item => {
+    Prism.highlightElement(item);
+  });
+}

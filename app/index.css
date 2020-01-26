@@ -199,6 +199,7 @@ select {
     padding: 1px;
     border: none;
     line-height: normal !important;
+    cursor: pointer;
 }
 
 input::-ms-clear {

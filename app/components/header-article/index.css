@@ -8,6 +8,7 @@
 
 .article-header_content {
     max-width: 1200px;
+    min-width: 700px;
     height: 58px;
     will-change: margin;
     margin: 0 auto;

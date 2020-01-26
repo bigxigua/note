@@ -1,15 +1,15 @@
-.Breadcrumb_Item {
+.breadcrumb-item {
   color: #595959;
   font-size: 14px;
 }
 
-.Breadcrumb_Item>a {
+.breadcrumb-item>a {
   color: #595959;
   font-size: 14px;
   max-width: 190px;
 }
 
-.Breadcrumb_Item>span {
+.breadcrumb-item>span {
   padding: 0 8px;
   font-size: 14px;
 }

@@ -5,7 +5,9 @@ import Footer from '@components/footer';
 import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery, checkBrowser, getCatalogs } from '@util/util';
+import { parseUrlQuery, checkBrowser, getCatalogs, codeBeautiful } from '@util/util';
+import Prism from '@public/prism/prism.js';
+import '@public/prism/prism.css';
 import './index.css';
 
 const { isMobile } = checkBrowser();
@@ -19,18 +21,18 @@ function getTitle(docInfo = {}, content) {
 // 获取html内容
 function getHtml(docInfo = {}, content) {
   const html = docInfo.html_draft || docInfo.html;
-  return content === 'origin' ? docInfo.title : html;
+  return content === 'origin' ? docInfo.html : html;
 }
 
 // bind scroll事件
-function onScroll(e) {
+function onScroll() {
   // console.log(e);
 }
 
 // 计算h标签的位置信息
 function getTagHPosition(docInfo = {}, content) {
   const html = getCatalogs(getHtml(docInfo, content));
-  // $('.Article_Preview_Wrapper').scrollTop()
+  // $('.article-preview').scrollTop()
   if (Array.isArray(html) && html.length > 0) {
     html.forEach((item) => {
       console.log($(`#${item.id}`)[0].getBoundingClientRect().top);
@@ -39,15 +41,21 @@ function getTagHPosition(docInfo = {}, content) {
 }
 
 export default function Article({ docInfo }) {
-  const [classes] = useState(`Article_Preview_Wrapper ${isMobile ? 'article_preview_wrapper_m' : ''}`);
+  const [classes] = useState(`article-preview ${isMobile ? 'article-preview_mobile' : ''}`);
   const { content = 'draft' } = parseUrlQuery();
 
   useEffect(() => {
-    $('.article_html').html(getHtml(docInfo, content));
+    const html = getHtml(docInfo, content);
+    if (!html) return;
+    $('.article-html').html(html);
     getTagHPosition(docInfo, content);
+    setTimeout(() => {
+      codeBeautiful(document.querySelectorAll('pre'), Prism);
+    }, 0);
   }, [docInfo, content]);
 
   const title = getTitle(docInfo, content);
+  const wrapperClasses = `article-html ${isMobile && 'article-html_mobile'}`;
 
   return (
     <div className="Article_Wrapper">
@@ -60,7 +68,7 @@ export default function Article({ docInfo }) {
 
         {title && <h1>{title}</h1>}
 
-        <div className="article_html"></div>
+        <div className={$.trim(wrapperClasses)}></div>
 
         <FooterMeta docInfo={docInfo || {}} />
 

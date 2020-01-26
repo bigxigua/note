@@ -52,9 +52,11 @@ export default function Page() {
 
     simditor.on('valuechanged', () => {
       const content = simditor.getValue();
+      const title = $.trim($('.simditor-title>input').val());
       setHtml(content);
       // 保存内容到浏览器缓存
       setDraftToStorage(storageKey, 'content', content);
+      setDraftToStorage(storageKey, 'title', title);
     });
 
     // 保存simditor实例到context
@@ -65,8 +67,8 @@ export default function Page() {
     insertTitleInputToSimditor(docInfo, storageKey);
 
     // 监听标题输入框change设置内容到缓存
-    $('.simditor-title>input').on('input', (e) => {
-      setDraftToStorage(storageKey, 'title', e.currentTarget.value);
+    $('.simditor-title>input').on('input', () => {
+      simditor.trigger('valuechanged');
     });
 
     onSimditorWrapperScroll();
@@ -92,6 +94,8 @@ export default function Page() {
     // TODO bind scrollwrapper scroll event add shadow
   }, []);
 
+  const classes = `${isMobile ? 'simditor-container_mobile' : 'simditor-container'}`;
+
   return (
     <div className="simditor-page">
       {
@@ -101,7 +105,7 @@ export default function Page() {
             docInfo={doc} />
           : null
       }
-      <div className="simditor-container">
+      <div className={classes}>
         <div className={`simditor-content ${isMobile ? 'simditor-content_mobile' : ''}`}>
           <textarea
             className="simditor_textarea"

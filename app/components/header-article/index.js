@@ -38,7 +38,7 @@ export default function ArticleHeader({
   async function onUpdate() {
     const [error] = await update(editor);
     if (!error) {
-      // window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
+      window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
     }
   }
 
@@ -50,7 +50,7 @@ export default function ArticleHeader({
     pathname: `/spacedetail?spaceId=${spaceId}`
   }, {
     text: getIn(docInfo, ['title'], ''),
-    pathname: `/${isArticlePage ? 'article' : 'edit'}/${docId}?spaceId=${spaceId}`
+    pathname: `/${isArticlePage ? 'article' : 'simditor'}/${docId}?spaceId=${spaceId}`
   }];
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;

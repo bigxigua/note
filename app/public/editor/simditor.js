@@ -481,6 +481,7 @@
         h5: ['id'],
         font: ['color'],
         code: ['class'],
+        li: ['checked'],
         pre: ['class']
       }, this.opts.allowedAttributes);
       this._allowedStyles = $.extend({
@@ -864,7 +865,7 @@
                 formatted = true;
               }
               if (formatted) {
-                return _this.throttledValueChanged();
+                // return _this.throttledValueChanged();
               }
             }
           });
@@ -1966,6 +1967,7 @@
           return _this.list.find('.menu-on').removeClass('.menu-on');
         };
       })(this));
+      this.wrapper.addClass(this.editor.util.os.mobile ? 'simditor-toolbar_mobile' : '');
       if (!this.opts.toolbarHidden && this.opts.toolbarFloat) {
         scrollContainerOffset = this.opts.toolbarScrollContainer === window ? {
           top: 0,
@@ -1988,7 +1990,6 @@
         })(this);
         floatInitialized = null;
         $(window).on('resize.simditor-' + this.editor.id, function (e) {
-          console.log('toolbar resize change');
           return floatInitialized = initToolbarFloat();
         });
         $(this.opts.toolbarScrollContainer).on('scroll.simditor-' + this.editor.id, (function (_this) {
@@ -3967,6 +3968,7 @@
       $code = $('<code/>');
       if (lang && lang !== -1) {
         $code.addClass('lang-' + lang);
+        $pre.addClass('lang-' + lang);
       }
       return $pre.wrapInner($code).removeAttr('data-lang');
     };
@@ -3990,12 +3992,9 @@
           if (!(nodeCache.length > 0)) {
             return;
           }
-          // var $code = $(`<pre><code class="lang-java"></code></pre>`);
-          // $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
-          $pre = $(`<pre class="language-java" />`).insertBefore(nodeCache[0]).html($(`<code class="language-java">${_this.editor.formatter.clearHtml(nodeCache) || '<br>'}</code>`));
-          console.log('$pre:', $pre[0]);
-          console.log('nodeCache:', nodeCache);
+          $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
           resultNodes.push($pre[0]);
+          // 输入的时候改。
           return nodeCache.length = 0;
         };
       })(this);
@@ -4090,7 +4089,7 @@
           value: 'java'
         }, {
           name: 'JavaScript',
-          value: 'js'
+          value: 'javascript'
         }, {
           name: 'Markdown',
           value: 'markdown'

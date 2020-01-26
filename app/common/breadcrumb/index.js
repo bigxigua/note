@@ -27,7 +27,7 @@ export default function Breadcrumb(props) {
   const _crumbs_ = crumbs.filter(n => !!n.text);
   const crumbsJsx = _crumbs_.map((n, i) => {
     return (<div
-      className="Breadcrumb_Item flex ellipsis"
+      className="breadcrumb-item flex ellipsis"
       key={i}>
       {n.render ? n.render(n) : createNavLink(n)}
       {(i !== _crumbs_.length - 1) && <span>/</span>}

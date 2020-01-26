@@ -139,11 +139,6 @@
   content: '\f01e';
 }
 
-.simditor {
-  position: relative;
-  border: 1px solid #c9d8db;
-}
-
 .simditor .simditor-wrapper {
   position: relative;
   background: transparent;
@@ -209,20 +204,25 @@
 
 .simditor .simditor-body {
   padding: 2px 32px 0;
-  outline: none;
   cursor: text;
   position: relative;
   z-index: 1;
   width: 872px;
-  /* min-height: calc(100vh - 180px); */
   min-height: 1024px;
   background: #ffffff;
   margin: 0 auto;
   margin-bottom: 48px;
+  padding-bottom: 32px;
   border: 1px solid #eeeeee;
-  /* border-radius: 2px; */
   border-top: none;
   box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);
+  font-size: 16px;
+  font-family: arial, sans-serif;
+  line-height: 1.6;
+  color: #333;
+  outline: none;
+  word-wrap: break-word;
+
 }
 
 .simditor .simditor-body a.selected {
@@ -300,15 +300,13 @@
   list-style: none;
 }
 
-.simditor-mobile .simditor-toolbar {
+.simditor-toolbar_mobile {
   min-width: 100%;
   top: 0;
+  background-color: #f9f9f9;
+  border-bottom: 1px solid #d9d9d9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.08);
 }
-
-.simditor-mobile .simditor-toolbar>ul {
-  padding: 0;
-}
-
 
 .simditor-toolbar>ul>li {
   position: relative;
@@ -706,11 +704,11 @@
 .simditor-mobile {
   padding-top: 0;
   -webkit-overflow-scrolling: touch;
+  min-width: 100%;
   height: 100vh;
 }
 
 .simditor-mobile .simditor-wrapper {
-  padding-top: 40px;
   background: #fff;
 }
 
@@ -722,16 +720,6 @@
   box-shadow: none;
   border: none;
   overflow-x: hidden;
-}
-
-.simditor .simditor-body,
-.editor-style {
-  font-size: 16px;
-  font-family: arial, sans-serif;
-  line-height: 1.6;
-  color: #333;
-  outline: none;
-  word-wrap: break-word;
 }
 
 .simditor .simditor-body a,
@@ -854,7 +842,7 @@
 .editor-style ul,
 .editor-style ol {
   list-style: disc outside none;
-  margin: 15px 0;
+  margin: 12px 0;
   padding: 0 0 0 40px;
   line-height: 1.6;
 }
@@ -1021,6 +1009,8 @@
   background-repeat: no-repeat;
   background-position: center center;
   background-image: url("/images/un-check-box.svg");
+  position: relative;
+  top: -2px;
 }
 
 .simditor .simditor-body .simditor-checklist>li[checked]::before {
@@ -1054,19 +1044,16 @@
 
 .simditor-toolbar ul.emoji-list img {
   display: block;
+  width: 28px;
+  height: 28px;
 }
 
 .editor-style img[data-emoji],
 .simditor .simditor-body img[data-emoji] {
-  width: 26px;
-  height: 21px;
+  width: 28px;
+  height: 28px;
   display: inline-block;
-  margin: 0;
-  padding: 0 3px;
-  vertical-align: text-top;
-  max-width: inherit;
-  box-shadow: none;
-  cursor: default;
+  margin-bottom: 12px;
 }
 
 .simditor.simditor-html .simditor-wrapper>textarea {
@@ -1076,4 +1063,8 @@
 .simditor.simditor-html .simditor-body,
 .simditor.simditor-html .simditor-placeholder {
   display: none;
+}
+
+.simditor .code-popover {
+  cursor: pointer;
 }

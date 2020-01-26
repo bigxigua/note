@@ -151,7 +151,7 @@
       var $checkbox, checked;
       checked = !!$node.attr('checked');
       $checkbox = $('<input type="checkbox">').attr('checked', checked);
-      return $node.attr('checked', '').prepend($checkbox);
+      return $node.prepend($checkbox);
     };
 
     return ChecklistButton;

@@ -79,7 +79,7 @@
         display: none;
     }
 
-    .Article_Preview_Wrapper {
+    .article-preview {
         width: 100%;
     }
 
@@ -118,7 +118,7 @@
         display: none;
     }
 
-    .Article_Preview_Wrapper {
+    .article-preview {
         width: 100%;
     }
 }
