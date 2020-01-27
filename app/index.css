@@ -412,11 +412,11 @@ textarea {
 }
 
 #root {
-    width: 100%;
+    /* width: 100%;
     min-height: 100vh;
     overflow: hidden;
     background: #fafafa;
-    position: relative;
+    position: relative; */
 }
 
 .codemirror-mobile-textarea:focus {

@@ -81,8 +81,8 @@ export default function ArticleHeader({
             type="primary"
             disabled={updateDisabled}
             onClick={onUpdate}>更新</Button>}
-          <Icon type="ellipsis"
-            className="article-header_Fun_Icon" />
+          {/* <Icon type="ellipsis"
+            className="article-header_Fun_Icon" /> */}
         </div>
       </div>
     </div>

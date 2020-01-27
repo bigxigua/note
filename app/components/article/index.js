@@ -58,7 +58,7 @@ export default function Article({ docInfo }) {
   const wrapperClasses = `article-html ${isMobile && 'article-html_mobile'}`;
 
   return (
-    <div className="Article_Wrapper">
+    <div className="article-wrapper">
       {!isMobile && <BookCatalog />}
       <div
         className={classes}

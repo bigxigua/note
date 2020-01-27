@@ -2,8 +2,10 @@
     width: 100%;
     box-shadow: 0 2px 2px 0 rgba(0, 0, 0, .06);
     background: #ffffff;
-    position: relative;
     z-index: 11;
+    position: fixed;
+    top: 0;
+    left: 0;
 }
 
 .article-header_content {

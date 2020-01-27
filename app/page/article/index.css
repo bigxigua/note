@@ -3,9 +3,14 @@
   height: 100vh;
   background: #fff;
   overflow: hidden;
+  position: relative;
 }
 
-.Content_Wrapper {
+.article-page {
   padding: 0;
-  height: 100vh;
+  height: calc(100vh - 58px);
+  width: 100%;
+  position: fixed;
+  top: 58px;
+  left: 0;
 }

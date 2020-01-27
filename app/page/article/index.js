@@ -43,7 +43,7 @@ export default function Index() {
   return (
     <div className="article">
       {renderHeader(error, docInfo)}
-      <div className="Content_Wrapper">
+      <div className="article-page">
         {renderContent(error, docInfo)}
       </div>
     </div>
