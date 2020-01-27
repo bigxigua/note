@@ -1994,11 +1994,12 @@
         });
         $(this.opts.toolbarScrollContainer).on('scroll.simditor-' + this.editor.id, (function (_this) {
           return function (e) {
-            // var bottomEdge, scrollTop, topEdge;
-            // if (!_this.wrapper.is(':visible')) {
-            //   return;
-            // }
-            // topEdge = _this.opts.toolbarScrollContainer === window ? _this.editor.wrapper.get(0).getBoundingClientRect().top : _this.editor.wrapper.offset().top - scrollContainerOffset.top;
+            var bottomEdge, scrollTop;
+            if (!_this.wrapper.is(':visible')) {
+              return;
+            }
+            var topEdge = _this.opts.toolbarScrollContainer === window ? _this.editor.wrapper.get(0).getBoundingClientRect().top : _this.editor.wrapper.offset().top - scrollContainerOffset.top;
+            console.log('---scroll.simditor---', topEdge, _this.opts.toolbarScrollContainer);
             // bottomEdge = topEdge + _this.editor.wrapper.outerHeight() - 80;
             // scrollTop = $(_this.opts.toolbarScrollContainer).scrollTop() + _this.opts.toolbarFloatOffset;
             // if (topEdge > 0 || bottomEdge < 0) {

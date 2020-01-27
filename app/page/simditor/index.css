@@ -17,13 +17,16 @@
   position: relative;
   background: #fafafa;
   height: 100%;
-  overflow-y: hidden;
+  overflow: hidden;
   width: 1280px;
 }
 
 .simditor-content_mobile {
   width: 100%;
+  height: auto;
+  overflow: inherit;
   background: #fff;
+  margin-top: 40px;
 }
 
 .simditor_textarea {
@@ -91,5 +94,4 @@
 
 .simditor-container_mobile {
   height: 100%;
-  overflow: hidden;
 }
