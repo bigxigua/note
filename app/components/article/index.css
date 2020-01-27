@@ -156,7 +156,8 @@
   box-sizing: border-box;
 }
 
-.article-html img[data-emoji] {
+.article-html img[data-emoji],
+.article-html img[data-non-image] {
   width: 28px;
   height: 28px;
   display: inline-block;

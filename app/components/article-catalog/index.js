@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { checkBrowser, getCatalogs } from '@util/util';
 import './index.css';
 
-const { isMobile } = checkBrowser();
-
 function createCatalogsJsx(html) {
   if (!html) return null;
   return getCatalogs(html).map(p => {
@@ -25,6 +23,7 @@ export default function ArticleCatalog({
   className = ''
 }) {
   const [catalogsJsx, setCatalogsJsx] = useState(null);
+  const { isMobile } = checkBrowser();
 
   useEffect(() => {
     setCatalogsJsx(createCatalogsJsx(html));

@@ -1,0 +1,17 @@
+.float-button {
+  width: 48px;
+  height: 48px;
+  position: fixed;
+  bottom: 62px;
+  right: 18px;
+  border-radius: 50%;
+  z-index: 999;
+  background: #ffffff;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.2);
+  justify-content: center;
+}
+
+.float-button>img {
+  width: 32px;
+  height: 32px;
+}

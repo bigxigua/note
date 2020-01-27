@@ -1,6 +1,7 @@
 import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { simditorParams } from '@config/index';
 import ArticleHeader from '@components/header-article';
+import FloatButton from '@components/float-button';
 import ArticleCatalog from '@components/article-catalog';
 import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
@@ -116,6 +117,7 @@ export default function Page() {
         </div>
       </div>
       {/* 移动端保存悬浮按钮 */}
+      <FloatButton />
     </div>
   );
 }

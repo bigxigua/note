@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect } from 'react';
-import Icon from '@common/icon';
+// import Icon from '@common/icon';
 import Button from '@common/button';
 import Breadcrumb from '@common/breadcrumb';
 import { Link, useHistory } from 'react-router-dom';
@@ -55,7 +55,6 @@ export default function ArticleHeader({
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
-  console.log('isArticlePage:', isArticlePage);
   return (
     <div className={classes}>
       <div className="article-header_content">

@@ -62,8 +62,6 @@ export default function MobileArticleToolbar({
     }
   }, []);
 
-  console.log(html);
-
   if (!html) return null;
 
   return (
