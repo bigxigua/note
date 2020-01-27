@@ -1,4 +1,4 @@
-.SpaceDetail {
+.space-detail {
   position: relative;
   border-radius: 4px;
   border: 1px solid #e8e8e8;
@@ -6,7 +6,6 @@
   background: #fff;
   max-width: 1056px;
   margin: 0 auto;
-  margin-top: 32px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,25 +22,25 @@
   max-width: 1056px;
 }
 
-.space_detail_mobile {
+.space-detail_mobile {
   margin-top: 0;
 }
 
-.SpaceDetail>h1 {
+.space-detail>h1 {
   color: #262626;
   font-size: 24px;
   font-weight: 600;
   padding: 0 32px;
 }
 
-.SpaceDetail>h4 {
+.space-detail>h4 {
   font-size: 14px;
   color: #595959;
   margin-top: 12px;
   padding: 0 32px;
 }
 
-.SpaceDetail>img {
+.space-detail>img {
   width: 40px;
   height: 40px;
   border-radius: 100%;

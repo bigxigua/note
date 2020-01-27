@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import ArticleCatalog from '@components/article-catalog';
 import BookCatalog from '@components/book-catalog';
 import Footer from '@components/footer';
-import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
 import { parseUrlQuery, checkBrowser, getCatalogs, codeBeautiful } from '@util/util';
@@ -71,8 +70,6 @@ export default function Article({ docInfo }) {
         <article className={$.trim(wrapperClasses)}></article>
 
         <FooterMeta docInfo={docInfo || {}} />
-
-        {isMobile && <MobileArticleToolbar html={getHtml(docInfo, content)} />}
 
         <Footer />
       </div>

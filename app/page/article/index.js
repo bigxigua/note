@@ -4,7 +4,11 @@ import Header from '@components/header/header';
 import Article from '@components/article';
 import Mobile404 from '@common/m-404';
 import axiosInstance from '@util/axiosInstance';
+import MobileArticleToolbar from '@components/mobile-article-toolbar';
+import { checkBrowser } from '@util/util';
 import './index.css';
+
+const { isMobile } = checkBrowser();
 
 function renderHeader(error, docInfo) {
   if (error === undefined) {
@@ -43,9 +47,8 @@ export default function Index() {
   return (
     <div className="article">
       {renderHeader(error, docInfo)}
-      <div className="article-page">
-        {renderContent(error, docInfo)}
-      </div>
+      {renderContent(error, docInfo)}
+      {isMobile && <MobileArticleToolbar html={(docInfo || {}).html} />}
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default function SpaceDetail() {
 
   return (<Fragment>
     <Header className="space_detail_header" />
-    <div className={`SpaceDetail ${isMobile ? 'space_detail_mobile' : ''}`}>
+    <div className={`space-detail${isMobile ? ' space-detail_mobile' : ''}`}>
       <h1>{spaceInfo.space.name}</h1>
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}

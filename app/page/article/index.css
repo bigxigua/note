@@ -1,16 +1,7 @@
 .article {
   width: 100%;
-  height: 100vh;
+  height: 100%;
   background: #fff;
   overflow: hidden;
   position: relative;
-}
-
-.article-page {
-  padding: 0;
-  height: calc(100vh - 58px);
-  width: 100%;
-  position: fixed;
-  top: 58px;
-  left: 0;
 }

@@ -411,14 +411,6 @@ textarea {
     border-radius: 4px;
 }
 
-#root {
-    /* width: 100%;
-    min-height: 100vh;
-    overflow: hidden;
-    background: #fafafa;
-    position: relative; */
-}
-
 .codemirror-mobile-textarea:focus {
     top: -9000px;
 }
