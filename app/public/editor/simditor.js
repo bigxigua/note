@@ -1974,7 +1974,7 @@
           left: 0
         } : $(this.opts.toolbarScrollContainer).offset();
         // this.wrapper.css('top', scrollContainerOffset.top + this.opts.toolbarFloatOffset);
-        toolbarHeight = 0;
+        toolbarHeight = this.wrapper.outerHeight();
         initToolbarFloat = (function (_this) {
           return function () {
             // _this.wrapper.css('position', 'static');
@@ -1990,18 +1990,25 @@
         })(this);
         floatInitialized = null;
         $(window).on('resize.simditor-' + this.editor.id, function (e) {
+          console.log('-----resize------');
           return floatInitialized = initToolbarFloat();
         });
+        var beforeScrollTop = document.body.scrollTop;
         $(this.opts.toolbarScrollContainer).on('scroll.simditor-' + this.editor.id, (function (_this) {
           return function (e) {
-            var bottomEdge, scrollTop;
             if (!_this.wrapper.is(':visible')) {
               return;
             }
-            var topEdge = _this.opts.toolbarScrollContainer === window ? _this.editor.wrapper.get(0).getBoundingClientRect().top : _this.editor.wrapper.offset().top - scrollContainerOffset.top;
-            console.log('---scroll.simditor---', topEdge, _this.opts.toolbarScrollContainer);
-            // bottomEdge = topEdge + _this.editor.wrapper.outerHeight() - 80;
-            // scrollTop = $(_this.opts.toolbarScrollContainer).scrollTop() + _this.opts.toolbarFloatOffset;
+            // var topEdge = _this.editor.wrapper.offset().top - scrollContainerOffset.top;
+            // var topEdge = _this.editor.wrapper.offset().top - $('.simditor-page').offset().top;
+            // var bottomEdge = topEdge + _this.editor.wrapper.outerHeight() - 80;
+            // var scrollTop = $(_this.opts.toolbarScrollContainer).scrollTop() + _this.opts.toolbarFloatOffset;
+            var h = _this.wrapper.get(0).getBoundingClientRect().top;
+            if (h > 0) {
+              h = 4;
+            }
+            _this.wrapper.css('top', Math.abs(h) - 4);
+            console.log('----scroll------', _this.wrapper.get(0).getBoundingClientRect().top);
             // if (topEdge > 0 || bottomEdge < 0) {
             //   _this.editor.wrapper.removeClass('toolbar-floating').css('padding-top', '');
             //   if (_this.editor.util.os.mobile) {
@@ -2011,7 +2018,8 @@
             //   floatInitialized || (floatInitialized = initToolbarFloat());
             //   _this.editor.wrapper.addClass('toolbar-floating').css('padding-top', toolbarHeight);
             //   if (_this.editor.util.os.mobile) {
-            //     return _this.wrapper.css('top', scrollTop - topEdge + _this.opts.toolbarFloatOffset);
+            //     console.log('--1111111-', scrollTop);
+            //     return _this.wrapper.css('top', Math.max(0, scrollTop - topEdge + _this.opts.toolbarFloatOffset));
             //   }
             // }
           };

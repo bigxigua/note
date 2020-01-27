@@ -92,6 +92,4 @@
   width: calc(100% - 16px);
 }
 
-.simditor-container_mobile {
-  height: 100%;
-}
+.simditor-container_mobile {}

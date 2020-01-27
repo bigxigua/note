@@ -74,7 +74,7 @@ export const simditorParams = {
   // placeholder: '',
   toolbar: isMobile ? mobileToolbar : toolbar,
   toolbarFloat: true, // Fixed the toolbar on the top of the browser when scrolling.
-  toolbarFloatOffset: 58, // Top offset of the toolbar when fixed
+  toolbarFloatOffset: 0, // Top offset of the toolbar when fixed
   toolbarHidden: false, // Hide the toolbar. Can not work together with `toolbarFloat`.
   defaultImage: '/images/book.png', // Default image placeholder. Used when inserting pictures in Simditor.
   tabIndent: true, // Use 'tab' key to make an indent.
