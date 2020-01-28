@@ -1,16 +1,16 @@
-.Content {
+.content {
   width: calc(100% - 206px);
   max-width: calc(100% - 20%);
 }
 
-.Container {
+.container {
   width: 100%;
   height: 100%;
   overflow-y: scroll;
   background: #fafafa;
 }
 
-.Content_Wrapper_Index {
+.content-wrapper_index {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;

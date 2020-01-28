@@ -11,12 +11,12 @@ export default function PageLayout({
 }) {
   return (
     <div
-      className={`Container ${className}`}
+      className={`container ${className}`}
       style={style}>
       <Header />
-      <div className="Content_Wrapper_Index">
+      <div className="content-wrapper_index">
         <SiderBarLayout />
-        <div className="Content">
+        <div className="content">
           {content}
         </div>
       </div>

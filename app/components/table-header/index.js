@@ -58,7 +58,7 @@ export default function TableHeader({
   const Overlay = <List
     list={types}
     onTap={onListItemClick} />;
-  const tableHeaderClasses = 'TableHeader flex ';
+  const tableHeaderClasses = 'table-header flex ';
 
   // 移动端渲染条目
   if (isMobile) {

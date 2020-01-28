@@ -9,7 +9,7 @@
 }
 
 .article-header_content {
-    max-width: 1200px;
+    max-width: 1400px;
     min-width: 700px;
     height: 58px;
     will-change: margin;
@@ -65,7 +65,6 @@
 
 .article-header_Edit_Btn {
     border-radius: 4px;
-    overflow: hidden;
 }
 
 .article-header_Edit_Btn>.button {

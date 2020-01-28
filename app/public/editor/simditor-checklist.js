@@ -148,6 +148,7 @@
     };
 
     ChecklistButton.prototype._undecorate = function ($node) {
+      console.log(1111);
       var $checkbox, checked;
       checked = !!$node.attr('checked');
       $checkbox = $('<input type="checkbox">').attr('checked', checked);

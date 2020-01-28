@@ -1,10 +1,11 @@
 .docItem {
   height: 136px;
   color: #8c8c8c;
-  padding: 16px;
+  padding: 12px;
   position: relative;
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
   border-bottom: 1px solid #e8e8e8;
 }
 
@@ -74,7 +75,7 @@
 }
 
 .docItem_meta>span:last-child {
-  margin-left: 8px;
+  /* margin-left: 8px; */
 }
 
 .docItem_meta>span:nth-child(2) {

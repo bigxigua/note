@@ -54,13 +54,13 @@ export default function Table(props) {
     );
   });
   return (
-    <div className="Table_Wrapper">
-      <table className={`Table ${className}`}>
+    <div>
+      <table className={`table ${className}`}>
         <colgroup>{colgroup}</colgroup>
         <thead>
-          <tr className="Table_Header">{header}</tr>
+          <tr className="table-header">{header}</tr>
         </thead>
-        <tbody className="Table_Tbody">{tbody}</tbody>
+        <tbody className="table-tbody">{tbody}</tbody>
       </table>
       {pagination && <Pagination {...pagination} />}
     </div>

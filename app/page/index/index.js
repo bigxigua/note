@@ -10,7 +10,7 @@ export default function Index() {
   return (
     <div className="Container">
       <Header />
-      <div className="Content_Wrapper_Index">
+      <div className="content-wrapper_index">
         <SiderBarLayout />
         <ContentLayout />
         <RightPanelLayout />

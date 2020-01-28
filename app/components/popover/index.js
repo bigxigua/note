@@ -102,7 +102,7 @@ export default function Popover({
       ref={wrapperRef}>
       {children}
       {ReactDOM.createPortal(
-        <div className="Popover_Wrapper_Box animated">
+        <div className="popover-wrapper_box animated">
           <div ref={contentRef}
             className="Popover_Wrapper_Content"
             style={style}>

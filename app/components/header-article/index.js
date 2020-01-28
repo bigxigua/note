@@ -56,7 +56,7 @@ export default function ArticleHeader({
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
   return (
-    <div className={classes}>
+    <div className={$.trim(classes)}>
       <div className="article-header_content">
         <div className="article-header_left">
           {!isMobile &&

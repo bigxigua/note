@@ -11,7 +11,7 @@
 
 .article-preview {
   width: calc(100% - 224px);
-  max-width: 850px;
+  max-width: 1160px;
   height: 100%;
   flex-shrink: 0;
   background-color: #fff;
@@ -37,12 +37,7 @@
   padding-top: 60px;
 }
 
-.article_catalog>.catalog-box>.catalog-item {
-  padding-left: 14px;
-  border-left: 2px solid #e8e8e8;
-}
-
-.Footer_Meta {
+.footer-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -51,20 +46,20 @@
   border-top: 1px solid #e8e8e8;
 }
 
-.Footer_Meta_Item {
+.footer-meta_Item {
   display: flex;
   align-items: center;
   color: #8c8c8c;
   font-size: 14px;
 }
 
-.Footer_Meta_Item>.Icon {
+.footer-meta_Item>.Icon {
   margin-right: 7px;
   position: relative;
-  top: 1px;
+  top: 2px;
 }
 
-.Footer_Meta_Item:first-child>span {
+.footer-meta_Item:first-child>span {
   max-width: 120px;
 }
 

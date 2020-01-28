@@ -1,5 +1,5 @@
 @media screen and (max-width: 800px) {
-    .SiderBar_Layout {
+    .siderbar-layout {
         display: none;
     }
 
@@ -8,19 +8,19 @@
         max-width: 100%;
     }
 
-    .space>.Content_Wrapper_Index {
+    .space>.content-wrapper_index {
         padding-left: 0;
         padding-right: 0;
         padding-top: 0;
     }
 
-    .docs>.Content_Wrapper_Index {
+    .docs>.content-wrapper_index {
         padding-left: 0;
         padding-right: 0;
         padding-top: 0;
     }
 
-    .Space_Table {
+    .space-table {
         border: none;
     }
 
@@ -75,7 +75,7 @@
 }
 
 @media screen and (max-width: 600px) {
-    .BookCatalog_Wrapper {
+    .bookcatalog-wrapper {
         display: none;
     }
 
@@ -87,7 +87,7 @@
 
 /* 450以下为mobile */
 @media screen and (max-width: 450px) {
-    .SpacBookCatalog_Wrappere_Operation_Icon {
+    .Spacbookcatalog-wrappere_Operation_Icon {
         display: none;
     }
 
@@ -114,7 +114,7 @@
 
 /* 文章页面/article/ 隐藏左侧目录 */
 @media screen and (max-width: 1000px) {
-    .BookCatalog_Wrapper {
+    .bookcatalog-wrapper {
         display: none;
     }
 

@@ -127,7 +127,7 @@ export default function Space() {
     title: '归属',
     key: 'space',
     render: (info) => {
-      return <div>{info.space && info.space.name}</div>;;
+      return <div>{info.space && info.space.name}</div>; ;
     }
   }, {
     title: '最后编辑',
@@ -226,7 +226,7 @@ export default function Space() {
         {renderDoclistsForMobile(dataSource, loading)}
         {!isMobile && <Table
           dataSourceKey={'id'}
-          className="Space_Table"
+          className="space-table"
           columns={columns}
           pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
           dataSource={pagingDataSource()} />}

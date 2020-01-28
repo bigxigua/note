@@ -71,8 +71,8 @@ export default function BookCatalog() {
 
   const { docs, catalog } = bookCatalog;
   if (loading.current) {
-    return <div className="BookCatalog_Wrapper"></div>;
-    // return <div className="BookCatalog_Wrapper"><CatalogSkeleton /></div>;
+    return <div className="bookcatalog-wrapper"></div>;
+    // return <div className="bookcatalog-wrapper"><CatalogSkeleton /></div>;
   }
 
   const bookCatalogJsx = catalog.map((item, index) => {
@@ -95,8 +95,10 @@ export default function BookCatalog() {
     </div>;
   });
   return (
-    <div className="BookCatalog_Wrapper">
-      {bookCatalogJsx}
-    </div>
+    <nav className="bookcatalog-wrapper">
+      <div className="bookcatalog-content">
+        {bookCatalogJsx}
+      </div>
+    </nav>
   );
 };

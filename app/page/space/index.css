@@ -1,13 +1,16 @@
 .Space_Content {
-	width: 100%;
+  width: 100%;
 }
-.Space_Table{
-	width: 100%;
+
+.space-table {
+  width: 100%;
 }
-.Space_Table_Tags{
-	position: relative;
-	display: inline-block;
+
+.Space_Table_Tags {
+  position: relative;
+  display: inline-block;
 }
-.Space_Table_Tags>.Tag{
-	margin-right: 6px;
+
+.Space_Table_Tags>.Tag {
+  margin-right: 6px;
 }

@@ -34,14 +34,22 @@
     font-size: 12px;
     color: #595959;
     padding: 4px 0;
+    padding-left: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
     cursor: pointer;
+    border-left: 2px solid #e8e8e8;
+    transition: all linear 0.2s;
+}
+
+.catalog-item__active {
+    border-left: 2px solid #25b864;
+    color: #25b864;
 }
 
 .catalog-item:hover {
-    color: #1890FF;
+    color: #25b864;
 }
 
 .catalog-item>span {

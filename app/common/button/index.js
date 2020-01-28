@@ -1,10 +1,8 @@
 import React from 'react';
 import Icon from '@common/icon';
-// import { useHistory } from 'react-router-dom';
 import './index.css';
 
 export default function Button(props) {
-  // const history = useHistory();
   const {
     icon, // 按钮图标
     children,
@@ -18,7 +16,7 @@ export default function Button(props) {
     style = {}
   } = props;
   const typeClassName = {
-    default: 'Button_default',
+    default: '',
     primary: 'Button_primary',
     dashed: 'Button_dash',
     danger: 'Button_danger'
@@ -36,7 +34,6 @@ export default function Button(props) {
         window.location.href = to;
       } else {
         window.location.href = `/${link.to}`;
-        // history.push(link.to);
       }
     }
     onClick();
@@ -45,7 +42,7 @@ export default function Button(props) {
     <button
       style={style}
       onClick={onButtonClick}
-      className={`Button flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`}>
+      className={$.trim(`Button button_particle flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
       {icon && <Icon type={icon} />}
       {loading && <Icon className="Button_loading_Icon"
         type={'loading'} />}

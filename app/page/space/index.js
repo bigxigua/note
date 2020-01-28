@@ -54,7 +54,7 @@ export default function Docs() {
         <TableHeader onSomeThingClick={onSomeThingClick} />
         <Table
           dataSourceKey={'id'}
-          className="Space_Table"
+          className="space-table"
           columns={columns}
           pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
           dataSource={dataSource} />

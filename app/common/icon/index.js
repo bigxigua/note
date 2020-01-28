@@ -3,7 +3,7 @@ import './index.css';
 // copy by antd icons
 export default function Icon(props) {
   const {
-    onClick = () => {}
+    onClick = () => { }
   } = props;
   const icons = {
     search: <i aria-label="图标: search"><svg viewBox="64 64 896 896"
@@ -200,7 +200,7 @@ export default function Icon(props) {
   return (
     <div
       onClick={onClick}
-      className={`Icon ${props.className || ''}`}>
+      className={$.trim(`Icon ${props.className || ''}`)}>
       {icons[props.type]}
     </div>
   );
