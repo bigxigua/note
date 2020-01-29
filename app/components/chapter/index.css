@@ -4,7 +4,7 @@
   max-width: 90%;
 }
 
-.Chapter_Drop_Box {
+.chapter-drop__box {
   margin: 0 auto;
   position: relative;
 }
@@ -44,18 +44,18 @@
   margin-right: 4px;
 }
 
-.chapter_item_info {
+.chapter-item__info {
   color: #bfbfbf;
   font-size: 12px;
   display: flex;
   align-items: center;
 }
 
-.chapter_item_setting {
+.chapter-item__setting {
   cursor: pointer;
 }
 
-.chapter_item_setting>.Icon {
+.chapter-item__setting>.Icon {
   font-size: 20px;
   margin-left: 4px;
   top: 3px;
@@ -165,6 +165,6 @@
   border-bottom: 1px solid #e8e8e8;
 }
 
-.Chapter_Item_Disabled {
+.chapter-item__disabled {
   text-decoration: line-through;
 }

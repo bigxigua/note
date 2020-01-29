@@ -4,7 +4,7 @@ import BookCatalog from '@components/book-catalog';
 import Footer from '@components/footer';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery, checkBrowser, getCatalogs, codeBeautiful } from '@util/util';
+import { parseUrlQuery, checkBrowser, getCatalogs, codeBeautiful, debunce } from '@util/util';
 import Prism from '@public/prism/prism.js';
 import '@public/prism/prism.css';
 import './index.css';
@@ -29,12 +29,12 @@ function onScroll(html) {
   let windowScrollTop = $(window).scrollTop();
   let position = 'up';
 
-  $(window).on('scroll', () => {
+  const handle = debunce(() => {
     let curTarget = null;
     const arr = [];
-    // TODO throttle
     for (let i = 0, len = catalogs.length; i < len; i++) {
       const id = catalogs[i].id;
+      if (!id || !$(`#${id}`).length) return;
       const offsetTop = $(`#${id}`).offset().top - $(document).scrollTop() - 58;
       const curWindowScrollTop = $(window).scrollTop();
       if (curWindowScrollTop - windowScrollTop > 0) {
@@ -45,51 +45,54 @@ function onScroll(html) {
       arr.push({ top: offsetTop, id });
       windowScrollTop = curWindowScrollTop;
     };
+
+    if (!arr.length) return;
+
     if (position === 'up') {
-      // 1. 无负值时，取最小
-      // 2. 有负值时，取负值里最大的
-      if (arr.every(n => n.top >= 0)) {
+      if (arr.every(n => n.top > 0)) {
         curTarget = arr[0].id;
       } else {
-        curTarget = arr.filter(n => n.top < 0).slice(0).pop().id;
+        curTarget = (arr.filter(n => n.top >= 0)[0] || arr.slice(0).pop()).id;
       }
     } else {
-      // 1. 全负取最大
-      // 2. 非全负取正数里最小
-      if (arr.every(n => n.top <= 0)) {
+      if (arr.every(n => n.top < 0)) {
         curTarget = arr[arr.length - 1].id;
       } else {
-        curTarget = arr.filter(n => n.top > 0).slice(0)[0].id;
+        curTarget = arr.filter(n => n.top >= 0)[0].id;
       }
     }
     $('.catalog-item').removeClass('catalog-item__active');
     $(`.catalog-item_${curTarget}`).addClass('catalog-item__active');
-  });
+  }, 100);
+
+  $(window).on('scroll', handle);
 }
 
 // 获取url-hash，滚动到对应元素位置
 function scrollToElement() {
   const id = window.location.hash.split('#')[1] || '';
-  if (!id || $(`#${id}`).length === 0) return;
+  if (!id || $(`#${id}`).length === 0) {
+    $('html, body').scrollTop(0);
+    return;
+  };
   $('html, body').animate({
     scrollTop: $(`#${id}`).offset().top - 58
   }, 400);
 }
 
-export default function Article({ docInfo }) {
+export default function Article({ docInfo = {} }) {
   const [classes] = useState(`article-preview ${isMobile ? 'article-preview_mobile' : ''}`);
   const { content = 'draft' } = parseUrlQuery();
 
   useEffect(() => {
     const html = getHtml(docInfo, content);
-    if (!html) return;
-    $('.article-html').html(html);
+    $('.article-html').html(String(html));
     setTimeout(() => {
-      codeBeautiful(document.querySelectorAll('pre'), Prism);
+      codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
       scrollToElement();
       onScroll(html);
     }, 0);
-  }, [docInfo, content]);
+  }, [docInfo.doc_id, content]);
 
   const title = getTitle(docInfo, content);
   const wrapperClasses = `article-html ${isMobile ? 'article-html_mobile' : ''}`;

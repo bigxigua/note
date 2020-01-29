@@ -6,6 +6,7 @@
   background: #fff;
   max-width: 1056px;
   margin: 0 auto;
+  margin-top: 16px;
   display: flex;
   flex-direction: column;
   align-items: center;

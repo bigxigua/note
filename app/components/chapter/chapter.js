@@ -111,14 +111,14 @@ export default function Chapter() {
     return <div
       {...provided.droppableProps}
       ref={provided.innerRef}
-      className="Chapter_Drop_Box"
+      className="chapter-drop__box"
     >
       <InsertCatalog position={tocStyle} />
       {state.items.map((item, index) => {
         const docInfo = docs.find(n => n.doc_id === item.docId) || {};
         let classes = `Chapter_Item Chapter_Item_${item.docId}`;
         classes += ` Chapter_Item_${Math.min(item.level, 3)}`;
-        classes += `${docInfo.status === '0' ? ' Chapter_Item_Disabled' : ''}`;
+        classes += `${docInfo.status === '0' ? ' chapter-item__disabled' : ''}`;
         if (isEmptyObject(docInfo)) {
           return null;
         }
@@ -132,7 +132,7 @@ export default function Chapter() {
               onClick={() => { onDragItemClick(item, index, state.items); }}
               className={classes}
               data-tbid={item.docId}
-              data-offset={Math.min(item.level, 3)}
+              data-offset={Math.min(item.level, 3) || 0}
               ref={provided.innerRef}
               {...provided.draggableProps}
               {...provided.dragHandleProps}
@@ -142,10 +142,10 @@ export default function Chapter() {
                 {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
               </h3>
-              <div className="chapter_item_info">
+              <div className="chapter-item__info">
                 <span>{fromNow(docInfo.updated_at_timestamp)}更新</span>
                 <Popover
-                  className="chapter_item_setting"
+                  className="chapter-item__setting"
                   content={<List
                     style={{ boxShadow: 'none', padding: 0 }}
                     onTap={(info, index, event) => { onPopoverItemClick(info, docInfo, event, catalog); }}

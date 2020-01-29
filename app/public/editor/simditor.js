@@ -845,7 +845,7 @@
             _this.editor.formatter.format();
             _this.editor.selection.restore();
           }
-          // 加id属性。
+          // 加id属性。无id添加随机id，有id则
           _this.editor.body.find('h1, h2, h3, h4, h5').each(function (i, el) {
             if (!el.id) {
               el.setAttribute('id', _this.editor.util.randomString(10))
@@ -1990,7 +1990,6 @@
         })(this);
         floatInitialized = null;
         $(window).on('resize.simditor-' + this.editor.id, function (e) {
-          console.log('-----resize------');
           return floatInitialized = initToolbarFloat();
         });
         var beforeScrollTop = document.body.scrollTop;
@@ -2008,7 +2007,7 @@
               h = 4;
             }
             _this.wrapper.css('top', Math.abs(h) - 4);
-            console.log('----scroll------', _this.wrapper.get(0).getBoundingClientRect().top);
+            // console.log('----scroll------', _this.wrapper.get(0).getBoundingClientRect().top);
             // if (topEdge > 0 || bottomEdge < 0) {
             //   _this.editor.wrapper.removeClass('toolbar-floating').css('padding-top', '');
             //   if (_this.editor.util.os.mobile) {
@@ -2399,6 +2398,12 @@
             pasteContent = $('<div/>').append(_this._pasteBin.contents());
             pasteContent.find('style').remove();
             pasteContent.find('table colgroup').remove();
+            var hTag = pasteContent.find('h1,h2,h3,h4,h5');
+            if (hTag.length > 0) {
+              hTag.each(function (item, i) {
+                $(i).attr('id', _this.editor.util.randomString(10))
+              });
+            }
             _this._cleanPasteFontSize(pasteContent);
             _this.editor.formatter.format(pasteContent);
             _this.editor.formatter.decorate(pasteContent);

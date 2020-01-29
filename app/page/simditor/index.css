@@ -36,6 +36,7 @@
 .simditor-header {
   box-shadow: none;
   position: relative;
+  border-bottom: 1px solid #eeeeee;
 }
 
 .simditor-title {

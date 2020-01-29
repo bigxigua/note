@@ -26,7 +26,7 @@ export default function Tooltip({
     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
     // 窗口宽度
     const bodyWidth = document.body.getBoundingClientRect().width;
-    let l = left - contentWidth / 2 + 5;
+    let l = left + width / 2 - contentWidth / 2 + 5;
     const h = top + scrollTop - contentHeight - height;
 
     if (l < 10) { l = 10; }

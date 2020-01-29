@@ -30,6 +30,7 @@ export default function ArticleCatalog({
     $('html, body').animate({
       scrollTop: $(`#${id}`).offset().top - 58
     }, 400);
+    window.location.hash = id;
   }, []);
 
   useEffect(() => {

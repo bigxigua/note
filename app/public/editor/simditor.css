@@ -204,6 +204,7 @@
 
 .simditor .simditor-body {
   padding: 2px 32px 0;
+  padding-bottom: 64px;
   cursor: text;
   position: relative;
   z-index: 1;
@@ -212,7 +213,6 @@
   background: #ffffff;
   margin: 0 auto;
   margin-bottom: 48px;
-  padding-bottom: 32px;
   border: 1px solid #eeeeee;
   border-top: none;
   box-shadow: 0 2px 8px rgba(115, 115, 115, 0.08);
@@ -285,7 +285,6 @@
   background: #fff;
   min-width: 1280px;
   width: 100%;
-  border-top: 1px solid #eeeeee;
   border-bottom: 1px solid #eeeeee;
   display: flex;
   justify-content: center;
