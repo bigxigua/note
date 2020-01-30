@@ -1,7 +1,7 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import RecentContent from '@components/recent-content';
 import Empty from '@common/empty';
-import Icon from '@common/icon';
+import Loading from '@common/loading';
 import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
@@ -28,21 +28,12 @@ export default function RecentContentLayout() {
     setRecentLists(list);
   }, [recentLists]);
 
-  if (loading) {
-    return <div className="recent_loading">
-      <Icon type="loading" />
-      <span>正在加载...</span>
-    </div>;
-  }
-
-  if (recentLists.length === 0) {
-    return <Empty />;
-  }
-
   return (
-    <div className="Recent_Content_Layout">
-      {
-        recentLists.map(n => {
+    <div className="recent-content__layout">
+      <Loading show={loading} />
+      {recentLists.length === 0
+        ? <Empty />
+        : recentLists.map(n => {
           return (
             <Fragment key={n.id}>
               <RecentContent {...n}

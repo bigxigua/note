@@ -897,6 +897,7 @@
 .simditor .simditor-body blockquote> :first-child,
 .editor-style blockquote> :first-child {
   margin-top: 0;
+  margin-left: 5px !important;
 }
 
 .simditor .simditor-body code,

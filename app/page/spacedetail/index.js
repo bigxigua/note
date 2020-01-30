@@ -37,11 +37,17 @@ export default function SpaceDetail() {
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}
         alt="头像" />
-      {loading
-        ? <Loading className="space_detail_loading" />
+      <Loading show={loading}
+        className="space-detail__loading" />
+      <ChapterWrapper
+        userInfo={userInfo}
+        spaceInfo={spaceInfo} />
+      {/* {loading
+        ? <Loading show={loading}
+          className="space-detail__loading" />
         : <ChapterWrapper
           userInfo={userInfo}
-          spaceInfo={spaceInfo} />}
+          spaceInfo={spaceInfo} />} */}
     </div>
     <Footer />
   </Fragment>);

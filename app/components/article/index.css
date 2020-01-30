@@ -295,3 +295,35 @@
 .article-preview_mobile .footer-wrapper {
   margin-bottom: 32px;
 }
+
+.article-html pre {
+  position: relative;
+}
+
+.article-html pre:hover>.code-tooltip {
+  display: block;
+}
+
+.code-tooltip {
+  position: absolute;
+  right: 0;
+  top: -4px;
+  padding: 2px;
+  transform: translateY(-100%);
+  display: none;
+}
+
+.code-tooltip__item {
+  width: 42px;
+  height: 40px;
+  border: 1px solid rgba(226, 226, 226, 0.84);
+  box-shadow: 0px 2px 4px 0px rgba(225, 225, 225, 0.5);
+  background: #fff;
+  justify-content: center;
+  cursor: pointer;
+  border-radius: 2px;
+}
+
+.code-tooltip__item-tooltip>img {
+  width: 26px;
+}

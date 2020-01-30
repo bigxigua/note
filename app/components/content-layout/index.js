@@ -8,8 +8,8 @@ import './index.css';
 export default function ContentLayout() {
   const [visible, setVisible] = useState(false);
   return (
-    <div className="Content_Layout">
-      <div className="Content_Layout_Head">
+    <div className="content-layout">
+      <div className="content-layout__head">
         <div className="content-recent-edit">最近编辑</div>
         <MobileNav />
         <Button onClick={() => { setVisible(true); }}>新建文档</Button>

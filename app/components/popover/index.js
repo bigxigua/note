@@ -95,7 +95,7 @@ export default function Popover({
     };
   }, []);
   return (
-    <div className={`Popover_Wrapper ${className}`}
+    <div className={$.trim(`Popover_Wrapper ${className}`)}
       tabIndex="1"
       onClick={onBindClick}
       onBlur={onBlur}

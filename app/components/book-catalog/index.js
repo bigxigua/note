@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 import Icon from '@common/icon';
 import Tooltip from '@common/tooltip';
-import CatalogSkeleton from '@components/catalog-skeleton';
+// import CatalogSkeleton from '@components/catalog-skeleton';
 import axiosInstance from '@util/axiosInstance';
 import { NavLink } from 'react-router-dom';
 import { parseUrlQuery, getIn, isEmptyObject } from '@util/util';

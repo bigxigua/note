@@ -1,4 +1,4 @@
-.Recent_Content {
+.recent-content {
   width: 100%;
   background: #ffffff;
   border-radius: 2px;
@@ -13,43 +13,43 @@
   box-sizing: border-box;
 }
 
-.recent_content_point {
+.recent-content__point {
   cursor: pointer;
 }
 
-.Recent_Content:hover {
+.recent-content:hover {
   box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
 }
 
-.Recent_Content_Left {
+.recent-content__left {
   display: flex;
   align-items: center;
   max-width: 80%;
 }
 
-.Recent_Content_Left>img {
+.recent-content__left>img {
   width: 29px;
 }
 
-.Recent_Content_Left_Info {
+.recent-content__left_Info {
   margin-left: 10px;
   max-width: calc(100% - 30px);
 }
 
-.Recent_Content_Left_Info>p {
+.recent-content__left_Info>p {
   color: #262626;
   font-size: 14px;
   max-width: 100%;
   font-weight: 600;
 }
 
-.Recent_Content_Left_Info>span {
+.recent-content__left_Info>span {
   font-size: 12px;
   color: #8c8c8c;
   margin-right: 14px;
 }
 
-.Recent_Content_Right {
+.recent-content__right {
   display: flex;
   align-items: center;
   justify-content: flex-end;
@@ -57,12 +57,12 @@
   flex-shrink: 0;
 }
 
-.Recent_Content_Item {
+.recent-content__item {
   margin-left: 20px;
   cursor: pointer;
 }
 
-.Recent_Content_Item_Img {
+.recent-content__item_Img {
   width: 20px;
   height: 20px;
   cursor: pointer;

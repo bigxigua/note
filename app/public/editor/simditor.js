@@ -3984,6 +3984,7 @@
         $code.addClass('lang-' + lang);
         $pre.addClass('lang-' + lang);
       }
+      console.log(111);
       return $pre.wrapInner($code).removeAttr('data-lang');
     };
 
@@ -4007,7 +4008,9 @@
             return;
           }
           $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
+          // $pre.wrapInner($('<code class="language-javascript" />'));
           resultNodes.push($pre[0]);
+          // console.log($pre.get(0), _this.editor.formatter.clearHtml(nodeCache));
           // 输入的时候改。
           return nodeCache.length = 0;
         };

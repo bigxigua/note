@@ -13,10 +13,9 @@
   overflow-x: hidden;
 }
 
-.space_detail_loading {
-  top: 40px;
-  padding-bottom: 40px;
-  background: gray;
+.space-detail__loading {
+  /* top: 40px; */
+  /* padding-bottom: 40px; */
 }
 
 .space_detail_header .header-container {

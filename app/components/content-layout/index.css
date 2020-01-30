@@ -1,9 +1,9 @@
-.Content_Layout {
+.content-layout {
   flex: 1;
   overflow: hidden;
 }
 
-.Content_Layout_Head {
+.content-layout__head {
   height: 32px;
   display: flex;
   align-items: center;
@@ -17,7 +17,7 @@
   font-size: 14px;
 }
 
-.Recent_Content_Layout {
+.recent-content__layout {
   width: 100%;
 }
 

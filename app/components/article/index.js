@@ -4,7 +4,8 @@ import BookCatalog from '@components/book-catalog';
 import Footer from '@components/footer';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery, checkBrowser, getCatalogs, codeBeautiful, debunce } from '@util/util';
+import { parseUrlQuery, checkBrowser, getCatalogs, debunce } from '@util/util';
+import { codeBeautiful } from './handle';
 import Prism from '@public/prism/prism.js';
 import '@public/prism/prism.css';
 import './index.css';
@@ -64,7 +65,7 @@ function onScroll(html) {
     $('.catalog-item').removeClass('catalog-item__active');
     $(`.catalog-item_${curTarget}`).addClass('catalog-item__active');
   }, 100);
-
+  $(window).off('scroll');
   $(window).on('scroll', handle);
 }
 

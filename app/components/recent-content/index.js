@@ -91,7 +91,7 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
       return <Icon
         key={n}
         onClick={(e) => { handleClick({ key: 'editor' }, props, history); e.stopPropagation(); }}
-        className="Recent_Content_Item"
+        className="recent-content__item"
         type="edit" />;
     } else if (n === 'management') {
       return <Link
@@ -128,8 +128,8 @@ export default function RecentContent(props) {
   const title = getIn(props[info.key], [info.key === 'space' ? 'name' : 'title'], doc_title);
   const isDeleteAction = ['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(type);
   const spaceUrl = `spacedetail?spaceId=${space.space_id}`;
-  let classes = 'Recent_Content ';
-  classes += `${!isDeleteAction ? 'recent_content_point' : ''} `;
+  let classes = 'recent-content ';
+  classes += `${!isDeleteAction ? 'recent-content__point' : ''} `;
   // 如果当前文档已被删除，则不展示之前的操作记录
   if (!isDeleteAction && info.key === 'doc' && isEmptyObject(doc)) {
     return null;
@@ -137,9 +137,9 @@ export default function RecentContent(props) {
   return (
     <div className={classes}
       onClick={(e) => { handleClick(info, props, history, e); }}>
-      <div className="Recent_Content_Left">
+      <div className="recent-content__left">
         <img src={info.img} />
-        <div className="Recent_Content_Left_Info">
+        <div className="recent-content__left_Info">
           <p className="ellipsis">{title}</p>
           {info.key === 'doc' &&
             <div className="ellipsis"
@@ -153,7 +153,7 @@ export default function RecentContent(props) {
           </span>
         </div>
       </div>
-      <div className="Recent_Content_Right">
+      <div className="recent-content__right">
         {renderAction(info, props, history, onRecentAction)}
       </div>
     </div>

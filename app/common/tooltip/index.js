@@ -18,23 +18,28 @@ export default function Tooltip({
 
   const getStyle = useCallback((dom) => {
     const { left, top, height, width } = dom.getBoundingClientRect();
-    // 内容宽度
-    const contentWidth = $(tooltipRef.current).width();
-    // 内容高度
-    const contentHeight = $(tooltipRef.current).height();
+    console.log(tooltipRef.current.getBoundingClientRect());
+    const { width: contentWidth, height: contentHeight } = tooltipRef.current.getBoundingClientRect();
     // 窗口滚动高度
     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
     // 窗口宽度
     const bodyWidth = document.body.getBoundingClientRect().width;
     let l = left + width / 2 - contentWidth / 2 + 5;
-    const h = top + scrollTop - contentHeight - height;
+    const h = top + scrollTop - contentHeight - height + 10;
+    console.log(contentWidth, width);
+    // 如果tooltip内容宽度大于元素dom宽度
+    if (contentWidth > width) {
+      l = left - (contentWidth / 2 - width / 2);
+    }
 
     if (l < 10) { l = 10; }
     if (l + contentWidth >= bodyWidth) {
       l = bodyWidth - contentWidth - 10;
     }
     // 设置气泡框箭头位置
-    arrowRef.current.style.left = `${(left + width / 2) - l}px`;
+    // arrowRef.current.style.left = `${(left + width / 2) - l}px`;
+    const arrowWidth = arrowRef.current.getBoundingClientRect().width;
+    arrowRef.current.style.left = `${contentWidth / 2 - arrowWidth / 2}px`;
 
     return {
       left: `${l}px`,
