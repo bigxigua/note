@@ -18,7 +18,6 @@ export default function Tooltip({
 
   const getStyle = useCallback((dom) => {
     const { left, top, height, width } = dom.getBoundingClientRect();
-    console.log(tooltipRef.current.getBoundingClientRect());
     const { width: contentWidth, height: contentHeight } = tooltipRef.current.getBoundingClientRect();
     // 窗口滚动高度
     const scrollTop = document.documentElement.scrollTop || window.pageYOffset || document.body.scrollTop;
@@ -26,7 +25,6 @@ export default function Tooltip({
     const bodyWidth = document.body.getBoundingClientRect().width;
     let l = left + width / 2 - contentWidth / 2 + 5;
     const h = top + scrollTop - contentHeight - height + 10;
-    console.log(contentWidth, width);
     // 如果tooltip内容宽度大于元素dom宽度
     if (contentWidth > width) {
       l = left - (contentWidth / 2 - width / 2);

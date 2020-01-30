@@ -8,8 +8,8 @@ export default function useMessage() {
       +'</div>';
     const style = '<style>' +
       '.Message_Error>span { position: relative; top: -2px;}\n' +
-      '.Message{position: fixed; top: 20px;font-size: 14px; display: none;' +
-      'left: 50%;padding: 10px 16px; ' +
+      '.Message{position: fixed; top: 20px;font-size: 14px; display: none; z-index: 999;' +
+      'left: 50%;padding: 10px 16px;' +
       'border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); ' +
       'background: #fff; color: rgba(0, 0, 0, 0.65)}; font-size: 14px;}' +
       '</style>';

@@ -326,4 +326,16 @@
 
 .code-tooltip__item-tooltip>img {
   width: 26px;
+  transition: all linear 0.2s;
+  border-radius: 2px;
+}
+
+.code-tooltip__item-tooltip>img:hover {
+  background-color: #e8e8e8;
+}
+
+.code-tooltip__item-tooltip>input {
+  position: absolute;
+  left: 9999px;
+  ;
 }
