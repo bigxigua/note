@@ -301,7 +301,7 @@
 }
 
 .article-html pre:hover>.code-tooltip {
-  display: block;
+  display: flex;
 }
 
 .code-tooltip {
@@ -314,14 +314,22 @@
 }
 
 .code-tooltip__item {
-  width: 42px;
-  height: 40px;
+  min-width: 42px;
+  min-height: 40px;
+  padding: 4px;
   border: 1px solid rgba(226, 226, 226, 0.84);
   box-shadow: 0px 2px 4px 0px rgba(225, 225, 225, 0.5);
   background: #fff;
   justify-content: center;
   cursor: pointer;
   border-radius: 2px;
+  margin-left: 4px;
+}
+
+.code-tooltip__item-tooltip {
+  font-size: 12px;
+  color: #333;
+  text-shadow: none;
 }
 
 .code-tooltip__item-tooltip>img {
@@ -337,5 +345,4 @@
 .code-tooltip__item-tooltip>input {
   position: absolute;
   left: 9999px;
-  ;
 }

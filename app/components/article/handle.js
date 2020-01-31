@@ -14,8 +14,9 @@ function onCopy(code, copyInput) {
   });
 }
 
-function ToolBar({ code = '' }) {
+function ToolBar({ code = '', dom = null }) {
   const inputRef = useRef(null);
+  const language = (($(dom).attr('class').split(' ').find(l => /language-/.test(l)) || '').split('-') || [])[1];
   return (
     <>
       <div className="code-tooltip__item flex">
@@ -32,9 +33,9 @@ function ToolBar({ code = '' }) {
         </Tooltip>
       </div>
       <div className="code-tooltip__item flex">
-        <Tooltip tips="格式"
+        <Tooltip tips="语言"
           className="code-tooltip__item-tooltip">
-          {'less'}
+          {language}
         </Tooltip>
       </div>
     </>

@@ -1,8 +1,11 @@
 import React from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { checkBrowser } from '@util/util';
 import './index.css';
 
 export default function SiderBarLayout() {
+  const { isMobile } = checkBrowser();
+  if (isMobile) return null;
   return (
     <div className="siderbar-layout">
       <NavLink
