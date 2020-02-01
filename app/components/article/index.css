@@ -107,6 +107,13 @@
   font-size: 16px;
 }
 
+.article-html .xigua-inline__code {
+  color: #c7254e;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+  padding: 2px 4px;
+}
+
 .article-html ol,
 .article-html ul {
   list-style: disc outside none;

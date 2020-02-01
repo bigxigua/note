@@ -367,6 +367,16 @@
   opacity: 0.3;
 }
 
+.simditor-toolbar>ul>li>.toolbar-item.toolbar-item-inlinecode span:before {
+  content: "";
+  background: url('/images/code_coding.png') no-repeat 0 0;
+  background-size: contain;
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  margin-top: 10px;
+}
+
 .simditor-toolbar>ul>li>.toolbar-item.toolbar-item-title span:before {
   content: "H";
   font-size: 19px;
@@ -1072,4 +1082,14 @@
 
 .simditor .code-popover {
   cursor: pointer;
+}
+
+.simditor .simditor-body p code.xigua-inline__code {
+  height: 26px;
+  margin: 4px;
+}
+
+.simditor .simditor-body p {
+  display: flex;
+  align-items: center;
 }

@@ -17,11 +17,11 @@
   left: auto;
 }
 
-.Bookcatalog-item {
+.bookcatalog-item {
   position: relative;
 }
 
-.Bookcatalog-item>.Icon {
+.bookcatalog-item>.Icon {
   font-size: 12px;
   transition: all linear 0.2s;
   transform: rotate(-90deg);
@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 
-.Bookcatalog-item_Open>.Icon {
+.bookcatalog-item__open>.Icon {
   transform: rotate(0deg);
   left: -14px;
   margin-top: 1px;

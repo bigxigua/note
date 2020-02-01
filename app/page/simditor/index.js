@@ -8,6 +8,7 @@ import useSaveContent from '@hooks/use-save-content';
 import Simditor from '@public/editor/simditor';
 import '@public/editor/simditor-checklist';
 import '@public/editor/simditor-markdown';
+import '@public/editor/simditor-inline-code';
 import '@public/editor/simditor-emoji';
 import '@public/editor/simditor-html';
 // https://github.com/mycolorway/simditor-livemd

@@ -121,7 +121,7 @@ export function extractCatalog(source) {
 // 收起或展开目录
 export function toggleExpandCatalog({
   trees, item, index
-}, callback) {
+}, callback = () => { }) {
   const { open = false, children = [], docId } = item;
   const result = trees.slice(0);
   result[index].open = !open;
@@ -137,6 +137,7 @@ export function toggleExpandCatalog({
   } else {
     callback(result.filter(n => n.belong !== docId));
   }
+  return result;
 }
 
 // textarea 自适应高度

@@ -323,6 +323,7 @@
     };
 
     Selection.prototype.setRangeAtEndOf = function (node, range) {
+      // debugger;
       var $lastNode, $node, contents, lastChild, lastChildLength, lastText, nodeLength;
       if (range == null) {
         range = this.range();
@@ -3940,15 +3941,17 @@
     };
 
     CodeButton.prototype._checkMode = function () {
-      var $blockNodes, range;
-      range = this.editor.selection.range();
-      if (($blockNodes = $(range.cloneContents()).find(this.editor.util.blockNodes.join(','))) > 0 || (range.collapsed && this.editor.selection.startNodes().filter('code').length === 0)) {
-        this.inlineMode = false;
-        return this.htmlTag = 'pre';
-      } else {
-        this.inlineMode = true;
-        return this.htmlTag = 'code';
-      }
+      this.inlineMode = false;
+
+      // var $blockNodes, range;
+      // range = this.editor.selection.range();
+      // if (($blockNodes = $(range.cloneContents()).find(this.editor.util.blockNodes.join(','))) > 0 || (range.collapsed && this.editor.selection.startNodes().filter('code').length === 0)) {
+      //   this.inlineMode = false;
+      //   return this.htmlTag = 'pre';
+      // } else {
+      //   this.inlineMode = true;
+      //   return this.htmlTag = 'code';
+      // }
     };
 
     CodeButton.prototype._status = function () {
@@ -3984,7 +3987,6 @@
         $code.addClass('lang-' + lang);
         $pre.addClass('lang-' + lang);
       }
-      console.log(111);
       return $pre.wrapInner($code).removeAttr('data-lang');
     };
 

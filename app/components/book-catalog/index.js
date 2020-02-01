@@ -6,6 +6,7 @@ import axiosInstance from '@util/axiosInstance';
 import { NavLink } from 'react-router-dom';
 import { parseUrlQuery, getIn, isEmptyObject } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
+import { renderCatalogs } from './handle';
 import './index.css';
 
 const activeStyle = {
@@ -32,6 +33,7 @@ function renderCatalogItem(type, doc) {
 
 export default function BookCatalog() {
   const { spaceId = '' } = parseUrlQuery();
+  const docId = window.location.pathname.split('/').filter(n => n)[1];
   // const [loading, setLoading] = useState(false);
   const loading = useRef(false);
   const [bookCatalog, setBookCatalog] = useState({
@@ -46,14 +48,16 @@ export default function BookCatalog() {
     loading.current = false;
     const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
     if (catalog.length > 1) {
+      const extra = extractCatalog(catalog.slice(1));
+      // const current = expandToTarget(docId, extra);
       setBookCatalog({
-        catalog: extractCatalog(catalog.slice(1)),
+        catalog: extra,
         docs: data.docs
       });
     } else {
       console.log('[获取space下doc列表失败] ', error);
     }
-  }, []);
+  }, [docId]);
 
   // 点击章节目录展开or收起子目录
   const onToggleExpandCatalog = useCallback((trees, item, index) => {
@@ -67,7 +71,7 @@ export default function BookCatalog() {
 
   useEffect(() => {
     fetchDocsBySpaceId();
-  }, []);
+  }, [spaceId]);
 
   const { docs, catalog } = bookCatalog;
   if (loading.current) {
@@ -78,22 +82,24 @@ export default function BookCatalog() {
   const bookCatalogJsx = catalog.map((item, index) => {
     const doc = docs.find(n => n.doc_id === item.docId) || {};
     const isParenrt = item.children.length > 0;
-    let classes = 'Bookcatalog-item flex ';
-    classes += `${item.open ? 'Bookcatalog-item_Open' : ''} `;
-    classes += `${isParenrt ? 'Bookcatalog-item_Parent' : ''} `;
+    let classes = 'bookcatalog-item flex ';
+    classes += `${item.open ? 'bookcatalog-item__open' : ''} `;
+    classes += `${isParenrt ? 'bookcatalog-item_Parent' : ''} `;
     if (isEmptyObject(doc)) {
       return null;
     }
     return <div
       key={item.docId}
       style={{ left: `${Math.min(item.level, 3) * 10}px` }}
-      className={classes}>
+      className={$.trim(classes)}>
       {isParenrt && <Icon
         onClick={() => { onToggleExpandCatalog(catalog, item, index); }}
         type="caret-down" />}
       {renderCatalogItem(item.type, doc)}
     </div>;
   });
+  const a = renderCatalogs(catalog, docs);
+  console.log(a);
   return (
     <nav className="bookcatalog-wrapper">
       <div className="bookcatalog-content">
