@@ -118,6 +118,28 @@ export function extractCatalog(source) {
   return recursion(source, 0);
 };
 
+// 通过docId找到目标目录项
+export function findTargetCatalogPath(catalog, docId) {
+  if (!docId || !Array.isArray(catalog) || !catalog.length) {
+    return [];
+  }
+  let result = [];
+  function recursion(data, init = []) {
+    for (let i = 0, len = data.length; i < len; i++) {
+      const item = data[i];
+      const children = item.children || [];
+      if (item.docId === docId) {
+        result = [...init, i];
+        break;
+      } else if (children.length > 0) {
+        recursion(children, [...init, i]);
+      }
+    }
+    return result;
+  }
+  return recursion(catalog, []);
+}
+
 // 收起或展开目录
 export function toggleExpandCatalog({
   trees, item, index

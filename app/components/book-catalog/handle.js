@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
+import React from 'react';
 import Tooltip from '@common/tooltip';
 import Icon from '@common/icon';
 import { NavLink } from 'react-router-dom';
@@ -26,16 +26,32 @@ function renderCatalogItem(type, doc) {
     </NavLink>;
 }
 
-export function renderCatalogs(catalog, docs, onToggleExpandCatalog) {
+export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
+  function recursion(data, __path__) {
+    return data.map((item, index) => {
+      if (index === __path__[0]) {
+        if (status) {
+          item.isOpen = true;
+        } else if (item.docId === targetId) {
+          item.isOpen = false;
+        }
+        item.children = recursion(item.children, __path__.slice(1));
+      }
+      return item;
+    });
+  }
+  return recursion(catalog, path);
+}
+
+export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog) {
   function recursion(data) {
     let result = [];
-    // console.log(data);
     data.forEach((item, index) => {
       const doc = docs.find(n => n.doc_id === item.docId) || {};
       const isParenrt = item.children.length > 0;
       let classes = 'bookcatalog-item flex ';
-      classes += `${item.open ? 'bookcatalog-item__open' : ''} `;
-      classes += `${isParenrt ? 'bookcatalog-item_Parent' : ''} `;
+      classes += `${item.isOpen ? 'bookcatalog-item__open' : ''} `;
+      classes += `${isParenrt ? 'bookcatalog-item__parent' : ''} `;
       if (isEmptyObject(doc)) {
         return null;
       }
