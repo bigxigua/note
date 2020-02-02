@@ -1,12 +1,33 @@
 import React, { useContext, useCallback, useState } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
+import Modal from '@common/modal';
 import { parseUrlQuery, delay, checkBrowser } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
 import { createNewDoc, updateCatalogService } from '@util/commonFun';
+import axiosInstance from '@util/axiosInstance';
 
 const { isMobile } = checkBrowser();
+
+function onDeleteSpace(spaceId, __history__) {
+  Modal.confirm({
+    title: '确认删除该空间吗？QAQ',
+    subTitle: '如果该空间下有文档，会被一并删除。且无法恢复，请慎重。',
+    onOk: async () => {
+      const [error, data] = await axiosInstance.post('spaces/delete', { space_id: spaceId });
+      // 加历史记录
+      // const [, recentData] = await axiosInstance.post('add/recent', {
+      //   space_id: spaceId, // 空间id
+      //   space_name: spaceName, // 空间名称
+      //   type: '' // 类型
+      // });
+      if (!error && data && data.STATUS === 'OK') {
+        __history__.replace('/space/');
+      }
+    }
+  });
+}
 
 export default function ChapterHeader({
   userInfo = {},
@@ -83,10 +104,19 @@ export default function ChapterHeader({
       </Button>;
     }
   }
+  console.log(history);
 
   return <div className="chapter-header flex">
     <Breadcrumb crumbs={crumbs} />
     <div className="flex">
+      <Button
+        content="删除"
+        type="danger"
+        style={{ marginRight: '20px' }}
+        loading={loading}
+        onClick={() => {
+          onDeleteSpace(spaceId, history);
+        }} />
       <Button
         content="新建文档"
         loading={loading}

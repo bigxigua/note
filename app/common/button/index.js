@@ -19,7 +19,7 @@ export default function Button(props) {
     default: '',
     primary: 'Button_primary',
     dashed: 'Button_dash',
-    danger: 'Button_danger'
+    danger: 'button-danger'
   };
 
   const loadingClassName = loading ? 'Button_loading' : '';
