@@ -92,6 +92,7 @@ export default function Article({ docInfo = {} }) {
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
       scrollToElement();
       onScroll(html);
+      $(window).trigger('scroll');
     }, 0);
   }, [docInfo.doc_id, content]);
 

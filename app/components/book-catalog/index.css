@@ -45,3 +45,7 @@
   color: #595959;
   font-size: 12px;
 }
+
+.bookcatalog-item__parent {
+  font-weight: bold;
+}

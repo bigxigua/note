@@ -2,12 +2,30 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { checkBrowser, getCatalogs } from '@util/util';
 import './index.css';
 
+function getOffset(data) {
+  if (data.find(n => n.type === 'h1')) {
+    return 0;
+  } else if (data.find(n => n.type === 'h2')) {
+    return -16;
+  } else if (data.find(n => n.type === 'h3')) {
+    return -32;
+  } else if (data.find(n => n.type === 'h4')) {
+    return -48;
+  } else {
+    return -64;
+  }
+}
+
 function createCatalogsJsx(html, handle) {
   if (!html) return null;
-  return getCatalogs(html).map(p => {
+  const catalogs = getCatalogs(html);
+
+  return catalogs.map(p => {
+    const i = parseInt(p.type.substr(1));
     return (<li
-      className={`catalog-item catalog-item_${p.id} catalog-item_${p.type}`}
+      className={`catalog-item catalog-item_${p.id}`}
       key={p.index}
+      style={{ paddingLeft: `${(i - 1) * 16 + getOffset(catalogs) + 14}px` }}
       onClick={(e) => { handle(e, p.id); }}>
       {p.text}
     </li>);

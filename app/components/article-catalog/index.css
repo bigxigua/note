@@ -34,7 +34,6 @@
     font-size: 12px;
     color: #595959;
     padding: 4px 0;
-    padding-left: 14px;
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -56,18 +55,6 @@
     line-height: 20px;
     padding-top: 4px;
     padding-bottom: 4px;
-}
-
-.catalog-item_h2 {
-    padding-left: 16px;
-}
-
-.catalog-item_h3 {
-    padding-left: 32px;
-}
-
-.catalog-item_h4 {
-    padding-left: 48px;
 }
 
 .editormd-toolbar {
