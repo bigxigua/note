@@ -106,8 +106,8 @@
           range.insertNode($code[0]);
           $code.after('&nbsp;');
           $code.addClass(classes);
-          range.selectNodeContents($code[0]);
-          _this.editor.selection.range(range);
+          // range.selectNodeContents($code[0]);
+          // _this.editor.selection.range(range);
         }
         return function (i, node) {
           var $node = $(node);
@@ -116,10 +116,10 @@
           }
           var $element = $(range.commonAncestorContainer);
           if (_this.inlineMode) {
-            if ($element.is('p')) {
-              insertCodeTag();
-            } else if ($element.is('code')) {
+            if ($element.is('code')) {
               $element.contents().unwrap();
+            } else {
+              insertCodeTag();
             }
             return;
           } else if ($node.is('p') && $node.find(`>code.${classes}`).length > 0) {

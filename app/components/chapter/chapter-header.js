@@ -104,8 +104,6 @@ export default function ChapterHeader({
       </Button>;
     }
   }
-  console.log(history);
-
   return <div className="chapter-header flex">
     <Breadcrumb crumbs={crumbs} />
     <div className="flex">

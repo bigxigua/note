@@ -143,18 +143,9 @@
   position: relative;
   background: transparent;
   overflow-y: scroll;
-  height: calc(100% - 40px);
   min-height: 800px;
-  -ms-overflow-style: none;
-  overflow: -moz-scrollbars-none;
   padding-bottom: 50px;
 }
-
-.simditor .simditor-wrapper::-webkit-scrollbar {
-  width: 0 !important;
-}
-
-
 
 .simditor .simditor-wrapper>textarea {
   display: none !important;
@@ -711,6 +702,12 @@
   height: calc(100vh - 58px);
   overflow-y: scroll;
   min-width: 1280px;
+  -ms-overflow-style: none;
+  overflow: -moz-scrollbars-none;
+}
+
+.simditor::-webkit-scrollbar {
+  width: 0 !important;
 }
 
 .simditor-mobile {
@@ -865,6 +862,8 @@
 .editor-style ul li,
 .editor-style ol li {
   list-style-type: inherit;
+  line-height: 26px;
+  margin: 2px 0;
 }
 
 .simditor .simditor-body ul ul,
@@ -907,7 +906,7 @@
 .simditor .simditor-body blockquote> :first-child,
 .editor-style blockquote> :first-child {
   margin-top: 0;
-  margin-left: 5px !important;
+  /* margin-left: 5px !important; */
 }
 
 .simditor .simditor-body code,
@@ -1086,10 +1085,5 @@
 
 .simditor .simditor-body p code.xigua-inline__code {
   height: 26px;
-  margin: 4px;
+  margin: 0;
 }
-
-/* .simditor .simditor-body p {
-  display: flex;
-  align-items: center;
-} */

@@ -1,9 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import Button from '@common/button';
 import confirm from './confirm';
 import './index.css';
+
+const toggleDisableBodyScroll = (handle) => {
+  document.body.classList[handle]('body-scroll_hiddlen');
+};
 
 const fn = () => { };
 export default function Modal({
@@ -24,34 +28,55 @@ export default function Modal({
 }) {
   const w = isNaN(width) ? width : `${width}px`;
 
+  const _onConfirm = () => {
+    toggleDisableBodyScroll('remove');
+    onConfirm();
+  };
+
+  const _onCancel = () => {
+    toggleDisableBodyScroll('remove');
+    onCancel();
+  };
+
   const defaultFooter = (
-    <div className="Modal_Footer flex">
-      <Button onClick={onCancel}>{cancelText}</Button>
+    <div className="modal-footer flex">
+      <Button onClick={_onCancel}>{cancelText}</Button>
       <Button type="primary"
-        onClick={onConfirm}>{confirmText}</Button>
+        onClick={_onConfirm}>{confirmText}</Button>
     </div>
   );
   const footerJsx = footer === 'none' ? null : (footer || defaultFooter);
   const closeJsx = closable && (closeIcon || (
     <Icon type="close"
-      onClick={onCancel}
+      onClick={_onCancel}
       className="Modal_Close" />
   ));
-  let classes = 'Modal_Mask animated ';
-  classes += `${mask ? 'Modal_Mask_Bg' : ''} `;
-  classes += `${visible ? 'Modal_Show' : ''} `;
+  let classes = 'modal-mask animated ';
+  classes += `${mask ? 'modal-mask__bg' : ''} `;
+  classes += `${visible ? 'modal-show' : ''} `;
+
+  if (visible) {
+    toggleDisableBodyScroll('add');
+  }
+
+  useEffect(() => {
+    return () => {
+      toggleDisableBodyScroll('remove');
+    };
+  }, []);
+
   return ReactDOM.createPortal(
-    (<div className={classes}>
+    (<div className={$.trim(classes)}>
       <div className={`Modal ${wrapClassName}`}
         style={{
           width: w
         }}>
-        <div className="Modal_Header">
+        <div className="modal-header">
           <span>{title}</span>
           <p>{subTitle}</p>
         </div>
         {closeJsx}
-        <div className="Modal_Body">
+        <div className="modal-body">
           {children}
         </div>
         {footerJsx}

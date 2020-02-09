@@ -30,6 +30,10 @@ function onScroll(html) {
   let windowScrollTop = $(window).scrollTop();
   let position = 'up';
 
+  if (!Array.isArray(catalogs) || catalogs.length === 0) {
+    return;
+  }
+
   const handle = debunce(() => {
     let curTarget = null;
     const arr = [];

@@ -21,6 +21,7 @@
   overflow-y: scroll;
   padding: 0 36px;
   padding-bottom: 60px;
+  overflow-x: hidden;
 }
 
 .article-preview::-webkit-scrollbar {
@@ -303,9 +304,20 @@
   margin-bottom: 32px;
 }
 
+.article-pre {
+  border-radius: .5em;
+  border: .2em solid hsl(0, 0%, 33%);
+  box-shadow: 1px 1px 0.5em black inset;
+  margin: .5em 0;
+  padding: 12px;
+  font-size: 15px;
+  background: hsl(0, 0%, 8%);
+  overflow: initial;
+}
+
 .article-html pre {
-  position: relative;
   overflow-y: scroll;
+  position: relative;
 }
 
 .article-html pre:hover>.code-tooltip {
@@ -314,11 +326,12 @@
 
 .code-tooltip {
   position: absolute;
+  top: 100%;
   right: 0;
-  top: -4px;
   padding: 2px;
   transform: translateY(-100%);
   display: none;
+  z-index: 999;
 }
 
 .code-tooltip__item {
@@ -338,6 +351,8 @@
   font-size: 12px;
   color: #333;
   text-shadow: none;
+  height: 26px;
+  line-height: 26px;
 }
 
 .code-tooltip__item-tooltip>img {
@@ -346,7 +361,7 @@
   border-radius: 2px;
 }
 
-.code-tooltip__item-tooltip>img:hover {
+.code-tooltip__item-tooltip:hover {
   background-color: #e8e8e8;
 }
 

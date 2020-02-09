@@ -12,25 +12,25 @@
   pointer-events: auto;
 }
 
-.Modal_Header {
+.modal-header {
   padding: 24px 0 0 24px;
   border-radius: 4px 4px 0 0;
 }
 
-.Modal_Header>span {
+.modal-header>span {
   font-size: 16px;
   line-height: 24px;
   color: #262626;
   font-weight: 500;
 }
 
-.Modal_Header>p {
+.modal-header>p {
   color: #8c8c8c;
   margin: 0 0 8px;
   font-size: 14px
 }
 
-.Modal_Mask {
+.modal-mask {
   position: fixed;
   width: 100vw;
   height: 100vh;
@@ -41,11 +41,11 @@
   display: none;
 }
 
-.Modal_Mask_Bg {
+.modal-mask__bg {
   background: rgba(0, 0, 0, 0.4);
 }
 
-.Modal_Show {
+.modal-show {
   display: block;
   animation-name: fadeIn;
   animation-duration: 200ms;
@@ -60,7 +60,7 @@
   padding: 10px;
 }
 
-.Modal_Body {
+.modal-body {
   font-size: 14px;
   line-height: 1.5;
   word-wrap: break-word;
@@ -69,7 +69,7 @@
   overflow-y: scroll;
 }
 
-.Modal_Footer {
+.modal-footer {
   justify-content: flex-end;
   padding: 10px 24px;
   background: transparent;
@@ -78,6 +78,10 @@
   padding: 10px 10px 10px 24px;
 }
 
-.Modal_Footer>button {
+.modal-footer>button {
   margin-left: 10px;
+}
+
+.body-scroll_hiddlen{
+  overflow: hidden;
 }
