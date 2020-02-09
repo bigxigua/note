@@ -353,6 +353,7 @@
   text-shadow: none;
   height: 26px;
   line-height: 26px;
+  padding: 0 4px;
 }
 
 .code-tooltip__item-tooltip>img {

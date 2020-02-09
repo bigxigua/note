@@ -18,7 +18,7 @@
   /* padding-bottom: 40px; */
 }
 
-.space_detail_header .header-container {
+.space-detail__header .header-container {
   max-width: 1056px;
 }
 
@@ -26,11 +26,37 @@
   margin-top: 0;
 }
 
-.space-detail>h1 {
+.space-detail__title {
+  padding: 0 32px;
+  display: flex;
+  position: relative;
+}
+
+.space-detail__title:hover>div {
+  display: flex;
+}
+
+.space-detail__title>span {
   color: #262626;
   font-size: 24px;
   font-weight: 600;
-  padding: 0 32px;
+}
+
+.space-detail__title>div {
+  align-items: center;
+  font-size: 14px;
+  position: absolute;
+  left: 50%;
+  top: -8px;
+  transform: translateX(-50%) translateY(-50%);
+  cursor: pointer;
+  display: none;
+  color: #595955;
+}
+
+.space-detail__title>div>.Icon {
+  top: 2px;
+  margin-right: 4px;
 }
 
 .space-detail>h4 {

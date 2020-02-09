@@ -24,7 +24,7 @@ export default function useMessage() {
   };
   const fn = () => { };
   const message = {
-    success: ({ content, d, onClose = fn }) => {
+    success: ({ content = '', d, onClose = fn }) => {
       createMessageDom('slideInDown', 'success', content);
       removeDom(d, onClose);
     },

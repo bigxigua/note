@@ -21,7 +21,7 @@ export default function Input(props) {
     cols = '20'
   } = props;
   const [value, setValue] = useState(defaultValue);
-  const [classes, setClassName] = useState('Input_Wrapper flex ');
+  const [classes, setClassName] = useState('input-wrapper flex ');
   const textArea = useRef(null);
   const _onChange_ = (e) => {
     setValue(e.currentTarget.value);
@@ -30,7 +30,7 @@ export default function Input(props) {
   useEffect(() => {
     let cssName = classes;
     if (!addonBefore && !addonAfter) {
-      cssName += 'Input_Full';
+      cssName += 'input-full';
     }
     if (addonBefore && !addonAfter) {
       cssName += 'Input_Before';

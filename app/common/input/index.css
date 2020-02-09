@@ -1,24 +1,21 @@
-.Input_Wrapper {
+.input-wrapper {
   width: 320px;
-  /* height: 40px; */
   color: #595959;
   font-size: 14px;
   border: 1px solid #d9d9d9;
   transition: all .3s;
   background-color: #fff;
   border-radius: 4px;
-  /* margin-bottom: 16px; */
-  /* border-radius: 0 4px 4px 0; */
 }
 
-.Input_Wrapper:hover {
+.input-wrapper:hover {
   border-color: #25b864;
 }
 
-.Input_Wrapper>input,
-.Input_Wrapper>textarea {
+.input-wrapper>input,
+.input-wrapper>textarea {
   height: 100%;
-  font-size: 16px;
+  font-size: inherit;
   transition: box-shadow linear .3s;
   border-radius: 4px;
   padding: 6px 11px;
@@ -27,31 +24,30 @@
   flex: 1;
 }
 
-.Input_Wrapper>textarea {
+.input-wrapper>textarea {
   border: none;
 }
 
-.Input_Full>input {
+.input-full>input {
   width: 100%;
 }
 
-.Input_Wrapper>input::-webkit-input-placeholder {
-  opacity:0.5;
+.input-wrapper>input::-webkit-input-placeholder {
+  opacity: 0.5;
 }
 
-.Input_Wrapper>textarea::-webkit-input-placeholder {
-  opacity:0.5;
+.input-wrapper>textarea::-webkit-input-placeholder {
+  opacity: 0.5;
 }
 
-.Input_Full:hover {
+.input-full:hover {
   border: 1px solid #47c479;
   outline: 0;
   box-shadow: 0 0 0 2px rgba(37, 184, 100, .2);
 }
 
-.Input_Before {}
-
-.Input_addonBefore, .Input_addonAfter {
+.Input_addonBefore,
+.Input_addonAfter {
   justify-content: center;
   padding: 0 10px;
   border-right: 1px solid #e8e8e8;
