@@ -32,7 +32,7 @@ export default function Search({
         autoComplete="off"
         spellCheck="true"
         onChange={onChange}
-        className="Search_input" />
+        className="search-input" />
     </div>
   );
 }

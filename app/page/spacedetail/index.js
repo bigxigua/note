@@ -13,7 +13,7 @@ import { parseUrlQuery, getIn, checkBrowser } from '@util/util';
 import './index.css';
 
 const inputStyle = {
-  width: '80%',
+  width: '100%',
   height: '36px',
   marginBottom: '10px'
 };
@@ -22,7 +22,7 @@ const message = useMessage();
 
 export default function SpaceDetail() {
   const [spaceInfo, setSpaceInfo] = useState({ docs: [], space: {} });
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const [spaceName, setSpaceName] = useState('');
   const [spaceDesc, setspaceDesc] = useState('');

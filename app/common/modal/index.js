@@ -49,7 +49,7 @@ export default function Modal({
   const closeJsx = closable && (closeIcon || (
     <Icon type="close"
       onClick={_onCancel}
-      className="Modal_Close" />
+      className="modal-close" />
   ));
   let classes = 'modal-mask animated ';
   classes += `${mask ? 'modal-mask__bg' : ''} `;

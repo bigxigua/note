@@ -78,6 +78,7 @@
   line-height: 1.6;
   padding-bottom: 80px;
   min-height: calc(100vh - 86px);
+  overflow-y: scroll;
 }
 
 .article-html h1,
@@ -135,8 +136,6 @@
 }
 
 .article-html table {
-  width: 100%;
-  /* min-width: 875px; */
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;

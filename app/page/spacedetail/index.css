@@ -13,10 +13,7 @@
   overflow-x: hidden;
 }
 
-.space-detail__loading {
-  /* top: 40px; */
-  /* padding-bottom: 40px; */
-}
+.space-detail__loading {}
 
 .space-detail__header .header-container {
   max-width: 1056px;
@@ -24,6 +21,7 @@
 
 .space-detail_mobile {
   margin-top: 0;
+  border: none;
 }
 
 .space-detail__title {
