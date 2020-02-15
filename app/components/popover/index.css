@@ -13,7 +13,7 @@
   z-index: 999;
 }
 
-.Popover_Wrapper_Content {
+.popover-wrapper__content {
   display: none;
   position: absolute;
   background: #ffffff;
@@ -22,6 +22,11 @@
   padding: 8px 0;
   border: none;
   z-index: 10;
+}
+
+.popover-wrapper__content .list-wrapper {
+  box-shadow: none;
+  padding: 0;
 }
 
 .popover_wrapper_arrow {
@@ -37,7 +42,7 @@
   box-shadow: -2px -2px 5px rgba(0, 0, 0, .05);
 }
 
-.Popover_Wrapper_Content_show {
+.popover-wrapper__content_show {
   display: block;
   animation-name: zoomIn;
   animation-duration: 200ms;

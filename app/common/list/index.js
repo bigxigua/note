@@ -27,7 +27,7 @@ export default function List(props) {
   return (
     <ul
       style={style}
-      className={`List_Wrapper ${className}`}>
+      className={`list-wrapper ${className}`}>
       {jsx}
     </ul>
   );

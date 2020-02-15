@@ -4,7 +4,7 @@ import { checkBrowser } from '@util/util';
 import './index.css';
 
 const { isMobile } = checkBrowser();
-const SHOW_CLASSNAME = 'Popover_Wrapper_Content_show';
+const SHOW_CLASSNAME = 'popover-wrapper__content_show';
 
 export default function Popover({
   className = '',
@@ -104,7 +104,7 @@ export default function Popover({
       {ReactDOM.createPortal(
         <div className="popover-wrapper_box animated">
           <div ref={contentRef}
-            className="Popover_Wrapper_Content"
+            className="popover-wrapper__content"
             style={style}>
             <div ref={arrowRef}
               className="popover_wrapper_arrow"></div>

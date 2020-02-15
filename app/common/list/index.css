@@ -1,4 +1,4 @@
-.List_Wrapper {
+.list-wrapper {
   display: inline-block;
   padding: 4px 0;
   background-color: #fff;
@@ -21,7 +21,7 @@
 
 .List>.Icon {
   font-size: 15px;
-  top: 3px;
+  top: 2px;
   margin-right: 7px;
 }
 

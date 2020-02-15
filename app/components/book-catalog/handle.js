@@ -1,16 +1,36 @@
 import React from 'react';
 import Tooltip from '@common/tooltip';
 import Icon from '@common/icon';
+import List from '@common/list';
+import Popover from '@components/popover';
 import { NavLink } from 'react-router-dom';
 import { isEmptyObject } from '@util/util';
+
+const settingList = [{
+  text: '删除',
+  icon: 'delete',
+  key: 'delete'
+}, {
+  text: '在此建立新文档',
+  icon: 'file-add',
+  key: 'file-add'
+}];
 
 const activeStyle = {
   fontWeight: 'bold',
   color: '#25b864'
 };
 
+function onSetting(e) {
+  console.log(e);
+}
+
+function SettingContent() {
+  return <List list={settingList} />;
+}
+
 // 渲染目录项
-function renderCatalogItem(type, doc) {
+function renderCatalogItem(type, doc, isFolder) {
   const cls = 'bookcatalog ellipsis';
   return type.toLocaleUpperCase() === 'EMPTY_NODE'
     ? <Tooltip className={cls}
@@ -23,6 +43,15 @@ function renderCatalogItem(type, doc) {
       className={cls}
       activeStyle={activeStyle}>
       {doc.title}
+      {
+        isFolder && <Popover
+          className="bookcatalog-setting"
+          content={<SettingContent />}>
+          <Icon
+            type="setting"
+            onClick={onSetting} />
+        </Popover>
+      }
     </NavLink>;
 }
 
@@ -48,10 +77,10 @@ export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog) {
     let result = [];
     data.forEach((item, index) => {
       const doc = docs.find(n => n.doc_id === item.docId) || {};
-      const isParenrt = item.children.length > 0;
+      const isFolder = item.children.length > 0;
       let classes = 'bookcatalog-item flex ';
       classes += `${item.isOpen ? 'bookcatalog-item__open' : ''} `;
-      classes += `${isParenrt ? 'bookcatalog-item__parent' : ''} `;
+      classes += `${isFolder ? 'bookcatalog-item__parent' : ''} `;
       if (isEmptyObject(doc)) {
         return null;
       }
@@ -59,10 +88,10 @@ export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog) {
         key={item.docId}
         style={{ left: `${Math.min(item.level, 3) * 10}px` }}
         className={$.trim(classes)}>
-        {isParenrt && <Icon
+        {isFolder && <Icon
           onClick={() => { onToggleExpandCatalog(catalog, item, index); }}
           type="caret-down" />}
-        {renderCatalogItem(item.type, doc)}
+        {renderCatalogItem(item.type, doc, isFolder)}
       </div>);
       if (item.children.length && item.isOpen) {
         result = result.concat(recursion(item.children));
