@@ -17,12 +17,12 @@ export default function Button(props) {
   } = props;
   const typeClassName = {
     default: '',
-    primary: 'Button_primary',
+    primary: 'button-primary',
     dashed: 'Button_dash',
     danger: 'button-danger'
   };
 
-  const loadingClassName = loading ? 'Button_loading' : '';
+  const loadingClassName = loading ? 'button-loading' : '';
   const disabledClassName = disabled ? 'Button_disabled' : '';
   const onButtonClick = () => {
     if (loading || disabled) {
@@ -42,9 +42,9 @@ export default function Button(props) {
     <button
       style={style}
       onClick={onButtonClick}
-      className={$.trim(`Button button_particle flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
+      className={$.trim(`button button_particle flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
       {icon && <Icon type={icon} />}
-      {loading && <Icon className="Button_loading_Icon"
+      {loading && <Icon className="button-loading_Icon"
         type={'loading'} />}
       {
         content || children

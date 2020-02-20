@@ -16,6 +16,7 @@ import New from '@page/new';
 import Space from '@page/space';
 import SpaceDetail from '@page/spacedetail';
 import Docs from '@page/docs';
+import Graph from '@page/graph';
 
 import './media.css';
 
@@ -73,6 +74,10 @@ class App extends React.Component {
             <Route
               path="/docs/"
               component={PageWrapper(Docs, '/docs/', '文档 · 一日一记')}
+            />
+            <Route
+              path="/graph/"
+              component={PageWrapper(Graph, '/graph/', '图表 · 一日一记')}
             />
             <Route
               exact

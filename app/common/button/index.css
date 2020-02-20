@@ -1,4 +1,4 @@
-.Button {
+.button {
   outline: none;
   -webkit-user-select: none;
   -moz-user-select: none;
@@ -19,12 +19,12 @@
   position: relative;
 }
 
-.Button_loading {
+.button-loading {
   opacity: 0.5;
   cursor: not-allowed;
 }
 
-.Button_loading_Icon {
+.button-loading_Icon {
   color: inherit;
   width: 20px;
   width: 20px;
@@ -35,32 +35,32 @@
   margin-right: 8px;
 }
 
-.Button_primary {
+.button-primary {
   color: #fff;
   background-color: #25b864;
   border-color: #25b864;
 }
 
-.Button_default:not(.Button_disabled):not(.Button_loading):hover {
+.Button_default:not(.Button_disabled):not(.button-loading):hover {
   background-image: linear-gradient(0deg, #f5f5f5, #fff);
   background: #fafafa;
   color: #47c479;
   border-color: #47c479;
 }
 
-.Button_default:not(.Button_disabled):not(.Button_loading):active {
+.Button_default:not(.Button_disabled):not(.button-loading):active {
   color: #16914f;
   background-color: #fafafa;
   border-color: #16914f;
 }
 
-.Button_primary:not(.Button_disabled):hover {
+.button-primary:not(.Button_disabled):hover {
   color: #fff;
   background-color: #47c479;
   border-color: #47c479;
 }
 
-.Button_primary:not(.Button_disabled):active {
+.button-primary:not(.Button_disabled):active {
   color: #fff;
   background-color: #16914f;
   border-color: #16914f;
