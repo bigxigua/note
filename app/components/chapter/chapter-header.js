@@ -1,4 +1,5 @@
 import React, { useContext, useCallback, useState } from 'react';
+import { useImmer } from 'use-immer';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import Modal from '@common/modal';
@@ -33,8 +34,10 @@ export default function ChapterHeader({
   userInfo = {},
   space = {}
 }) {
+  const [state, setState] = useImmer({
+    loading: false
+  });
   const { info: { catalog } } = useContext(catalogContext);
-  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const { pathname, search } = window.location;
   const { type = '', spaceId = '' } = parseUrlQuery();
@@ -67,7 +70,7 @@ export default function ChapterHeader({
 
   // 新建文档
   const onCreateNewDoc = useCallback(async (info) => {
-    setLoading(true);
+    setState(draft => (draft.loading = true));
     await createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         await delay();
@@ -76,7 +79,7 @@ export default function ChapterHeader({
         console.log('[创建文档出错] ');
       }
     });
-    setLoading(false);
+    setState(draft => (draft.loading = false));
   }, []);
 
   function renderActionButton() {
@@ -111,13 +114,12 @@ export default function ChapterHeader({
         content="删除"
         type="danger"
         style={{ marginRight: '20px' }}
-        loading={loading}
         onClick={() => {
           onDeleteSpace(spaceId, history);
         }} />
       <Button
         content="新建文档"
-        loading={loading}
+        loading={state.loading}
         onClick={() => {
           onCreateNewDoc({
             space_id: spaceId

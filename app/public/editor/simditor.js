@@ -4537,6 +4537,7 @@
               return;
             }
             src = img ? img.src : _this.defaultImage;
+            $img.addClass('bigxigua-img');
             return _this.loadImage($img, src, function () {
               if (_this.popover.active) {
                 _this.popover.refresh();

@@ -997,6 +997,12 @@
   vertical-align: middle;
 }
 
+.simditor .simditor-body img,
+.editor-style .bigxigua-img {
+  max-width: 100%;
+  height: auto;
+}
+
 .simditor .simditor-body .simditor-checklist {
   margin: 15px 0;
   padding: 0 0 0 40px;
