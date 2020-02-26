@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { DOMAIN } from './config.js';
+
 const axiosInstance = axios.create({
   baseURL: DOMAIN,
   timeout: 100000,
@@ -13,14 +14,6 @@ const axiosInstance = axios.create({
   params: {},
   // `data` is the data to be sent as the request body
   data: {}
-  // proxy: {
-  //   host: '127.0.0.1',
-  //   port: 9000,
-  //   auth: {
-  //     username: 'mikeymike',
-  //     password: 'rapunz3l'
-  //   }
-  // },
 });
 axiosInstance.interceptors.request.use(config => {
   return config;

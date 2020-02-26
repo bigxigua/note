@@ -1,4 +1,4 @@
-.Search {
+.search {
   width: 200px;
   height: 32px;
   display: flex;
@@ -7,11 +7,13 @@
   color: #595959;
   border-radius: 4px;
   overflow: hidden;
+  margin-right: 16px;
 }
 
-.Search i {
+.search .Icon {
   margin-left: 10px;
   margin-right: 10px;
+  top: 2px;
 }
 
 .search-input {

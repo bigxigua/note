@@ -118,7 +118,7 @@
     width: 100%;
 }
 
-.New_Button {
+.create-button {
     width: 100%;
     height: 32px;
     color: #fff;
@@ -132,13 +132,13 @@
     margin-top: 18px;
 }
 
-.New_Button:hover {
+.create-button:hover {
     background-color: #47c479;
     border-color: #47c479;
     border-color: #47c479;
 }
 
-.New_Button:active {
+.create-button:active {
     border: none;
     background-color: #16914f;
     border-color: #16914f;

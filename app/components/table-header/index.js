@@ -82,13 +82,13 @@ export default function TableHeader({
       {isDocsPage && <Dropdown
         trigger="click"
         overlay={Overlay}>
-        <p className="TableHeader_Title">{types.filter(n => n.checked)[0].text}</p>
+        <p className="table-header__title">{types.filter(n => n.checked)[0].text}</p>
         <Icon
           className="TableHeader_Icon_Down"
           type="down" />
       </Dropdown>}
-      {!isDocsPage && <p className="TableHeader_Title">知识库</p>}
-      <div className="TableHeader_Right flex">
+      {!isDocsPage && <p className="table-header__title">知识库</p>}
+      <div className="table-header__right flex">
         <Search
           placeholder="输入标题内容进行搜索"
           onEnter={onSearchEnter} />

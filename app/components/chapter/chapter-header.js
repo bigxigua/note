@@ -11,18 +11,26 @@ import axiosInstance from '@util/axiosInstance';
 
 const { isMobile } = checkBrowser();
 
-function onDeleteSpace(spaceId, __history__) {
+function onDeleteSpace(space, __history__) {
+  const {
+    space_id,
+    name
+  } = space;
   Modal.confirm({
     title: '确认删除该空间吗？QAQ',
     subTitle: '如果该空间下有文档，会被一并删除。且无法恢复，请慎重。',
     onOk: async () => {
-      const [error, data] = await axiosInstance.post('spaces/delete', { space_id: spaceId });
+      const [error, data] = await axiosInstance.post('spaces/delete', { space_id });
       // 加历史记录
-      // const [, recentData] = await axiosInstance.post('add/recent', {
-      //   space_id: spaceId, // 空间id
-      //   space_name: spaceName, // 空间名称
-      //   type: '' // 类型
-      // });
+      try {
+        await axiosInstance.post('add/recent', {
+          space_id, // 空间id
+          space_name: name, // 空间名称
+          type: 'DeleteSpace' // 类型
+        });
+      } catch (err) {
+        console.log(err);
+      }
       if (!error && data && data.STATUS === 'OK') {
         __history__.replace('/space/');
       }
@@ -115,7 +123,7 @@ export default function ChapterHeader({
         type="danger"
         style={{ marginRight: '20px' }}
         onClick={() => {
-          onDeleteSpace(spaceId, history);
+          onDeleteSpace(space, history);
         }} />
       <Button
         content="新建文档"

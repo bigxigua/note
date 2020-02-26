@@ -27,23 +27,19 @@
   max-width: 80%;
 }
 
-.recent-content__left>img {
-  width: 29px;
-}
-
-.recent-content__left_Info {
+.recent-content__left-info {
   margin-left: 10px;
   max-width: calc(100% - 30px);
 }
 
-.recent-content__left_Info>p {
+.recent-content__left-info>p {
   color: #262626;
   font-size: 14px;
   max-width: 100%;
   font-weight: 600;
 }
 
-.recent-content__left_Info>span {
+.recent-content__left-info>span {
   font-size: 12px;
   color: #8c8c8c;
   margin-right: 14px;

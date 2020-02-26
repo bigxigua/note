@@ -24,7 +24,7 @@ export default function Search({
     }, false);
   }, []);
   return (
-    <div className={`Search ${className}`}>
+    <div className={$.trim(`search ${className}`)}>
       <Icon type="search" />
       <input type="text"
         ref={input}

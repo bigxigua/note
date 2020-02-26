@@ -130,7 +130,12 @@ export default function NewChooseType({
   };
   // 提交
   const onCreateSpace = async () => {
-    const { title: name, desc: description, scene } = info;
+    const {
+      title: name,
+      desc: description,
+      scene
+    } = info;
+
     if (!name || !description) {
       message.error({ content: '请先完善信息' });
       return;
@@ -142,7 +147,7 @@ export default function NewChooseType({
       scene
     });
     if (!error && data && data.spaceId) {
-      await addRecent({ spaceId: data.spaceId, type: 'CreateSpace' });
+      await addRecent({ spaceId: data.spaceId, spaceName: name, type: 'CreateSpace' });
       message.success({ content: '创建成功', d: 500, onClose: () => history.push('/space/') });
       return;
     }
@@ -203,7 +208,7 @@ export default function NewChooseType({
         onChange={(e) => { onInputChange(e, 'desc'); }}
         className="New_TextArea" />
       <button
-        className="New_Button"
+        className="create-button"
         onClick={onCreateSpace}>新建</button>
     </div>
   );

@@ -109,7 +109,9 @@ export default function Space() {
     title: '名称',
     key: 'title',
     render: (info) => {
-      return <div className="docs_name">{info.title}</div>;
+      return <Link
+        className="docs_name"
+        to={'/article' + info.url.split('article')[1]}>{info.title}</Link>;
     }
   }, {
     title: '状态',

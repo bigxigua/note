@@ -41,9 +41,17 @@ const typeMap = {
     key: 'doc'
   },
   CreateSpace: {
-    img: 'images/create_folder.png',
+    img: '/images/folder_create.svg',
     text: '创建了空间',
     action: ['management'],
+    key: 'space'
+  },
+  DeleteSpace: {
+    img: '/images/delete_folder.svg',
+    text: '删除了空间',
+    iconStyle: {
+      width: '26px'
+    },
     key: 'space'
   },
   UpdateSpace: {
@@ -74,6 +82,7 @@ function handleClick(info, props, history) {
 
 // popver下拉项点击
 async function onPopoverItemClick({ props = {}, key = '' }, e, onRecentAction) {
+  e.stopPropagation();
   if (key === 'remove') {
     const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
     if (getIn(data, ['STATUS']) === 'OK') {
@@ -105,7 +114,7 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
         content={
           <List
             style={{ boxShadow: 'none', padding: 0 }}
-            onTap={(info, inex, event) => { onPopoverItemClick(info, event, onRecentAction); }}
+            onTap={(info, index, event) => { onPopoverItemClick(info, event, onRecentAction); }}
             list={[{
               text: '移除记录',
               key: 'remove',
@@ -121,7 +130,7 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
 };
 
 export default function RecentContent(props) {
-  const { type, space = {}, doc = {}, user = {}, created_at, onRecentAction, doc_title } = props;
+  const { type, space = {}, doc = {}, user = {}, created_at, onRecentAction, doc_title, space_name } = props;
   const history = useHistory();
   const info = typeMap[type] || {};
   const weightStyle = { fontWeight: 600 };
@@ -135,12 +144,13 @@ export default function RecentContent(props) {
     return null;
   }
   return (
-    <div className={classes}
+    <div className={$.trim(classes)}
       onClick={(e) => { handleClick(info, props, history, e); }}>
       <div className="recent-content__left">
-        <img src={info.img} />
-        <div className="recent-content__left_Info">
-          <p className="ellipsis">{title}</p>
+        <img src={info.img}
+          style={{ width: getIn(info, ['iconStyle', 'width'], '29px') }} />
+        <div className="recent-content__left-info">
+          {info.key !== 'space' && <p className="ellipsis">{title}</p>}
           {info.key === 'doc' &&
             <div className="ellipsis"
               onClick={(e) => { e.stopPropagation(); }}>
@@ -149,7 +159,10 @@ export default function RecentContent(props) {
           }
           <span>
             <span style={weightStyle}>{user.name}</span>
-            <span>{fromNow(created_at)} {info.text}</span>
+            <span>
+              {fromNow(created_at)} {info.text}
+              {info.key === 'space' && <span style={{ fontWeight: 'bold' }}>《{space_name || getIn(space, ['name'])}》</span>}
+            </span>
           </span>
         </div>
       </div>
