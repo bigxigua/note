@@ -78,7 +78,9 @@ export default function ChapterHeader({
 
   // 新建文档
   const onCreateNewDoc = useCallback(async (info) => {
-    setState(draft => (draft.loading = true));
+    setState(draft => {
+      draft.loading = true;
+    });
     await createNewDoc(info, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         await delay();
@@ -87,7 +89,9 @@ export default function ChapterHeader({
         console.log('[创建文档出错] ');
       }
     });
-    setState(draft => (draft.loading = false));
+    setState(draft => {
+      draft.loading = false;
+    });
   }, []);
 
   function renderActionButton() {

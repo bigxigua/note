@@ -19,7 +19,7 @@ const typeMap = {
     key: 'doc'
   },
   CreateEdit: {
-    img: '/images/create_edit.png',
+    img: '/images/add_file.png',
     text: '创建了文档',
     action: ['edit'],
     key: 'doc'
@@ -31,12 +31,12 @@ const typeMap = {
     key: 'doc'
   },
   PhysicalDeleteEdit: {
-    img: '/images/delete.png',
+    img: '/images/file_delete.svg',
     text: '彻底删除了文档',
     key: 'doc'
   },
   LogicalDeleteEdit: {
-    img: '/images/delete.png',
+    img: '/images/file_delete.svg',
     text: '移除了文档',
     key: 'doc'
   },
@@ -130,7 +130,16 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
 };
 
 export default function RecentContent(props) {
-  const { type, space = {}, doc = {}, user = {}, created_at, onRecentAction, doc_title, space_name } = props;
+  const {
+    type,
+    space = {},
+    doc = {},
+    user = {},
+    created_at,
+    onRecentAction,
+    doc_title,
+    space_name
+  } = props;
   const history = useHistory();
   const info = typeMap[type] || {};
   const weightStyle = { fontWeight: 600 };

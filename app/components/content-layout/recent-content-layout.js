@@ -5,17 +5,16 @@ import Loading from '@common/loading';
 import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
-  const [recentLists, setRecentLists] = useState([]);
-  const [loading, setLoading] = useState(false);
+  const [recentLists, setRecentLists] = useState(null);
 
   useEffect(() => {
     (async () => {
-      setLoading(true);
       const [error, data] = await axiosInstance.get('/recents?limit=20');
-      setLoading(false);
       if (error || !Array.isArray(data)) {
+        setRecentLists([]);
         console.log('[获取最近使用列表失败] ', error);
       } else {
+        console.log('-------->>');
         setRecentLists(data);
       }
     })();
@@ -28,9 +27,13 @@ export default function RecentContentLayout() {
     setRecentLists(list);
   }, [recentLists]);
 
+  // 正在获取最近编辑列表
+  if (!recentLists) {
+    return <Loading show={true} />;
+  }
+
   return (
     <div className="recent-content__layout">
-      <Loading show={loading} />
       {recentLists.length === 0
         ? <Empty />
         : recentLists.map(n => {

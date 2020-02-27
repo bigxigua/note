@@ -1,7 +1,10 @@
 // ---------这里是一些业务相关的常用方法的合集------------ //
 
 import axiosInstance from '@util/axiosInstance';
-import { getIn } from '@util/util';
+import useMessage from '@hooks/use-message';
+import { getIn, delay } from '@util/util';
+
+const message = useMessage();
 
 // 调用添加最近使用记录接口调用
 export async function addRecent({
@@ -232,6 +235,7 @@ export function deleteDoc({
   Modal,
   catalog,
   docId,
+  docTitle,
   spaceId
 }) {
   Modal.confirm({
@@ -243,9 +247,20 @@ export function deleteDoc({
       const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
       const result = await physicalDeletion({ docId: subs, spaceId });
       if (result) {
+        message.success({ content: '删除成功' });
+        await delay();
+        try {
+          await addRecent({
+            docTitle,
+            type: 'PhysicalDeleteEdit',
+            spaceId,
+            docId
+          });
+        } catch (error) {
+        }
         window.location.reload();
       } else {
-        console.log('[删除失败]');
+        message.error({ content: '删除失败' });
       }
     }
   });

@@ -282,6 +282,7 @@
   transition: all linear 0.2s;
   position: relative;
   z-index: 999;
+  transform: translate3d(0, 0, 0);
 }
 
 .simditor-toolbar>ul {
