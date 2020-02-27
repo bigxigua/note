@@ -1,10 +1,22 @@
 import React, { useState, useEffect, useCallback, useRef } from 'react';
 // import CatalogSkeleton from '@components/catalog-skeleton';
+import Icon from '@common/icon';
+import List from '@common/list';
+import Popover from '@components/popover';
 import axiosInstance from '@util/axiosInstance';
 import { parseUrlQuery, getIn } from '@util/util';
 import { extractCatalog, findTargetCatalogPath } from '@util/commonFun';
 import { renderCatalogs, addIsOpenProperty } from './handle';
+import { useHistory } from 'react-router-dom';
 import './index.css';
+
+const settingList = [{
+  text: '管理文档',
+  key: 'doc-manage'
+}, {
+  text: '编排目录',
+  key: 'catalog-setting'
+}];
 
 export default function BookCatalog() {
   const { spaceId = '' } = parseUrlQuery();
@@ -13,6 +25,7 @@ export default function BookCatalog() {
   const [catalogs, setCatalogs] = useState([]);
   const [docLists, setDocLists] = useState([]);
   const loading = useRef(false);
+  const history = useHistory();
 
   // 获取属于同一空间的文档列表
   const fetchDocsBySpaceId = useCallback(async () => {
@@ -42,6 +55,17 @@ export default function BookCatalog() {
     }
   }, []);
 
+  const onSettingItemClick = useCallback((e, info) => {
+    e.stopPropagation();
+    console.log('---', info);
+    const { key } = info;
+    if (key === 'doc-manage') {
+      history.push(`/spacedetail?spaceId=${spaceId}`);
+    } else if (key === 'catalog-setting') {
+      history.push(`/spacedetail?spaceId=${spaceId}&type=toc`);
+    }
+  }, []);
+
   useEffect(() => {
     fetchDocsBySpaceId();
   }, [spaceId]);
@@ -51,12 +75,20 @@ export default function BookCatalog() {
     // return <div className="bookcatalog-wrapper"><CatalogSkeleton /></div>;
   }
 
-  const bookCatalogJsx = renderCatalogs(catalogs, docLists, onToggleExpandCatalog);
-
   return (
     <nav className="bookcatalog-wrapper">
       <div className="bookcatalog-content">
-        {bookCatalogJsx}
+        <div className="bookcatalog-content__head">
+          <h6>目录</h6>
+          <div>
+            <Popover
+              content={<List list={settingList}
+                onTap={(info, index, event) => { onSettingItemClick(event, info); }} />}>
+              <Icon type="more" />
+            </Popover>
+          </div>
+        </div>
+        {renderCatalogs(catalogs, docLists, onToggleExpandCatalog)}
       </div>
     </nav>
   );

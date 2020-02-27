@@ -11,6 +11,7 @@
 
 .article-preview {
   width: calc(100% - 424px);
+  margin-left: 214px;
   max-width: 1160px;
   height: 100%;
   flex-shrink: 0;

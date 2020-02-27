@@ -115,7 +115,7 @@
     transition: background .3s cubic-bezier(.645, .045, .355, 1);
 }
 
-.article-header_right>.Popover_Wrapper>.popover-wrapper__content {
+.article-header_right>.popover-wrapper>.popover-wrapper__content {
     left: -60px;
     top: 56px;
 }

@@ -213,3 +213,40 @@ export function setTextAreaAutoHeight(element, extra = 0, maxHeight) {
   addEvent('focus', change);
   change();
 }
+
+// 获取当前文档的子节点
+function getSub(catalog, start, level) {
+  const result = [];
+  for (let i = start; i < catalog.length; i++) {
+    if (catalog[i].level > level) {
+      result.push(catalog[i]);
+    } else {
+      break;
+    }
+  }
+  return result;
+}
+
+// 删除文档节点
+export function deleteDoc({
+  Modal,
+  catalog,
+  docId,
+  spaceId
+}) {
+  Modal.confirm({
+    title: '确认删除该节点吗？QAQ',
+    subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
+    onOk: async () => {
+      const index = catalog.findIndex(n => n.docId === docId);
+      const item = catalog.find(n => n.docId === docId);
+      const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
+      const result = await physicalDeletion({ docId: subs, spaceId });
+      if (result) {
+        window.location.reload();
+      } else {
+        console.log('[删除失败]');
+      }
+    }
+  });
+}

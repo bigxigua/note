@@ -7,7 +7,7 @@ import Icon from '@common/icon';
 import List from '@common/list';
 import Modal from '@common/modal';
 import { isEmptyObject } from '@util/util';
-import { physicalDeletion } from '@util/commonFun';
+import { deleteDoc } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
 const chapterLayout = new ChapterLayout();
@@ -38,21 +38,27 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
   if (key === 'edit') {
     window.location.href = `/simditor/${docId}/?spaceId=${spaceId}`;
   } else if (key === 'delete') {
-    Modal.confirm({
-      title: '确认删除该节点吗？QAQ',
-      subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
-      onOk: async () => {
-        const index = catalog.findIndex(n => n.docId === docId);
-        const item = catalog.find(n => n.docId === docId);
-        const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
-        const result = await physicalDeletion({ docId: subs, spaceId });
-        if (result) {
-          window.location.reload();
-        } else {
-          console.log('[删除失败]');
-        }
-      }
+    deleteDoc({
+      Modal,
+      catalog,
+      docId,
+      spaceId
     });
+    // Modal.confirm({
+    //   title: '确认删除该节点吗？QAQ',
+    //   subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
+    //   onOk: async () => {
+    //     const index = catalog.findIndex(n => n.docId === docId);
+    //     const item = catalog.find(n => n.docId === docId);
+    //     const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
+    //     const result = await physicalDeletion({ docId: subs, spaceId });
+    //     if (result) {
+    //       window.location.reload();
+    //     } else {
+    //       console.log('[删除失败]');
+    //     }
+    //   }
+    // });
   }
 }
 

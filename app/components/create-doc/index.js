@@ -5,7 +5,7 @@ import Modal from '@common/modal';
 import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
-import useMessage from '@hooks/use-message';
+// import useMessage from '@hooks/use-message';
 import { delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 import './index.css';
@@ -13,7 +13,7 @@ import './index.css';
 export default function CreateDoc({
   onModalChange = () => { }
 }) {
-  const message = useMessage();
+  // const message = useMessage();
   const [visible, setVisible] = useState(true);
   const [loading, setLoading] = useState(false);
   const [spaces, setSpaces] = useState([]);

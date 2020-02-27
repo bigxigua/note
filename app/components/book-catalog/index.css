@@ -4,38 +4,70 @@
   flex-shrink: 0;
   border-right: 1px solid #e8e8e8;
   background: #fafafa;
-  position: relative;
   padding-left: calc((100% - 1400px)/2);
   box-sizing: content-box;
-}
-
-.bookcatalog-content {
-  width: 224px;
-  padding: 28px 24px 24px 24px;
   position: fixed;
   top: auto;
   left: auto;
-  min-height: 100vh;
   overflow-y: scroll;
+  scroll-behavior: smooth;
+}
+
+.bookcatalog-content {
+  width: 232px;
+  padding: 28px 24px 24px 24px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.bookcatalog-content__head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.bookcatalog-content__head>h6 {
+  font-size: 12px;
+  font-weight: 500;
+  color: #262626;
+}
+
+.bookcatalog-content__head>div>.Icon {
+  cursor: pointer;
 }
 
 .bookcatalog-item {
   position: relative;
+  padding-right: 12px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+}
+
+.bookcatalog-item:last-child {
+  margin-bottom: 80px;
+}
+
+.bookcatalog-item:hover {
+  background: #f5f5f5;
+  transition: background 0.2s linear;
 }
 
 .bookcatalog-item>.Icon {
   font-size: 12px;
   transition: all linear 0.2s;
-  transform: rotate(-90deg);
-  position: absolute;
-  left: -12px;
+  transform: rotate(-90deg) scale(0.8);
   cursor: pointer;
 }
 
 .bookcatalog-item__open>.Icon {
-  transform: rotate(0deg);
-  left: -14px;
+  transform: rotate(0deg) scale(0.8);
   margin-top: 1px;
+}
+
+.bookcatalog-item:not(.bookcatalog-item__folder)>.bookcatalog {
+  margin-left: 10px;
 }
 
 .bookcatalog {
@@ -47,21 +79,26 @@
   position: relative;
 }
 
-.bookcatalog-item__parent {
+.bookcatalog-item__folder {
   font-weight: bold;
 }
 
 .bookcatalog-setting {
   position: absolute;
   right: 0;
-  top: 1px;
-  /* display: none; */
+  top: 6px;
+  display: none;
+  height: auto;
 }
 
 .bookcatalog-setting:hover>.Icon {
   color: rgb(37, 184, 100);
 }
 
-/* .bookcatalog-wrapper:hover .bookcatalog-setting {
+.bookcatalog-item:hover .bookcatalog-setting {
   display: block;
-} */
+}
+
+.bookcatalog-item__setting-open {
+  display: block;
+}

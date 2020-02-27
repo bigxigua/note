@@ -11,14 +11,18 @@ export default function List(props) {
     onTap = () => { }
   } = props;
   const onClickHandle = (n, i, e) => {
+    if (n.disabled) {
+      return;
+    }
     onTap(n, i, e);
   };
   const jsx = list.map((n, i) => {
     return (
       <li key={i}
         style={listStyle}
+        data-disabled={String(!!n.disabled)}
         onClick={(e) => { onClickHandle(n, i, e); }}
-        className={`List ${n.checked ? 'List_Checked' : ''}`}>
+        className={$.trim(`list ${n.checked ? 'list-checked' : ''}`)}>
         {n.icon && <Icon type={n.icon} />}
         <span>{n.text}</span>
       </li>

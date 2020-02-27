@@ -6,15 +6,30 @@ import './index.css';
 const { isMobile } = checkBrowser();
 const SHOW_CLASSNAME = 'popover-wrapper__content_show';
 
+const loop = () => { };
+
 export default function Popover({
   className = '',
   children = '',
-  content = ''
+  content = '',
+  popoverToggleOpen = loop,
+  renderToBody = true // 是否渲染在body上
 }) {
   const [style, setStyle] = useState([]);
   const wrapperRef = useRef(null);
   const contentRef = useRef(null);
   const arrowRef = useRef(null);
+
+  const showPopover = useCallback(() => {
+    contentRef.current.classList.add(SHOW_CLASSNAME);
+    popoverToggleOpen(true);
+    calcPosition();
+  }, []);
+
+  const hidePopover = useCallback(() => {
+    contentRef.current.classList.remove(SHOW_CLASSNAME);
+    popoverToggleOpen(false);
+  }, []);
 
   const calcPosition = useCallback(() => {
     if (!wrapperRef.current) return;
@@ -43,14 +58,13 @@ export default function Popover({
     arrowRef.current.style.left = `${(left + width / 2) - l}px`;
   }, []);
 
-  // 绑定mouse事件
+  // pc端绑定mouse事件
   const bindEvent = useCallback(() => {
     const mouseenterFn = () => {
-      contentRef.current.classList.add(SHOW_CLASSNAME);
-      calcPosition();
+      showPopover();
     };
     const mouseleaveFn = () => {
-      contentRef.current.classList.remove(SHOW_CLASSNAME);
+      hidePopover();
     };
     wrapperRef.current.addEventListener('mouseenter', mouseenterFn, false);
     wrapperRef.current.addEventListener('mouseleave', mouseleaveFn, false);
@@ -71,17 +85,16 @@ export default function Popover({
     e.stopPropagation();
     const hasClass = Array.from(contentRef.current.classList).includes(SHOW_CLASSNAME);
     if (hasClass) {
-      contentRef.current.classList.remove(SHOW_CLASSNAME);
+      hidePopover();
     } else {
-      contentRef.current.classList.add(SHOW_CLASSNAME);
-      calcPosition();
+      showPopover();
     }
   }, []);
 
   // 失去焦点
   const onBlur = useCallback(() => {
     setTimeout(() => {
-      contentRef.current.classList.remove(SHOW_CLASSNAME);
+      hidePopover();
     }, 0);
   }, []);
 
@@ -94,24 +107,28 @@ export default function Popover({
       });
     };
   }, []);
+
+  // 内容
+  function Box() {
+    return (<div className="popover-wrapper_box animated">
+      <div ref={contentRef}
+        className="popover-wrapper__content"
+        style={style}>
+        <div ref={arrowRef}
+          className="popover_wrapper_arrow"></div>
+        {content}
+      </div>
+    </div>);
+  };
+
   return (
-    <div className={$.trim(`Popover_Wrapper ${className}`)}
+    <div className={$.trim(`popover-wrapper ${className}`)}
       tabIndex="1"
       onClick={onBindClick}
       onBlur={onBlur}
       ref={wrapperRef}>
       {children}
-      {ReactDOM.createPortal(
-        <div className="popover-wrapper_box animated">
-          <div ref={contentRef}
-            className="popover-wrapper__content"
-            style={style}>
-            <div ref={arrowRef}
-              className="popover_wrapper_arrow"></div>
-            {content}
-          </div>
-        </div>
-        , document.body)}
+      {renderToBody ? ReactDOM.createPortal(Box(), document.body) : <Box />}
     </div>
   );
 };

@@ -46,7 +46,7 @@
         display: none;
     }
 
-    .header-right>.Popover_Wrapper {
+    .header-right>.popover-wrapper {
         margin-right: 20px;
     }
 
@@ -120,5 +120,6 @@
 
     .article-preview {
         width: 100%;
+        margin-left: 0;
     }
 }

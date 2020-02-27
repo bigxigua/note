@@ -3,17 +3,23 @@ import Tooltip from '@common/tooltip';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
+// import Modal from '@common/modal';
 import { NavLink } from 'react-router-dom';
-import { isEmptyObject } from '@util/util';
+import { isEmptyObject, delay } from '@util/util';
+import { createNewDoc } from '@util/commonFun';
+import useMessage from '@hooks/use-message';
+
+const message = useMessage();
 
 const settingList = [{
-  text: '删除',
-  icon: 'delete',
-  key: 'delete'
-}, {
-  text: '在此建立新文档',
+  text: '新建',
   icon: 'file-add',
-  key: 'file-add'
+  key: 'add'
+}, {
+  text: '从模版新建',
+  icon: 'file-add',
+  key: 'file-add-template',
+  disabled: true
 }];
 
 const activeStyle = {
@@ -21,16 +27,32 @@ const activeStyle = {
   color: '#25b864'
 };
 
-function onSetting(e) {
-  console.log(e);
-}
-
-function SettingContent() {
-  return <List list={settingList} />;
+function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
+  console.log(curCatalogInfo, curDocInfo);
+  const { space_id, doc_id } = curDocInfo;
+  const { level } = curCatalogInfo;
+  e.stopPropagation();
+  if (info.key === 'add') {
+    createNewDoc({
+      space_id,
+      catalogInfo: {
+        folderDocId: doc_id,
+        level: Math.min(3, level + 1)
+      }
+    }, async ({ docId, spaceId }) => {
+      if (docId && spaceId) {
+        message.success({ content: '创建成功' });
+        await delay();
+        window.location.href = `/simditor/${docId}?spaceId=${spaceId}`;
+      } else {
+        message.error({ content: '创建文档出错' });
+      }
+    });
+  }
 }
 
 // 渲染目录项
-function renderCatalogItem(type, doc, isFolder) {
+function renderCatalogItem(type, doc) {
   const cls = 'bookcatalog ellipsis';
   return type.toLocaleUpperCase() === 'EMPTY_NODE'
     ? <Tooltip className={cls}
@@ -43,16 +65,12 @@ function renderCatalogItem(type, doc, isFolder) {
       className={cls}
       activeStyle={activeStyle}>
       {doc.title}
-      {
-        isFolder && <Popover
-          className="bookcatalog-setting"
-          content={<SettingContent />}>
-          <Icon
-            type="setting"
-            onClick={onSetting} />
-        </Popover>
-      }
     </NavLink>;
+}
+
+// 展示/隐藏Popover
+function popoverToggleOpen(open, cls) {
+  $(`.${cls}`)[`${open ? 'add' : 'remove'}Class`]('bookcatalog-item__setting-open');
 }
 
 export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
@@ -78,20 +96,30 @@ export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog) {
     data.forEach((item, index) => {
       const doc = docs.find(n => n.doc_id === item.docId) || {};
       const isFolder = item.children.length > 0;
-      let classes = 'bookcatalog-item flex ';
+      let classes = 'bookcatalog-item ';
       classes += `${item.isOpen ? 'bookcatalog-item__open' : ''} `;
-      classes += `${isFolder ? 'bookcatalog-item__parent' : ''} `;
+      classes += `${isFolder ? 'bookcatalog-item__folder' : ''} `;
       if (isEmptyObject(doc)) {
         return null;
       }
       result.push(<div
         key={item.docId}
-        style={{ left: `${Math.min(item.level, 3) * 10}px` }}
+        style={{ paddingLeft: `${Math.min(item.level, 3) * 10}px` }}
         className={$.trim(classes)}>
         {isFolder && <Icon
           onClick={() => { onToggleExpandCatalog(catalog, item, index); }}
           type="caret-down" />}
-        {renderCatalogItem(item.type, doc, isFolder)}
+        {renderCatalogItem(item.type, doc)}
+        {
+          isFolder &&
+          <Popover
+            className={`bookcatalog-setting bookcatalog-setting_${item.docId}`}
+            popoverToggleOpen={(e) => { popoverToggleOpen(e, `bookcatalog-setting_${item.docId}`); }}
+            content={<List list={settingList}
+              onTap={(info, index, event) => { onSettingItemClick(event, info, item, doc); }} />}>
+            <Icon type="setting" />
+          </Popover>
+        }
       </div>);
       if (item.children.length && item.isOpen) {
         result = result.concat(recursion(item.children));
