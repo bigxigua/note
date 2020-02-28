@@ -10,7 +10,7 @@ export default function Footer({
       <div className="footer-wrapper_tip">
         <div className="flex">
           <img src="/images/watermelon.png" />
-          <span>一日一记</span>
+          <span>西瓜笔记</span>
         </div>
         <span>生活点滴，记在这里。专属空间，私密体验。</span>
         <a

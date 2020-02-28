@@ -43,7 +43,7 @@ export default function ArticleHeader({
   }
 
   const crumbs = [{
-    text: '文档列表',
+    text: '文档',
     pathname: '/docs'
   }, {
     text: getIn(docInfo, ['space', 'name'], ''),
