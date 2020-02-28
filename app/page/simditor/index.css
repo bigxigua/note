@@ -16,7 +16,7 @@
   margin: 0 auto;
   position: relative;
   background: #fafafa;
-  height: 100%;
+  height: calc(100% - 40px);
   overflow: hidden;
   width: 1280px;
 }

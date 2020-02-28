@@ -700,11 +700,12 @@
 
 .simditor {
   border: none;
-  height: calc(100vh - 58px);
+  height: 100%;
   overflow-y: scroll;
   min-width: 1280px;
   -ms-overflow-style: none;
   overflow: -moz-scrollbars-none;
+  scroll-behavior: smooth;
 }
 
 .simditor::-webkit-scrollbar {
