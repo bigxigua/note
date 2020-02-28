@@ -21,7 +21,7 @@ const { isMobile } = checkBrowser();
 // 下拉选项
 function renderDocOperation(onOperationClick, docInfo) {
   return (
-    <List className="Docs_operations"
+    <List className="docs_operations"
       onTap={onOperationClick}
       list={[{
         text: '编辑',
@@ -30,6 +30,10 @@ function renderDocOperation(onOperationClick, docInfo) {
       }, {
         text: '删除',
         key: 'delete',
+        docInfo
+      }, {
+        text: '设置为模版',
+        key: 'template',
         docInfo
       }
       ]} />);
@@ -52,7 +56,7 @@ async function onRecovery(info, history) {
 // 右侧操作项
 function renderRightJsx(info, handle, h, deleteDoc) {
   if (info.status === '0') {
-    return (<div className="Doc_Action">
+    return (<div className="doc-action">
       <span
         onClick={() => { onRecovery(info, h); }}
         style={{ color: 'rgb(37, 184, 100)', marginRight: '10px' }}>恢复</span>
@@ -60,18 +64,20 @@ function renderRightJsx(info, handle, h, deleteDoc) {
     </div>);
   }
   if (info.title_draft || info.markdown_draft) {
-    return <Link className="Table_Actions"
+    return <Link className="table-actions"
       to={`/simditor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
   }
-  return <div className="flex"
-    style={{ width: '100px' }}>
-    <Link className="Table_Actions"
-      to={'/article' + info.url.split('article')[1]}>查看</Link>
-    <Popover content={renderDocOperation(handle, info)}>
-      <Icon type="ellipsis"
-        className="Space_Operation_Icon Table_Actions" />
-    </Popover>
-  </div>;
+  return (
+    <div
+      className="flex"
+      style={{ width: '100px' }}>
+      <Link className="table-actions"
+        to={'/article' + info.url.split('article')[1]}>查看</Link>
+      <Popover content={renderDocOperation(handle, info)}>
+        <Icon type="ellipsis"
+          className="Space_Operation_Icon table-actions" />
+      </Popover>
+    </div>);
 }
 
 // 移动端显示到文档列表
@@ -184,9 +190,10 @@ export default function Space() {
     if (key === 'delete') {
       setVisible(true);
       setDocInfo(docInfo);
-    }
-    if (key === 'editor') {
+    } else if (key === 'editor') {
       history.push(`/simditor/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
+    } else if (key === 'template') {
+      console.log(docInfo);
     }
   }, []);
 

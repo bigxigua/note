@@ -247,11 +247,11 @@
   margin-bottom: 0;
 }
 
-.article_draftTip_mobile .Article_DraftTips_P {
+.article_draftTip_mobile .article-draftTips__p {
   font-size: 12px;
 }
 
-.article_draftTip_mobile .Article_DraftTips_P .Tag {
+.article_draftTip_mobile .article-draftTips__p .Tag {
   transform: scale(0.8);
   margin-right: 0;
 }
@@ -284,12 +284,12 @@
   margin-right: 12px;
 }
 
-.Article_DraftTips_P {
+.article-draftTips__p {
   color: #595959;
   font-size: 14px;
 }
 
-.Article_DraftTips_P>.Tag {
+.article-draftTips__p>.Tag {
   cursor: pointer;
   margin-right: 14px;
 }

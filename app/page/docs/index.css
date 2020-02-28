@@ -12,21 +12,21 @@
   padding: 0 14px
 }
 
-.Docs_operations {
+.docs_operations {
   box-shadow: none;
   padding: 0;
 }
 
-.Docs_operations>li {
+.docs_operations>li {
   line-height: 34px;
 }
 
-.Doc_Action {
+.doc-action {
   display: block;
   width: 100px;
 }
 
-.Doc_Action>span {
+.doc-action>span {
   cursor: pointer;
   color: rgb(16, 142, 233);
 }

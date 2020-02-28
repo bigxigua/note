@@ -27,7 +27,7 @@ export default function Docs() {
     key: 'action',
     render: (i) => {
       return <Link to={`/spacedetail?spaceId=${i.space_id}`}
-        className="Table_Actions">管理</Link>;
+        className="table-actions">管理</Link>;
     }
   }];
 

@@ -1,4 +1,4 @@
-.Avatar_wrapper {
+.avatar-wrapper {
   margin-right: 20px;
   display: flex;
   align-items: center;
@@ -6,7 +6,7 @@
   height: 100%;
 }
 
-.Avatar {
+.avatar {
   width: 24px;
   height: 24px;
   border-radius: 100%;
@@ -14,10 +14,9 @@
 }
 
 .header-user-popover {
-  width: 140px;
+  width: 250px;
   border-radius: 4px;
   box-sizing: border-box;
-  padding: 0 12px;
   right: 0;
 }
 
@@ -25,12 +24,14 @@
   display: flex;
   align-items: center;
   border-bottom: 1px solid #e8e8e8;
+  padding: 6px 12px;
 }
 
 .header-userpopover-avatar {
-  width: 42px;
-  height: 42px;
+  width: 30px;
+  height: auto;
   border-radius: 100%;
+  margin-right: 12px;
 }
 
 
@@ -42,45 +43,15 @@
   margin-bottom: 6px;
 }
 
-.header-userpopover-info>div>span {
-  font-weight: normal;
-  font-family: PingFangSC-Regular;
+.header-userpopover-info>p {
+  color: rgba(0, 0, 0, .45);
+  font-size: 12px;
 }
 
-.header-userpopover-bom {
-  box-sizing: border-box;
-  padding-top: 8px;
+.header-user-popover ul.list-wrapper li {
+  padding: 0 12px;
 }
 
-.header-userpopover-link {
-  display: flex;
-  align-items: center;
-  position: relative;
-  height: 32px;
-  margin-bottom: 5px;
-}
-
-.header-userpopover-link:hover {
-  background: #f5f5f5;
-}
-
-.header-userpopover-link>span {
-  margin-left: 5px;
-  color: #595959;
-  font-size: 14px;
-}
-
-.header-userpopover-link>div {
-  position: relative;
-  top: 1px;
-}
-
-.header-userpopover-link>div:last-child {
-  position: absolute;
-  top: 9px;
-  right: 16px;
-}
-
-.Avatar_Down_Icon {
+.avatar-down__icon {
   transform: scale(.8);
 }

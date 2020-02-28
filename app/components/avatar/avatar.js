@@ -1,49 +1,57 @@
 import React, { useContext, Fragment } from 'react';
 import Icon from '@common/icon';
+import List from '@common/list';
 import userContext from '@context/user/userContext';
 import Popover from '@components/popover';
 import axiosInstance from '@util/axiosInstance';
+import useMessage from '@hooks/use-message';
+import { delay } from '@util/util';
 import './avatar.css';
+
+const message = useMessage();
+
+const settingList = [{
+  text: '退出',
+  icon: 'logout',
+  key: 'outlogin'
+}, {
+  text: '设置',
+  icon: 'setting',
+  key: 'setting',
+  disabled: true
+}];
+
+async function onListItemClick(e, info) {
+  e.stopPropagation();
+  console.log(info);
+  if (info.key === 'logout') {
+    const [, data] = await axiosInstance.post('login/out');
+    if (data && data.STATUS === 'OK') {
+      message.success({ content: '创建成功' });
+      await delay();
+      window.location.reload();
+    } else {
+      message.error({ content: '系统繁忙，请稍后再试' });
+    }
+  }
+}
 
 function Content(props) {
   const { userInfo: { avatar, nickname, account, headline } } = props;
-  const onOutLogin = async () => {
-    const [error, data] = await axiosInstance.post('login/out');
-    if (data && data.STATUS === 'OK') {
-      window.location.reload();
-      return;
-    }
-    console.log('[退出登陆失败] ', error);
-  };
   return (
     <div className="header-user-popover animated">
       <div className="header-userpopover-top">
-        {/* <img src={avatar}
+        <img src={avatar}
           alt="头像"
-          className="header-userpopover-avatar" /> */}
+          className="header-userpopover-avatar" />
         <div className="header-userpopover-info">
-          <div>昵称: <span>{account || nickname}</span></div>
-          {/* <div>介绍: <span>{headline || '空空如也'}</span></div> */}
+          <div>{account || nickname}</div>
+          <p>行的是流水</p>
         </div>
       </div>
-      <div className="header-userpopover-bom">
-        {/* <div className="header-userpopover-link">
-          <Icon type="setting" />
-          <span>收藏夹</span>
-          <Icon type="right" />
-        </div> */}
-        {/* <div className="header-userpopover-link">
-          <Icon type="setting" />
-          <span>设置</span>
-          <Icon type="right" />
-        </div> */}
-        <div className="header-userpopover-link"
-          onClick={onOutLogin}>
-          <Icon type="setting" />
-          <span>退出</span>
-          <Icon type="right" />
-        </div>
-      </div>
+      <List
+        onTap={(info, index, event) => { onListItemClick(event, info); }}
+        list={settingList}></List>
     </div>
   );
 }
@@ -55,13 +63,13 @@ export default function Avatar() {
   return (
     <Fragment>
       <Popover
-        className="Avatar_wrapper"
+        className="avatar-wrapper"
         content={<Content userInfo={userInfo} />}>
         <img src={userInfo.avatar}
-          className="Avatar"
+          className="avatar"
           alt="" />
         <Icon type="caret-down"
-          className="Avatar_Down_Icon" />
+          className="avatar-down__icon" />
       </Popover>
     </Fragment>
   );

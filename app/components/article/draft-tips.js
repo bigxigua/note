@@ -24,7 +24,7 @@ export default function DraftTips({
       <div className="Article_DraftTips flex">
         <img src="/images/draft.png" />
         <div>
-          <div className="Article_DraftTips_P">
+          <div className="article-draftTips__p">
             当前文档的最新内容尚未更新（默认显示最新草稿内容）
             <Tag color="#47c479">
               <Link to={`${editorLink}`}>去更新</Link>
