@@ -8,6 +8,7 @@ import Tag from '@common/tag';
 import List from '@common/list';
 import Icon from '@common/icon';
 import Modal from '@common/modal';
+import Message from '@common/message';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
@@ -212,6 +213,20 @@ export default function Space() {
   }, []);
 
   useEffect(() => {
+    Message.success({
+      content: '文字哈哈哈',
+      duration: 20
+    });
+    // setInterval(() => {
+    //   Message.success({
+    //     content: '文字哈哈哈' + Math.random(),
+    //     duration: 1
+    //   });
+    // }, 3000);
+    Message.error({
+      content: '文字哈哈哈',
+      duration: 1
+    });
     fetchDocs();
   }, []);
 
