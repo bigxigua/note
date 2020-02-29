@@ -44,10 +44,10 @@ export async function physicalDeletion({ docId, spaceId } = {}) {
 
 // 创建文档接口调用
 export async function createNewDoc(info, callback) {
-  const { space_id: spaceId, scene = 'doc', title = '无标题', catalogInfo = {} } = info;
+  const { space_id: spaceId, title = '无标题', catalogInfo = {} } = info;
   const [error, data] = await axiosInstance.post('create/doc', {
     title,
-    scene,
+    scene: 'doc',
     catalogInfo,
     space_id: spaceId
   });
@@ -264,4 +264,23 @@ export function deleteDoc({
       }
     }
   });
+}
+
+// 将某个文档设置为模版文档
+export async function setDocToTemplate({
+  html,
+  title,
+  url
+}) {
+  const [error, data] = await axiosInstance.post('create/template', {
+    html,
+    title,
+    url
+  });
+  if (getIn(data, ['templateId'])) {
+    message.success({ content: '模版设置成功' });
+  } else {
+    message.error({ content: getIn(error, ['message'], '系统繁忙') });
+  }
+  return [error, data];
 }

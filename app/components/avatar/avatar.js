@@ -13,7 +13,7 @@ const message = useMessage();
 const settingList = [{
   text: '退出',
   icon: 'logout',
-  key: 'outlogin'
+  key: 'logout'
 }, {
   text: '设置',
   icon: 'setting',
@@ -23,11 +23,10 @@ const settingList = [{
 
 async function onListItemClick(e, info) {
   e.stopPropagation();
-  console.log(info);
   if (info.key === 'logout') {
     const [, data] = await axiosInstance.post('login/out');
     if (data && data.STATUS === 'OK') {
-      message.success({ content: '创建成功' });
+      message.success({ content: '退出登陆成功' });
       await delay();
       window.location.reload();
     } else {
@@ -37,7 +36,7 @@ async function onListItemClick(e, info) {
 }
 
 function Content(props) {
-  const { userInfo: { avatar, nickname, account, headline } } = props;
+  const { userInfo: { avatar, nickname, account } } = props;
   return (
     <div className="header-user-popover animated">
       <div className="header-userpopover-top">

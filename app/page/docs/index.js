@@ -12,7 +12,7 @@ import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
 import { formatTimeStamp, checkBrowser } from '@util/util';
-import { addRecent, logicalDeletion, physicalDeletion } from '@util/commonFun';
+import { addRecent, logicalDeletion, physicalDeletion, setDocToTemplate } from '@util/commonFun';
 import './index.css';
 
 const message = useMessage();
@@ -102,10 +102,6 @@ function renderDoclistsForMobile(lists = [], loading) {
 
 export default function Space() {
   const [dataSource, setDataSource] = useState(null);
-  // 显示删除文档modal
-  const [visible, setVisible] = useState(false);
-  // 文档信息
-  const [docInfo, setDocInfo] = useState(false);
   // 分页参数
   const [pageNo, setPageNo] = useState(1);
   // 正在请求接口
@@ -150,18 +146,19 @@ export default function Space() {
       return renderRightJsx(info, onOperationClick, history, deleteDoc);
     }
   }];
+
   // 获取文档列表
-  async function fetchDocs({ type = 'ALL', q = '', page = '' } = {}) {
+  const fetchDocs = useCallback(async ({ type = 'ALL', q = '', page = '' } = {}) => {
     setLoading(true);
     const [error, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(q)}&type=${type.toLocaleLowerCase()}${page}`);
     setLoading(false);
     if (!error && data && Array.isArray(data) && data.length > 0) {
       setDataSource(data);
     } else {
-      console.log('[获取文档列表失败] ', error);
       setDataSource([]);
     }
-  }
+  }, []);
+
   // 删除文档
   async function deleteDoc(type = '', info) {
     const { doc_id: docId, space_id: spaceId, title } = info;
@@ -187,15 +184,21 @@ export default function Space() {
   }
 
   const onOperationClick = useCallback(({ key, docInfo }) => {
+    const { html, title, url, doc_id, space_id } = docInfo;
     if (key === 'delete') {
-      setVisible(true);
-      setDocInfo(docInfo);
+      Modal.confirm({
+        title: '确认移除该文档吗？QAQ',
+        subTitle: '删除后，会在回收站内保存30天，30天后会被物理删除',
+        onOk: async () => {
+          deleteDoc('', docInfo);
+        }
+      });
     } else if (key === 'editor') {
-      history.push(`/simditor/${docInfo.doc_id}?spaceId=${docInfo.space_id}`);
+      history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
     } else if (key === 'template') {
-      console.log(docInfo);
+      setDocToTemplate({ html, title, url });
     }
-  }, []);
+  }, [dataSource]);
 
   const onTypeChange = useCallback((type, { code, q }) => {
     // 切换最近编辑/我创建的
@@ -212,11 +215,6 @@ export default function Space() {
     fetchDocs();
   }, []);
 
-  const onConfirmModal = () => {
-    deleteDoc('', docInfo);
-    setVisible(false);
-  };
-
   const pagingDataSource = () => {
     if (!Array.isArray(dataSource)) {
       return null;
@@ -224,9 +222,10 @@ export default function Space() {
     return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
   };
 
-  const onPaginationChange = (page) => {
+  const onPaginationChange = useCallback((page) => {
     setPageNo(page);
-  };
+  }, []);
+
   return <PageLayout
     className="docs"
     content={
@@ -239,15 +238,6 @@ export default function Space() {
           columns={columns}
           pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
           dataSource={pagingDataSource()} />}
-        <Modal
-          subTitle="确认移动该文档到回收站？"
-          title="移到回收站"
-          onCancel={() => setVisible(false)}
-          onConfirm={onConfirmModal}
-          confirmText="确认删除"
-          visible={visible} >
-          移动到回收站后，文档列表页操作恢复
-        </Modal>
       </Fragment>
     } />;
 }
