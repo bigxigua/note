@@ -132,13 +132,13 @@
 
 @keyframes slideInDown {
   from {
-    transform: translate3d(0, calc(-100% + 20px), 0);
+    transform: translate3d(-50%, calc(-100% + 20px), 0);
     opacity: 0.6;
   }
 
   to {
     opacity: 1;
-    transform: translate3d(0, 0, 0);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 

@@ -7,6 +7,7 @@ import Popover from '@components/popover';
 import { NavLink } from 'react-router-dom';
 import { isEmptyObject, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
+import { createDocByTemplate } from '@util/commonFun2';
 import useMessage from '@hooks/use-message';
 
 const message = useMessage();
@@ -18,8 +19,7 @@ const settingList = [{
 }, {
   text: '从模版新建',
   icon: 'file-add',
-  key: 'file-add-template',
-  disabled: true
+  key: 'create-doc-by-template'
 }];
 
 const activeStyle = {
@@ -28,17 +28,18 @@ const activeStyle = {
 };
 
 function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
-  console.log(curCatalogInfo, curDocInfo);
   const { space_id, doc_id } = curDocInfo;
   const { level } = curCatalogInfo;
+  const { key } = info;
+  const catalogInfo = {
+    folderDocId: doc_id,
+    level: Math.min(3, level + 1)
+  };
   e.stopPropagation();
-  if (info.key === 'add') {
+  if (key === 'add') {
     createNewDoc({
       space_id,
-      catalogInfo: {
-        folderDocId: doc_id,
-        level: Math.min(3, level + 1)
-      }
+      catalogInfo
     }, async ({ docId, spaceId }) => {
       if (docId && spaceId) {
         message.success({ content: '创建成功' });
@@ -48,6 +49,8 @@ function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
         message.error({ content: '创建文档出错' });
       }
     });
+  } else if (key === 'create-doc-by-template') {
+    createDocByTemplate(space_id, catalogInfo);
   }
 }
 

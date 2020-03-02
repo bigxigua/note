@@ -67,7 +67,7 @@ export default function Modal({
 
   return ReactDOM.createPortal(
     (<div className={$.trim(classes)}>
-      <div className={`Modal ${wrapClassName}`}
+      <div className={$.trim(`modal ${wrapClassName}`)}
         style={{
           width: w
         }}>

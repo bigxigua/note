@@ -1,4 +1,4 @@
-.Modal {
+.modal {
   max-width: calc(100vw - 16px);
   position: fixed;
   background: #ffffff;
@@ -82,6 +82,6 @@
   margin-left: 10px;
 }
 
-.body-scroll_hiddlen{
+.body-scroll_hiddlen {
   overflow: hidden;
 }

@@ -428,3 +428,23 @@ textarea {
     width: 100%;
     height: 100%
 }
+
+.Message {
+    position: fixed;
+    top: 20px;
+    font-size: 14px;
+    display: none;
+    z-index: 999;
+    left: 50%;
+    padding: 10px 16px;
+    border-radius: 4px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    background: #fff;
+    color: rgba(0, 0, 0, 0.65);
+}
+
+.Message>img,
+.Message>svg {
+    width: 20px;
+    margin-right: 4px
+}

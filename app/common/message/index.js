@@ -1,4 +1,4 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import method from './method';
 import './index.css';
 
@@ -46,6 +46,7 @@ export default function Message({
 }) {
   const cls = $.trim('message-box animated slideInDown');
   const messageRef = useRef(null);
+  const [notices, setNotices] = useState([]);
 
   useEffect(() => {
     console.log('-------', type);
@@ -56,19 +57,22 @@ export default function Message({
       clearTimeout(timer);
     };
   }, []);
-  return (
-    <div
-      ref={messageRef}
-      className="message">
-      <div className={cls}>
-        {icon}
-        <span className="message-content">{content || ''}</span>
+  return notices.map((item, index) => {
+    return (
+      <div
+        key={index}
+        ref={messageRef}
+        className="message">
+        <div className={cls}>
+          {icon}
+          <span className="message-content">{content || ''}</span>
+        </div>
       </div>
-    </div>
-  );
+    );
+  });
 };
 
 Message.success = method('success');
-Message.info = method('info');
-Message.error = method('error');
-Message.loading = method('loading');
+// Message.info = method('info');
+// Message.error = method('error');
+// Message.loading = method('loading');

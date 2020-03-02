@@ -43,9 +43,10 @@ export async function physicalDeletion({ docId, spaceId } = {}) {
 }
 
 // 创建文档接口调用
-export async function createNewDoc(info, callback) {
-  const { space_id: spaceId, title = '无标题', catalogInfo = {} } = info;
+export async function createNewDoc(info, callback = () => { }) {
+  const { space_id: spaceId, title = '无标题', html = '', catalogInfo = {} } = info;
   const [error, data] = await axiosInstance.post('create/doc', {
+    html,
     title,
     scene: 'doc',
     catalogInfo,

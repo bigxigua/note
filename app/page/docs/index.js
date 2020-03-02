@@ -8,11 +8,10 @@ import Tag from '@common/tag';
 import List from '@common/list';
 import Icon from '@common/icon';
 import Modal from '@common/modal';
-import Message from '@common/message';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
-import { formatTimeStamp, checkBrowser } from '@util/util';
+import { formatTimeStamp, checkBrowser, getIn } from '@util/util';
 import { addRecent, logicalDeletion, physicalDeletion, setDocToTemplate } from '@util/commonFun';
 import './index.css';
 
@@ -184,7 +183,7 @@ export default function Space() {
     }
   }
 
-  const onOperationClick = useCallback(({ key, docInfo }) => {
+  const onOperationClick = useCallback(async ({ key, docInfo }) => {
     const { html, title, url, doc_id, space_id } = docInfo;
     if (key === 'delete') {
       Modal.confirm({
@@ -197,7 +196,15 @@ export default function Space() {
     } else if (key === 'editor') {
       history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
     } else if (key === 'template') {
-      setDocToTemplate({ html, title, url });
+      message.loading({
+        content: '正在生成模版,请稍后'
+      });
+      const [error, data] = await setDocToTemplate({ html, title, url });
+      if ((getIn(data, ['templateId']))) {
+        message.success({ content: '模版设置成功！' });
+      } else {
+        message.error({ content: getIn(error, ['message'], '系统繁忙') });
+      }
     }
   }, [dataSource]);
 
@@ -213,20 +220,6 @@ export default function Space() {
   }, []);
 
   useEffect(() => {
-    Message.success({
-      content: '文字哈哈哈',
-      duration: 20
-    });
-    // setInterval(() => {
-    //   Message.success({
-    //     content: '文字哈哈哈' + Math.random(),
-    //     duration: 1
-    //   });
-    // }, 3000);
-    Message.error({
-      content: '文字哈哈哈',
-      duration: 1
-    });
     fetchDocs();
   }, []);
 

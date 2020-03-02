@@ -1,20 +1,21 @@
+import React from 'react';
+
+const ICON_MAP = {
+  success: '<svg viewBox="64 64 896 896" focusable="false" data-icon="check-circle" width="1em" height="1em" fill="#52c41a" aria-hidden="true"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm193.5 301.7l-210.6 292a31.8 31.8 0 01-51.7 0L318.5 484.9c-3.8-5.3 0-12.7 6.5-12.7h46.9c10.2 0 19.9 4.9 25.9 13.3l71.2 98.8 157.2-218c6-8.3 15.6-13.3 25.9-13.3H699c6.5 0 10.3 7.4 6.5 12.7z"></path></svg>',
+  error: '<svg viewBox="64 64 896 896" focusable="false" data-icon="close-circle" width="1em" height="1em" fill="red" aria-hidden="true"><path d="M512 64C264.6 64 64 264.6 64 512s200.6 448 448 448 448-200.6 448-448S759.4 64 512 64zm165.4 618.2l-66-.3L512 563.4l-99.3 118.4-66.1.3c-4.4 0-8-3.5-8-8 0-1.9.7-3.7 1.9-5.2l130.1-155L340.5 359a8.32 8.32 0 01-1.9-5.2c0-4.4 3.6-8 8-8l66.1.3L512 464.6l99.3-118.4 66-.3c4.4 0 8 3.5 8 8 0 1.9-.7 3.7-1.9 5.2L553.5 514l130 155c1.2 1.5 1.9 3.3 1.9 5.2 0 4.4-3.6 8-8 8z"></path></svg>',
+  loading: '<img src="/images/loading.svg" />',
+  warning: <img src="" />,
+  info: <img src="" />
+};
 export default function useMessage() {
-  const createMessageDom = (c, src, content) => {
+  const createMessageDom = (c, img, content) => {
     $('.Message').remove();
     const dom =
       `<div class="Message flex animated ${c}">` +
-      `<img style="width: 20px;margin-right: 4px;" src="/images/${src}.png" />` +
+      `${img}` +
       `<span>${content}</span>` +
       +'</div>';
-    const style = '<style>' +
-      '.Message_Error>span { position: relative; top: -2px;}\n' +
-      '.Message{position: fixed; top: 20px;font-size: 14px; display: none; z-index: 999;' +
-      'left: 50%;padding: 10px 16px;' +
-      'border-radius: 4px; box-shadow: 0 4px 12px rgba(0,0,0,0.15); ' +
-      'background: #fff; color: rgba(0, 0, 0, 0.65)}; font-size: 14px;}' +
-      '</style>';
     $('body').append($(dom));
-    $('head').append($(style));
   };
   const removeDom = (duration, onClose) => {
     setTimeout(() => {
@@ -25,11 +26,11 @@ export default function useMessage() {
   const fn = () => { };
   const message = {
     success: ({ content = '', d, onClose = fn }) => {
-      createMessageDom('slideInDown', 'success', content);
+      createMessageDom('slideInDown', ICON_MAP.success, content);
       removeDom(d, onClose);
     },
     error: ({ content, d, onClose = fn }) => {
-      createMessageDom('slideInDown Message_Error', 'fail', content);
+      createMessageDom('slideInDown Message_Error', ICON_MAP.error, content);
       removeDom(d, onClose);
     },
     info: ({ content, d, onClose }) => {
@@ -45,8 +46,8 @@ export default function useMessage() {
       removeDom(d, onClose);
     },
     loading: ({ content, d, onClose }) => {
-      createMessageDom('Message_Loading', '', content);
-      removeDom(d, onClose);
+      createMessageDom('slideInDown', ICON_MAP.loading, content);
+      // removeDom(d, onClose);
     }
   };
   return message;

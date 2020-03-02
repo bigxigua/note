@@ -4,7 +4,8 @@ import { isPromise } from '@util/util';
 import Modal from './index';
 
 const ConfirmDialog = ({
-  className = '',
+  width = undefined,
+  wrapClassName = '',
   cancelText = '取消',
   okText = '确认',
   onCancel = () => { },
@@ -25,7 +26,8 @@ const ConfirmDialog = ({
   }, []);
 
   return <Modal
-    className={className}
+    width={width}
+    wrapClassName={wrapClassName}
     title={title}
     subTitle={subTitle}
     onCancel={() => { setVisible(false); onCancel(); }}

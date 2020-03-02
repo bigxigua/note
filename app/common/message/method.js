@@ -3,6 +3,10 @@ import ReactDOM from 'react-dom';
 import { isPromise } from '@util/util';
 import Message from '@common/message';
 
+const messageInstance = null;
+
+const notices = [];
+
 const ICON_MAP = {
   success: <svg
     viewBox="64 64 896 896"
@@ -27,15 +31,13 @@ const ICON_MAP = {
 };
 const loop = () => { };
 
-const SuccessMessage = ({
+const notice = ({
   type = '',
   content = '',
   duration = 2,
   onClose = loop,
   show = false
 }) => {
-  const [visible, setVisible] = useState(true);
-
   return <Message
     content={content}
     duration={duration}
@@ -45,21 +47,14 @@ const SuccessMessage = ({
 
 export default function method(type) {
   return (props) => {
-    const wrapper = document.querySelector('.message-wrapper');
-    let mountElement = wrapper;
-    if (wrapper) {
-      console.log('---1---');
+    const args = { ...props, type };
+    if (messageInstance) {
+      notices.push(args);
     } else {
-      console.log('---2---');
       const div = document.createElement('div');
       div.classList.add('message-wrapper');
       document.body.appendChild(div);
-      mountElement = div;
+      return ReactDOM.render(<notice {...args} />, div);
     }
-    const args = { ...props, type };
-    // 如果当前已经存在元素
-    console.log('mountElement:', mountElement);
-    ReactDOM.render(<SuccessMessage {...args} />, mountElement);
-    return null;
   };
 };
