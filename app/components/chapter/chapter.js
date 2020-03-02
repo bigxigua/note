@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment, useContext, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { NavLink } from 'react-router-dom';
 import ChapterLayout from '@components/chapter-layout';
 import InsertCatalog from '@components/insert-catalog';
 import Popover from '@components/popover';
@@ -10,25 +11,24 @@ import { isEmptyObject } from '@util/util';
 import { deleteDoc } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
+
 const chapterLayout = new ChapterLayout();
+
+const settingList = [{
+  text: '删除',
+  icon: 'delete',
+  key: 'delete'
+}, {
+  text: '编辑',
+  icon: 'edit',
+  key: 'edit'
+}];
 
 function getStyle(style) {
   return {
     ...style,
     transitionDuration: '0'
   };
-}
-
-function getSub(catalog, start, level) {
-  const result = [];
-  for (let i = start; i < catalog.length; i++) {
-    if (catalog[i].level > level) {
-      result.push(catalog[i]);
-    } else {
-      break;
-    }
-  }
-  return result;
 }
 
 function onPopoverItemClick(info, docInfo, e, catalog) {
@@ -38,7 +38,6 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
     space_id: spaceId,
     title: docTitle
   } = docInfo;
-  console.log(docInfo);
   e.stopPropagation();
   if (key === 'edit') {
     window.location.href = `/simditor/${docId}/?spaceId=${spaceId}`;
@@ -52,16 +51,6 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
     });
   }
 }
-
-const settingList = [{
-  text: '删除',
-  icon: 'delete',
-  key: 'delete'
-}, {
-  text: '编辑',
-  icon: 'edit',
-  key: 'edit'
-}];
 
 export default function Chapter() {
   const { info: { catalog, docs }, updateCatalog } = useContext(catalogContext);
@@ -135,10 +124,10 @@ export default function Chapter() {
               {...provided.dragHandleProps}
               style={getStyle(provided.draggableProps.style)}
             >
-              <h3>
+              <NavLink to={`/article/${docInfo.doc_id}/?spaceId=${docInfo.space_id}`}>
                 {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
-              </h3>
+              </NavLink>
               <div className="chapter-item__info">
                 <span>{fromNow(docInfo.updated_at_timestamp)}更新</span>
                 <Popover

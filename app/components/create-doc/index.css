@@ -1,15 +1,22 @@
-.create_loading{
+.create_loading {
   padding: 10px;
   display: flex;
   align-items: center;
   flex-direction: column;
   justify-content: center;
 }
-.create_loading>.Icon{
+
+.create_loading>.Icon {
   font-size: 26px;
 }
-.create_modal_tips{
+
+.create-modal__tips {
   font-size: 14px;
   margin-top: 10px;
   color: #333333;
+}
+
+.create-modal__tips>a {
+  color: #25b864;
+  margin: 0 4px;
 }

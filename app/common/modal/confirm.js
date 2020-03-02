@@ -8,6 +8,7 @@ const ConfirmDialog = ({
   wrapClassName = '',
   cancelText = '取消',
   okText = '确认',
+  footer = null,
   onCancel = () => { },
   title = '',
   subTitle = '',
@@ -30,6 +31,7 @@ const ConfirmDialog = ({
     wrapClassName={wrapClassName}
     title={title}
     subTitle={subTitle}
+    footer={footer}
     onCancel={() => { setVisible(false); onCancel(); }}
     onConfirm={_onOk_}
     confirmText={okText}

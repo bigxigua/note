@@ -1,14 +1,15 @@
 import React, { useState, useCallback, useEffect, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, NavLink } from 'react-router-dom';
 import userContext from '@context/user/userContext';
 import Modal from '@common/modal';
 import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
 import useMessage from '@hooks/use-message';
-import { delay, getIn } from '@util/util';
+import { delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 import { createDocByTemplate } from '@util/commonFun2';
+
 import './index.css';
 
 const message = useMessage();
@@ -16,10 +17,12 @@ const message = useMessage();
 /**
 * 新建文档通用组件
 * @param {string} mode - 创建方法，枚举值，common-普通新建 template-从模版创建
+* @param {string} spaceId - 空间id，如果存在则表示空间已选定，无需列出空间列表
 * @param {Function} onModalChange - modal关闭或展示时触发
 */
 export default function CreateDoc({
   mode = 'common',
+  spaceId = '',
   onModalChange = () => { }
 }) {
   const [visible, setVisible] = useState(true);
@@ -53,19 +56,25 @@ export default function CreateDoc({
 
   // 获取空间列表
   const fetchSpaces = useCallback(async () => {
+    if (spaceId) {
+      onChooseSpace({
+        space_id: spaceId
+      });
+      return;
+    };
     setLoading(true);
     const [error, data] = await axiosInstance.get('spaces', {});
     setLoading(false);
     if (error || !data || !Array.isArray(data.spaces) || data.spaces.length === 0) {
-      message.error({ content: getIn(error, ['message'], '服务器开小差啦！请稍后再试试呀.嘻嘻') });
+      // message.error({ content: getIn(error, ['message'], '服务器开小差啦！请稍后再试试呀.嘻嘻') });
       return;
     }
     setSpaces(data.spaces);
-  }, []);
+  }, [spaceId, mode]);
 
   useEffect(() => {
     fetchSpaces();
-  }, []);
+  }, [spaceId, mode]);
 
   const renderSpaceList = useCallback(() => {
     if (loading) {
@@ -75,7 +84,11 @@ export default function CreateDoc({
       </div>;
     }
     if (spaces.length === 0) {
-      return <div className="create_modal_tips">您还未创建过知识库哟，文档存在知识库里。分好类，好查询</div>;
+      return <div className="create-modal__tips">
+        您还未创建过知识库哟，
+        <NavLink to="/new">去创建</NavLink>
+        ,文档是存在知识库里。
+      </div>;
     }
     return spaces.map(n =>
       <div
@@ -91,6 +104,10 @@ export default function CreateDoc({
       </div >
     );
   }, [loading, spaces]);
+
+  if (spaceId) {
+    return null;
+  }
 
   return (
     <Modal

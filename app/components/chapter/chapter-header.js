@@ -3,6 +3,7 @@ import { useImmer } from 'use-immer';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import Modal from '@common/modal';
+import CreateDocButtton from '@components/create-doc-button';
 import { parseUrlQuery, delay, checkBrowser } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
@@ -129,14 +130,15 @@ export default function ChapterHeader({
         onClick={() => {
           onDeleteSpace(space, history);
         }} />
-      <Button
+      <CreateDocButtton spaceId={spaceId} />
+      {/* <Button
         content="新建文档"
         loading={state.loading}
         onClick={() => {
           onCreateNewDoc({
             space_id: spaceId
           });
-        }} />
+        }} /> */}
       {renderActionButton()}
     </div>
   </div>;

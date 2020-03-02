@@ -1,4 +1,4 @@
-.Empty{
+.empty {
   background: #fff;
   border: 1px solid #e8e8e8;
   padding: 27px;
@@ -7,7 +7,8 @@
   color: #8c8c8c;
   box-sizing: border-box;
 }
-.Empty_Desc{
+
+.empty-desc {
   font-size: 14px;
   color: #8c8c8c;
   line-height: 22px;

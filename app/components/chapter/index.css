@@ -33,13 +33,13 @@
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
 }
 
-.Chapter_Item>h3 {
+.Chapter_Item>a {
   display: flex;
   font-weight: normal;
   font-size: 14px;
 }
 
-.Chapter_Item>h3>.Icon {
+.Chapter_Item>a>.Icon {
   top: 2px;
   margin-right: 4px;
 }

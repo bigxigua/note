@@ -46,7 +46,7 @@
   box-shadow: 0 0 0 2px rgba(37, 184, 100, .2);
 }
 
-.Input_addonBefore,
+.input-addon__before,
 .Input_addonAfter {
   justify-content: center;
   padding: 0 10px;
@@ -55,7 +55,7 @@
   flex-shrink: 0;
 }
 
-.Input_addonBefore {
+.input-addon__before {
   border-left: none;
   border-right: 1px solid #e8e8e8;
 }
@@ -65,7 +65,7 @@
   border-left: 1px solid #e8e8e8;
 }
 
-.Input_addonBefore>div {
+.input-addon__before>div {
   position: relative;
   top: 1px;
 }

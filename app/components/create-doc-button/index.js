@@ -42,6 +42,7 @@ export default function CreateDocButtton({
     {visible &&
       <CreateDoc
         mode={mode}
+        spaceId={spaceId}
         onModalChange={setVisible} />}
   </>;
 };

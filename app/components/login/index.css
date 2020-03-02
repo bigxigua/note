@@ -22,7 +22,7 @@
   height: 64px;
 }
 
-.Login_title {
+.login-title {
   font-size: 32px;
   line-height: 1.2;
   color: #262626;
@@ -30,7 +30,7 @@
   font-weight: bold;
 }
 
-.Login_sub_title {
+.login-subtitle {
   color: #595959;
   margin-top: 8px;
   font-size: 18px;

@@ -10,12 +10,12 @@ export default function Empty({
 }) {
   return (
     <div
-      className={`Empty ${className}`}
+      className={$.trim(`empty ${className}`)}
       style={style}>
       <img src={image}
         style={imageStyle}
         alt="空空如也" />
-      <div className="Empty_Desc">
+      <div className="empty-desc">
         {description || '哎呀～这里什么都没有'}
       </div>
     </div>

@@ -43,15 +43,15 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
   if (loading) {
     return;
   }
-  message.loading({ content: '正在获取模版列表' });
+  // message.loading({ content: '正在获取模版列表' });
   loading = true;
   const [error, data] = await axiosInstance.post('templates');
   loading = false;
-  message.hide();
   if (!Array.isArray(data) || data.length === 0) {
-    message.error({ content: getIn(error, ['message'], '无模版') });
+    message.error({ content: getIn(error, ['message'], '您还未创建模版') });
     return;
   }
+  // message.hide();
   const templatesJsx = data
     .filter(n => n.url || n.cover)
     .map(item => {
@@ -72,6 +72,7 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
     width: 'auto',
     title: '所有模版',
     subTitle: '',
+    footer: 'none',
     content: <div className="template-wrapper">{templatesJsx}</div>,
     onOk: async () => {
     }

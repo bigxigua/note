@@ -23,17 +23,19 @@ export default function Input(props) {
   const [value, setValue] = useState(defaultValue);
   const [classes, setClassName] = useState('input-wrapper flex ');
   const textArea = useRef(null);
+
   const _onChange_ = (e) => {
     setValue(e.currentTarget.value);
     onChange(e);
   };
+
   useEffect(() => {
     let cssName = classes;
     if (!addonBefore && !addonAfter) {
-      cssName += 'input-full';
+      !/input-full/.test(cssName) && (cssName += 'input-full');
     }
     if (addonBefore && !addonAfter) {
-      cssName += 'Input_Before';
+      !/input-before/.test(cssName) && (cssName += 'input-before');
     }
     setClassName(cssName);
   }, [addonBefore, addonAfter]);
@@ -42,13 +44,13 @@ export default function Input(props) {
     setTextAreaAutoHeight(textArea.current, 10);
   }, [defaultValue]);
   return (
-    <div className={`${classes} ${className}`}
+    <div className={$.trim(`${classes} ${className}`)}
       style={{
         width: isNaN(w) ? w : `${w}px`,
         height: isNaN(h) ? h : `${h}px`,
         ...style
       }}>
-      {addonBefore && <span className="Input_addonBefore flex">{addonBefore}</span>}
+      {addonBefore && <span className="input-addon__before flex">{addonBefore}</span>}
       {
         type !== 'textarea' &&
         <input

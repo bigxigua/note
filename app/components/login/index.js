@@ -64,16 +64,17 @@ export default function Login() {
     };
   }, [state, isLoginPage]);
 
-  const onChange = (type, e) => {
+  const onChange = useCallback((type, e) => {
     setState({
       ...state,
       [`${type}`]: e.currentTarget.value
     });
-  };
+  }, [state.password, state.account]);
 
   // 验证用户输入
   const onVerifyInput = useCallback(({ account, password }) => {
     const errorInfo = {};
+    // return '1111';
     if (!account || account.length < 5) {
       errorInfo.accountErrorMsg = '请输入正确帐号格式，至少 5 位';
     }
@@ -112,8 +113,8 @@ export default function Login() {
         <img
           src={logo}
           className="Login_logo" />
-        <h1 className="Login_title">{text.title}</h1>
-        <h2 className="Login_sub_title">{text.subTitle}</h2>
+        <h1 className="login-title">{text.title}</h1>
+        <h2 className="login-subtitle">{text.subTitle}</h2>
         <Input
           style={{ marginBottom: '16px' }}
           onFocus={() => { setLogo('/images/pikachu_front.svg'); }}
