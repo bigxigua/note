@@ -7,6 +7,8 @@ const ICON_MAP = {
   warning: <img src="" />,
   info: <img src="" />
 };
+const loop = () => { };
+
 export default function useMessage() {
   const createMessageDom = (c, img, content) => {
     $('.Message').remove();
@@ -17,11 +19,11 @@ export default function useMessage() {
       +'</div>';
     $('body').append($(dom));
   };
-  const removeDom = (duration, onClose) => {
+  const removeDom = (duration, onClose = loop) => {
     setTimeout(() => {
       $('.Message').remove();
       onClose();
-    }, duration || 3000);
+    }, isNaN(duration) ? 3000 : duration);
   };
   const fn = () => { };
   const message = {
@@ -45,9 +47,11 @@ export default function useMessage() {
       createMessageDom('Message_Warn', '', content);
       removeDom(d, onClose);
     },
-    loading: ({ content, d, onClose }) => {
+    loading: ({ content }) => {
       createMessageDom('slideInDown', ICON_MAP.loading, content);
-      // removeDom(d, onClose);
+    },
+    hide: () => {
+      removeDom(0);
     }
   };
   return message;

@@ -5,7 +5,7 @@ import userContext from '@context/user/userContext';
 import Popover from '@components/popover';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
-import { delay } from '@util/util';
+import { delay, getIn } from '@util/util';
 import './avatar.css';
 
 const message = useMessage();
@@ -24,13 +24,13 @@ const settingList = [{
 async function onListItemClick(e, info) {
   e.stopPropagation();
   if (info.key === 'logout') {
-    const [, data] = await axiosInstance.post('login/out');
+    const [error, data] = await axiosInstance.post('login/out');
     if (data && data.STATUS === 'OK') {
       message.success({ content: '退出登陆成功' });
       await delay();
       window.location.reload();
     } else {
-      message.error({ content: '系统繁忙，请稍后再试' });
+      message.error({ content: getIn(error, ['message'], '系统繁忙，请稍后再试') });
     }
   }
 }

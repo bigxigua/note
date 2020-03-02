@@ -10,6 +10,8 @@ import { getIn, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 
 const message = useMessage();
+// 是否正在获取模版列表
+let loading = false;
 
 // 预览该模版
 const previewTemplate = (templateInfo) => {
@@ -18,7 +20,6 @@ const previewTemplate = (templateInfo) => {
 
 // 根据模版创建
 const createDoc = async (templateInfo, spaceId, catalogInfo) => {
-  console.log(templateInfo);
   const { title, html } = templateInfo;
   const [error, data] = await createNewDoc({
     space_id: spaceId,
@@ -39,7 +40,14 @@ const createDoc = async (templateInfo, spaceId, catalogInfo) => {
 
 // 调用添加最近使用记录接口调用
 export async function createDocByTemplate(spaceId, catalogInfo = {}) {
+  if (loading) {
+    return;
+  }
+  message.loading({ content: '正在获取模版列表' });
+  loading = true;
   const [error, data] = await axiosInstance.post('templates');
+  loading = false;
+  message.hide();
   if (!Array.isArray(data) || data.length === 0) {
     message.error({ content: getIn(error, ['message'], '无模版') });
     return;

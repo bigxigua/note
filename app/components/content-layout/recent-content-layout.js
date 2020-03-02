@@ -14,7 +14,6 @@ export default function RecentContentLayout() {
         setRecentLists([]);
         console.log('[获取最近使用列表失败] ', error);
       } else {
-        console.log('-------->>');
         setRecentLists(data);
       }
     })();

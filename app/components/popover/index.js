@@ -8,11 +8,21 @@ const SHOW_CLASSNAME = 'popover-wrapper__content_show';
 
 const loop = () => { };
 
+/**
+* popover组件
+* @param {string} className - class
+* @param {ReactNode} children - 默认展示内容
+* @param {ReactNode} content - hover/click后展示的内容
+* @param {boolean} hideArrow - 是否隐藏箭头
+* @param {boolean} renderToBody - 是否render到body上，否则渲染到组件内
+* @param {Function} popoverToggleOpen - popover展示/隐藏时触发
+*/
 export default function Popover({
   className = '',
   children = '',
   content = '',
   popoverToggleOpen = loop,
+  hideArrow = false, // 是否隐藏箭头
   renderToBody = true // 是否渲染在body上
 }) {
   const [style, setStyle] = useState([]);
@@ -55,7 +65,9 @@ export default function Popover({
       left: `${l}px`,
       top: `${h}px`
     });
-    arrowRef.current.style.left = `${(left + width / 2) - l}px`;
+    if (arrowRef.current) {
+      arrowRef.current.style.left = `${(left + width / 2) - l}px`;
+    }
   }, []);
 
   // pc端绑定mouse事件
@@ -114,8 +126,9 @@ export default function Popover({
       <div ref={contentRef}
         className="popover-wrapper__content"
         style={style}>
-        <div ref={arrowRef}
-          className="popover_wrapper_arrow"></div>
+        {!hideArrow &&
+          <div ref={arrowRef}
+            className="popover_wrapper_arrow"></div>}
         {content}
       </div>
     </div>);

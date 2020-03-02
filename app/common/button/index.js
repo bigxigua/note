@@ -16,7 +16,7 @@ export default function Button(props) {
     style = {}
   } = props;
   const typeClassName = {
-    default: '',
+    default: 'button-default',
     primary: 'button-primary',
     dashed: 'Button_dash',
     danger: 'button-danger'
@@ -42,7 +42,7 @@ export default function Button(props) {
     <button
       style={style}
       onClick={onButtonClick}
-      className={$.trim(`button button_particle flex ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
+      className={$.trim(`button button_particle ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
       {icon && <Icon type={icon} />}
       {loading && <Icon className="button-loading_Icon"
         type={'loading'} />}

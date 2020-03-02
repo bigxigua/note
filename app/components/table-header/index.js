@@ -6,7 +6,7 @@ import Button from '@common/button';
 import Search from '@components/search';
 import MobileNav from '@components/mobile-nav';
 import { useHistory } from 'react-router-dom';
-import CreateDoc from '@components/create-doc';
+import CreateDocButtton from '@components/create-doc-button';
 import { checkBrowser } from '@util/util';
 import './index.css';
 
@@ -22,7 +22,6 @@ export default function TableHeader({
     { text: '未更新的', code: 'UN_UPDATED' },
     { text: '已删除的', code: 'DELETE' }
   ]);
-  const [visible, setVisible] = useState(false);
   const isDocsPage = /^\/docs/g.test(window.location.pathname);
 
   // 切换查看的文档类型
@@ -47,14 +46,6 @@ export default function TableHeader({
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
   }, []);
 
-  // 新建文档/新建知识库
-  const onButtonClick = useCallback(() => {
-    if (isDocsPage) {
-      return setVisible(true);
-    }
-    history.push('/new');
-  }, [isDocsPage]);
-
   const Overlay = <List
     list={types}
     onTap={onListItemClick} />;
@@ -65,15 +56,19 @@ export default function TableHeader({
     return <div className="table-header-mobile">
       <div className="flex table-header-mobile-head">
         <MobileNav defaultCurrent={isDocsPage ? 'docs' : 'space'} />
-        <Button type="primary"
-          onClick={onButtonClick}>
-          {isDocsPage ? '新建文档' : '新建知识库'}
-        </Button>
+        {
+          isDocsPage
+            ? <CreateDocButtton />
+            : <Button
+              type="primary"
+              content="新建知识库"
+              onClick={() => { history.push('/new'); }}>
+            </Button>
+        }
       </div>
       <Search
         placeholder="输入标题内容进行搜索"
         onEnter={onSearchEnter} />
-      {visible && <CreateDoc onModalChange={(a) => { setVisible(a); }} />}
     </div>;
   }
   // pc端
@@ -92,12 +87,16 @@ export default function TableHeader({
         <Search
           placeholder="输入标题内容进行搜索"
           onEnter={onSearchEnter} />
-        <Button type="primary"
-          onClick={onButtonClick}>
-          {isDocsPage ? '新建文档' : '新建知识库'}
-        </Button>
+        {
+          isDocsPage
+            ? <CreateDocButtton />
+            : <Button
+              type="primary"
+              content="新建知识库"
+              onClick={() => { history.push('/new'); }}>
+            </Button>
+        }
       </div>
-      {visible && <CreateDoc onModalChange={(a) => { setVisible(a); }} />}
     </div>
   );
 };
