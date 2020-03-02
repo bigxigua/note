@@ -147,20 +147,22 @@ export default function RecentContent(props) {
   const isDeleteAction = ['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(type);
   const spaceUrl = `spacedetail?spaceId=${space.space_id}`;
   let classes = 'recent-content ';
-  classes += `${!isDeleteAction ? 'recent-content__point' : ''} `;
+  classes += `${isDeleteAction ? 'recent-content__deleted' : ''} `;
   // 如果当前文档已被删除，则不展示之前的操作记录
   if (!isDeleteAction && info.key === 'doc' && isEmptyObject(doc)) {
     return null;
   }
+  const iconWidth = getIn(info, ['iconStyle', 'width'], '29px');
+  const key = info.key;
   return (
     <div className={$.trim(classes)}
       onClick={(e) => { handleClick(info, props, history, e); }}>
       <div className="recent-content__left">
         <img src={info.img}
-          style={{ width: getIn(info, ['iconStyle', 'width'], '29px') }} />
+          style={{ width: iconWidth }} />
         <div className="recent-content__left-info">
-          {info.key !== 'space' && <p className="ellipsis">{title}</p>}
-          {info.key === 'doc' &&
+          {key !== 'space' && <p className="ellipsis">{title}</p>}
+          {key === 'doc' &&
             <div className="ellipsis"
               onClick={(e) => { e.stopPropagation(); }}>
               所属空间:<Link to={spaceUrl}>《{`${space.name}`}》</Link>

@@ -110,6 +110,10 @@
     .article_catalog {
         display: none;
     }
+
+    .article-preview {
+        width: calc(100% - 220px);
+    }
 }
 
 /* 文章页面/article/ 隐藏左侧目录 */

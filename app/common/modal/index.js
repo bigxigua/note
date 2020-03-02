@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import Button from '@common/button';
+import { addKeydownListener } from '@util/util';
 import confirm from './confirm';
 import './index.css';
 
@@ -60,8 +61,19 @@ export default function Modal({
   }
 
   useEffect(() => {
+    const listener = addKeydownListener({
+      handle: ({ keyCode }) => {
+        if (keyCode === 27) {
+          _onCancel();
+        }
+        if (keyCode === 13) {
+          _onConfirm();
+        }
+      }
+    });
     return () => {
       toggleDisableBodyScroll('remove');
+      listener.remove();
     };
   }, []);
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
+import { checkBrowser } from '@util/util';
 import './index.css';
 
 /**
@@ -16,6 +17,7 @@ export default function Breadcrumb(props) {
     className = '',
     crumbs = []
   } = props;
+  const { isMobile } = checkBrowser();
   if (!Array.isArray(crumbs) || crumbs.length === 0) {
     return null;
   }
@@ -33,8 +35,9 @@ export default function Breadcrumb(props) {
       {(i !== _crumbs_.length - 1) && <span>/</span>}
     </div>);
   });
+  const cls = $.trim(`breadcrumb${isMobile ? ' breadcrumb-mobile' : ''} ${className}`);
   return (
-    <div className={`Breadcrumb flex ${className}`}>
+    <div className={cls}>
       {crumbsJsx}
     </div>
   );

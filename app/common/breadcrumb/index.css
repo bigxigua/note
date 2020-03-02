@@ -1,3 +1,8 @@
+.breadcrumb {
+  display: flex;
+  align-items: center;
+}
+
 .breadcrumb-item {
   color: #595959;
   font-size: 14px;
@@ -6,6 +11,9 @@
 .breadcrumb-item>a {
   color: #595959;
   font-size: 14px;
+}
+
+.breadcrumb-mobile>.breadcrumb-item>a {
   max-width: 190px;
 }
 

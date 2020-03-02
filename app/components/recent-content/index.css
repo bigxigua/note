@@ -11,10 +11,15 @@
   justify-content: space-between;
   padding: 10px 12px;
   box-sizing: border-box;
+  cursor: pointer;
 }
 
-.recent-content__point {
-  cursor: pointer;
+.recent-content__deleted {
+  cursor: default;
+}
+
+.recent-content__deleted .recent-content__left-info>p:first-child {
+  text-decoration: line-through;
 }
 
 .recent-content:hover {
