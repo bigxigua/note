@@ -29,7 +29,6 @@
 }
 
 .header-left {
-    padding-left: 12px;
     overflow: hidden;
 }
 
@@ -42,7 +41,6 @@
 
 .Header_title {
     display: block;
-    margin-left: 22px;
     flex-shrink: 0;
     background: url('/images/logo.jpeg') no-repeat 0 0;
     width: 97px;

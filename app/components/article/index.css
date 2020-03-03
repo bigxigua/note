@@ -332,7 +332,7 @@
   position: relative;
 }
 
-.article-html pre:hover>.code-tooltip {
+.article-pre__box:hover>.code-tooltip {
   display: flex;
 }
 

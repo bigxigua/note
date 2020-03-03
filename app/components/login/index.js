@@ -15,7 +15,7 @@ const copywriting = {
     subTitle: '工欲善其事，必先利其器'
   },
   register: {
-    title: '欢迎欢迎',
+    title: '注册',
     subTitle: '若人间有情，那是开始，也是尽头'
   }
 };

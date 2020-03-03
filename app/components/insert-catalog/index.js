@@ -22,10 +22,12 @@ export default function InsertCatalog({ position = {} }) {
   const [id, setId] = useState('doc');
   const { info: { catalog = [], docs }, updateCatalog } = useContext(catalogContext);
 
+  // 展示Modal
   const onShowModal = useCallback(() => {
     setState({ ...state, visible: true });
   }, []);
 
+  // 确认创建
   const onConfirm = useCallback(() => {
     const title = (state.value || '').trim();
     createNewDoc({
@@ -52,6 +54,13 @@ export default function InsertCatalog({ position = {} }) {
     });
   }, [catalog, index, level, id, state.value]);
 
+  const onCancel = useCallback(() => {
+    setState({
+      ...state,
+      visible: false
+    });
+  }, []);
+
   const onSelect = useCallback((e, result) => {
     setId(result.id);
   }, []);
@@ -72,7 +81,7 @@ export default function InsertCatalog({ position = {} }) {
       title="添加节点"
       subTitle="会将该节点插入到光标位置"
       visible={state.visible}
-      onCancel={() => setState({ ...state, visible: false })}
+      onCancel={onCancel}
       onConfirm={onConfirm}>
       <div className="insert_catalog_modal">
         <div className="insert_catalog_label">类型</div>
@@ -81,7 +90,8 @@ export default function InsertCatalog({ position = {} }) {
           onSelect={onSelect}
           lists={lists} />
         <div className="insert_catalog_label">标题</div>
-        <Input h={32}
+        <Input
+          h={32}
           onChange={onInput}
           placeholder="无标题" />
         <div className="insert_tips">{
