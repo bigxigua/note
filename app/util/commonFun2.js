@@ -43,7 +43,7 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
   if (loading) {
     return;
   }
-  // message.loading({ content: '正在获取模版列表' });
+  message.loading({ content: '正在获取模版列表' });
   loading = true;
   const [error, data] = await axiosInstance.post('templates');
   loading = false;
@@ -51,7 +51,7 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
     message.error({ content: getIn(error, ['message'], '您还未创建模版') });
     return;
   }
-  // message.hide();
+  message.hide();
   const templatesJsx = data
     .filter(n => n.url || n.cover)
     .map(item => {

@@ -51,15 +51,11 @@ export function codeBeautiful(pre, Prism) {
       break;
     }
     const code = $(item).find('>code').length ? $(item).find('>code').html() : $(item).html();
+    const $wrap = $('<div class="article-pre__box" />');
     Prism.highlightElement(item);
-    $(item).append($('<div class="code-tooltip" />'));
-    const tooltip = $(item).find('.code-tooltip').get(0);
-    // setTimeout(() => {
-    //   console.log();
-    //   const { left, top, width, height } = item.getBoundingClientRect();
-    //   const { width: curWidth } = tooltip.getBoundingClientRect();
-    //   $(tooltip).css({ left: `${left + width - curWidth}px`, top: `${top - height}px` });
-    // }, 0);
+    $(item).wrap($wrap);
+    $wrap.append($('<div class="code-tooltip" />'));
+    const tooltip = $wrap.find('.code-tooltip').get(0);
     ReactDOM.render(<ToolBar dom={item}
       code={code} />, tooltip);
   }

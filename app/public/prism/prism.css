@@ -29,23 +29,6 @@ pre[class*="language-"] {
   hyphens: none;
 }
 
-pre[class*="language-"],
-:not(pre)>code[class*="language-"] {
-  background: hsl(0, 0%, 8%);
-  /* #141414 */
-}
-
-/* Code blocks */
-pre[class*="language-"] {
-  border-radius: .5em;
-  border: .2em solid hsl(0, 0%, 33%);
-  box-shadow: 1px 1px .5em black inset;
-  margin: .5em 0;
-  /* overflow: auto; */
-  padding: 12px;
-  font-size: 15px;
-}
-
 pre[class*="language-"]::-moz-selection {
   /* Firefox */
   background: hsl(200, 4%, 16%);

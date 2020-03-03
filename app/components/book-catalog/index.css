@@ -110,6 +110,7 @@
 
 .template {
   width: 160px;
+  min-height: 226px;
   border: 1px solid #e8e8e8;
   background: #fff;
   cursor: pointer;
