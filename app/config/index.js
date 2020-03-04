@@ -83,7 +83,7 @@ export const simditorParams = {
     params: null, // extra params sent to the server;
     fileKey: 'file', // key of the file param;
     connectionCount: 1, // how many images can be uploaded simultaneously;
-    leaveConfirm: 'Uploading is in progress, are you sure to leave this page?' // messages will be shown if one leave the page while file is being uploaded;
+    leaveConfirm: '还有图片正在上传，现在要离开吗？' // messages will be shown if one leave the page while file is being uploaded;
   },
   livemd: true,
   emoji: {

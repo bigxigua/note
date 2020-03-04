@@ -188,9 +188,9 @@
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.4);
-  position: absolute;
-  bottom: 0;
-  left: 0;
+  /* position: absolute;
+bottom: 0;
+left: 0; */
 }
 
 .simditor .simditor-body {
@@ -729,6 +729,7 @@
   margin-top: 0;
   margin-bottom: 0;
   padding: 12px;
+  padding-top: 0;
   box-shadow: none;
   border: none;
   overflow-x: hidden;
@@ -999,10 +1000,13 @@
   vertical-align: middle;
 }
 
-.simditor .simditor-body img,
-.editor-style .bigxigua-img {
+.simditor .simditor-body img {
   max-width: 100%;
   height: auto;
+}
+
+.simditor-mobile .simditor-body img {
+  margin: 0;
 }
 
 .simditor .simditor-body .simditor-checklist {
