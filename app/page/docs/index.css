@@ -43,14 +43,6 @@
   padding: 20px;
 }
 
-.docs_m_empty {
-  padding: 40px;
-  text-align: center;
-  line-height: 20px;
-  color: #8c8c8c;
-  display: block;
-}
-
 .docs_item {
   padding: 10px;
   border-bottom: 1px solid #e8e8e8;

@@ -14,7 +14,8 @@
 }
 
 .breadcrumb-mobile>.breadcrumb-item>a {
-  max-width: 190px;
+  max-width: 124px;
+  font-size: 12px;
 }
 
 .breadcrumb-item>span {

@@ -1,13 +1,12 @@
 import React, { useContext, useCallback } from 'react';
-import { useImmer } from 'use-immer';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import Modal from '@common/modal';
 import CreateDocButtton from '@components/create-doc-button';
-import { parseUrlQuery, delay, checkBrowser } from '@util/util';
+import { parseUrlQuery, checkBrowser } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
-import { createNewDoc, updateCatalogService } from '@util/commonFun';
+import { updateCatalogService } from '@util/commonFun';
 import axiosInstance from '@util/axiosInstance';
 
 const { isMobile } = checkBrowser();
@@ -43,9 +42,6 @@ export default function ChapterHeader({
   userInfo = {},
   space = {}
 }) {
-  const [state, setState] = useImmer({
-    loading: false
-  });
   const { info: { catalog } } = useContext(catalogContext);
   const history = useHistory();
   const { pathname, search } = window.location;
@@ -77,24 +73,6 @@ export default function ChapterHeader({
     }
   }, []);
 
-  // 新建文档
-  const onCreateNewDoc = useCallback(async (info) => {
-    setState(draft => {
-      draft.loading = true;
-    });
-    await createNewDoc(info, async ({ docId, spaceId }) => {
-      if (docId && spaceId) {
-        await delay();
-        history.push(`/simditor/${docId}?spaceId=${spaceId}`);
-      } else {
-        console.log('[创建文档出错] ');
-      }
-    });
-    setState(draft => {
-      draft.loading = false;
-    });
-  }, []);
-
   function renderActionButton() {
     if (isMobile) {
       return null;
@@ -120,7 +98,10 @@ export default function ChapterHeader({
       </Button>;
     }
   }
-  return <div className="chapter-header flex">
+
+  const claseses = $.trim(`chapter-header ${isMobile ? 'chapter-header__mobile' : ''}`);
+
+  return <div className={claseses}>
     <Breadcrumb crumbs={crumbs} />
     <div className="flex">
       <Button

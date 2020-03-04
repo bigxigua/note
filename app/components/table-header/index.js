@@ -10,11 +10,10 @@ import CreateDocButtton from '@components/create-doc-button';
 import { checkBrowser } from '@util/util';
 import './index.css';
 
-const { isMobile } = checkBrowser();
-
 export default function TableHeader({
   onSomeThingClick = () => { }
 }) {
+  const { isMobile } = checkBrowser();
   const history = useHistory();
   const [types, setTypes] = useState([
     { text: '所有文档', code: 'ALL', checked: true },
@@ -49,6 +48,7 @@ export default function TableHeader({
   const Overlay = <List
     list={types}
     onTap={onListItemClick} />;
+
   const tableHeaderClasses = 'table-header flex ';
 
   // 移动端渲染条目

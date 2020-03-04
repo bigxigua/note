@@ -40,7 +40,10 @@ export default function Table(props) {
     </div>;
   }
   if (dataSource.length === 0) {
-    return emptyJsx || <Empty style={{ borderTop: 'none' }} />;
+    return emptyJsx || <Empty
+      className="table-empty"
+      image="/images/undraw_empty.svg"
+      description="还未创建过空间" />;
   }
   const tbody = dataSource.map(n => {
     return (

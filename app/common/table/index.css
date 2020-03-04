@@ -7,12 +7,9 @@
   border-right: 1px solid #e8e8e8;
 }
 
-.table-header {
-  width: 100%;
-  height: 44px;
-  color: #8c8c8c;
-  font-size: 12px;
-  border-radius: 0;
+.table-empty {
+  border: 1px solid #e8e8e8;
+  border-top: none;
 }
 
 .table-header>th {

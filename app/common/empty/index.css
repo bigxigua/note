@@ -1,6 +1,4 @@
 .empty {
-  background: #fff;
-  border: 1px solid #e8e8e8;
   padding: 27px;
   text-align: center;
   line-height: 20px;
@@ -10,6 +8,7 @@
 
 .empty>img {
   width: 100%;
+  max-width: 400px;
   height: auto;
 }
 

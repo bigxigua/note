@@ -34,7 +34,7 @@ export default function RecentContentLayout() {
   return (
     <div className="recent-content__layout">
       {recentLists.length === 0
-        ? <Empty />
+        ? <Empty image="/images/undraw_empty.svg" />
         : recentLists.map(n => {
           return (
             <Fragment key={n.id}>

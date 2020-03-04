@@ -8,6 +8,7 @@ import Tag from '@common/tag';
 import List from '@common/list';
 import Icon from '@common/icon';
 import Modal from '@common/modal';
+import Empty from '@common/empty';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
@@ -91,7 +92,8 @@ function renderDoclistsForMobile(lists = [], loading) {
       type="loading" />;
   }
   if (!lists || lists.length === 0) {
-    return <span className="docs_m_empty">暂无数据</span>;
+    return <Empty image="/images/undraw_empty.svg"
+      description="暂无文档" />;
   }
   return lists.map(item => {
     return <DocItem

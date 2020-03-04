@@ -5,6 +5,7 @@ import Avatar from '../avatar/avatar.js';
 import Icon from '@common/icon';
 import CreateDoc from '@components/create-doc';
 import Popover from '@components/popover';
+import { checkBrowser } from '@util/util';
 import './header.css';
 
 // 创建popver cotent
@@ -28,9 +29,10 @@ export default function Header({
   className = ''
 }) {
   const [visible, setVisible] = useState(false);
-
+  const { isMobile } = checkBrowser();
+  const classes = `header-wrapper ${isMobile ? 'header-wrapper_mobile' : ''} animated ${className}`;
   return (
-    <div className={`header-wrapper animated ${className}`}>
+    <div className={$.trim(classes)}>
       <div className="header-container">
         <div className="header-left">
           <Link to="/"

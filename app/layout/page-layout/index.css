@@ -9,7 +9,7 @@
   background: #fafafa;
 }
 
-.content-wrapper_index {
+/* .content-wrapper_index {
   max-width: 1200px;
   margin: 0 auto;
   display: flex;
@@ -18,4 +18,4 @@
   overflow: hidden;
   font-size: 14px;
   min-height: calc(100vh - 144px);
-}
+} */

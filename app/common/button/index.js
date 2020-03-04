@@ -1,6 +1,14 @@
 import React from 'react';
 import Icon from '@common/icon';
+import { checkBrowser } from '@util/util';
 import './index.css';
+
+const typeClassName = {
+  default: 'button-default',
+  primary: 'button-primary',
+  dashed: 'Button_dash',
+  danger: 'button-danger'
+};
 
 export default function Button(props) {
   const {
@@ -15,15 +23,12 @@ export default function Button(props) {
     onClick = () => { },
     style = {}
   } = props;
-  const typeClassName = {
-    default: 'button-default',
-    primary: 'button-primary',
-    dashed: 'Button_dash',
-    danger: 'button-danger'
-  };
 
+  const { isMobile } = checkBrowser();
   const loadingClassName = loading ? 'button-loading' : '';
-  const disabledClassName = disabled ? 'Button_disabled' : '';
+  const disabledClassName = disabled ? 'button-disabled' : '';
+  const mobileClassName = isMobile ? 'button-mobile' : '';
+
   const onButtonClick = () => {
     if (loading || disabled) {
       return;
@@ -38,11 +43,14 @@ export default function Button(props) {
     }
     onClick();
   };
+
+  const classes = $.trim(`button button_particle ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName} ${mobileClassName}`);
+
   return (
     <button
       style={style}
       onClick={onButtonClick}
-      className={$.trim(`button button_particle ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`)}>
+      className={classes}>
       {icon && <Icon type={icon} />}
       {loading && <Icon className="button-loading_Icon"
         type={'loading'} />}

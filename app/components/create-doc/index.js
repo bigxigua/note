@@ -94,10 +94,10 @@ export default function CreateDoc({
       <div
         onClick={() => { onChooseSpace(n); }}
         key={n.id}
-        className="Header_Spaces_List flex">
+        className="header-spaces__list flex">
         <img src={SPACE_TYPE_ICON[n.scene]} />
-        <span>{account}</span>
-        <span>/</span>
+        {/* <span>{account}</span> */}
+        {/* <span>/</span> */}
         <span style={{ maxWidth: 'calc(100% - 100px)' }}
           className="ellipsis">{n.name}</span>
         {/* <img src={`/images/${n.public === 'SELF' ? 'lock' : 'global'}.png`} /> */}
@@ -115,6 +115,7 @@ export default function CreateDoc({
       title="新建文档"
       footer={spaces.length > 0 ? 'none' : null}
       onCancel={onCancelModal}
+      onConfirm={() => { history.push('/new'); }}
       confirmText="创建知识库"
       visible={visible} >
       {renderSpaceList()}

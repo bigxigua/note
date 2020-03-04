@@ -1,0 +1,14 @@
+.content-wrapper_index {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  padding: 26px 14px;
+  box-sizing: border-box;
+  overflow: hidden;
+  font-size: 14px;
+  min-height: calc(100vh - 144px);
+}
+
+.content-wrapper__mobile {
+  padding-top: 10px;
+}
