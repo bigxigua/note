@@ -86,7 +86,8 @@ export default function SpaceDetail() {
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}
         alt="头像" />
-      <Loading show={loading}
+      <Loading
+        show={loading}
         className="space-detail__loading" />
       <ChapterWrapper
         userInfo={userInfo}

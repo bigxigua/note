@@ -168,3 +168,10 @@
 .chapter-item__disabled {
   text-decoration: line-through;
 }
+
+.chapter_empty {
+  max-width: 400px;
+  margin: 0 auto;
+  border: none;
+  padding-top: 0;
+}

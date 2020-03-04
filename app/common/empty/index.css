@@ -8,8 +8,14 @@
   box-sizing: border-box;
 }
 
+.empty>img {
+  width: 100%;
+  height: auto;
+}
+
 .empty-desc {
   font-size: 14px;
   color: #8c8c8c;
   line-height: 22px;
+  margin-top: 16px;
 }
