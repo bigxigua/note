@@ -124,10 +124,12 @@ export default function Chapter() {
               {...provided.dragHandleProps}
               style={getStyle(provided.draggableProps.style)}
             >
-              <NavLink to={`/article/${docInfo.doc_id}/?spaceId=${docInfo.space_id}`}>
+              {/* <NavLink to={`/article/${docInfo.doc_id}/?spaceId=${docInfo.space_id}`}>
                 {isParantNode && <Icon type="caret-down" />}
                 {docInfo.title}
-              </NavLink>
+              </NavLink> */}
+              {isParantNode && <Icon type="caret-down" />}
+              {docInfo.title}
               <div className="chapter-item__info">
                 <span>{fromNow(docInfo.updated_at_timestamp)}更新</span>
                 <Popover

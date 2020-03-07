@@ -2,21 +2,10 @@ import { useContext } from 'react';
 import axiosInstance from '@util/axiosInstance';
 import editorContext from '@context/editor/editorContext';
 import { addRecent } from '@util/commonFun';
+import useMessage from '@hooks/use-message';
+import { getIn } from '@util/util';
 
-function getImageFormMakeDown(markdown) {
-  if (!markdown) return null;
-  let markImage = ((markdown.match(/!\[.*\]\(.+\)/g) || [])[0] || '');
-  if (!markImage) {
-    try {
-      const sources = markdown.match(/<img [^>]*src="[^"]*"[^>]*>/gm)
-        .map(x => x.replace(/.*src="([^"]*)".*/, '$1'));
-      markImage = sources[0];
-    } catch (error) { }
-  } else {
-    markImage = ((markImage.match(/\(.*\).*/g) || [])[0] || '').replace(/(\(|\))/g, '');
-  }
-  return markImage;
-}
+const message = useMessage();
 
 export default function useSaveContent({
   publish = false, // 是否发布
@@ -75,7 +64,7 @@ export default function useSaveContent({
       updateSaveStatus(1);
       return [null, data];
     }
-    console.log('更新文档内容失败', error);
+    message.error({ content: getIn(error, ['message'], '系统繁忙') });
     updateSaveStatus(2);
     return [error || {}, null];
   }

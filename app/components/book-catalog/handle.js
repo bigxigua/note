@@ -58,10 +58,7 @@ function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
 function renderCatalogItem(type, doc) {
   const cls = 'bookcatalog ellipsis';
   return type.toLocaleUpperCase() === 'EMPTY_NODE'
-    ? <Tooltip className={cls}
-      tips="空节点">
-      <span>{doc.title}</span>
-    </Tooltip>
+    ? <span className={cls}> {doc.title}</span>
     : <NavLink
       to={'/article' + doc.url.split('article')[1]}
       exact
