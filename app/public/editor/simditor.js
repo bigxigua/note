@@ -4682,7 +4682,7 @@
       $img.addClass('loading');
       $mask = $img.data('mask');
       if (!$mask) {
-        $mask = $('<div class="simditor-image-loading">\n  <div class="progress"></div>\n</div>').hide().appendTo(this.editor.wrapper);
+        $mask = $('<div class="simditor-image-loading">\n  <img src="/images/loading.svg" />\n</div>').hide().appendTo(this.editor.wrapper);
         positionMask();
         $img.data('mask', $mask);
         $mask.data('img', $img);

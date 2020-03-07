@@ -4,7 +4,6 @@
   flex-shrink: 0;
   border-right: 1px solid #e8e8e8;
   background: #fafafa;
-  padding-left: calc((100% - 1400px)/2);
   box-sizing: content-box;
   position: fixed;
   top: auto;

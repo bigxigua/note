@@ -176,21 +176,16 @@
 }
 
 .simditor .simditor-wrapper .simditor-image-loading {
-  width: 100%;
-  height: 100%;
   position: absolute;
-  top: 0;
-  left: 0;
   z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, .4);
 }
 
-.simditor .simditor-wrapper .simditor-image-loading .progress {
-  width: 100%;
-  height: 100%;
-  background: rgba(0, 0, 0, 0.4);
-  /* position: absolute;
-bottom: 0;
-left: 0; */
+.simditor .simditor-wrapper .simditor-image-loading img {
+  width: 46px;
 }
 
 .simditor .simditor-body {
