@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment, useContext, useCallback } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-import { NavLink } from 'react-router-dom';
+// import { NavLink } from 'react-router-dom';
 import ChapterLayout from '@components/chapter-layout';
 import InsertCatalog from '@components/insert-catalog';
 import Popover from '@components/popover';
@@ -72,6 +72,7 @@ export default function Chapter() {
     chapterLayout.bindEvent();
     return () => chapterLayout.removeEvent();
   }, [catalog.length]);
+
   // 点击被拖动项时设置新增节点元素的位置
   const onDragItemClick = useCallback((item, index, items) => {
     if (!item) return;
@@ -124,10 +125,6 @@ export default function Chapter() {
               {...provided.dragHandleProps}
               style={getStyle(provided.draggableProps.style)}
             >
-              {/* <NavLink to={`/article/${docInfo.doc_id}/?spaceId=${docInfo.space_id}`}>
-                {isParantNode && <Icon type="caret-down" />}
-                {docInfo.title}
-              </NavLink> */}
               {isParantNode && <Icon type="caret-down" />}
               {docInfo.title}
               <div className="chapter-item__info">

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, Fragment, useRef } from 'react';
+import React, { useCallback, useEffect, useState, Fragment, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import './index.css';
@@ -37,6 +37,10 @@ export default function Select({
   const node = useRef(null);
   const [open, setOpen] = useState(defaultOpen);
   const [currentKey, setCurrentKey] = useState(defaultKey);
+
+  useEffect(() => {
+    setCurrentKey(defaultKey);
+  }, [defaultKey]);
 
   const options = lists.map(n => {
     return <div

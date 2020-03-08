@@ -3,11 +3,14 @@ import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import Modal from '@common/modal';
 import CreateDocButtton from '@components/create-doc-button';
-import { parseUrlQuery, checkBrowser } from '@util/util';
+import { parseUrlQuery, checkBrowser, getIn } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
 import { updateCatalogService } from '@util/commonFun';
 import axiosInstance from '@util/axiosInstance';
+import useMessage from '@hooks/use-message';
+
+const message = useMessage();
 
 const { isMobile } = checkBrowser();
 
@@ -67,9 +70,10 @@ export default function ChapterHeader({
   const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
     const [error, data] = await updateCatalogService({ spaceId, catalog });
     if (data && data.STATUS === 'OK') {
-      history.push(`/spacedetail?spaceId=${spaceId}`);
+      window.location.href = `/spacedetail?spaceId=${spaceId}`;
+      // history.push(`/spacedetail?spaceId=${spaceId}`);
     } else {
-      console.log('[目录更新失败 ]', error);
+      message.error({ content: getIn(error, ['message'], '更新文档失败') });
     }
   }, []);
 
@@ -112,14 +116,6 @@ export default function ChapterHeader({
           onDeleteSpace(space, history);
         }} />
       <CreateDocButtton spaceId={spaceId} />
-      {/* <Button
-        content="新建文档"
-        loading={state.loading}
-        onClick={() => {
-          onCreateNewDoc({
-            space_id: spaceId
-          });
-        }} /> */}
       {renderActionButton()}
     </div>
   </div>;

@@ -40,7 +40,7 @@ export default function SpaceDetail() {
     });
     setSpaceName(getIn(data, ['space', 'name'], ''));
     setspaceDesc(getIn(data, ['space', 'description'], ''));
-  }, []);
+  }, [spaceId]);
 
   const onUpdateSpaceInfo = useCallback(async () => {
     if (!spaceName) {

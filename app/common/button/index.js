@@ -1,6 +1,6 @@
 import React from 'react';
 import Icon from '@common/icon';
-import { checkBrowser } from '@util/util';
+// import { checkBrowser } from '@util/util';
 import './index.css';
 
 const typeClassName = {
@@ -24,10 +24,10 @@ export default function Button(props) {
     style = {}
   } = props;
 
-  const { isMobile } = checkBrowser();
+  // const { isMobile } = checkBrowser();
   const loadingClassName = loading ? 'button-loading' : '';
   const disabledClassName = disabled ? 'button-disabled' : '';
-  const mobileClassName = isMobile ? 'button-mobile' : '';
+  // const mobileClassName = isMobile ? 'button-mobile' : '';
 
   const onButtonClick = () => {
     if (loading || disabled) {
@@ -44,7 +44,7 @@ export default function Button(props) {
     onClick();
   };
 
-  const classes = $.trim(`button button_particle ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName} ${mobileClassName}`);
+  const classes = $.trim(`button button_particle ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`);
 
   return (
     <button

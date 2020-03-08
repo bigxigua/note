@@ -21,10 +21,6 @@
   align-items: center;
 }
 
-.button-mobile {
-  transform: scale(0.9);
-}
-
 .button-loading {
   opacity: 0.5;
   cursor: not-allowed;

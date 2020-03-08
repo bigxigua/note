@@ -3,12 +3,21 @@
   color: #8c8c8c;
   flex-shrink: 0;
   position: relative;
+  display: flex;
+  align-items: center;
 }
-.Icon_loading{
+
+.Icon>i {
+  display: flex;
+  align-items: center;
+}
+
+.Icon_loading {
   animation: loadingCircle 1s infinite linear;
 }
-@keyframes loadingCircle{
-  100%{
+
+@keyframes loadingCircle {
+  100% {
     transform: rotate(360deg);
   }
 }

@@ -5,6 +5,7 @@ import Input from '@common/input';
 import { createNewDoc, updateCatalogService } from '@util/commonFun';
 import { parseUrlQuery } from '@util/util';
 import { catalogContext } from '@context/catalog-context';
+import useMessage from '@hooks/use-message';
 import './index.css';
 
 const lists = [{
@@ -14,6 +15,7 @@ const lists = [{
   id: 'empty_node',
   text: '空节点(可用作目录)'
 }];
+const message = useMessage();
 
 export default function InsertCatalog({ position = {} }) {
   const { top, left, index, level } = position;
@@ -25,11 +27,14 @@ export default function InsertCatalog({ position = {} }) {
   // 展示Modal
   const onShowModal = useCallback(() => {
     setState({ ...state, visible: true });
-  }, []);
+  }, [state]);
 
   // 确认创建
   const onConfirm = useCallback(() => {
     const title = (state.value || '').trim();
+    if (!title) {
+      message.info({ content: '请输入标题' });
+    }
     createNewDoc({
       space_id: spaceId,
       scene: id,
@@ -57,16 +62,21 @@ export default function InsertCatalog({ position = {} }) {
   const onCancel = useCallback(() => {
     setState({
       ...state,
-      visible: false
+      visible: false,
+      value: ''
     });
-  }, []);
+    setId('doc');
+  }, [state]);
 
   const onSelect = useCallback((e, result) => {
     setId(result.id);
   }, []);
 
   const onInput = useCallback((e) => {
-    setState({ ...state, value: e.currentTarget.value });
+    setState({
+      ...state,
+      value: e.currentTarget.value
+    });
   }, [state]);
 
   return <Fragment>
@@ -86,13 +96,14 @@ export default function InsertCatalog({ position = {} }) {
       <div className="insert_catalog_modal">
         <div className="insert_catalog_label">类型</div>
         <Select
-          defaultKey="doc"
+          defaultKey={id}
           onSelect={onSelect}
           lists={lists} />
         <div className="insert_catalog_label">标题</div>
         <Input
           h={32}
           onChange={onInput}
+          defaultValue={state.value}
           placeholder="无标题" />
         <div className="insert_tips">{
           id === 'doc'

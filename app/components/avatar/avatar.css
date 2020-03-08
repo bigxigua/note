@@ -54,4 +54,5 @@
 
 .avatar-down__icon {
   transform: scale(.8);
+  top: 2.5px;
 }

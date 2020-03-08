@@ -130,4 +130,5 @@
 
 .article-header_mobile .article-header_content {
     min-width: 100%;
+    height: 48px;
 }

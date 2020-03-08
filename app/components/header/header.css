@@ -98,8 +98,9 @@
     top: 2px;
 }
 
-.Header_Popover_Add .popover-wrapper_Child>.Icon:last-child {
+.Header_Popover_Add .Icon:last-child {
     transform: scale(.8);
+    top: 2.5px;
 }
 
 .Header_Popover_Add_Item {

@@ -39,10 +39,12 @@ export default function Input(props) {
     }
     setClassName(cssName);
   }, [addonBefore, addonAfter]);
+
   useEffect(() => {
     setValue(defaultValue);
     setTextAreaAutoHeight(textArea.current, 10);
   }, [defaultValue]);
+
   return (
     <div className={$.trim(`${classes} ${className}`)}
       style={{

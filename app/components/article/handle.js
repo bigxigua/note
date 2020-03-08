@@ -47,7 +47,7 @@ export function codeBeautiful(pre, Prism) {
   if (!pre || pre.length === 0) return;
   for (let i = 0, len = Array.from(pre).length; i < len; i++) {
     const item = Array.from(pre)[i];
-    if ($(item).find('.code-tooltip').length > 0) {
+    if ($(item).parent().find('.code-tooltip').length > 0) {
       break;
     }
     const code = $(item).find('>code').length ? $(item).find('>code').html() : $(item).html();
