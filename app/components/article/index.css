@@ -318,7 +318,7 @@
 .article-html pre {
   display: inline-flex;
   align-items: center;
-  padding: 12px 0;
+  padding: 12px;
 }
 
 .article-pre__box {
