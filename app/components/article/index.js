@@ -91,6 +91,9 @@ export default function Article({ docInfo = {} }) {
 
   useEffect(() => {
     const html = getHtml(docInfo, content);
+    if (!html) {
+      return;
+    }
     $('.article-html').html(String(html));
     setTimeout(() => {
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);

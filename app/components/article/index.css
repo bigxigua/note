@@ -314,24 +314,19 @@
 }
 
 .article-html pre {
-  display: inline-flex;
-  align-items: center;
-  padding: 12px;
+  margin: .5em 0;
+  font-size: 15px;
+  overflow-x: scroll;
+  position: relative;
+  box-shadow: 1px 1px .5em black inset;
 }
 
 .article-pre__box {
   border-radius: .5em;
   border: .2em solid hsl(0, 0%, 33%);
-  box-shadow: 1px 1px .5em black inset;
-  margin: .5em 0;
-  font-size: 15px;
   overflow-x: scroll;
   background: hsl(0, 0%, 8%);
-  position: relative;
-}
-
-.article-pre__box:hover>.code-tooltip {
-  display: flex;
+  padding: 0 12px;
 }
 
 .code-tooltip {
