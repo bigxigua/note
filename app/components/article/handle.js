@@ -50,7 +50,17 @@ export function codeBeautiful(pre, Prism) {
     if ($(item).parent().find('.code-tooltip').length > 0) {
       break;
     }
+    const code = $(item).find('>code').length ? $(item).find('>code').html() : $(item).html();
     Prism.highlightElement(item);
     $(item).wrap($('<div class="article-pre__box" />'));
+    setTimeout(() => {
+      $(item).parent().append($('<div class="code-tooltip"></div>'));
+      setTimeout(() => {
+        const tooltip = $(item).parent().find('.code-tooltip').get(0);
+        console.log(tooltip);
+        ReactDOM.render(<ToolBar code={code}
+          dom={item} />, tooltip);
+      }, 0);
+    }, 0);
   }
 }

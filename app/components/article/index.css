@@ -118,7 +118,7 @@
 .article-html ul {
   list-style: disc outside none;
   margin: 12px 0;
-  padding: 0 0 0 40px;
+  padding: 0 0 0 25px;
   line-height: 1.6;
 }
 
@@ -127,7 +127,7 @@
 }
 
 .article-html blockquote {
-  border-left: 4px solid #ddd;
+  border-left: 3px solid #ddd;
   padding: 5px 0 5px 10px;
   margin: 15px 0 15px 15px;
   quotes: none;
@@ -167,13 +167,13 @@
   vertical-align: middle;
 }
 
-.article-html p a {
+.article-html a {
   color: #4298BA;
   text-decoration: none;
   word-break: break-all;
 }
 
-.article-html p a:hover {
+.article-html a:hover {
   color: #0F769F;
 }
 
@@ -315,7 +315,7 @@
 
 .article-html pre {
   margin: .5em 0;
-  font-size: 15px;
+  font-size: 12px;
   overflow-x: scroll;
   position: relative;
   box-shadow: 1px 1px .5em black inset;
@@ -327,16 +327,21 @@
   overflow-x: scroll;
   background: hsl(0, 0%, 8%);
   padding: 0 12px;
+  position: relative;
+  overflow: hidden;
 }
 
 .code-tooltip {
   position: absolute;
-  top: 100%;
   right: 0;
+  bottom: 0;
   padding: 2px;
-  transform: translateY(-100%);
-  display: none;
   z-index: 999;
+  display: none;
+}
+
+.article-pre__box:hover .code-tooltip {
+  display: flex;
 }
 
 .code-tooltip__item {
