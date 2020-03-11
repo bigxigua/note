@@ -66,7 +66,6 @@ export default function SpaceDetail() {
     } else {
       message.error({ content: getIn(error, ['message'], '系统繁忙，请稍后再试') });
     }
-    console.log(error, data);
   }, [spaceName, spaceDesc, spaceInfo]);
 
   useEffect(() => {

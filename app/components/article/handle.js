@@ -57,7 +57,6 @@ export function codeBeautiful(pre, Prism) {
       $(item).parent().append($('<div class="code-tooltip"></div>'));
       setTimeout(() => {
         const tooltip = $(item).parent().find('.code-tooltip').get(0);
-        console.log(tooltip);
         ReactDOM.render(<ToolBar code={code}
           dom={item} />, tooltip);
       }, 0);

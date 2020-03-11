@@ -35,12 +35,10 @@ const createDoc = async (templateInfo, spaceId, catalogInfo) => {
   } else {
     message.error({ content: getIn(error, ['message'], '系统繁忙') });
   }
-  console.log(error, data);
 };
 
 // 调用添加最近使用记录接口调用
 export async function createDocByTemplate(spaceId, catalogInfo = {}) {
-  console.log(1111);
   if (loading) {
     return;
   }
