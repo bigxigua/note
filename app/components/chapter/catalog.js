@@ -22,7 +22,9 @@ export default function Catalog() {
   }, []);
 
   useEffect(() => {
-    setCatalogTrees(extractCatalog(catalog.slice(1)));
+    if (Array.isArray(catalog) && catalog.length > 0) {
+      setCatalogTrees(extractCatalog(catalog.slice(1)));
+    }
   }, [catalog]);
 
   if (catalogTrees.length === 0) {

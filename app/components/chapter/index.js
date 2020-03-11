@@ -11,7 +11,7 @@ export default function ChapterWrapper({
   userInfo = {}
 }) {
   const [state, dispatch] = useReducer(catalogReducer, initialState);
-  const [catalog, setCatalog] = useState([]);
+  const [catalog, setCatalog] = useState(null);
   const { type = '' } = parseUrlQuery();
 
   const updateCatalog = (payload) => {

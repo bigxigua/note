@@ -13,7 +13,7 @@ export default function Docs() {
     title: '名称',
     key: 'name',
     render: (info) => {
-      return <div>{info.name}</div>;
+      return <Link to={`/spacedetail?spaceId=${info.space_id}`}>{info.name}</Link>;
     }
   },
   {

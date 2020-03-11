@@ -60,30 +60,19 @@
     cursor: not-allowed;
 }
 
-.Header_link_workspace {
-    margin-left: 40px;
-}
-
-.Header_link {
-    display: block;
+.header-link {
+    display: flex;
+    align-items: center;
     color: #595959;
     font-size: 14px;
     padding: 0 14px;
     height: 100%;
-    line-height: 58px;
     flex-shrink: 0;
 }
 
-.Header_link_actived {
-    color: #262626;
-    font-weight: bold;
-}
-
-.Header_link_more>.Icon>i {
+.header-link_more>.Icon>i {
     font-size: 16px;
-    font-weight: bold;
     position: relative;
-    top: 2px;
 }
 
 .Header_Popover_Add {

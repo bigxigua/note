@@ -1,6 +1,6 @@
 import React, { Fragment, useState } from 'react';
-import { Link } from 'react-router-dom';
-// import Search from '@components/search';
+import { Link, NavLink } from 'react-router-dom';
+import Search from '@components/search';
 import Avatar from '../avatar/avatar.js';
 import Icon from '@common/icon';
 import CreateDoc from '@components/create-doc';
@@ -31,6 +31,7 @@ export default function Header({
   const [visible, setVisible] = useState(false);
   const { isMobile } = checkBrowser();
   const classes = `header-wrapper ${isMobile ? 'header-wrapper_mobile' : ''} animated ${className}`;
+  const activeStyle = { color: '#262626', fontWeight: 'bold' };
   return (
     <div className={$.trim(classes)}>
       <div className="header-container">
@@ -38,13 +39,21 @@ export default function Header({
           <Link to="/"
             className="Header_title ellipsis">
           </Link>
-          {/* <Search className="Header_Search" /> */}
-          <Link to="/"
-            className="Header_link Header_link_workspace Header_link_actived">工作台</Link>
-          <div className="Header_link header_disabled">娱乐/游戏</div>
-          <div className="Header_link header_disabled">新闻</div>
+          <Search className="Header_Search" />
+          <NavLink
+            to="/"
+            activeStyle={activeStyle}
+            className="header-link">工作台</NavLink>
+          <a
+            className="header-link"
+            href="https://leetcode-cn.com/"
+            style={{ color: 'rgb(255, 109, 0)' }}
+            target="_blank">
+            leetcode
+          </a>
+          <div className="header-link header_disabled">新闻</div>
           <Link to="/more"
-            className="Header_link header_disabled Header_link_more"><Icon type="ellipsis" /></Link>
+            className="header-link header_disabled header-link_more"><Icon type="ellipsis" /></Link>
         </div>
         <div className="header-right">
           <Popover

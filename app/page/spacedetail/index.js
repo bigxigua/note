@@ -72,6 +72,16 @@ export default function SpaceDetail() {
     fetchSpaceInfo();
   }, []);
 
+  if (loading) {
+    return (
+      <>
+        <Header className="space-detail__header" />
+        < Loading show={true}
+          className="space-detail__loading" />
+      </>
+    );
+  }
+
   return (<Fragment>
     <Header className="space-detail__header" />
     <div className={`space-detail${isMobile ? ' space-detail_mobile' : ''}`}>
@@ -85,9 +95,6 @@ export default function SpaceDetail() {
       <h4>{spaceInfo.space.description}</h4>
       <img src={userInfo.avatar}
         alt="头像" />
-      <Loading
-        show={loading}
-        className="space-detail__loading" />
       <ChapterWrapper
         userInfo={userInfo}
         spaceInfo={spaceInfo} />
