@@ -69,6 +69,19 @@ export async function createNewDoc(info, callback = () => { }) {
   return [error, data];
 }
 
+// 创建文档接口二次封装，判断成功失败后的行为
+export async function createNewDocAction(info = {}) {
+  return createNewDoc(info, async ({ docId, spaceId }) => {
+    if (docId && spaceId) {
+      message.success({ content: '创建成功！' });
+      await delay();
+      window.location.href = `/simditor/${docId}?spaceId=${spaceId}`;
+    } else {
+      message.error({ content: '创建失败！' });
+    }
+  });
+}
+
 // 更新目录接口调用
 export async function updateCatalogService({ spaceId, catalog }) {
   const [error, data] = await axiosInstance.post('spaces/update', {

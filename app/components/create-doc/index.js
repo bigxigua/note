@@ -5,24 +5,18 @@ import Modal from '@common/modal';
 import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
-import useMessage from '@hooks/use-message';
-import { delay } from '@util/util';
-import { createNewDoc } from '@util/commonFun';
 import { createDocByTemplate } from '@util/commonFun2';
+import { createNewDocAction } from '@util/commonFun';
 
 import './index.css';
-
-const message = useMessage();
 
 /**
 * 新建文档通用组件
 * @param {string} mode - 创建方法，枚举值，common-普通新建 template-从模版创建
-* @param {string} spaceId - 空间id，如果存在则表示空间已选定，无需列出空间列表
 * @param {Function} onModalChange - modal关闭或展示时触发
 */
 export default function CreateDoc({
   mode = 'common',
-  spaceId = '',
   onModalChange = () => { }
 }) {
   const [visible, setVisible] = useState(true);
@@ -30,7 +24,6 @@ export default function CreateDoc({
   const [spaces, setSpaces] = useState([]);
   const history = useHistory();
   const { userInfo: { account } } = useContext(userContext);
-
   // 取消
   const onCancelModal = useCallback(() => {
     setVisible(false);
@@ -39,29 +32,16 @@ export default function CreateDoc({
 
   // 点击创建文档，显示modal
   const onChooseSpace = useCallback(async (info) => {
+    const { space_id } = info;
     if (mode === 'template') {
       createDocByTemplate(info.space_id);
-      return;
+    } else if (mode === 'common') {
+      createNewDocAction({ space_id });
     }
-    createNewDoc(info, async ({ docId, spaceId }) => {
-      if (docId && spaceId) {
-        message.success({ content: '创建成功！' });
-        await delay();
-        history.push(`/simditor/${docId}?spaceId=${spaceId}`);
-      } else {
-        message.error({ content: '创建失败！' });
-      }
-    });
   }, [mode]);
 
   // 获取空间列表
   const fetchSpaces = useCallback(async () => {
-    if (spaceId) {
-      onChooseSpace({
-        space_id: spaceId
-      });
-      return;
-    };
     setLoading(true);
     const [error, data] = await axiosInstance.get('spaces', {});
     setLoading(false);
@@ -70,11 +50,11 @@ export default function CreateDoc({
       return;
     }
     setSpaces(data.spaces);
-  }, [spaceId, mode]);
+  }, [mode]);
 
   useEffect(() => {
     fetchSpaces();
-  }, [spaceId, mode]);
+  }, [mode]);
 
   const renderSpaceList = useCallback(() => {
     if (loading) {
@@ -104,10 +84,6 @@ export default function CreateDoc({
       </div >
     );
   }, [loading, spaces]);
-
-  if (spaceId) {
-    return null;
-  }
 
   return (
     <Modal

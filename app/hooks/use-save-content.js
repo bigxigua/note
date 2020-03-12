@@ -54,16 +54,17 @@ export default function useSaveContent({
       doc_id: docId,
       ...publishParams
     });
+    if (!error && data && data.STATUS === 'OK') {
+      updateSaveStatus(1);
+      return [null, data];
+    }
+    // 添加操作记录
     await addRecent({
       spaceId,
       docId,
       docTitle: title,
       type: publish ? 'UpdateEdit' : 'Edit'
     });
-    if (!error && data && data.STATUS === 'OK') {
-      updateSaveStatus(1);
-      return [null, data];
-    }
     message.error({ content: getIn(error, ['message'], '系统繁忙') });
     updateSaveStatus(2);
     return [error || {}, null];

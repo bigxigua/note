@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import ReactDOM from 'react-dom';
 import Icon from '@common/icon';
 import Button from '@common/button';
@@ -10,34 +10,57 @@ const toggleDisableBodyScroll = (handle) => {
   document.body.classList[handle]('body-scroll_hiddlen');
 };
 
-const fn = () => { };
+const loop = () => { };
+/**
+  * Modal弹框
+  * @param {string} wrapClassName - 对话框外层容器的类名
+  * @param {boolean} visible - 对话框是否可见
+  * @param {boolean} mask - 是否展示遮罩
+  * @param {boolean} closable -  是否显示右上角的关闭按钮
+  * @param {ReactNode} closeIcon -  自定义关闭图标
+  * @param {string|number} width - Modal宽度
+  * @param {string} title - 标题
+  * @param {string} subTitle - 子标题
+  * @param {ReactNode} footer - 底部内容，当不需要默认底部按钮时，可以设为 footer={'none'}
+  * @param {string} cancelText - 取消按钮文字
+  * @param {string} confirmText - 确认按钮文字
+  * @param {Function} onCancel - 点击遮罩层或右上角叉或取消按钮的回调
+  * @param {Function} onConfirm -点击确定回调
+*/
 export default function Modal({
   children = '',
-  wrapClassName = '', // 对话框外层容器的类名
-  visible = false, // 对话框是否可见
-  width = 520, // 宽度
-  onCancel = fn, // 点击遮罩层或右上角叉或取消按钮的回调
-  onConfirm = fn, // 点击确定回调
-  title = '', // 标题
-  subTitle = '', // 子标题
-  mask = true, //  是否展示遮罩
-  footer = null, // 底部内容，当不需要默认底部按钮时，可以设为 footer={'none'}
-  closeIcon = null, // 自定义关闭图标
-  closable = true, // 是否显示右上角的关闭按钮
-  cancelText = '取消', // 取消按钮文字
-  confirmText = '确定' // 确认按钮文字
+  wrapClassName = '',
+  visible = false,
+  width = 520,
+  onCancel = loop,
+  onConfirm = loop,
+  title = '',
+  subTitle = '',
+  mask = true,
+  footer = null,
+  closeIcon = null,
+  closable = true,
+  cancelText = '取消',
+  confirmText = '确定'
 }) {
   const w = isNaN(width) ? width : `${width}px`;
+  const modalRef = useRef(null);
 
-  const _onConfirm = () => {
+  // 确认
+  const _onConfirm = useCallback(() => {
     toggleDisableBodyScroll('remove');
     onConfirm();
-  };
+  }, []);
 
-  const _onCancel = () => {
+  // 取消
+  const _onCancel = useCallback(() => {
     toggleDisableBodyScroll('remove');
     onCancel();
-  };
+    // 移除modal dom元素
+    setTimeout(() => {
+      // TODO close modal需要remove当前dom
+    }, 0);
+  }, []);
 
   const defaultFooter = (
     <div className="modal-footer flex">
@@ -52,10 +75,8 @@ export default function Modal({
       onClick={_onCancel}
       className="modal-close" />
   ));
-  let classes = 'modal-mask animated ';
-  classes += `${mask ? 'modal-mask__bg' : ''} `;
-  classes += `${visible ? 'modal-show' : ''} `;
 
+  // 禁止body滑动
   if (visible) {
     toggleDisableBodyScroll('add');
   }
@@ -77,8 +98,14 @@ export default function Modal({
     };
   }, []);
 
+  let classes = 'modal-mask animated ';
+  classes += `${mask ? 'modal-mask__bg' : ''} `;
+  classes += `${visible ? 'modal-show' : ''} `;
+
   return ReactDOM.createPortal(
-    (<div className={$.trim(classes)}>
+    (<div
+      className={$.trim(classes)}
+      ref={modalRef}>
       <div className={$.trim(`modal ${wrapClassName}`)}
         style={{
           width: w

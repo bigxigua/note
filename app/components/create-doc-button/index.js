@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import DropdownButton from '@components/dropdown-button';
 import CreateDoc from '@components/create-doc';
 import List from '@common/list';
+import { createNewDocAction } from '@util/commonFun';
 import './index.css';
 
 const list = [{
@@ -30,6 +31,15 @@ export default function CreateDocButtton({
     }
   }, []);
 
+  const onButtonClick = useCallback(async () => {
+    if (spaceId) {
+      createNewDocAction({ space_id: spaceId });
+    } else {
+      setMode('common');
+      setVisible(true);
+    }
+  }, [spaceId]);
+
   return <>
     <DropdownButton
       overlay={
@@ -37,12 +47,11 @@ export default function CreateDocButtton({
           list={list}
           onTap={onListItemClick} />
       }
-      onClick={() => { setVisible(true); setMode('common'); }}
+      onClick={onButtonClick}
     >新建文档</DropdownButton>
     {visible &&
       <CreateDoc
         mode={mode}
-        spaceId={spaceId}
         onModalChange={setVisible} />}
   </>;
 };
