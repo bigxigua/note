@@ -1,36 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import Dropdown from '@common/dropdown';
 import Scene from '@common/scene';
-import Icon from '@common/icon';
 import Input from '@common/input';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
 import { addRecent } from '@util/commonFun';
-
-function MenuItem({ type, text, checked, len, handle, index }) {
-  let className = '';
-  if (len > 1) {
-    className = checked ? 'New_Permission_Checked' : '';
-    className += ' New_Permission_Mul';
-  } else {
-    className = 'New_Permission_Show';
-  }
-  const onClick = () => {
-    if (len > 1) {
-      handle(index);
-    }
-  };
-  return (
-    <div
-      className={`New_Permission flex ${className}`}
-      onClick={onClick}>
-      <Icon type={type} />
-      <p>{text}</p>
-      <Icon type={len === 1 ? 'down' : checked ? 'check' : ''} />
-    </div>
-  );
-};
+import { MenuItem, TEMPLATE_SCENCE, MENUS, TYPESCENES } from './handle';
 
 function CreateMenu({ menus, onClick }) {
   const len = menus.length;
@@ -50,61 +26,18 @@ export default function NewChooseType({
 }) {
   const message = useMessage();
   const history = useHistory();
-  const [menus, setMenus] = useState([{
-    type: 'stop',
-    text: '仅自己可见',
-    public: 'SELF',
-    checked: true
-  }, {
-    type: 'global',
-    public: 'PUBLIC',
-    text: '互联网可见'
-  }]);
-  const [typeScenes, setTypeSences] = useState([{
-    icon: <img src="/images/book.png" />,
-    title: '文档知识库',
-    desc: '创作在线文档',
-    scene: 'DOCS',
-    actived: true
-  }, {
-    icon: <img src="/images/books.png" />,
-    title: '资源知识库',
-    disabled: true,
-    scene: 'RESOURCE',
-    desc: '上传并预览知识库'
-  }, {
-    icon: <img src="/images/import.png" />,
-    title: '导入',
-    disabled: true,
-    scene: 'IMPORT',
-    desc: '新建并导入本地内容'
-  }]);
-  const [templateSences, setTemplateSences] = useState([{
-    icon: <img src="/images/doc.png" />,
-    title: '学习笔记',
-    disabled: true,
-    scene: 'TEMPLATE_OF_STUDY',
-    desc: '点滴学习，随时记录'
-  }, {
-    icon: <img src="/images/blog.png" />,
-    title: '博客专栏',
-    disabled: true,
-    scene: 'TEMPLATE_OF_BLOG',
-    desc: '定时总结，与人分享，加深记忆'
-  }, {
-    icon: <img src="/images/trip.png" />,
-    title: '旅行攻略',
-    disabled: true,
-    scene: 'TEMPLATE_OF_TRAVEL',
-    desc: '行程单、预算、游记'
-  }]);
+  const [menus, setMenus] = useState(MENUS);
+  const [typeScenes, setTypeSences] = useState(TYPESCENES);
+  const [templateSences, setTemplateSences] = useState(TEMPLATE_SCENCE);
   const [info, setInfo] = useState(typeScenes[0]);
+
   // 切换可见范围事件
-  const onClick = (index) => {
+  const onClick = useCallback((index) => {
     setMenus(menus.map((n, i) => {
       return { ...n, checked: i === index };
     }));
-  };
+  }, [menus]);
+
   // 切换模版事件
   const onTemplateScenesChange = (index, type, item) => {
     if (item.disabled) return;
@@ -120,14 +53,15 @@ export default function NewChooseType({
     setSpace(_info_);
     setInfo(_info_);
   };
+
   // 输入框输入事件
-  const onInputChange = (e, key) => {
-    const value = e.currentTarget.value;
+  const onInputChange = useCallback((e, key) => {
     setInfo({
       ...info,
-      [`${key}`]: value
+      [`${key}`]: e.currentTarget.value
     });
-  };
+  }, [info]);
+
   // 提交
   const onCreateSpace = async () => {
     const {
@@ -148,7 +82,7 @@ export default function NewChooseType({
     });
     if (!error && data && data.spaceId) {
       await addRecent({ spaceId: data.spaceId, spaceName: name, type: 'CreateSpace' });
-      message.success({ content: '创建成功', d: 500, onClose: () => history.push('/space/') });
+      message.success({ content: '创建成功', d: 500, onClose: () => history.push(`/spacedetail?spaceId=${data.spaceId}`) });
       return;
     }
     message.error({ content: (error || {}).message || '系统开小差啦，稍等试试吧' });

@@ -14,11 +14,11 @@ import '@public/editor/simditor-html';
 // https://github.com/mycolorway/simditor-livemd
 import '@public/editor/simditor-livemd';
 // import '@public/editor/simditor-mark';
-
 import { parseUrlQuery, checkBrowser } from '@util/util';
 import {
   fetchDocDetail,
   getTileAndHtml,
+  addUnloadListener,
   setDraftToStorage,
   monitorKeyupHandle,
   onSimditorWrapperScroll,
@@ -37,21 +37,20 @@ export default function Page() {
   const { updateEditorInfo } = useContext(editorContext);
   const saveHandle = useSaveContent({ spaceId });
   const simditorInstance = useRef({});
-
+  // 缓存html的key值
   const storageKey = `autosave${window.location.pathname}`;
 
   const renderSimditor = useCallback(async () => {
     const docInfo = await fetchDocDetail();
-
     updateDoc(docInfo);
+    // 首次进来的优先显示缓存里的html,如果缓存不是最新的，进行保存会导致保存的是旧的。
+    // 首次进来的优先显示接口的draft,缓存的意义就不存在了
 
     setHtml(getTileAndHtml(docInfo, storageKey).content);
-
     const simditor = new Simditor({
       ...simditorParams,
       textarea: $('#editor')
     });
-
     simditor.on('valuechanged', () => {
       const content = simditor.getValue();
       const title = $.trim($('.simditor-title>input').val());
@@ -65,7 +64,7 @@ export default function Page() {
     updateEditorInfo(simditor);
     simditorInstance.current = simditor;
 
-    // 插入标题
+    // 插入标题dom
     insertTitleInputToSimditor(docInfo, storageKey);
 
     // 监听标题输入框change设置内容到缓存
@@ -73,21 +72,11 @@ export default function Page() {
       simditor.trigger('valuechanged');
     });
 
+    // 监听window.scroll
     onSimditorWrapperScroll();
 
-    // 启动定时更新草稿定时器(20s自动保存数据到服务端)
-    // TODO 最好的做法应该是在停止输入后几秒开启定时刷新定时器。
-    // const timer = setInterval(() => {
-    //   // 若无缓存则表示无变动。无需上报
-    //   try {
-    //     if (isObject(JSON.parse(window.localStorage.getItem(storageKey)))) {
-    //       saveHandle(simditorInstance.current);
-    //       window.localStorage.setItem(storageKey, null);
-    //     }
-    //   } catch (error) {
-    //     console.log('error', error);
-    //   }
-    // }, 5000);
+    // 页面卸载，保存草稿
+    addUnloadListener(docInfo.doc_id, simditor, storageKey);
   }, []);
 
   useEffect(() => {

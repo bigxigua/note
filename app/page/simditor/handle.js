@@ -1,5 +1,6 @@
 import { getIn, checkBrowser, addKeydownListener, isObject } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
+import { DOMAIN } from '@util/config';
 
 const { isMobile } = checkBrowser();
 
@@ -37,29 +38,24 @@ export function monitorKeyupHandle({ save, simditor }) {
 }
 
 // 监听onunload事件，自动保存数据
-export function addUnloadListener() {
+export function addUnloadListener(docId, simditor, storageKey) {
   window.addEventListener('unload', () => {
-    // 保存草稿数据到localStorage
-    // fetchApi({
-    //   url: '/doc/update',
-    //   method: 'POST',
-    //   keepalive: true,
-    //   body: {
-    //     doc_id: docId,
-    //     html_draft: '',
-    //     title_draft: ''
-    //   }
-    // }).catch((error) => {
-    //   console.log('------', error);
-    // });
+    const formData = new FormData();
+    formData.append('doc_id', docId);
+    formData.append('html_draft', simditor.getValue());
+    formData.append('title_draft', $.trim($('.simditor-title>input').val()));
+    window.navigator.sendBeacon(`${DOMAIN}doc/update`, formData);
+    window.localStorage.setItem(storageKey, '');
   }, false);
 }
 
 // 获取content和title
 export function getTileAndHtml(info, key) {
-  const draftCached = JSON.parse(window.localStorage.getItem(key));
+  // const draftCached = JSON.parse(window.localStorage.getItem(key));
+  const draftCached = undefined;
   const title = info.title_draft || info.title;
   const content = info.html_draft || info.html;
+  console.log('draftCached:', draftCached);
   if (isObject(draftCached)) {
     return {
       title: draftCached.title || '',
@@ -67,8 +63,8 @@ export function getTileAndHtml(info, key) {
     };
   } else {
     return {
-      content,
-      title
+      title,
+      content
     };
   }
 }
