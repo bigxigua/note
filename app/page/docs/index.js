@@ -14,6 +14,7 @@ import axiosInstance from '@util/axiosInstance';
 import { Link, useHistory } from 'react-router-dom';
 import { formatTimeStamp, checkBrowser, getIn } from '@util/util';
 import { addRecent, logicalDeletion, physicalDeletion, setDocToTemplate } from '@util/commonFun';
+import { addToShortcutEntry } from '@util/commonFun2';
 import './index.css';
 
 const message = useMessage();
@@ -35,6 +36,10 @@ function renderDocOperation(onOperationClick, docInfo) {
       }, {
         text: '设置为模版',
         key: 'template',
+        docInfo
+      }, {
+        text: '添加到快捷入口',
+        key: 'addindex',
         docInfo
       }
       ]} />);
@@ -207,6 +212,8 @@ export default function Space() {
       } else {
         message.error({ content: getIn(error, ['message'], '系统繁忙') });
       }
+    } else if (key === 'addindex') {
+      addToShortcutEntry({ title, url });
     }
   }, [dataSource]);
 

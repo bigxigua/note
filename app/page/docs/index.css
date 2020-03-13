@@ -1,10 +1,7 @@
 .Space_Operation_Icon {
   font-size: 20px;
-  top: 3px;
   margin-left: 12px;
-  margin-top: -5px;
   cursor: pointer;
-  position: relative;
 }
 
 .Doc_operation_item {

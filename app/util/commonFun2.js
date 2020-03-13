@@ -77,3 +77,19 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
     }
   });
 }
+
+// 将文档/空间添加到快捷入口里
+export async function addToShortcutEntry({
+  title = '', // 标题
+  url = '', // 链接
+  type = 'XIGUA'
+}) {
+  const [error, data] = await axiosInstance.post('create/shortcut', { title, url, type });
+  const success = Boolean(getIn(data, ['STATUS']) === 'OK');
+  if (success) {
+    message.success({ content: '添加成功' });
+  } else {
+    message.error({ content: getIn(error, ['message'], '系统繁忙，请稍后再试') });
+  }
+  return success;
+}

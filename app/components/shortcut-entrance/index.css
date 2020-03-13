@@ -1,0 +1,52 @@
+.shortcut-entrance__head {
+  color: #262626;
+  font-weight: bold;
+  font-size: 14px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.shortcut-entrance__content-entry {
+  width: 100%;
+  background: #ffffff;
+  border-radius: 2px;
+  border: 1px solid #e8e8e8;
+  margin-bottom: 8px;
+  transition: box-shadow .35s ease;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 32px 10px 12px;
+  box-sizing: border-box;
+}
+
+.shortcut-entrance__content-entry:hover {
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .08);
+}
+
+.shortcut-entrance__content-left {
+  display: flex;
+  align-items: center;
+}
+
+.shortcut-entrance__content-left>img:nth-of-type(1) {
+  width: 29px;
+}
+
+.shortcut-entrance__content-left>a {
+  font-size: 14px;
+  color: #000;
+  margin-left: 10px;
+}
+
+.shortcut-entrance__content-left>a:hover {
+  opacity: 0.6;
+}
+
+.shortcut-entrance__content-icon {
+  font-size: 20px;
+  margin-left: 12px;
+  cursor: pointer;
+}
