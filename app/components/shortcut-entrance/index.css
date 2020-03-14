@@ -37,7 +37,7 @@
 
 .shortcut-entrance__content-left>a {
   font-size: 14px;
-  color: #000;
+  color: #595959;
   margin-left: 10px;
 }
 
@@ -48,5 +48,22 @@
 .shortcut-entrance__content-icon {
   font-size: 20px;
   margin-left: 12px;
+  cursor: pointer;
+}
+
+.shortcut-entrance__empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  border: 1px solid #e8e8e8;
+  border-radius: 2px;
+  color: #595959;
+  margin-bottom: 10px;
+}
+
+.shortcut-entrance__empty>span {
+  color: #25B668;
+  padding: 0 4px;
   cursor: pointer;
 }

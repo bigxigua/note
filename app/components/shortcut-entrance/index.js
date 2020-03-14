@@ -1,19 +1,33 @@
-import React, { useState, useCallback, useEffect } from 'react';
-import { Link } from 'react-router-dom';
-import List from '@common/list';
-import Icon from '@common/icon';
+import React, { useState, useCallback, useEffect, useRef } from 'react';
 import Button from '@common/button';
-import Popover from '@components/popover';
+import axiosInstance from '@util/axiosInstance';
+import ShortcutItems from './shortcut-items';
+import Loading from '@common/loading';
+import Modal from '@common/modal';
+import Input from '@common/input';
 import './index.css';
 
-function createList(info) {
-  return [{
-    text: '删除入口',
-    key: 'remove',
-    icon: 'delete',
-    info
-  }];
-}
+const inputStyle = {
+  width: '100%',
+  height: '36px',
+  marginBottom: '10px'
+};
+
+function RenderContent({
+  entries,
+  setEntries,
+  onCreateShortcut
+}) {
+  if (entries === null) {
+    return <Loading />;
+  } else if (entries.length === 0) {
+    return <div className="shortcut-entrance__empty">在这里<span onClick={onCreateShortcut}>添加</span>常用链接</div>;
+  } else {
+    return <ShortcutItems
+      onDelete={(id) => { setEntries(entries.filter(n => n.shortcut_id !== id)); }}
+      entries={entries} />;
+  }
+};
 
 /**
   * 快捷入口组件
@@ -22,48 +36,65 @@ function createList(info) {
 export default function ShortcutEntrance({
   className = ''
 }) {
-  const [entries, setEntries] = useState([{
-    title: '哈哈',
-    type: 'doc|space',
-    id: '1'
-  }]);
-  const prefixClass = 'shortcut-entrance';
-  const onPopoverItemClick = useCallback(() => {
-
-  }, []);
-  useEffect(() => {
-
-  }, []);
-  const entriesJsx = entries.map((info) => {
-    return (
-      <div
-        key={info.id}
-        className="shortcut-entrance__content-entry">
-        <div className="shortcut-entrance__content-left">
-          <img src="/images/book.png" />
-          <Link to="/">我的文档</Link>
-        </div>
-        <Popover
-          content={
-            <List
-              onTap={onPopoverItemClick}
-              list={createList(info)} />
-          }>
-          <Icon type="ellipsis"
-            className="shortcut-entrance__content-icon" />
-        </Popover>
-      </div>);
+  const [entries, setEntries] = useState(null);
+  const entryInfo = useRef({
+    entryName: '',
+    entryUrl: ''
   });
+  const prefixClass = 'shortcut-entrance';
+
+  // 获取快捷入口信息
+  const fetchShortcut = useCallback(async () => {
+    const [, data] = await axiosInstance.get('shortcut');
+    if (Array.isArray(data)) {
+      setEntries(data);
+    }
+  }, []);
+
+  // 创建新快捷入口
+  const createShortcutEntrance = useCallback(async ({ entryName, entryUrl }) => {
+  }, [entries]);
+
+  // 显示常见快捷入口的modal
+  const onShowCreateShortcutEntranceModal = useCallback(() => {
+    Modal.confirm({
+      title: '添加快捷入口',
+      subTitle: '添加快捷入口已方便查找和使用',
+      content: (
+        <div className="shortcut-entrance__modal">
+          <Input
+            addonBefore="标题"
+            onChange={(e) => { entryInfo.current.entryName = e.currentTarget.value; }}
+            style={inputStyle} />
+          <Input
+            addonBefore="URL地址"
+            onChange={(e) => { entryInfo.current.entryUrl = e.currentTarget.value; }}
+            style={inputStyle} />
+        </div>),
+      onOk: async () => {
+        createShortcutEntrance(entryInfo);
+      }
+    });
+  }, []);
+
+  useEffect(() => {
+    fetchShortcut();
+  }, []);
+
   return (
     <div className={$.trim(`${prefixClass} ${className}`)}>
       <div className="shortcut-entrance__head">
         <div>快捷入口</div>
         <Button
           content="添加快捷入口"
-          onClick={() => {
-          }} />
+          onClick={onShowCreateShortcutEntranceModal} />
       </div>
-      <div className="shortcut-entrance__content">{entriesJsx}</div>
+      <div className="shortcut-entrance__content">
+        <RenderContent
+          setEntries={setEntries}
+          onCreateShortcut={onShowCreateShortcutEntranceModal}
+          entries={entries} />
+      </div>
     </div>
   );
 };
