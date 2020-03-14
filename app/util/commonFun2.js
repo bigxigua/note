@@ -82,7 +82,7 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
 export async function addToShortcutEntry({
   title = '', // 标题
   url = '', // 链接
-  type = 'XIGUA'
+  type = 'NORMAL'
 }) {
   const [error, data] = await axiosInstance.post('create/shortcut', { title, url, type });
   const success = Boolean(getIn(data, ['STATUS']) === 'OK');

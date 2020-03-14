@@ -45,6 +45,12 @@
   opacity: 0.6;
 }
 
+.shortcut-entrance__content-right {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
+
 .shortcut-entrance__content-icon {
   font-size: 20px;
   margin-left: 12px;

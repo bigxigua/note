@@ -1,8 +1,9 @@
 import React, { useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
 import List from '@common/list';
 import Icon from '@common/icon';
+import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
 import { getIn } from '@util/util';
 import useMessage from '@hooks/use-message';
@@ -19,7 +20,8 @@ function createList(info) {
 const message = useMessage();
 
 const ICON = {
-  XIGUA: '/images/documentation.png',
+  XIGUA_SPACE: '/images/warehouse.png',
+  XIGUA_DOC: '/images/documentation.png',
   NORMAL: '/images/link.png'
 };
 
@@ -50,6 +52,10 @@ export default function ShortcutItems({
     }
   }, [entries]);
 
+  const jumpToEditor = useCallback((url) => {
+    window.location.href = url.replace(/\/article\//, '/simditor/');
+  }, []);
+
   return entries.map(info => {
     return (
       <div
@@ -60,15 +66,22 @@ export default function ShortcutItems({
           <a href={info.url}
             target="_blank">{info.title}</a>
         </div>
-        <Popover
-          content={
-            <List
-              onTap={onPopoverItemClick}
-              list={createList(info)} />
-          }>
-          <Icon type="ellipsis"
-            className="shortcut-entrance__content-icon" />
-        </Popover>
+        <div className="shortcut-entrance__content-right">
+          {info.type === 'XIGUA_DOC' && <Icon type="edit"
+            onClick={() => { jumpToEditor(info.url); }} />}
+          {info.type === 'XIGUA_SPACE' && <Button
+            content="编排"
+            onClick={() => { window.location.href = `${info.url}&type=toc`; }} />}
+          <Popover
+            content={
+              <List
+                onTap={onPopoverItemClick}
+                list={createList(info)} />
+            }>
+            <Icon type="ellipsis"
+              className="shortcut-entrance__content-icon" />
+          </Popover>
+        </div>
       </div>);
   });
 }

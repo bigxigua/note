@@ -32,6 +32,16 @@ function RenderContent({
   }
 };
 
+function getShortcutType(url) {
+  let type = 'NORMAL';
+  if (/^https:\/\/www\.bigxigua\.net\/article\//.test(url)) {
+    type = 'XIGUA_DOC';
+  } else if (/^https:\/\/www\.bigxigua\.net\/spacedetail\?/.test(url)) {
+    type = 'XIGUA_SPACE';
+  }
+  return type;
+}
+
 /**
   * 快捷入口组件
   * @param {string} className - 类名
@@ -62,7 +72,7 @@ export default function ShortcutEntrance({
     const [, data] = await axiosInstance.post('create/shortcut', {
       title: entryName,
       url: entryUrl,
-      type: /^https:\/\/www\.bigxigua\.net/.test(entryUrl) ? 'XIGUA' : 'NORMAL'
+      type: getShortcutType(entryUrl)
     });
     if (data && data.STATUS === 'OK') {
       setEntries([...(entries || []), data.data]);
