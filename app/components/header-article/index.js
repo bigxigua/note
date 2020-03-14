@@ -38,6 +38,8 @@ export default function ArticleHeader({
   async function onUpdate() {
     const [error] = await update(editor);
     if (!error) {
+      // 该字段用来表示，正在更新不需要使用navigator.sendBeacon来保存草稿。
+      window.IS_UPDATED_UNLOAD = true;
       window.location.replace(window.location.origin + `/article/${docId}?spaceId=${spaceId}&content=origin`);
     }
   }

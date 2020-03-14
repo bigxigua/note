@@ -40,12 +40,15 @@ export function monitorKeyupHandle({ save, simditor }) {
 // 监听onunload事件，自动保存数据
 export function addUnloadListener(docId, simditor, storageKey) {
   window.addEventListener('unload', () => {
-    const formData = new FormData();
-    formData.append('doc_id', docId);
-    formData.append('html_draft', simditor.getValue());
-    formData.append('title_draft', $.trim($('.simditor-title>input').val()));
-    window.navigator.sendBeacon(`${DOMAIN}doc/update`, formData);
-    window.localStorage.setItem(storageKey, '');
+    // 如果点了更新就不再保存草稿
+    if (!window.IS_UPDATED_UNLOAD) {
+      const formData = new FormData();
+      formData.append('doc_id', docId);
+      formData.append('html_draft', simditor.getValue());
+      formData.append('title_draft', $.trim($('.simditor-title>input').val()));
+      window.navigator.sendBeacon(`${DOMAIN}doc/update`, formData);
+      window.localStorage.setItem(storageKey, '');
+    }
   }, false);
 }
 
