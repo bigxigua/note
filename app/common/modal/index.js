@@ -23,7 +23,9 @@ const loop = () => { };
   * @param {string} subTitle - 子标题
   * @param {ReactNode} footer - 底部内容，当不需要默认底部按钮时，可以设为 footer={'none'}
   * @param {string} cancelText - 取消按钮文字
+  * @param {ButtonProps} cancelButtonProps - 取消按钮的props
   * @param {string} confirmText - 确认按钮文字
+  * @param {ButtonProps} confirmButtonProps - 确认按钮的props
   * @param {Function} onCancel - 点击遮罩层或右上角叉或取消按钮的回调
   * @param {Function} onConfirm -点击确定回调
 */
@@ -41,7 +43,9 @@ export default function Modal({
   closeIcon = null,
   closable = true,
   cancelText = '取消',
-  confirmText = '确定'
+  cancelButtonProps = {},
+  confirmText = '确定',
+  confirmButtonProps = {}
 }) {
   const w = isNaN(width) ? width : `${width}px`;
   const modalRef = useRef(null);
@@ -64,9 +68,11 @@ export default function Modal({
 
   const defaultFooter = (
     <div className="modal-footer flex">
-      <Button onClick={_onCancel}>{cancelText}</Button>
+      <Button onClick={_onCancel}
+        {...cancelButtonProps}>{cancelText}</Button>
       <Button type="primary"
-        onClick={_onConfirm}>{confirmText}</Button>
+        onClick={_onConfirm}
+        {...confirmButtonProps}>{confirmText}</Button>
     </div>
   );
   const footerJsx = footer === 'none' ? null : (footer || defaultFooter);

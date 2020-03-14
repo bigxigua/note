@@ -1,8 +1,9 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import ReactDOM from 'react-dom';
 import { isPromise } from '@util/util';
 import Modal from './index';
 
+// TODO 支持cancelButtonProps && confirmButtonProps
 const ConfirmDialog = ({
   width = undefined,
   wrapClassName = '',
@@ -13,7 +14,9 @@ const ConfirmDialog = ({
   title = '',
   subTitle = '',
   content = '',
-  onOk = () => { }
+  onOk = () => { },
+  confirmButtonProps = {},
+  cancelButtonProps = {}
 }) => {
   const [visible, setVisible] = useState(true);
 
@@ -36,6 +39,8 @@ const ConfirmDialog = ({
     onConfirm={_onOk_}
     confirmText={okText}
     cancelText={cancelText}
+    confirmButtonProps={confirmButtonProps}
+    cancelButtonProps={cancelButtonProps}
     visible={visible} >
     {content}
   </Modal>;

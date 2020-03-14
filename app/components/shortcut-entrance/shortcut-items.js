@@ -1,9 +1,10 @@
 import React, { useCallback } from 'react';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
 import List from '@common/list';
 import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
-import { getIn, delay } from '@util/util';
+import { getIn } from '@util/util';
 import useMessage from '@hooks/use-message';
 
 function createList(info) {
@@ -17,6 +18,11 @@ function createList(info) {
 
 const message = useMessage();
 
+const ICON = {
+  XIGUA: '/images/documentation.png',
+  NORMAL: '/images/link.png'
+};
+
 /**
   * 快捷入口项目
   * @param {array}} entries - 快捷入口列表
@@ -29,7 +35,6 @@ export default function ShortcutItems({
   // 删除快捷入口
   const removeShortcut = useCallback(async (shortcutId) => {
     const [error, data] = await axiosInstance.post('delete/shortcut', { shortcutId });
-    console.log(error, data);
     if (getIn(data, ['STATUS']) === 'OK') {
       onDelete(shortcutId);
       return;
@@ -51,7 +56,7 @@ export default function ShortcutItems({
         key={info.id}
         className="shortcut-entrance__content-entry">
         <div className="shortcut-entrance__content-left">
-          <img src="/images/book.png" />
+          <img src={ICON[info.type || 'NORMAL']} />
           <a href={info.url}
             target="_blank">{info.title}</a>
         </div>

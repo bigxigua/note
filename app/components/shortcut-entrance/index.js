@@ -5,6 +5,7 @@ import ShortcutItems from './shortcut-items';
 import Loading from '@common/loading';
 import Modal from '@common/modal';
 import Input from '@common/input';
+import useMessage from '@hooks/use-message';
 import './index.css';
 
 const inputStyle = {
@@ -12,6 +13,8 @@ const inputStyle = {
   height: '36px',
   marginBottom: '10px'
 };
+
+const message = useMessage();
 
 function RenderContent({
   entries,
@@ -53,6 +56,19 @@ export default function ShortcutEntrance({
 
   // 创建新快捷入口
   const createShortcutEntrance = useCallback(async ({ entryName, entryUrl }) => {
+    if (!entryName || !entryUrl) {
+      return;
+    }
+    const [, data] = await axiosInstance.post('create/shortcut', {
+      title: entryName,
+      url: entryUrl,
+      type: /^https:\/\/www\.bigxigua\.net/.test(entryUrl) ? 'XIGUA' : 'NORMAL'
+    });
+    if (data && data.STATUS === 'OK') {
+      setEntries([...(entries || []), data.data]);
+    } else {
+      message.error({ content: '创建失败' });
+    }
   }, [entries]);
 
   // 显示常见快捷入口的modal
@@ -72,10 +88,10 @@ export default function ShortcutEntrance({
             style={inputStyle} />
         </div>),
       onOk: async () => {
-        createShortcutEntrance(entryInfo);
+        createShortcutEntrance(entryInfo.current);
       }
     });
-  }, []);
+  }, [entries]);
 
   useEffect(() => {
     fetchShortcut();
