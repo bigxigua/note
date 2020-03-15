@@ -7,6 +7,7 @@ import Popover from '@components/popover';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Modal from '@common/modal';
+import Empty from '@common/empty';
 import { isEmptyObject } from '@util/util';
 import { deleteDoc } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';
@@ -90,7 +91,10 @@ export default function Chapter() {
   }, []);
 
   if (!catalog || catalog.length === 0 || !docs || docs.length === 0) {
-    return null;
+    return <Empty
+      className="chapter_empty"
+      description="该空间下暂无文档"
+      image="/images/undraw_empty.svg" />;
   }
 
   function renderDraggables(provided, snapshot) {

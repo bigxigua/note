@@ -30,7 +30,7 @@ export default function Catalog() {
   if (catalogTrees.length === 0) {
     return <Empty
       className="chapter_empty"
-      description="暂无文档"
+      description="该空间下暂无文档"
       image="/images/undraw_empty.svg" />;
   }
 

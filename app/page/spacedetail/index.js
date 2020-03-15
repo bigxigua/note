@@ -76,7 +76,7 @@ export default function SpaceDetail() {
     return (
       <>
         <Header className="space-detail__header" />
-        < Loading show={true}
+        <Loading show={true}
           className="space-detail__loading" />
       </>
     );
