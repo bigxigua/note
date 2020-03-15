@@ -6,6 +6,7 @@ import Loading from '@common/loading';
 import Modal from '@common/modal';
 import Input from '@common/input';
 import useMessage from '@hooks/use-message';
+import { getIn } from '@util/util';
 import './index.css';
 
 const inputStyle = {
@@ -70,7 +71,7 @@ export default function ShortcutEntrance({
     if (!entryName || !entryUrl) {
       return;
     }
-    const [, data] = await axiosInstance.post('create/shortcut', {
+    const [error, data] = await axiosInstance.post('create/shortcut', {
       title: entryName,
       url: entryUrl,
       type: getShortcutType(entryUrl)
@@ -78,7 +79,7 @@ export default function ShortcutEntrance({
     if (data && data.STATUS === 'OK') {
       setEntries([...(entries || []), data.data]);
     } else {
-      message.error({ content: '创建失败' });
+      message.error({ content: getIn(error, ['message'], '创建失败') });
     }
   }, [entries]);
 
@@ -111,7 +112,7 @@ export default function ShortcutEntrance({
   return (
     <div
       className={$.trim(`${prefixClass} ${className}`)}
-      style={{ height: `${(entries || []).length * 48 + 70}px` }}>
+      style={{ minHeight: `${(entries || []).length * 48 + 70}px` }}>
       <div className="shortcut-entrance__head">
         <div>快捷入口</div>
         <Button

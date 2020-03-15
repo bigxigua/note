@@ -1,3 +1,8 @@
+.shortcut-entrance {
+  transition: height linear 0.2s;
+  will-change: height;
+}
+
 .shortcut-entrance__head {
   color: #262626;
   font-weight: bold;

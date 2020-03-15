@@ -3,7 +3,6 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
 import List from '@common/list';
 import Icon from '@common/icon';
-import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
 import { getIn } from '@util/util';
 import useMessage from '@hooks/use-message';
@@ -88,7 +87,7 @@ export default function ShortcutItems({
     });
     if (error || getIn(data, ['STATUS']) !== 'OK') {
       setEntries(entries);
-      message.error({ content: '更新排序失败' });
+      message.error({ content: getIn(error, ['message'], '更新排序失败') });
     }
   }, [entries]);
 
@@ -104,7 +103,7 @@ export default function ShortcutItems({
         entries.map((info, index) => {
           return (
             <Draggable
-              key={info.id}
+              key={info.order_num}
               index={index}
               draggableId={String(info.shortcut_id)}>
               {(provided) => (
