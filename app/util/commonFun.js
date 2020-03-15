@@ -253,7 +253,7 @@ export function deleteDoc({
   spaceId
 }) {
   Modal.confirm({
-    title: '确认删除该节点吗？QAQ',
+    title: '确认物理永久删除该节点吗？QAQ',
     subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
     onOk: async () => {
       const index = catalog.findIndex(n => n.docId === docId);

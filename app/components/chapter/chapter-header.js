@@ -20,7 +20,7 @@ function onDeleteSpace(space, __history__) {
     name
   } = space;
   Modal.confirm({
-    title: '确认删除该空间吗？QAQ',
+    title: '确认物理永久删除该空间吗？QAQ',
     subTitle: '如果该空间下有文档，会被一并删除。且无法恢复，请慎重。',
     onOk: async () => {
       const [error, data] = await axiosInstance.post('spaces/delete', { space_id });
