@@ -27,6 +27,7 @@ function RenderContent({
     return <div className="shortcut-entrance__empty">在这里<span onClick={onCreateShortcut}>添加</span>常用链接</div>;
   } else {
     return <ShortcutItems
+      setEntries={setEntries}
       onDelete={(id) => { setEntries(entries.filter(n => n.shortcut_id !== id)); }}
       entries={entries} />;
   }
@@ -60,7 +61,7 @@ export default function ShortcutEntrance({
   const fetchShortcut = useCallback(async () => {
     const [, data] = await axiosInstance.get('shortcut');
     if (Array.isArray(data)) {
-      setEntries(data);
+      setEntries(data.sort((a, b) => a.order_num - b.order_num));
     }
   }, []);
 
@@ -108,7 +109,9 @@ export default function ShortcutEntrance({
   }, []);
 
   return (
-    <div className={$.trim(`${prefixClass} ${className}`)}>
+    <div
+      className={$.trim(`${prefixClass} ${className}`)}
+      style={{ height: `${(entries || []).length * 48 + 70}px` }}>
       <div className="shortcut-entrance__head">
         <div>快捷入口</div>
         <Button

@@ -10,6 +10,7 @@
 
 .shortcut-entrance__content-entry {
   width: 100%;
+  height: 48px;
   background: #ffffff;
   border-radius: 2px;
   border: 1px solid #e8e8e8;
@@ -49,6 +50,10 @@
   display: flex;
   align-items: center;
   height: 100%;
+}
+
+.shortcut-entrance__content-right>a:nth-of-type(1) {
+  color: #25b864;
 }
 
 .shortcut-entrance__content-icon {

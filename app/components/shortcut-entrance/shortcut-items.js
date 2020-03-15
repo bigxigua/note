@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-// import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
 import List from '@common/list';
 import Icon from '@common/icon';
@@ -17,6 +17,13 @@ function createList(info) {
   }];
 };
 
+function getStyle(style) {
+  return {
+    ...style,
+    transitionDuration: '0'
+  };
+}
+
 const message = useMessage();
 
 const ICON = {
@@ -32,6 +39,7 @@ const ICON = {
 */
 export default function ShortcutItems({
   entries = [],
+  setEntries = () => { },
   onDelete = () => { }
 }) {
   // 删除快捷入口
@@ -52,36 +60,99 @@ export default function ShortcutItems({
     }
   }, [entries]);
 
+  // 拖放位置更新
+  const onDragUpdate = useCallback(() => {
+  }, [entries]);
+
+  // 拖放动作结束，更新orderNum，重新排序
+  const onDragEnd = useCallback(async (result) => {
+    if (!result.destination) return;
+    const {
+      source: { index: sourceIndex }, // 当前drag元素位置
+      destination: { index: destinationIndex } // 被放下位置
+    } = result;
+    if (sourceIndex === destinationIndex) {
+      return;
+    }
+    const lists = entries.slice(0);
+    const [removed] = lists.splice(sourceIndex, 1);
+    const { shortcut_id: sourceShortcutId, order_num: sourceOrderNum } = entries[sourceIndex];
+    const { shortcut_id: destinationShortcutId, order_num: destinationOrderNum } = entries[destinationIndex];
+    lists.splice(destinationIndex, 0, removed);
+    setEntries(lists);
+    const [error, data] = await axiosInstance.post('shortcut/order', {
+      sourceShortcutId,
+      sourceOrderNum,
+      destinationShortcutId,
+      destinationOrderNum
+    });
+    if (error || getIn(data, ['STATUS']) !== 'OK') {
+      setEntries(entries);
+      message.error({ content: '更新排序失败' });
+    }
+  }, [entries]);
+
   const jumpToEditor = useCallback((url) => {
     window.location.href = url.replace(/\/article\//, '/simditor/');
   }, []);
 
-  return entries.map(info => {
-    return (
-      <div
-        key={info.id}
-        className="shortcut-entrance__content-entry">
-        <div className="shortcut-entrance__content-left">
-          <img src={ICON[info.type || 'NORMAL']} />
-          <a href={info.url}
-            target="_blank">{info.title}</a>
-        </div>
-        <div className="shortcut-entrance__content-right">
-          {info.type === 'XIGUA_DOC' && <Icon type="edit"
-            onClick={() => { jumpToEditor(info.url); }} />}
-          {info.type === 'XIGUA_SPACE' && <Button
-            content="编排"
-            onClick={() => { window.location.href = `${info.url}&type=toc`; }} />}
-          <Popover
-            content={
-              <List
-                onTap={onPopoverItemClick}
-                list={createList(info)} />
-            }>
-            <Icon type="ellipsis"
-              className="shortcut-entrance__content-icon" />
-          </Popover>
-        </div>
-      </div>);
-  });
+  function renderDraggables(provided, snapshot) {
+    return <div
+      {...provided.droppableProps}
+      ref={provided.innerRef}>
+      {
+        entries.map((info, index) => {
+          return (
+            <Draggable
+              key={info.id}
+              index={index}
+              draggableId={String(info.shortcut_id)}>
+              {(provided) => (
+                <div
+                  ref={provided.innerRef}
+                  {...provided.draggableProps}
+                  {...provided.dragHandleProps}
+                  style={getStyle(provided.draggableProps.style)}
+                  className="shortcut-entrance__content-entry">
+
+                  <div className="shortcut-entrance__content-left">
+                    <img src={ICON[info.type || 'NORMAL']} />
+                    <a href={info.url}
+                      target="_blank">{info.title}</a>
+                  </div>
+                  <div className="shortcut-entrance__content-right">
+                    {info.type === 'XIGUA_DOC' && <Icon type="edit"
+                      onClick={() => { jumpToEditor(info.url); }} />}
+                    {info.type === 'XIGUA_SPACE' && <a
+                      content="编排"
+                      target="_blank"
+                      href={`${info.url}&type=toc`}
+                    >管理</a>}
+                    <Popover
+                      content={
+                        <List
+                          onTap={onPopoverItemClick}
+                          list={createList(info)} />
+                      }>
+                      <Icon type="ellipsis"
+                        className="shortcut-entrance__content-icon" />
+                    </Popover>
+                  </div>
+                </div>)}
+            </Draggable>);
+        })}
+    </div>;
+  }
+
+  return (
+    <DragDropContext
+      onDragUpdate={onDragUpdate}
+      onDragEnd={onDragEnd}>
+      <Droppable
+        ignoreContainerClipping={true}
+        droppableId="shortcut-entrance">
+        {renderDraggables}
+      </Droppable>
+    </DragDropContext>
+  );
 }

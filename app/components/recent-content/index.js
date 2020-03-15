@@ -105,7 +105,7 @@ function renderAction({ action = [] }, props, history, onRecentAction) {
     } else if (n === 'management') {
       return <Link
         key={n}
-        style={{ color: 'rgb(16, 142, 233)' }}
+        style={{ color: '#25b864' }}
         to={`/spacedetail?spaceId=${props.space_id}`}>
         管理
       </Link>;
