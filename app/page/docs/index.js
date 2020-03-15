@@ -71,7 +71,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   }
   if (info.title_draft || info.markdown_draft) {
     return <Link className="table-actions"
-      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}`}>更新</Link>;
+      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}&action=update`}>更新</Link>;
   }
   return (
     <div

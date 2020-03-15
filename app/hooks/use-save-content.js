@@ -11,6 +11,7 @@ export default function useSaveContent({
   publish = false, // 是否发布
   spaceId = ''
 }) {
+  // updateSaveStatus， 0正在更新，1更新成功 2更新失败
   const { updateSaveStatus, saveContentStatus } = useContext(editorContext);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   async function update(editor) {
@@ -55,16 +56,16 @@ export default function useSaveContent({
       ...publishParams
     });
     if (!error && data && data.STATUS === 'OK') {
+      await addRecent({
+        spaceId,
+        docId,
+        docTitle: title,
+        type: publish ? 'UpdateEdit' : 'Edit'
+      });
       updateSaveStatus(1);
       return [null, data];
     }
     // 添加操作记录
-    await addRecent({
-      spaceId,
-      docId,
-      docTitle: title,
-      type: publish ? 'UpdateEdit' : 'Edit'
-    });
     message.error({ content: getIn(error, ['message'], '系统繁忙') });
     updateSaveStatus(2);
     return [error || {}, null];

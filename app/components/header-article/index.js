@@ -14,9 +14,9 @@ export default function ArticleHeader({
   docInfo = {},
   className = ''
 }) {
-  const { spaceId = '' } = parseUrlQuery();
+  const { spaceId = '', action } = parseUrlQuery();
   const update = useSaveContent({ publish: true, spaceId });
-  const [updateDisabled, setUpdateState] = useState(true);
+  const [updateDisabled, setUpdateState] = useState(action !== 'update');
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
   const isEditPage = /^\/simditor\//.test(window.location.pathname);

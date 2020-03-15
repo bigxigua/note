@@ -47,7 +47,6 @@ export default function Docs() {
     title: '操作',
     key: 'action',
     render: (i) => {
-      console.log(i);
       return (<div className="space-action">
         <Link to={`/spacedetail?spaceId=${i.space_id}`}
           className="table-actions">管理</Link>

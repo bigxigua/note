@@ -144,7 +144,7 @@ export default function ShortcutItems({
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
                     <a href={info.url}
-                      target="_blank">{info.title}--order_num:{info.order_num}</a>
+                      target="_blank">{info.title}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
                     {info.type === 'XIGUA_DOC' && <Icon type="edit"
