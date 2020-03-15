@@ -3,11 +3,32 @@ import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
 import Table from '@common/table';
 import axiosInstance from '@util/axiosInstance';
+import Popover from '@components/popover';
+import List from '@common/list';
+import Icon from '@common/icon';
 import { Link } from 'react-router-dom';
+import { addToShortcutEntry } from '@util/commonFun2';
 import './index.css';
+
+const settingList = [{
+  text: '添加到快捷入口',
+  key: 'addindex'
+}];
 
 export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
+
+  const onSettingItemClick = useCallback((info, spaceInfo) => {
+    console.log(info.key);
+    const { name, space_id: spaceId } = spaceInfo;
+    if (info.key === 'addindex') {
+      addToShortcutEntry({
+        title: name,
+        url: `${window.location.origin}spacedetail?spaceId=${spaceId}`,
+        type: 'XIGUA_SPACE'
+      });
+    }
+  }, []);
 
   const columns = [{
     title: '名称',
@@ -26,8 +47,16 @@ export default function Docs() {
     title: '操作',
     key: 'action',
     render: (i) => {
-      return <Link to={`/spacedetail?spaceId=${i.space_id}`}
-        className="table-actions">管理</Link>;
+      console.log(i);
+      return (<div className="space-action">
+        <Link to={`/spacedetail?spaceId=${i.space_id}`}
+          className="table-actions">管理</Link>
+        <Popover
+          content={<List list={settingList}
+            onTap={(info) => { onSettingItemClick(info, i); }} />}>
+          <Icon type="ellipsis" />
+        </Popover>
+      </div>);
     }
   }];
 

@@ -14,3 +14,18 @@
 .Space_Table_Tags>.Tag {
   margin-right: 6px;
 }
+
+.space-action {
+  display: flex;
+  align-items: center;
+}
+
+.space-action>a {
+  color: #25b864;
+}
+
+.space-action .Icon {
+  font-size: 20px;
+  margin-left: 12px;
+  cursor: pointer;
+}

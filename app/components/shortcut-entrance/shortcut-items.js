@@ -73,11 +73,17 @@ export default function ShortcutItems({
     if (sourceIndex === destinationIndex) {
       return;
     }
-    const lists = entries.slice(0);
-    const [removed] = lists.splice(sourceIndex, 1);
     const { shortcut_id: sourceShortcutId, order_num: sourceOrderNum } = entries[sourceIndex];
     const { shortcut_id: destinationShortcutId, order_num: destinationOrderNum } = entries[destinationIndex];
+    const lists = entries.slice(0);
+    // 拖放结束，原本被放置位置的的元素
+    // lists[sourceIndex].order_num = destinationOrderNum;
+    // lists[destinationIndex].order_num = sourceOrderNum;
+    const [removed] = lists.splice(sourceIndex, 1);
     lists.splice(destinationIndex, 0, removed);
+    console.log('lists:', lists);
+
+    // setEntries(lists.sort((a, b) => a.order_num - b.order_num));
     setEntries(lists);
     const [error, data] = await axiosInstance.post('shortcut/order', {
       sourceShortcutId,
@@ -103,7 +109,7 @@ export default function ShortcutItems({
         entries.map((info, index) => {
           return (
             <Draggable
-              key={info.order_num}
+              key={info.shortcut_id}
               index={index}
               draggableId={String(info.shortcut_id)}>
               {(provided) => (
@@ -117,7 +123,7 @@ export default function ShortcutItems({
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
                     <a href={info.url}
-                      target="_blank">{info.title}</a>
+                      target="_blank">{info.title}-{info.shortcut_id}-{info.order_num}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
                     {info.type === 'XIGUA_DOC' && <Icon type="edit"
