@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react';
+import React, { useCallback, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
 import List from '@common/list';
@@ -41,6 +41,8 @@ export default function ShortcutItems({
   setEntries = () => { },
   onDelete = () => { }
 }) {
+  // 用来控制正在掉排序接口进行排序设置，设置过程中不可拖动。
+  const [isFetching, setFetch] = useState(false);
   // 删除快捷入口
   const removeShortcut = useCallback(async (shortcutId) => {
     const [error, data] = await axiosInstance.post('delete/shortcut', { shortcutId });
@@ -65,7 +67,9 @@ export default function ShortcutItems({
 
   // 拖放动作结束，更新orderNum，重新排序
   const onDragEnd = useCallback(async (result) => {
-    if (!result.destination) return;
+    if (!result.destination || isFetching) {
+      return;
+    };
     const {
       source: { index: sourceIndex }, // 当前drag元素位置
       destination: { index: destinationIndex } // 被放下位置
@@ -75,27 +79,43 @@ export default function ShortcutItems({
     }
     const { shortcut_id: sourceShortcutId, order_num: sourceOrderNum } = entries[sourceIndex];
     const { shortcut_id: destinationShortcutId, order_num: destinationOrderNum } = entries[destinationIndex];
-    const lists = entries.slice(0);
-    // 拖放结束，原本被放置位置的的元素
-    // lists[sourceIndex].order_num = destinationOrderNum;
-    // lists[destinationIndex].order_num = sourceOrderNum;
-    const [removed] = lists.splice(sourceIndex, 1);
-    lists.splice(destinationIndex, 0, removed);
-    console.log('lists:', lists);
 
-    // setEntries(lists.sort((a, b) => a.order_num - b.order_num));
+    const lists = entries.slice(0);
+
+    if (sourceIndex < destinationIndex /* 下移 */) {
+      for (let i = sourceIndex + 1; i <= destinationIndex; i++) {
+        lists[i].order_num--;
+      }
+    }
+    // `update shortcut set order_num=order_num-1 where order_num BETWEEN ${sourceOrderNum + 0.1} AND ${destinationOrderNum}`
+    if (sourceIndex > destinationIndex /* 上移 */) {
+      for (let i = destinationIndex; i <= sourceIndex - 1; i++) {
+        lists[i].order_num++;
+      }
+    }
+    // `update shortcut set order_num=order_num+1 where order_num BETWEEN ${destinationOrderNum} AND ${sourceOrderNum - 0.1}`
+
+    // 下移，在destinationIndex之后添加，上移在destinationIndex之前添加
+    const [removed] = lists.splice(sourceIndex, 1);
+    removed.order_num = destinationOrderNum;
+    lists.splice(destinationIndex, 0, removed);
+
     setEntries(lists);
+    setFetch(true);
     const [error, data] = await axiosInstance.post('shortcut/order', {
       sourceShortcutId,
       sourceOrderNum,
       destinationShortcutId,
       destinationOrderNum
     });
+    setFetch(false);
+    console.log(error, data);
     if (error || getIn(data, ['STATUS']) !== 'OK') {
+      // 设置失败，显示原样
       setEntries(entries);
       message.error({ content: getIn(error, ['message'], '更新排序失败') });
     }
-  }, [entries]);
+  }, [entries, isFetching]);
 
   const jumpToEditor = useCallback((url) => {
     window.location.href = url.replace(/\/article\//, '/simditor/');
@@ -111,6 +131,7 @@ export default function ShortcutItems({
             <Draggable
               key={info.shortcut_id}
               index={index}
+              isDragDisabled={isFetching}
               draggableId={String(info.shortcut_id)}>
               {(provided) => (
                 <div
@@ -123,7 +144,7 @@ export default function ShortcutItems({
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
                     <a href={info.url}
-                      target="_blank">{info.title}-{info.shortcut_id}-{info.order_num}</a>
+                      target="_blank">{info.title}--order_num:{info.order_num}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
                     {info.type === 'XIGUA_DOC' && <Icon type="edit"
