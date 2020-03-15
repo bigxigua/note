@@ -3,7 +3,7 @@ import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
-import { getIn, isEmptyObject } from '@util/util';
+import { getIn, isEmptyObject, checkBrowser } from '@util/util';
 import { fromNow } from '@util/fromNow';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
@@ -140,6 +140,7 @@ export default function RecentContent(props) {
     doc_title,
     space_name
   } = props;
+  const { isMobile } = checkBrowser();
   const history = useHistory();
   const info = typeMap[type] || {};
   const weightStyle = { fontWeight: 600 };
@@ -148,6 +149,7 @@ export default function RecentContent(props) {
   const spaceUrl = `spacedetail?spaceId=${space.space_id}`;
   let classes = 'recent-content ';
   classes += `${isDeleteAction ? 'recent-content__deleted' : ''} `;
+  classes += `${isMobile ? 'recent-content__mobile' : ''}`;
   // 如果当前文档已被删除，则不展示之前的操作记录
   if (!isDeleteAction && info.key === 'doc' && isEmptyObject(doc)) {
     return null;
