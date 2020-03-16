@@ -129,8 +129,10 @@ export default function Chapter() {
               {...provided.dragHandleProps}
               style={getStyle(provided.draggableProps.style)}
             >
-              {isParantNode && <Icon type="caret-down" />}
-              {docInfo.title}
+              <div className="flex">
+                {isParantNode && <Icon type="caret-down" />}
+                {docInfo.title}
+              </div>
               <div className="chapter-item__info">
                 <span>{fromNow(docInfo.updated_at_timestamp)}更新</span>
                 <Popover

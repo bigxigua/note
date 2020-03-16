@@ -24,7 +24,7 @@ export default function Docs() {
     if (info.key === 'addindex') {
       addToShortcutEntry({
         title: name,
-        url: `${window.location.origin}spacedetail?spaceId=${spaceId}`,
+        url: `${window.location.origin}/spacedetail?spaceId=${spaceId}`,
         type: 'XIGUA_SPACE'
       });
     }

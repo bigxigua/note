@@ -46,6 +46,7 @@
   font-size: 14px;
   color: #595959;
   margin-left: 10px;
+  min-width: 100px;
 }
 
 .shortcut-entrance__content-left>a:hover {

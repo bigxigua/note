@@ -222,6 +222,7 @@
 .article-html img {
   margin: 0 5px;
   vertical-align: middle;
+  max-width: 100%;
 }
 
 .article-preview_mobile {

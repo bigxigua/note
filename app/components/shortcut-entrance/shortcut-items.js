@@ -117,8 +117,8 @@ export default function ShortcutItems({
     }
   }, [entries, isFetching]);
 
-  const jumpToEditor = useCallback((url) => {
-    window.location.href = url.replace(/\/article\//, '/simditor/');
+  const getJumpUrl = useCallback((url) => {
+    return url.replace(/\/article\//, '/simditor/');
   }, []);
 
   function renderDraggables(provided, snapshot) {
@@ -143,12 +143,12 @@ export default function ShortcutItems({
 
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
-                    <a href={info.url}
+                    <a href={getJumpUrl(info.url)}
                       target="_blank">{info.title}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
-                    {info.type === 'XIGUA_DOC' && <Icon type="edit"
-                      onClick={() => { jumpToEditor(info.url); }} />}
+                    {info.type === 'XIGUA_DOC' && <a href={info.url}
+                      target="_blank">查看</a>}
                     {info.type === 'XIGUA_SPACE' && <a
                       content="编排"
                       target="_blank"
