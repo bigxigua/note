@@ -15,8 +15,8 @@
 
 .header-search .autocomplete-dropdown .dropdown-overlay {
   left: -32px;
-}
-
-.header-search .autocomplete .dropdown-overlay .dropdown-list {
   min-width: calc(100% + 32px);
+  max-height: calc(100vh - 58px);
+  overflow-y: scroll;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
 }

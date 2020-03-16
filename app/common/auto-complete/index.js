@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useEffect } from 'react';
 import List from '@common/list';
 import Dropdown from '@common/dropdown';
 import './index.css';
@@ -19,7 +19,6 @@ function Overlay({
   * Modal弹框
   * @param {string} className - 容器className
   * @param {object} style - 容器style
-  * @param {string} defaultValue - 默认值
   * @param {string} placeholder - placeholder
   * @param {Array}  options -  下拉展示的内容
   * @param {Function} onSelect - 被选中时调用，参数为选中项的 value 值
@@ -31,7 +30,6 @@ function Overlay({
 export default function AutoComplete({
   className = '',
   style = {},
-  defaultValue = '',
   placeholder = '',
   options,
   onSelect = loop,
@@ -39,14 +37,15 @@ export default function AutoComplete({
   onFocus = loop,
   onBlur = loop
 }) {
-  const prefixCls = $.trim(`autocomplete ${className}`);
   const onInputChange = useCallback((e) => {
     onChange(e);
   }, []);
+
   const onSelected = useCallback((info) => {
     onSelect(info);
   }, []);
 
+  const prefixCls = $.trim(`autocomplete ${className}`);
   return (
     <div
       className={prefixCls}
@@ -60,7 +59,6 @@ export default function AutoComplete({
         <input
           className="autocomplete-input"
           type="text"
-          value={defaultValue}
           placeholder={placeholder}
           autoComplete="off"
           onFocus={onFocus}
