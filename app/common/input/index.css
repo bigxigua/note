@@ -4,7 +4,7 @@
   font-size: 14px;
   border: 1px solid #d9d9d9;
   transition: all .3s;
-  background-color: #fff;
+  background-color: inherit;
   border-radius: 4px;
 }
 
@@ -22,6 +22,7 @@
   box-sizing: border-box;
   color: #595959;
   flex: 1;
+  background-color: inherit;
 }
 
 .input-wrapper>textarea {

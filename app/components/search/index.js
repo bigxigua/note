@@ -1,5 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import Icon from '@common/icon';
+import { addEventListener } from '@util/util';
 import './index.css';
 
 /**
@@ -16,13 +17,20 @@ export default function Search({
   onEnter = () => { }
 }) {
   const input = useRef(null);
+
   useEffect(() => {
-    input.current.addEventListener('keyup', (e) => {
-      if (+e.keyCode === 13) {
-        onEnter(input.current.value);
-      }
-    }, false);
+    const handle = addEventListener(input.current, 'keyup', (e) => {
+      +e.keyCode === 13 && onEnter(input.current.value);
+    });
+    return () => {
+      handle();
+    };
   }, []);
+
+  const onInputChange = useCallback((e) => {
+    onChange(e);
+  }, []);
+
   return (
     <div className={$.trim(`search ${className}`)}>
       <Icon type="search" />
@@ -31,7 +39,7 @@ export default function Search({
         placeholder={placeholder}
         autoComplete="off"
         spellCheck="true"
-        onChange={onChange}
+        onChange={onInputChange}
         className="search-input" />
     </div>
   );

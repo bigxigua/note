@@ -24,7 +24,7 @@ export default function List(props) {
         onClick={(e) => { onClickHandle(n, i, e); }}
         className={$.trim(`list ${n.checked ? 'list-checked' : ''}`)}>
         {n.icon && <Icon type={n.icon} />}
-        <span>{n.text}</span>
+        <span className="ellipsis">{n.text}</span>
       </li>
     );
   });

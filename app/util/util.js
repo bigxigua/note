@@ -171,6 +171,15 @@ export function addKeydownListener({
   };
 }
 
+// dom 事件绑定
+export function addEventListener(dom = document.body, eventName, handle) {
+  const fn = handle;
+  dom.addEventListener(eventName, fn, false);
+  return () => {
+    dom.removeEventListener(eventName, fn);
+  };
+};
+
 // 判断是否为移动端浏览器
 export function checkBrowser() {
   const isIos = /AppleWebKit/.test(navigator.userAgent) && /Mobile\/\w+/.test(navigator.userAgent);

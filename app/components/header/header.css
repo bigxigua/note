@@ -33,9 +33,9 @@
     align-items: center;
 }
 
-.header-left {
+/* .header-left {
     overflow: hidden;
-}
+} */
 
 .header-left_favicon {
     width: 32px;

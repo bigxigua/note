@@ -45,7 +45,7 @@
     font-weight: 500;
 }
 
-.New_Choose>.Dropdown>.Dropdown_Overlay {
+.New_Choose>.Dropdown>.dropdown-overlay {
     margin-top: 4px;
 }
 

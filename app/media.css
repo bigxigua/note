@@ -42,7 +42,7 @@
 }
 
 @media screen and (max-width: 490px) {
-    .Header_Search {
+    .header-search {
         display: none;
     }
 
