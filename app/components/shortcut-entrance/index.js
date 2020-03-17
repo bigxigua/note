@@ -112,7 +112,7 @@ export default function ShortcutEntrance({
   return (
     <div
       className={$.trim(`${prefixClass} ${className}`)}
-      style={{ minHeight: `${(entries || []).length * 48 + 70}px` }}>
+      style={{ minHeight: `${(entries || []).length * 48 + 75}px` }}>
       <div className="shortcut-entrance__head">
         <div>快捷入口</div>
         <Button

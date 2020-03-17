@@ -1,4 +1,4 @@
-import React, { useState, useCallback, Fragment } from 'react';
+import React, { useState, useCallback } from 'react';
 import Icon from '@common/icon';
 import { getCatalogs } from '@util/util';
 import './index.css';
@@ -7,19 +7,30 @@ const actions = [{
   icon: '/images/catalog.png',
   text: '目录',
   key: 'catalog'
-}
-  // , {
-  //   icon: '/images/catalog.png',
-  //   text: '收藏',
-  //   key: 'collection'
-  // }, {
-  //   icon: '/images/catalog.png',
-  //   text: '更多',
-  //   key: 'more'
-  // }
-];
+}];
 
-function renderCatalog(html, setVisible, visible) {
+function getOffset(data) {
+  if (data.find(n => n.type === 'h1')) {
+    return 0;
+  } else if (data.find(n => n.type === 'h2')) {
+    return -16;
+  } else if (data.find(n => n.type === 'h3')) {
+    return -32;
+  } else if (data.find(n => n.type === 'h4')) {
+    return -48;
+  } else {
+    return -64;
+  }
+}
+
+function ArticleCatalog({
+  html,
+  setVisible,
+  visible
+}) {
+  if (!visible) {
+    return null;
+  }
   const catalogs = getCatalogs(html);
   const classes = `mobile_catalogs-mask animated ${visible ? 'mobile_catalogs-show' : ''}`;
   const onItemClick = function () {
@@ -33,11 +44,14 @@ function renderCatalog(html, setVisible, visible) {
           type="close" />
       </div>
       {catalogs.length === 0
-        ? <div>该文档未定义目录</div> : catalogs.map(item => {
+        ? <div>该文档未定义目录</div>
+        : catalogs.map(item => {
+          const i = parseInt(item.type.substr(1));
           return <div
             key={item.index}
             onClick={onItemClick}
-            className="mobile_toolbar_catalog">
+            className="mobile-toolbar__catalog"
+            style={{ paddingLeft: `${(i - 1) * 16 + getOffset(catalogs)}px` }}>
             <a href={`#${item.id}`}
               className={'catalog-item_' + item.type}>{item.text}
             </a>
@@ -65,8 +79,11 @@ export default function MobileArticleToolbar({
   if (!html) return null;
 
   return (
-    <Fragment>
-      {renderCatalog(html, setVisible, visible)}
+    <>
+      <ArticleCatalog
+        html={html}
+        setVisible={setVisible}
+        visible={visible} />
       <div className="mobile_toolbar">
         {
           actions.map(item => {
@@ -78,6 +95,6 @@ export default function MobileArticleToolbar({
           })
         }
       </div>
-    </ Fragment>
+    </>
   );
 };

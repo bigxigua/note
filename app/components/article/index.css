@@ -220,13 +220,14 @@
 }
 
 .article-html img {
-  margin: 0 5px;
   vertical-align: middle;
   max-width: 100%;
+  height: auto;
 }
 
 .article-preview_mobile {
-  padding: 16px;
+  padding: 10px;
+  padding-top: 0;
 }
 
 .article_no_catalog {
@@ -239,19 +240,23 @@
   padding-bottom: 0;
 }
 
-.article_draftTip_mobile {
+.article-draftTip__mobile {
   padding: 0;
   font-size: 12px;
   margin-bottom: 0;
 }
 
-.article_draftTip_mobile .article-draftTips__p {
+.article-draftTip__mobile .article-draftTips__p {
   font-size: 12px;
 }
 
-.article_draftTip_mobile .article-draftTips__p .Tag {
+.article-draftTip__mobile .article-draftTips__p .Tag {
   transform: scale(0.8);
   margin-right: 0;
+}
+
+.article-draftTip__mobile .Article_DraftTips {
+  padding: 8px;
 }
 
 .article-preview_mobile>h1 {

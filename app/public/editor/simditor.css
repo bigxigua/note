@@ -1036,6 +1036,7 @@
   background-image: url("/images/un-check-box.svg");
   position: relative;
   top: -2px;
+  cursor: pointer;
 }
 
 .simditor .simditor-body .simditor-checklist>li[checked]::before {

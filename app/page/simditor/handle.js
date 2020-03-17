@@ -58,7 +58,6 @@ export function getTileAndHtml(info, key) {
   const draftCached = undefined;
   const title = info.title_draft || info.title;
   const content = info.html_draft || info.html;
-  console.log('draftCached:', draftCached);
   if (isObject(draftCached)) {
     return {
       title: draftCached.title || '',

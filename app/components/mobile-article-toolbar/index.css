@@ -73,12 +73,12 @@
   color: #595959;
 }
 
-.mobile_toolbar_catalog {
+.mobile-toolbar__catalog {
   color: #595959;
   padding: 8px 0;
   display: block;
 }
 
-.mobile_toolbar_catalog:last-child {
+.mobile-toolbar__catalog:last-child {
   margin-bottom: 8px;
 }

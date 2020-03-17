@@ -55,7 +55,7 @@
           });
         };
       })(this));
-      this.editor.body.on('click', '.simditor-checklist > li', (function (_this) {
+      this.editor.body.on('click', '.simditor-checklist>li', (function (_this) {
         return function (e) {
           var $node, range;
           e.preventDefault();
@@ -72,19 +72,19 @@
           return _this.editor.trigger('valuechanged');
         };
       })(this));
-      return this.editor.keystroke.add('13', 'li', (function (_this) {
-        return function (e, $node) {
-          return setTimeout(function () {
-            var $li;
-            $li = _this.editor.selection.blockNodes().last().next();
-            if ($li.length) {
-              $li[0].removeAttribute('checked');
-              if (document.queryCommandState('strikethrough')) {
-                return document.execCommand('strikethrough');
-              }
+      // 监听enter，新建一个uncheckedbox
+      this.editor.keystroke.add('enter', 'li', (function (_this) {
+        return function () {
+          var $preLi = _this.editor.selection.blockNodes().last();
+          setTimeout(function () {
+            const $curLi = $preLi.next();
+            if ($curLi.length > 0) {
+              $curLi.removeAttr('checked');
+              $curLi.find('strike').contents().unwrap();
             }
           }, 0);
-        };
+
+        }
       })(this));
     };
 

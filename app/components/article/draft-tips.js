@@ -13,11 +13,11 @@ export default function DraftTips({
   }
   const { pathname } = window.location;
   const { spaceId = '', content = '' } = parseUrlQuery();
-  const editorLink = pathname.replace(/\/article\//, '/simditor/') + `?spaceId=${spaceId}&content=draft`;
+  const editorLink = pathname.replace(/\/article\//, '/simditor/') + `?spaceId=${spaceId}&content=draft&action=update`;
   const originLink = `${pathname}?spaceId=${spaceId}&content=origin`;
 
   let draftClasses = 'Article_DraftTips_Warpper ';
-  draftClasses += `${isMobile ? 'article_draftTip_mobile' : ''}`;
+  draftClasses += `${isMobile ? 'article-draftTip__mobile' : ''}`;
 
   return (
     <div className={draftClasses}>
