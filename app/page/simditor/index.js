@@ -31,7 +31,7 @@ const loop = () => { };
 const { isMobile } = checkBrowser();
 
 export default function Page() {
-  const { spaceId = '' } = parseUrlQuery();
+  const { spaceId = '', content = 'origin' } = parseUrlQuery();
   const [doc, updateDoc] = useState({});
   const [html, setHtml] = useState('');
   const { updateEditorInfo } = useContext(editorContext);
@@ -46,7 +46,7 @@ export default function Page() {
     // 首次进来的优先显示缓存里的html,如果缓存不是最新的，进行保存会导致保存的是旧的。
     // 首次进来的优先显示接口的draft,缓存的意义就不存在了
 
-    setHtml(getTileAndHtml(docInfo, storageKey).content);
+    setHtml(getTileAndHtml(docInfo, content).content);
     const simditor = new Simditor({
       ...simditorParams,
       textarea: $('#editor')
