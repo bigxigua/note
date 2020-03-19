@@ -43,8 +43,13 @@ export default function HeaderSearch({
 
   const onSearchValueChange = useMemo(() => {
     return debunce(async (e) => {
-      const value = e.target.value;
+      const value = e.target.value.trim();
       curValue = value;
+      if (!value) {
+        setOptions([]);
+        setOpen(false);
+        return;
+      }
       search(value, setOptions, setOpen);
     }, 500);
   }, [options]);
@@ -67,7 +72,7 @@ export default function HeaderSearch({
         placeholder="搜索文档或者空间"
         onChange={onSearchValueChange}
         onSelect={onSearchValueSelect}
-        onBlur={() => { setOpen(false); }}
+        onBlur={() => { }}
         onFocus={() => { setOpen(true); }}
         options={options} />
     </div>
