@@ -69,7 +69,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
       <span onClick={() => { deleteDoc('thorough', info); }}>彻底删除</span>
     </div>);
   }
-  if (info.title_draft || info.markdown_draft) {
+  if (info.title_draft || info.html_draft) {
     return <Link className="table-actions"
       to={`/simditor/${info.doc_id}?spaceId=${info.space_id}&action=update`}>更新</Link>;
   }
@@ -129,7 +129,7 @@ export default function Space() {
       if (info.status === '0') {
         return <Tag color="rgb(255, 85, 0)">已删除</Tag>;
       }
-      if (!info.markdown_draft && !info.title_draft) {
+      if (!info.html_draft && !info.title_draft) {
         return <Tag color="#25b864">已更新</Tag>;
       }
       return <Tag>未更新</Tag>;
@@ -203,15 +203,7 @@ export default function Space() {
     } else if (key === 'editor') {
       history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
     } else if (key === 'template') {
-      message.loading({
-        content: '正在生成模版,请稍后'
-      });
-      const [error, data] = await setDocToTemplate({ html, title, url });
-      if ((getIn(data, ['templateId']))) {
-        message.success({ content: '模版设置成功！' });
-      } else {
-        message.error({ content: getIn(error, ['message'], '系统繁忙') });
-      }
+      setDocToTemplate({ html, title, url });
     } else if (key === 'addindex') {
       addToShortcutEntry({ title, url, type: 'XIGUA_DOC' });
     }

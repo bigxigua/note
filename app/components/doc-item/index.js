@@ -9,7 +9,7 @@ function renderTag(info) {
   if (info.status === '0') {
     return <Tag color="rgb(255, 85, 0)">已删除</Tag>;
   }
-  if (!info.markdown_draft && !info.title_draft) {
+  if (!info.html_draft && !info.title_draft) {
     return <Tag color="#25b864">已更新</Tag>;
   }
   return <Tag>未更新</Tag>;
@@ -24,7 +24,7 @@ export default function DocItem({ docInfo = {} }) {
   }, []);
   return (
     <div className={classes}
-      onClick={() => { onDocItemClick(docInfo) }}>
+      onClick={() => { onDocItemClick(docInfo); }}>
       <div className="docItem_content">
         <div className="docItem_content_left">
           <h4>{title}</h4>

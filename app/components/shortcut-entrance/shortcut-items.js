@@ -4,7 +4,7 @@ import Popover from '@components/popover';
 import List from '@common/list';
 import Icon from '@common/icon';
 import axiosInstance from '@util/axiosInstance';
-import { getIn } from '@util/util';
+import { getIn, transformIpToDomain } from '@util/util';
 import useMessage from '@hooks/use-message';
 
 function createList(info) {
@@ -21,6 +21,17 @@ function getStyle(style) {
     ...style,
     transitionDuration: '0'
   };
+}
+
+function getJumpUrl(info) {
+  const { url, type } = info;
+  if (type === 'XIGUA_DOC') {
+    return transformIpToDomain(url.replace(/\/article\//g, '/simditor/'));
+  } else if (type === 'XIGUA_SPACE') {
+    return transformIpToDomain(url);
+  } else {
+    return url;
+  }
 }
 
 const message = useMessage();
@@ -117,10 +128,6 @@ export default function ShortcutItems({
     }
   }, [entries, isFetching]);
 
-  const getJumpUrl = useCallback((url) => {
-    return url.replace(/\/article\//, '/simditor/');
-  }, []);
-
   function renderDraggables(provided, snapshot) {
     return <div
       {...provided.droppableProps}
@@ -143,16 +150,16 @@ export default function ShortcutItems({
 
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
-                    <a href={getJumpUrl(info.url)}
+                    <a href={getJumpUrl(info)}
                       target="_blank">{info.title}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
-                    {info.type === 'XIGUA_DOC' && <a href={info.url}
+                    {info.type === 'XIGUA_DOC' && <a href={transformIpToDomain(info.url)}
                       target="_blank">查看</a>}
                     {info.type === 'XIGUA_SPACE' && <a
                       content="编排"
                       target="_blank"
-                      href={`${info.url}&type=toc`}
+                      href={`${transformIpToDomain(info.url)}&type=toc`}
                     >管理</a>}
                     <Popover
                       content={

@@ -1,7 +1,9 @@
+/* eslint-disable standard/no-callback-literal */
 // ---------这里是一些业务相关的常用方法的合集------------ //
 
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
+import Modal from '@common/modal';
 import { getIn, delay } from '@util/util';
 
 const message = useMessage();
@@ -246,12 +248,11 @@ function getSub(catalog, start, level) {
 
 // 删除文档节点
 export function deleteDoc({
-  Modal,
   catalog,
   docId,
   docTitle,
   spaceId
-}) {
+}, callback) {
   Modal.confirm({
     title: '确认物理永久删除该节点吗？QAQ',
     subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
@@ -272,20 +273,30 @@ export function deleteDoc({
           });
         } catch (error) {
         }
-        window.location.reload();
+        callback(true);
       } else {
         message.error({ content: '删除失败' });
+        callback(false);
       }
     }
   });
 }
 
-// 将某个文档设置为模版文档
+/**
+* 调用添加文档为模版接口，并做统一交互
+* @param {objecr} info - 文档信息
+* @param {string} type - 显示草稿还是正式内容
+* @return {object} { title: 标题， content: 文档内容 }
+*/
 export async function setDocToTemplate({
   html,
   title,
   url
 }) {
+  if (!html) {
+    message.error({ content: '空文档不可以设置为模版' });
+    return;
+  }
   const [error, data] = await axiosInstance.post('create/template', {
     html,
     title,

@@ -234,10 +234,9 @@
   width: calc(100% - 224px);
 }
 
-.Article_DraftTips_Warpper {
+.article-draftTips__warpper {
   width: 100%;
-  padding: 16px 20px;
-  padding-bottom: 0;
+  padding-top: 16px;
 }
 
 .article-draftTip__mobile {

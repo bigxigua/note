@@ -6,7 +6,6 @@ import InsertCatalog from '@components/insert-catalog';
 import Popover from '@components/popover';
 import Icon from '@common/icon';
 import List from '@common/list';
-import Modal from '@common/modal';
 import Empty from '@common/empty';
 import { isEmptyObject } from '@util/util';
 import { deleteDoc } from '@util/commonFun';
@@ -44,12 +43,11 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
     window.location.href = `/simditor/${docId}/?spaceId=${spaceId}`;
   } else if (key === 'delete') {
     deleteDoc({
-      Modal,
       catalog,
       docTitle,
       docId,
       spaceId
-    });
+    }, () => { window.location.reload(); });
   }
 }
 

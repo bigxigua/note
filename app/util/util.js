@@ -195,6 +195,13 @@ export function getClass(condition, str1, str2 = '') {
   return condition ? str1 : str2;
 }
 
+// fix 以前文档存数据库时，用的是ip地址的问题
+export function transformIpToDomain(url) {
+  // https://139.196.84.53/article/q6zolawid9mg?spaceId=2fz1c9j94va6z
+  // https://www.bigxigua.net/
+  return url.replace(/139\.196\.84\.53/g, 'www.bigxigua.net');
+}
+
 // 提取editormd目录
 export function getCatalogs(html) {
   const catalogs = [];

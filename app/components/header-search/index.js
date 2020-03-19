@@ -1,11 +1,13 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useMemo } from 'react';
 import Icon from '@common/icon';
 import AutoComplete from '@common/auto-complete';
-import { getIn } from '@util/util';
+import { getIn, debunce, transformIpToDomain } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
-const search = async (q) => {
+let curValue = '';
+
+const search = async (q, setOptions, setOpen) => {
   const [, data] = await axiosInstance.post('search', { q });
   const docs = getIn(data, ['docs'], []).map(n => {
     return {
@@ -21,24 +23,36 @@ const search = async (q) => {
       text: n.name
     };
   });
-  return [...docs, ...spaces];
+  const result = [...docs, ...spaces];
+  if (curValue === q) {
+    setOptions(result);
+    setOpen(true);
+  }
+  return result;
 };
 
+/**
+* 搜索文档/空间组件
+* @param {string} className - className
+*/
 export default function HeaderSearch({
   className = ''
 }) {
   const [options, setOptions] = useState([]);
+  const [open, setOpen] = useState(false);
 
-  const onSearchValueChange = useCallback(async (e) => {
-    // TODO 如何保证搜索结果准确性和节流
-    const result = await search(e.currentTarget.value);
-    setOptions(result);
+  const onSearchValueChange = useMemo(() => {
+    return debunce(async (e) => {
+      const value = e.target.value;
+      curValue = value;
+      search(value, setOptions, setOpen);
+    }, 500);
   }, [options]);
 
   const onSearchValueSelect = useCallback(async (info) => {
     const { __type__, url, space_id } = info;
     if (__type__ === 'doc') {
-      window.open(url, '_blank');
+      window.open(transformIpToDomain(url), '_blank');
     } else if (__type__ === 'space') {
       window.open(`${window.location.origin}/spacedetail?spaceId=${space_id}`, '_blank');
     }
@@ -49,9 +63,12 @@ export default function HeaderSearch({
     <div className={prefixCls}>
       <Icon type="search" />
       <AutoComplete
+        open={open}
         placeholder="搜索文档或者空间"
         onChange={onSearchValueChange}
         onSelect={onSearchValueSelect}
+        onBlur={() => { setOpen(false); }}
+        onFocus={() => { setOpen(true); }}
         options={options} />
     </div>
   );

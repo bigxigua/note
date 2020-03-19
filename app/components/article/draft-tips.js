@@ -8,7 +8,8 @@ const { isMobile } = checkBrowser();
 export default function DraftTips({
   docInfo
 }) {
-  if (!docInfo || (!docInfo.title_draft && !docInfo.markdown_draft)) {
+  console.log(docInfo);
+  if (!docInfo || (!docInfo.title_draft && !docInfo.html_draft)) {
     return null;
   }
   const { pathname } = window.location;
@@ -16,7 +17,7 @@ export default function DraftTips({
   const editorLink = pathname.replace(/\/article\//, '/simditor/') + `?spaceId=${spaceId}&content=draft&action=update`;
   const originLink = `${pathname}?spaceId=${spaceId}&content=origin`;
 
-  let draftClasses = 'Article_DraftTips_Warpper ';
+  let draftClasses = 'article-draftTips__warpper ';
   draftClasses += `${isMobile ? 'article-draftTip__mobile' : ''}`;
 
   return (
