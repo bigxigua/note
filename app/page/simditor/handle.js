@@ -12,9 +12,9 @@ export async function fetchDocDetail() {
 }
 
 // 插入标题编辑input
-export function insertTitleInputToSimditor(doc, storageKey) {
+export function insertTitleInputToSimditor(doc, content) {
   const simditorBody = document.querySelector('.simditor-body');
-  const title = getTileAndHtml(doc, storageKey).title || '';
+  const title = getTileAndHtml(doc, content).title || '';
   const titleDom =
     `<div class="simditor-title ${isMobile ? 'simditor-title_mobile' : ''}">` +
     `<input maxlength="30" placeholder="无标题" value='${title.substr(0, 30)}' />` +

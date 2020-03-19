@@ -53,11 +53,11 @@ export default function Page() {
     });
     simditor.on('valuechanged', () => {
       const content = simditor.getValue();
-      const title = $.trim($('.simditor-title>input').val());
+      // const title = $.trim($('.simditor-title>input').val());
       setHtml(content);
       // 保存内容到浏览器缓存
-      setDraftToStorage(storageKey, 'content', content);
-      setDraftToStorage(storageKey, 'title', title);
+      // setDraftToStorage(storageKey, 'content', content);
+      // setDraftToStorage(storageKey, 'title', title);
     });
 
     // 保存simditor实例到context
@@ -65,7 +65,7 @@ export default function Page() {
     simditorInstance.current = simditor;
 
     // 插入标题dom
-    insertTitleInputToSimditor(docInfo, storageKey);
+    insertTitleInputToSimditor(docInfo, content);
 
     // 监听标题输入框change设置内容到缓存
     $('.simditor-title>input').on('input', () => {
