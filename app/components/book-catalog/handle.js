@@ -45,8 +45,6 @@ function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
         message.success({ content: '创建成功' });
         await delay();
         window.location.href = `/simditor/${docId}?spaceId=${spaceId}`;
-      } else {
-        message.error({ content: '创建文档出错' });
       }
     });
   } else if (key === 'create-doc-by-template') {

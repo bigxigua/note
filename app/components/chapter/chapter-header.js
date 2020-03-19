@@ -24,6 +24,10 @@ function onDeleteSpace(space, __history__) {
     subTitle: '如果该空间下有文档，会被一并删除。且无法恢复，请慎重。',
     onOk: async () => {
       const [error, data] = await axiosInstance.post('spaces/delete', { space_id });
+      if (error || getIn(data, ['STATUS']) !== 'OK') {
+        message.error({ content: getIn(error, ['message'], '系统繁忙') });
+        return;
+      }
       // 加历史记录
       try {
         await axiosInstance.post('add/recent', {
@@ -34,9 +38,7 @@ function onDeleteSpace(space, __history__) {
       } catch (err) {
         console.log(err);
       }
-      if (!error && data && data.STATUS === 'OK') {
-        __history__.replace('/space/');
-      }
+      __history__.replace('/space/');
     }
   });
 }

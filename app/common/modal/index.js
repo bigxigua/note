@@ -51,20 +51,20 @@ export default function Modal({
   const modalRef = useRef(null);
 
   // 确认
-  const _onConfirm = useCallback(() => {
+  const _onConfirm = () => {
     toggleDisableBodyScroll('remove');
     onConfirm();
-  }, []);
+  };
 
   // 取消
-  const _onCancel = useCallback(() => {
+  const _onCancel = () => {
     toggleDisableBodyScroll('remove');
     onCancel();
     // 移除modal dom元素
     setTimeout(() => {
       // TODO close modal需要remove当前dom
     }, 0);
-  }, []);
+  };
 
   const defaultFooter = (
     <div className="modal-footer flex">

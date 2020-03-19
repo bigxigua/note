@@ -84,11 +84,11 @@ function handleClick(info, props, history) {
 async function onPopoverItemClick({ props = {}, key = '' }, e, onRecentAction) {
   e.stopPropagation();
   if (key === 'remove') {
-    const [, data] = await axiosInstance.post('delete/recent', { id: props.id });
+    const [error, data] = await axiosInstance.post('delete/recent', { id: props.id });
     if (getIn(data, ['STATUS']) === 'OK') {
       onRecentAction('remove', props);
     } else {
-      message.error({ content: '系统开小差啦，请稍后再试' });
+      message.error({ content: getIn(error, ['message'], '系统繁忙') });
     }
   }
 }

@@ -46,7 +46,7 @@ function onListItemClick({ key }, docInfo = {}, history) {
         docId: doc_id,
         docTitle: title,
         spaceId: space_id
-      }, () => { history.replace(`/spacedetail?spaceId=${space_id}`); });
+      }, (success) => { success && history.replace(`/spacedetail?spaceId=${space_id}`); });
       break;
     case 'template':
       setDocToTemplate({ html, title, url });

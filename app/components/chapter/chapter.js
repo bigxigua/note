@@ -47,7 +47,7 @@ function onPopoverItemClick(info, docInfo, e, catalog) {
       docTitle,
       docId,
       spaceId
-    }, () => { window.location.reload(); });
+    }, (success) => { success && window.location.reload(); });
   }
 }
 

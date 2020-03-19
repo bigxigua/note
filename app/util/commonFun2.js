@@ -19,7 +19,7 @@ const previewTemplate = (templateInfo) => {
 };
 
 // 根据模版创建
-const createDoc = async (templateInfo, spaceId, catalogInfo) => {
+const createDocByTemplateAction = async (templateInfo, spaceId, catalogInfo) => {
   const { title, html } = templateInfo;
   const [error, data] = await createNewDoc({
     space_id: spaceId,
@@ -62,7 +62,7 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
           <div className="template-button">
             <Button onClick={() => { previewTemplate(item); }}>预览该模版</Button>
             <Button type="primary"
-              onClick={() => { createDoc(item, spaceId, catalogInfo); }}>创建</Button>
+              onClick={() => { createDocByTemplateAction(item, spaceId, catalogInfo); }}>创建</Button>
           </div>
         </div>
       );

@@ -49,6 +49,7 @@ function Content(props) {
         </div>
       </div>
       <List
+        className="header-userpopover__list"
         onTap={(info, index, event) => { onListItemClick(event, info); }}
         list={settingList}></List>
     </div>

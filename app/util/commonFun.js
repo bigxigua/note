@@ -66,6 +66,7 @@ export async function createNewDoc(info, callback = () => { }) {
     callback({ docId, spaceId });
   } else {
     // eslint-disable-next-line standard/no-callback-literal
+    message.error({ content: getIn(error, ['message'], '系统繁忙') });
     callback(error);
   }
   return [error, data];
@@ -78,8 +79,6 @@ export async function createNewDocAction(info = {}) {
       message.success({ content: '创建成功！' });
       await delay();
       window.location.href = `/simditor/${docId}?spaceId=${spaceId}`;
-    } else {
-      message.error({ content: '创建失败！' });
     }
   });
 }

@@ -20,20 +20,20 @@ const message = useMessage();
 export default function InsertCatalog({ position = {} }) {
   const { top, left, index, level } = position;
   const { spaceId = '' } = parseUrlQuery();
-  const [state, setState] = useState({ visible: false });
   const [id, setId] = useState('doc');
+  const [title, setTitle] = useState('');
+  const [visible, setvisible] = useState('');
   const { info: { catalog = [], docs }, updateCatalog } = useContext(catalogContext);
 
   // 展示Modal
   const onShowModal = useCallback(() => {
-    setState({ ...state, visible: true });
-  }, [state]);
+    setvisible(true);
+  }, []);
 
   // 确认创建
   const onConfirm = useCallback(() => {
-    const title = (state.value || '').trim();
     if (!title) {
-      message.info({ content: '请输入标题' });
+      message.info({ content: '标题不合法' });
     }
     createNewDoc({
       space_id: spaceId,
@@ -41,7 +41,7 @@ export default function InsertCatalog({ position = {} }) {
       title
     }, async ({ docId }) => {
       if (!docId) return;
-      setState({ ...state, visible: false });
+      setvisible(false);
       const result = catalog.slice(1);
       result.splice(index + 1, 0, {
         docId,
@@ -57,27 +57,21 @@ export default function InsertCatalog({ position = {} }) {
       // 调用接口更新目录
       updateCatalogService({ spaceId, catalog: [catalog[0], ...result] });
     });
-  }, [catalog, index, level, id, state.value]);
+  }, [title, id, catalog, index, level]);
 
   const onCancel = useCallback(() => {
-    setState({
-      ...state,
-      visible: false,
-      value: ''
-    });
+    setvisible(false);
     setId('doc');
-  }, [state]);
+    setTitle('');
+  }, []);
 
   const onSelect = useCallback((e, result) => {
     setId(result.id);
   }, []);
 
   const onInput = useCallback((e) => {
-    setState({
-      ...state,
-      value: e.currentTarget.value
-    });
-  }, [state]);
+    setTitle(e.currentTarget.value);
+  }, []);
 
   return <Fragment>
     <div
@@ -90,7 +84,7 @@ export default function InsertCatalog({ position = {} }) {
     <Modal
       title="添加节点"
       subTitle="会将该节点插入到光标位置"
-      visible={state.visible}
+      visible={visible}
       onCancel={onCancel}
       onConfirm={onConfirm}>
       <div className="insert_catalog_modal">
@@ -103,7 +97,7 @@ export default function InsertCatalog({ position = {} }) {
         <Input
           h={32}
           onChange={onInput}
-          defaultValue={state.value}
+          defaultValue={title}
           placeholder="无标题" />
         <div className="insert_tips">{
           id === 'doc'
