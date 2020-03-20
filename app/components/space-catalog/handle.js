@@ -1,9 +1,7 @@
 import React from 'react';
-import Tooltip from '@common/tooltip';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
-// import Modal from '@common/modal';
 import { NavLink } from 'react-router-dom';
 import { isEmptyObject, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
@@ -88,7 +86,10 @@ export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
   return recursion(catalog, path);
 }
 
-export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog) {
+export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog, loading) {
+  if (loading) {
+    return <Icon type="loading" />;
+  }
   function recursion(data) {
     let result = [];
     data.forEach((item, index) => {

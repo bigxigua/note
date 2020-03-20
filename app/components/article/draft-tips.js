@@ -8,7 +8,6 @@ const { isMobile } = checkBrowser();
 export default function DraftTips({
   docInfo
 }) {
-  console.log(docInfo);
   if (!docInfo || (!docInfo.title_draft && !docInfo.html_draft)) {
     return null;
   }

@@ -19,7 +19,6 @@ import {
   fetchDocDetail,
   getTileAndHtml,
   addUnloadListener,
-  setDraftToStorage,
   monitorKeyupHandle,
   onSimditorWrapperScroll,
   insertTitleInputToSimditor
@@ -37,27 +36,22 @@ export default function Page() {
   const { updateEditorInfo } = useContext(editorContext);
   const saveHandle = useSaveContent({ spaceId });
   const simditorInstance = useRef({});
-  // 缓存html的key值
-  const storageKey = `autosave${window.location.pathname}`;
 
   const renderSimditor = useCallback(async () => {
     const docInfo = await fetchDocDetail();
     updateDoc(docInfo);
-    // 首次进来的优先显示缓存里的html,如果缓存不是最新的，进行保存会导致保存的是旧的。
-    // 首次进来的优先显示接口的draft,缓存的意义就不存在了
-
     setHtml(getTileAndHtml(docInfo, content).content);
+
     const simditor = new Simditor({
       ...simditorParams,
       textarea: $('#editor')
     });
+
     simditor.on('valuechanged', () => {
       const content = simditor.getValue();
-      // const title = $.trim($('.simditor-title>input').val());
+      // 表示文档被修改。可以触发卸载时的保存草稿行为
+      window.CONTENT_ALREADY_CHANGE = true;
       setHtml(content);
-      // 保存内容到浏览器缓存
-      // setDraftToStorage(storageKey, 'content', content);
-      // setDraftToStorage(storageKey, 'title', title);
     });
 
     // 保存simditor实例到context
@@ -76,13 +70,12 @@ export default function Page() {
     onSimditorWrapperScroll();
 
     // 页面卸载，保存草稿
-    addUnloadListener(docInfo.doc_id, simditor, storageKey);
+    addUnloadListener(docInfo.doc_id, simditor);
   }, []);
 
   useEffect(() => {
     renderSimditor();
     monitorKeyupHandle({ save: saveHandle, simditor: simditorInstance });
-    // TODO bind scrollwrapper scroll event add shadow
   }, []);
 
   const classes = `${isMobile ? 'simditor-container_mobile' : 'simditor-container'}`;
@@ -90,18 +83,15 @@ export default function Page() {
   return (
     <div className="simditor-page">
       {
-        !isMobile
-          ? <ArticleHeader
-            className="simditor-header"
-            docInfo={doc} />
-          : null
+        !isMobile && <ArticleHeader
+          className="simditor-header"
+          docInfo={doc} />
       }
       <div className={classes}>
         <div className={`simditor-content ${isMobile ? 'simditor-content_mobile' : ''}`}>
           <textarea
             className="simditor_textarea"
             value={html}
-            onChange={loop}
             id="editor" />
           <ArticleCatalog html={html} />
         </div>

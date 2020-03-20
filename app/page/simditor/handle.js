@@ -1,4 +1,4 @@
-import { getIn, checkBrowser, addKeydownListener, isObject } from '@util/util';
+import { getIn, checkBrowser, addKeydownListener } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
 import { DOMAIN } from '@util/config';
 
@@ -16,7 +16,7 @@ export function insertTitleInputToSimditor(doc, content) {
   const simditorBody = document.querySelector('.simditor-body');
   const title = getTileAndHtml(doc, content).title || '';
   const titleDom =
-    `<div class="simditor-title ${isMobile ? 'simditor-title_mobile' : ''}">` +
+    `<div class="simditor-title${isMobile ? ' simditor-title_mobile' : ''}">` +
     `<input maxlength="30" placeholder="无标题" value='${title.substr(0, 30)}' />` +
     '</div>';
   if (simditorBody) {
@@ -37,17 +37,20 @@ export function monitorKeyupHandle({ save, simditor }) {
   });
 }
 
-// 监听onunload事件，自动保存数据
-export function addUnloadListener(docId, simditor, storageKey) {
+/**
+* 监听onunload事件，页面卸载时如果内容发生更改，自动保存草稿
+* @param {string} docId - 文档id
+* @param {object} simditor - simditor编辑器实例
+*/
+export function addUnloadListener(docId, simditor) {
   window.addEventListener('unload', () => {
-    // 如果点了更新就不再保存草稿
-    if (!window.IS_UPDATED_UNLOAD) {
+    // 如果点了更新或文档未进行编辑就不再sendBeacon保存草稿
+    if (!window.IS_UPDATED_UNLOAD && window.CONTENT_ALREADY_CHANGE) {
       const formData = new FormData();
       formData.append('doc_id', docId);
       formData.append('html_draft', simditor.getValue());
       formData.append('title_draft', $.trim($('.simditor-title>input').val()));
       window.navigator.sendBeacon(`${DOMAIN}doc/update`, formData);
-      window.localStorage.setItem(storageKey, '');
     }
   }, false);
 }
@@ -61,8 +64,8 @@ export function addUnloadListener(docId, simditor, storageKey) {
 */
 export function getTileAndHtml(info, type) {
   type = type || 'origin';
-  const title = type === 'origin' ? info.title : info.title_draft;
-  const content = type === 'origin' ? info.html : info.html_draft;
+  const title = type === 'origin' ? info.title : info.title_draft || info.title;
+  const content = type === 'origin' ? info.html : info.html_draft || info.html;
   return {
     title,
     content

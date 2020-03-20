@@ -25,6 +25,7 @@ function renderContent(error, docInfo) {
 }
 
 export default function Index() {
+  // 当前文档信息
   const [docInfo, setDocInfo] = useState(undefined);
   const [error, setError] = useState(undefined);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
@@ -32,7 +33,6 @@ export default function Index() {
   const fetchDocDetail = useCallback(async () => {
     const [error, data] = await axiosInstance.get(`docs?docId=${docId}&type=detail`);
     if (error || !Array.isArray(data) || data.length === 0) {
-      console.log('[获取文档信息失败]', error, data);
       setError(true);
       return;
     }

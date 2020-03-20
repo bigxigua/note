@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
+import Icon from '@common/icon';
 import ArticleCatalog from '@components/article-catalog';
-import BookCatalog from '@components/book-catalog';
+import SpaceCatalog from '@components/space-catalog';
 import Footer from '@components/footer';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
@@ -86,6 +87,9 @@ function scrollToElement() {
 }
 
 export default function Article({ docInfo = {} }) {
+  if (!docInfo || !docInfo.doc_id) {
+    return <Icon type="loading" />;
+  }
   const [classes] = useState(`article-preview ${isMobile ? 'article-preview_mobile' : ''}`);
   const { content = 'draft' } = parseUrlQuery();
 
@@ -101,19 +105,20 @@ export default function Article({ docInfo = {} }) {
   }, [docInfo.doc_id, content]);
 
   const title = getTitle(docInfo, content);
-  const wrapperClasses = `article-html ${isMobile ? 'article-html_mobile' : ''}`;
+  const wrapperClasses = $.trim(`article-html ${isMobile ? 'article-html_mobile' : ''}`);
+  const titleClasses = title ? '' : 'article-title';
 
   return (
     <div className="article-wrapper">
-      {!isMobile && <BookCatalog />}
+      <SpaceCatalog />
       <div
         className={$.trim(classes)}>
 
         <DraftTips docInfo={docInfo} />
 
-        {title && <h1>{title}</h1>}
+        <h1 className={titleClasses}>{title || '未设置标题'}</h1>
 
-        <article className={$.trim(wrapperClasses)}></article>
+        <article className={wrapperClasses}></article>
 
         <FooterMeta docInfo={docInfo || {}} />
 

@@ -19,6 +19,11 @@
   overflow-y: scroll;
 }
 
+.bookcatalog-content>.Icon {
+  font-size: 32px;
+  padding: 20px;
+}
+
 .bookcatalog-content__head {
   display: flex;
   align-items: center;

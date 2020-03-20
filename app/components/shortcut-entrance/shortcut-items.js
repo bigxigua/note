@@ -128,7 +128,7 @@ export default function ShortcutItems({
     }
   }, [entries, isFetching]);
 
-  function renderDraggables(provided, snapshot) {
+  function renderDraggables(provided) {
     return <div
       {...provided.droppableProps}
       ref={provided.innerRef}>
@@ -151,13 +151,13 @@ export default function ShortcutItems({
                   <div className="shortcut-entrance__content-left">
                     <img src={ICON[info.type || 'NORMAL']} />
                     <a href={getJumpUrl(info)}
+                      rel="noopener noreferrer"
                       target="_blank">{info.title}</a>
                   </div>
                   <div className="shortcut-entrance__content-right">
                     {info.type === 'XIGUA_DOC' && <a href={transformIpToDomain(info.url)}
                       target="_blank">查看</a>}
                     {info.type === 'XIGUA_SPACE' && <a
-                      content="编排"
                       target="_blank"
                       href={`${transformIpToDomain(info.url)}&type=toc`}
                     >管理</a>}

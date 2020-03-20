@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useCallback, useRef } from 'react';
-// import CatalogSkeleton from '@components/catalog-skeleton';
+import React, { useState, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
@@ -18,20 +17,23 @@ const settingList = [{
   key: 'catalog-setting'
 }];
 
-export default function BookCatalog() {
+export default function SpaceCatalog() {
+  if (window.isMobile) {
+    return null;
+  }
   const { spaceId = '' } = parseUrlQuery();
   const docId = window.location.pathname.split('/').filter(n => n)[1];
-  // const [loading, setLoading] = useState(false);
+  // 正在加载目录
+  const [loading, setLoading] = useState(false);
   const [catalogs, setCatalogs] = useState([]);
   const [docLists, setDocLists] = useState([]);
-  const loading = useRef(false);
   const history = useHistory();
 
   // 获取属于同一空间的文档列表
   const fetchDocsBySpaceId = useCallback(async () => {
-    loading.current = true;
+    setLoading(true);
     const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
-    loading.current = false;
+    setLoading(false);
     const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
     if (catalog.length > 1) {
       const result = extractCatalog(catalog.slice(1));
@@ -57,7 +59,6 @@ export default function BookCatalog() {
 
   const onSettingItemClick = useCallback((e, info) => {
     e.stopPropagation();
-    console.log('---', info);
     const { key } = info;
     if (key === 'doc-manage') {
       history.push(`/spacedetail?spaceId=${spaceId}`);
@@ -69,11 +70,6 @@ export default function BookCatalog() {
   useEffect(() => {
     fetchDocsBySpaceId();
   }, [spaceId]);
-
-  if (loading.current) {
-    return <div className="bookcatalog-wrapper"></div>;
-    // return <div className="bookcatalog-wrapper"><CatalogSkeleton /></div>;
-  }
 
   return (
     <nav className="bookcatalog-wrapper">
@@ -88,7 +84,7 @@ export default function BookCatalog() {
             </Popover>
           </div>
         </div>
-        {renderCatalogs(catalogs, docLists, onToggleExpandCatalog)}
+        {renderCatalogs(catalogs, docLists, onToggleExpandCatalog, loading)}
       </div>
     </nav>
   );
