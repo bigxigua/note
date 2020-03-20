@@ -4071,6 +4071,10 @@
       this._tpl = "<div class=\"code-settings\">\n  <div class=\"settings-field\">\n    <select class=\"select-lang\">\n      <option value=\"-1\">" + (this._t('selectLanguage')) + "</option>\n    </select>\n  </div>\n</div>";
       this.langs = this.editor.opts.codeLanguages || [
         {
+          name: 'JavaScript',
+          value: 'javascript'
+        },
+        {
           name: 'Bash',
           value: 'bash'
         }, {
@@ -4106,9 +4110,6 @@
         }, {
           name: 'Java',
           value: 'java'
-        }, {
-          name: 'JavaScript',
-          value: 'javascript'
         }, {
           name: 'Markdown',
           value: 'markdown'

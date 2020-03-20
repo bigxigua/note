@@ -47,11 +47,15 @@ export function codeBeautiful(pre, Prism) {
   if (!pre || pre.length === 0) return;
   for (let i = 0, len = Array.from(pre).length; i < len; i++) {
     const item = Array.from(pre)[i];
+    const $code = $(item).find('>code').get(0);
     if ($(item).parent().find('.code-tooltip').length > 0) {
       break;
     }
+    if ($code) {
+      $(item).addClass('line-numbers');
+      Prism.highlightElement($code);
+    }
     const code = $(item).find('>code').length ? $(item).find('>code').html() : $(item).html();
-    Prism.highlightElement(item);
     $(item).wrap($('<div class="article-pre__box" />'));
     setTimeout(() => {
       $(item).parent().append($('<div class="code-tooltip"></div>'));
