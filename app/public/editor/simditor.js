@@ -4073,10 +4073,25 @@
         {
           name: 'JavaScript',
           value: 'javascript'
+        }, {
+          name: 'CSS',
+          value: 'css'
+        }, {
+          name: 'JSON',
+          value: 'json'
+        }, {
+          name: 'Less',
+          value: 'less'
+        }, {
+          name: 'Sass',
+          value: 'sass'
         },
         {
           name: 'Bash',
           value: 'bash'
+        }, {
+          name: 'SQL',
+          value: 'sql'
         }, {
           name: 'C++',
           value: 'c++'
@@ -4084,17 +4099,8 @@
           name: 'C#',
           value: 'cs'
         }, {
-          name: 'CSS',
-          value: 'css'
-        }, {
           name: 'Erlang',
           value: 'erlang'
-        }, {
-          name: 'Less',
-          value: 'less'
-        }, {
-          name: 'Sass',
-          value: 'sass'
         }, {
           name: 'Diff',
           value: 'diff'
@@ -4104,9 +4110,6 @@
         }, {
           name: 'HTML,XML',
           value: 'html'
-        }, {
-          name: 'JSON',
-          value: 'json'
         }, {
           name: 'Java',
           value: 'java'
@@ -4128,9 +4131,6 @@
         }, {
           name: 'Ruby',
           value: 'ruby'
-        }, {
-          name: 'SQL',
-          value: 'sql'
         }
       ];
       this.el.addClass('code-popover').append(this._tpl);

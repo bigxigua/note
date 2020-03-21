@@ -1,3 +1,9 @@
+// |  _ |_   _/ ____\ \ / |_   _/ ____| |  | |  /\
+// | |_) || || |  __ \ V /  | || |  __| |  | | /  \
+// |  _ < | || | |_ | > <   | || | |_ | |  | |/ /\ \
+// | |_) _| || |__| |/ . \ _| || |__| | |__| / ____ \
+// |____|_____\_____/_/ \_|_____\_____|\____/_/    \_\`
+
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter as Router, Route } from 'react-router-dom';

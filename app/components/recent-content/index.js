@@ -173,7 +173,7 @@ export default function RecentContent(props) {
           <span>
             <span style={weightStyle}>{user.name}</span>
             <span>
-              {fromNow(created_at)} {info.text}
+              · {fromNow(created_at)} {info.text}
               {info.key === 'space' && <span style={{ fontWeight: 'bold' }}>《{space_name || getIn(space, ['name'])}》</span>}
             </span>
           </span>
