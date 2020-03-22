@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
+import CreateDocFromTemplateModal from '@components/create-doc-from-template';
 import axiosInstance from '@util/axiosInstance';
 import { parseUrlQuery, getIn } from '@util/util';
 import { extractCatalog, findTargetCatalogPath } from '@util/commonFun';

@@ -1,13 +1,11 @@
-import React, { useState, useCallback, useEffect, useContext } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory, NavLink } from 'react-router-dom';
-import userContext from '@context/user/userContext';
 import Modal from '@common/modal';
 import Icon from '@common/icon';
+import CreateDocFromTemplateModal from '@components/create-doc-from-template';
 import axiosInstance from '@util/axiosInstance';
 import { SPACE_TYPE_ICON } from '@config/index';
-import { createDocByTemplate } from '@util/commonFun2';
 import { createNewDocAction } from '@util/commonFun';
-
 import './index.css';
 
 /**
@@ -19,12 +17,17 @@ export default function CreateDoc({
   mode = 'common',
   onModalChange = () => { }
 }) {
+  // 是否展示显示空间列表的Modal
   const [visible, setVisible] = useState(true);
+  // 正在请求获取空间列表接口
   const [loading, setLoading] = useState(false);
+  // 空间列表
   const [spaces, setSpaces] = useState([]);
+  // 当前选中的空间信息,spaceInfo.space_id存在显示模版选择Modal
+  const [spaceInfo, setSpaceInfo] = useState({});
   const history = useHistory();
-  const { userInfo: { account } } = useContext(userContext);
-  // 取消
+
+  // 隐藏空间列表Modal
   const onCancelModal = useCallback(() => {
     setVisible(false);
     onModalChange(false);
@@ -34,7 +37,7 @@ export default function CreateDoc({
   const onChooseSpace = useCallback(async (info) => {
     const { space_id } = info;
     if (mode === 'template') {
-      createDocByTemplate(info.space_id);
+      setSpaceInfo(info);
     } else if (mode === 'common') {
       createNewDocAction({ space_id });
     }
@@ -46,7 +49,6 @@ export default function CreateDoc({
     const [error, data] = await axiosInstance.get('spaces', {});
     setLoading(false);
     if (error || !data || !Array.isArray(data.spaces) || data.spaces.length === 0) {
-      // message.error({ content: getIn(error, ['message'], '服务器开小差啦！请稍后再试试呀.嘻嘻') });
       return;
     }
     setSpaces(data.spaces);
@@ -76,25 +78,27 @@ export default function CreateDoc({
         key={n.id}
         className="header-spaces__list flex">
         <img src={SPACE_TYPE_ICON[n.scene]} />
-        {/* <span>{account}</span> */}
-        {/* <span>/</span> */}
         <span style={{ maxWidth: 'calc(100% - 100px)' }}
           className="ellipsis">{n.name}</span>
-        {/* <img src={`/images/${n.public === 'SELF' ? 'lock' : 'global'}.png`} /> */}
       </div >
     );
   }, [loading, spaces]);
 
   return (
-    <Modal
-      subTitle="点击选择一个知识库"
-      title="新建文档"
-      footer={spaces.length > 0 ? 'none' : null}
-      onCancel={onCancelModal}
-      onConfirm={() => { history.push('/new'); }}
-      confirmText="创建知识库"
-      visible={visible} >
-      {renderSpaceList()}
-    </Modal>
+    <>
+      <Modal
+        subTitle="点击选择一个知识库"
+        title="新建文档"
+        footer={spaces.length > 0 ? 'none' : null}
+        onCancel={onCancelModal}
+        onConfirm={() => { history.push('/new'); }}
+        confirmText="创建知识库"
+        visible={visible} >
+        {renderSpaceList()}
+      </Modal>
+      <CreateDocFromTemplateModal
+        show={spaceInfo.space_id}
+        spaceId={spaceInfo.space_id} />
+    </>
   );
 };

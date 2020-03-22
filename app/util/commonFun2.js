@@ -6,6 +6,7 @@ import useMessage from '@hooks/use-message';
 import Modal from '@common/modal';
 import Image from '@common/image';
 import Button from '@common/button';
+import Icon from '@common/icon';
 import { getIn, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 
@@ -37,6 +38,22 @@ const createDocByTemplateAction = async (templateInfo, spaceId, catalogInfo) => 
   }
 };
 
+/**
+* 删除模版
+* @param {object} info - 模版信息
+  ----   {string} template_id - 模版id
+*/
+const deleteTemplate = async function (info = {}) {
+  const [error, data] = await axiosInstance.post('delete/template', {
+    templateId: info.template_id
+  });
+  if (getIn(data, ['STATUS']) === 'OK') {
+    message.success({ content: '删除成功' });
+  } else {
+    message.error({ content: getIn(error, ['message'], '系统繁忙') });
+  }
+};
+
 // 调用添加最近使用记录接口调用
 export async function createDocByTemplate(spaceId, catalogInfo = {}) {
   if (loading) {
@@ -60,9 +77,11 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
           <Image src={item.cover} />
           <p>{item.title}</p>
           <div className="template-button">
-            <Button onClick={() => { previewTemplate(item); }}>预览该模版</Button>
+            <Button onClick={() => { previewTemplate(item); }}>预览</Button>
             <Button type="primary"
               onClick={() => { createDocByTemplateAction(item, spaceId, catalogInfo); }}>创建</Button>
+            <Icon type="close"
+              onClick={() => { deleteTemplate(item); }} />
           </div>
         </div>
       );
