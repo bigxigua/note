@@ -120,7 +120,6 @@ export default function ShortcutItems({
       destinationOrderNum
     });
     setFetch(false);
-    console.log(error, data);
     if (error || getIn(data, ['STATUS']) !== 'OK') {
       // 设置失败，显示原样
       setEntries(entries);

@@ -1,8 +1,7 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import { Line } from '@antv/g2plot';
 import Header from '@components/header/header';
-import axiosInstance from '@util/axiosInstance';
-import { checkBrowser } from '@util/util';
+import CatalogDragDrop from '@components/catalog-dragdrop/index';
 import './index.css';
 
 const data = [
@@ -26,31 +25,27 @@ const data = [
 ];
 
 export default function Graph() {
-  const { isMobile } = checkBrowser();
-
-  useEffect(() => {
-    const linePlot = new Line('graph', {
-      title: {
-        visible: true,
-        text: '腹痛记录折线图'
-      },
-      description: {
-        visible: true,
-        text: '折线图用于表示腹痛的时间点以及腹痛时长'
-      },
-      data,
-      xField: 'time',
-      yField: 'value'
-    });
-    linePlot.render();
-  }, []);
+  // useEffect(() => {
+  //   const linePlot = new Line('graph', {
+  //     title: {
+  //       visible: true,
+  //       text: '腹痛记录折线图'
+  //     },
+  //     description: {
+  //       visible: true,
+  //       text: '折线图用于表示腹痛的时间点以及腹痛时长'
+  //     },
+  //     data,
+  //     xField: 'time',
+  //     yField: 'value'
+  //   });
+  //   linePlot.render();
+  // }, []);
 
   return (
     <>
       <Header />
-      <div id="graph">
-
-      </div>
+      <CatalogDragDrop />
     </>
   );
 }

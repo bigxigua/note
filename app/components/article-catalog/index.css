@@ -31,15 +31,15 @@
 }
 
 .catalog-item {
-    font-size: 12px;
-    color: #595959;
-    padding: 4px 0;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    cursor: pointer;
-    border-left: 2px solid #e8e8e8;
-    transition: all linear 0.2s;
+    /* font-size: 12px;
+color: #595959;
+padding: 4px 0;
+white-space: nowrap;
+overflow: hidden;
+text-overflow: ellipsis;
+cursor: pointer;
+border-left: 2px solid #e8e8e8;
+transition: all linear 0.2s; */
 }
 
 .catalog-item__active {

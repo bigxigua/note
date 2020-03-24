@@ -13,46 +13,6 @@
   float: right;
 }
 
-.Chapter_Item {
-  background: #fafafa;
-  height: 44px;
-  margin-bottom: 16px;
-  user-select: none;
-  border-radius: 2px;
-  border: 1px solid #d9d9d9;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  color: #262626;
-  font-size: 14px;
-  padding: 0 20px;
-  position: relative;
-}
-
-.Chapter_Item:hover {
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
-}
-
-.Chapter_Item>div>.Icon {
-  top: 2px;
-  margin-right: 4px;
-}
-
-.chapter-item__info {
-  color: #bfbfbf;
-  font-size: 12px;
-  display: flex;
-  align-items: center;
-}
-
-.chapter-item__setting {
-  cursor: pointer;
-}
-
-.chapter-item__setting>.Icon {
-  font-size: 20px;
-  margin-left: 4px;
-}
 
 .Chapter_Item_Dash {
   border-style: dashed;
@@ -64,23 +24,6 @@
   left: 0;
   z-index: 10;
 }
-
-.Chapter_Item_1 {
-  left: 40px;
-  width: 660px;
-}
-
-.Chapter_Item_2 {
-  left: 80px;
-  width: 620px;
-}
-
-.Chapter_Item_3 {
-  left: 120px;
-  width: 580px;
-}
-
-.Catalog {}
 
 .chapter-item {
   justify-content: space-between;
@@ -167,10 +110,6 @@
 .chapter-header__mobile {
   padding: 0 10px;
   height: 48px;
-}
-
-.chapter-item__disabled {
-  text-decoration: line-through;
 }
 
 .chapter_empty {

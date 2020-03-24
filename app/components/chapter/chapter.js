@@ -1,14 +1,14 @@
 import React, { useState, useEffect, Fragment, useContext, useCallback } from 'react';
-import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
-// import { NavLink } from 'react-router-dom';
+import { Draggable } from 'react-beautiful-dnd';
 import ChapterLayout from '@components/chapter-layout';
 import InsertCatalog from '@components/insert-catalog';
+import CatalogDnd from '@components/catalog-dnd';
 import Popover from '@components/popover';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Empty from '@common/empty';
 import { isEmptyObject } from '@util/util';
-import { deleteDoc } from '@util/commonFun';
+import { deleteDoc, extractCatalog } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';
 import { catalogContext } from '@context/catalog-context';
 
@@ -149,15 +149,7 @@ export default function Chapter() {
       {provided.placeholder}
     </div>;
   }
-  return (
-    <Fragment>
-      <DragDropContext
-        onDragUpdate={chapterLayout.onDragUpdate.bind(chapterLayout)}
-        onDragEnd={chapterLayout.onDragEnd.bind(chapterLayout)}>
-        <Droppable droppableId="droppable">
-          {renderDraggables}
-        </Droppable>
-      </DragDropContext>
-    </Fragment>
-  );
+  return <CatalogDnd
+    dragLists={extractCatalog(catalog.slice(1))}
+    droppableId="catalog" />;
 }
