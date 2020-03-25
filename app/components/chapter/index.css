@@ -118,3 +118,6 @@
   border: none;
   padding-top: 0;
 }
+.chapter-toc{
+  position: relative;
+}

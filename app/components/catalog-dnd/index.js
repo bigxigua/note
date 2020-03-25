@@ -1,7 +1,8 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import CatalogDndItem from '@components/catalog-dnd-item';
 import { catalogContext } from '@context/catalog-context';
+import { deleteDoc } from '@util/commonFun';
 import { isEmptyObject } from '@util/util';
 import './index.css';
 
@@ -57,7 +58,9 @@ export default function CatalogDnd({
       return;
     }
     const newCatalogs = exChange(catalog, dragLists[sourceIndex], dragLists[destinationIndex]);
-    updateCatalog(newCatalogs);
+    updateCatalog({
+      catalog: newCatalogs
+    });
   }, [dragLists, catalog]);
   const onOffsetChange = useCallback((docId, type) => {
     const catalogCopy = catalog.slice(0);
@@ -73,8 +76,18 @@ export default function CatalogDnd({
           catalogCopy[i].level--;
         }
       });
-      updateCatalog(catalogCopy);
+      updateCatalog({
+        catalog: catalogCopy
+      });
     }
+  }, [catalog]);
+  const onDelete = useCallback((docId, title, spaceId) => {
+    deleteDoc({
+      catalog,
+      spaceId,
+      docTitle: title,
+      docId
+    }, (success) => { success && window.location.reload(); });
   }, [catalog]);
   return (
     <DragDropContext
@@ -105,6 +118,7 @@ export default function CatalogDnd({
                           curCatalogInfo={item}
                           childrenLen={children.length}
                           docInfo={docInfo}
+                          onDelete={onDelete}
                           onOffsetChange={onOffsetChange}>
                           {
                             children.length

@@ -1,4 +1,4 @@
-import React, { useCallback, useState, useContext, Fragment } from 'react';
+import React, { useCallback, useState, useContext, useEffect } from 'react';
 import Modal from '@common/modal';
 import Select from '@common/select';
 import Input from '@common/input';
@@ -17,18 +17,28 @@ const lists = [{
 }];
 const message = useMessage();
 
-export default function InsertCatalog({ position = {} }) {
-  const { top, left, index, level } = position;
+/**
+* 显示创建新文档节点的弹框
+* @param {Boolean}  show 是否展示Modal
+* @param {Object|Null} catalogInfo
+*                   {string} folderDocId 父节点docId
+*                   {number} level 层级
+* @param {Function}  onModalHide Modal隐藏时触发
+*/
+export default function InsertCatalog({
+  show = false,
+  catalogInfo = {},
+  onModalHide = () => { }
+}) {
   const { spaceId = '' } = parseUrlQuery();
   const [id, setId] = useState('doc');
   const [title, setTitle] = useState('');
-  const [visible, setvisible] = useState('');
+  const [visible, setvisible] = useState(show);
   const { info: { catalog = [], docs }, updateCatalog } = useContext(catalogContext);
 
-  // 展示Modal
-  const onShowModal = useCallback(() => {
-    setvisible(true);
-  }, []);
+  useEffect(() => {
+    setvisible(show);
+  }, [show]);
 
   // 确认创建
   const onConfirm = useCallback(() => {
@@ -38,31 +48,46 @@ export default function InsertCatalog({ position = {} }) {
     createNewDoc({
       space_id: spaceId,
       scene: id,
+      catalogInfo,
       title
     }, async ({ docId }) => {
       if (!docId) return;
       setvisible(false);
-      const result = catalog.slice(1);
-      result.splice(index + 1, 0, {
-        docId,
-        status: '1',
-        type: id.toLocaleUpperCase(),
-        level: parseInt(level)
-      });
-      // 更新目录
-      updateCatalog({
-        catalog: [catalog[0], ...result],
-        docs: [...docs, { doc_id: docId, title, space_id: spaceId }]
-      });
-      // 调用接口更新目录
-      updateCatalogService({ spaceId, catalog: [catalog[0], ...result] });
+      // const result = catalog.slice(1);
+      const { folderDocId, level } = catalogInfo;
+      const index = catalog.findIndex(n => n.docId === folderDocId);
+      if (index !== -1) {
+        const newCatalogs = catalog.slice(0);
+        newCatalogs.splice(index + 1, 0, {
+          type: id.toLocaleUpperCase(),
+          docId,
+          level,
+          status: '1'
+        });
+        // 更新目录和文档在context内的信息
+        updateCatalog({
+          catalog: newCatalogs,
+          docs: [...docs, {
+            doc_id: docId,
+            title,
+            space_id: spaceId,
+            status: '1'
+          }]
+        });
+        // 接口更新目录
+        updateCatalogService({
+          spaceId,
+          catalog: newCatalogs
+        });
+      }
     });
-  }, [title, id, catalog, index, level]);
+  }, [title, id, catalog, catalogInfo, docs]);
 
   const onCancel = useCallback(() => {
     setvisible(false);
     setId('doc');
     setTitle('');
+    onModalHide();
   }, []);
 
   const onSelect = useCallback((e, result) => {
@@ -73,14 +98,7 @@ export default function InsertCatalog({ position = {} }) {
     setTitle(e.currentTarget.value);
   }, []);
 
-  return <Fragment>
-    <div
-      className="Catalog_Add flex"
-      style={{ top: `${top}px`, left: `${left}px` }}>
-      <img onClick={onShowModal}
-        src="/images/add.svg" />
-      <img src="/images/cursor.svg" />
-    </div>
+  return <>
     <Modal
       title="添加节点"
       subTitle="会将该节点插入到光标位置"
@@ -106,5 +124,5 @@ export default function InsertCatalog({ position = {} }) {
         }</div>
       </div>
     </Modal>
-  </Fragment>;
+  </>;
 };

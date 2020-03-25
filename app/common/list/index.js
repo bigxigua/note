@@ -2,14 +2,13 @@ import React from 'react';
 import Icon from '@common/icon';
 import './index.css';
 
-export default function List(props) {
-  const {
-    list = [],
-    className = '',
-    listStyle = {},
-    style = {},
-    onTap = () => { }
-  } = props;
+export default function List({
+  list = [],
+  className = '',
+  listStyle = {},
+  style = {},
+  onTap = () => { }
+}) {
   const onClickHandle = (n, i, e) => {
     if (n.disabled) {
       return;

@@ -91,6 +91,7 @@ export default function Page() {
         <div className={`simditor-content ${isMobile ? 'simditor-content_mobile' : ''}`}>
           <textarea
             className="simditor_textarea"
+            onChange={loop}
             value={html}
             id="editor" />
           <ArticleCatalog html={html} />
