@@ -30,28 +30,28 @@
     box-sizing: border-box;
 }
 
-.catalog-item {
-    /* font-size: 12px;
-color: #595959;
-padding: 4px 0;
-white-space: nowrap;
-overflow: hidden;
-text-overflow: ellipsis;
-cursor: pointer;
-border-left: 2px solid #e8e8e8;
-transition: all linear 0.2s; */
+.article-catalog__item {
+    font-size: 12px;
+    color: #595959;
+    padding: 4px 0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    cursor: pointer;
+    border-left: 2px solid #e8e8e8;
+    transition: all linear 0.2s;
 }
 
-.catalog-item__active {
+.article-catalog__item-active {
     border-left: 2px solid #25b864;
     color: #25b864;
 }
 
-.catalog-item:hover {
+.article-catalog__item:hover {
     color: #25b864;
 }
 
-.catalog-item>span {
+.article-catalog__item>span {
     line-height: 20px;
     padding-top: 4px;
     padding-bottom: 4px;

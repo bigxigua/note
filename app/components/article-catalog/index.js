@@ -23,7 +23,7 @@ function createCatalogsJsx(html, handle) {
   return catalogs.map(p => {
     const i = parseInt(p.type.substr(1));
     return (<li
-      className={`catalog-item catalog-item_${p.id}`}
+      className={`article-catalog__item article-catalog__item-${p.id}`}
       key={p.index}
       style={{ paddingLeft: `${(i - 1) * 16 + getOffset(catalogs) + 14}px` }}
       onClick={(e) => { handle(e, p.id); }}>

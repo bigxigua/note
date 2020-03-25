@@ -67,8 +67,8 @@ function onScroll(html) {
         curTarget = arr.filter(n => n.top >= 0)[0].id;
       }
     }
-    $('.catalog-item').removeClass('catalog-item__active');
-    $(`.catalog-item_${curTarget}`).addClass('catalog-item__active');
+    $('.article-catalog__item').removeClass('article-catalog__item-active');
+    $(`.article-catalog__item-${curTarget}`).addClass('article-catalog__item-active');
   }, 100);
   $(window).off('scroll');
   $(window).on('scroll', handle);
