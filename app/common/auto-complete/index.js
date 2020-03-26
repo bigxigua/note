@@ -1,5 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import List from '@common/list';
+import Icon from '@common/icon';
 import Dropdown from '@common/dropdown';
 import './index.css';
 
@@ -9,6 +10,9 @@ function Overlay({
   options = [],
   onSelect = loop
 }) {
+  if (!options.length) {
+    return null;
+  }
   return <List
     className="dropdown-list"
     onTap={onSelect}
@@ -23,7 +27,7 @@ let isInputZh = false;
   * @param {object} style - 容器style
   * @param {string} placeholder - placeholder
   * @param {Array}  options -  下拉展示的内容
-  * @param {boolean}  open -  是否展开下拉内容
+  * @param {boolean|string}  open -  是否展开下拉内容
   * @param {Function} onSelect - 被选中时调用，参数为选中项的 value 值
   * @param {Function} onChange - 选中 option，或 input 的 value 变化时，调用此函数
   * @param {Function} onFocus - 获得焦点时的回调
@@ -41,6 +45,7 @@ export default function AutoComplete({
   onFocus = loop,
   onBlur = loop
 }) {
+  // visible的枚举值为：隐藏(false)、展示加载态('loading')、展示数据(true)
   const [visible, setVisible] = useState(open);
 
   const onSelected = useCallback((info) => {
@@ -74,7 +79,7 @@ export default function AutoComplete({
       <Dropdown
         trigger="input"
         className="autocomplete-dropdown"
-        visible={visible && options && options.length}
+        visible={visible}
         overlay={<Overlay options={options}
           onSelect={onSelected} />}>
         <input
@@ -88,6 +93,8 @@ export default function AutoComplete({
           onCompositionStart={onCompositionStart}
           onChange={onInputChange}
           spellCheck="true" />
+        {visible === 'loading' ? <Icon style={{ marginRight: '4px' }}
+          type="loading" /> : null}
       </Dropdown>
     </div>
   );

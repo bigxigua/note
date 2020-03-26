@@ -1,10 +1,13 @@
 import React from 'react';
 import './index.css';
+
 // copy by antd icons
-export default function Icon(props) {
-  const {
-    onClick = () => { }
-  } = props;
+export default function Icon({
+  onClick = () => { },
+  className = '',
+  type = '',
+  style = {}
+}) {
   const icons = {
     'double-left': <svg viewBox="64 64 896 896"
       focusable="false"
@@ -229,8 +232,9 @@ export default function Icon(props) {
   return (
     <div
       onClick={onClick}
-      className={$.trim(`Icon ${props.className || ''}`)}>
-      {icons[props.type]}
+      style={style}
+      className={$.trim(`Icon ${className || ''}`)}>
+      {icons[type]}
     </div>
   );
 }

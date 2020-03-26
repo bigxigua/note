@@ -8,11 +8,12 @@ import './index.css';
 let curValue = '';
 
 const search = async (q, setOptions, setOpen) => {
+  setOpen('loading');
   const [, data] = await axiosInstance.post('search', { q });
   const docs = getIn(data, ['docs'], []).map(n => {
     return {
       ...n,
-      __type__: 'doc',
+      icon: 'double-right',
       text: n.title
     };
   });
@@ -39,7 +40,7 @@ export default function HeaderSearch({
   className = ''
 }) {
   const [options, setOptions] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState(true);
 
   const onSearchValueChange = useMemo(() => {
     return debunce(async (e) => {

@@ -14,6 +14,9 @@ const settingList = [{
 }, {
   text: '在此目录下新建',
   key: 'create'
+}, {
+  text: '将目标项添加到该目录下',
+  key: 'move'
 }];
 
 function getStyle(style, childrenLen, level) {

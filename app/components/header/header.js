@@ -37,9 +37,9 @@ export default function Header({
       <div className="header-container">
         <div className="header-left">
           <Link to="/"
-            className="Header_title ellipsis">
+            className="header-title ellipsis">
           </Link>
-          <HeaderSearch className="header-search" />
+          <HeaderSearch />
           <NavLink
             to="/"
             activeStyle={activeStyle}

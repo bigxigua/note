@@ -44,7 +44,7 @@
     flex-shrink: 0;
 }
 
-.Header_title {
+.header-title {
     display: block;
     flex-shrink: 0;
     background: url('/images/logo.jpeg') no-repeat 0 0;
