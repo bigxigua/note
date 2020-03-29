@@ -14,6 +14,7 @@ const search = async (q, setOptions, setOpen) => {
     return {
       ...n,
       icon: 'double-right',
+      __type__: 'doc',
       text: n.title
     };
   });
