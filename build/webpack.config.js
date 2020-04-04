@@ -26,7 +26,7 @@ const InlineChunkHtmlPlugin = require('./InlineChunkHtmlPlugin');
 const InterpolateHtmlPlugin = require('./InterpolateHtmlPlugin');
 const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
 // 可视化分析
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 const {
   shouldUseSourceMap,
   isEnvProduction,
