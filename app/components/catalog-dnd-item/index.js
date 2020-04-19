@@ -1,4 +1,5 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useState, useContext } from 'react';
+import { catalogContext } from '@context/catalog-context';
 import Popover from '@components/popover';
 import InsertCatalog from '@components/insert-catalog';
 import Icon from '@common/icon';
@@ -19,11 +20,19 @@ const settingList = [{
   key: 'move'
 }];
 
-function getStyle(style, childrenLen, level) {
-  const height = childrenLen === 0 ? '36px' : `${(childrenLen + 1) * 36 + 11}px`;
+// 获取当前目录的所有子元素的个数(包括子元素的子元素)
+function getChildLength(catalog, item) {
+  console.log(catalog, item);
+}
+
+function getStyle(style, catalog, item) {
+  const len = getChildLength(catalog, item);
+  console.log('len:', len);
+  const { level } = item;
+  // const height = childrenLen === 0 ? '36px' : `${(childrenLen + 1) * 36 + 11}px`;
   return {
     ...style,
-    minHeight: height,
+    height: 0,
     marginLeft: level !== 0 ? '32px' : 0
   };
 }
@@ -43,6 +52,16 @@ function getOffsetImgClassName(curCatalogInfo, index, type) {
   return '';
 }
 
+/**
+  * 被拖拽的目录项
+  * @param {object} provided - dnd provided
+  * @param {ReactNode|Null} children - 内容元素
+  * @param {index} Number - 在父目录下当前兄弟目录的下标
+  * @param {object} docInfo -  当前目录对应的文档信息
+  * @param {object} curCatalogInfo -  当前目录信息
+  * @param {Function} onDelete - 删除该目录时触发
+  * @param {Function} onOffsetChange -目录项左右移动时触发
+*/
 export default function CatalogDndItem({
   provided,
   children,
@@ -53,6 +72,7 @@ export default function CatalogDndItem({
   onDelete = () => { },
   onOffsetChange = () => { }
 }) {
+  const { info: { catalog = [] } } = useContext(catalogContext);
   // 创建新文档时在哪个目录下创建的, { folderDocId: '父节点docId', level: '当前新建文档的层级' }
   const [info, setInfo] = useState(null);
   const onPopoverItemClick = useCallback((info) => {
@@ -93,7 +113,7 @@ export default function CatalogDndItem({
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
-        style={getStyle(provided.draggableProps.style, childrenLen, curCatalogInfo.level)}
+        style={getStyle(provided.draggableProps.style, catalog, curCatalogInfo)}
       >
         {childrenLen ? <div className="catalog-item__right-border"></div> : null}
         <div className="catalog-content">

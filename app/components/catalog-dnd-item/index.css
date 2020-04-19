@@ -9,18 +9,6 @@
   margin: 8px auto;
 }
 
-/* .catalog-item_1 {
-  width: calc(100% - 20px);
-}
-
-.catalog-item_2 {
-  width: calc(100% - 40px);
-}
-
-.catalog-item_3 {
-  width: calc(100% - 60px);
-} */
-
 .chapter-item__disabled {
   text-decoration: line-through;
 }
