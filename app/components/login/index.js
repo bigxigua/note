@@ -147,7 +147,7 @@ export default function Login() {
           {isLoginPage ? '立即注册' : '已有账号登陆'}
         </NavLink>
         <span className="Login_Tips">
-          一定要记住你的帐号哟，忘记了可是没办法找回来的。
+          努力就完了
         </span>
       </div>
     </div>

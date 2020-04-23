@@ -21,18 +21,25 @@ const settingList = [{
 }];
 
 // 获取当前目录的所有子元素的个数(包括子元素的子元素)
-function getChildLength(catalog, item) {
-  console.log(catalog, item);
+function getChildLength(item) {
+  let len = 0;
+  function recursive(children) {
+    if (!Array.isArray(children) || !children.length) {
+      return 0;
+    }
+    len += children.length;
+    children.forEach(n => { recursive(n.children); });
+    return len;
+  }
+  return recursive(item.children);
 }
 
 function getStyle(style, catalog, item) {
-  const len = getChildLength(catalog, item);
-  console.log('len:', len);
+  const len = getChildLength(item);
   const { level } = item;
-  // const height = childrenLen === 0 ? '36px' : `${(childrenLen + 1) * 36 + 11}px`;
   return {
     ...style,
-    height: 0,
+    height: len === 0 ? '36px' : `${(len + 1) * 44 + 11}px`,
     marginLeft: level !== 0 ? '32px' : 0
   };
 }

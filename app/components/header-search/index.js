@@ -13,7 +13,7 @@ const search = async (q, setOptions, setOpen) => {
   const docs = getIn(data, ['docs'], []).map(n => {
     return {
       ...n,
-      icon: 'double-right',
+      icon: 'file-text',
       __type__: 'doc',
       text: n.title
     };
@@ -22,6 +22,7 @@ const search = async (q, setOptions, setOpen) => {
     return {
       ...n,
       __type__: 'space',
+      icon: 'folder',
       text: n.name
     };
   });

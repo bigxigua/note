@@ -51,7 +51,13 @@ export default function Header({
             target="_blank">
             leetcode
           </a>
-          <div className="header-link header_disabled">新闻</div>
+          <a
+            className="header-link"
+            href="https://www.zhihu.com/"
+            style={{ color: '#0084ff' }}
+            target="_blank">
+            知乎
+          </a>
           <Link to="/more"
             className="header-link header_disabled header-link_more"><Icon type="ellipsis" /></Link>
         </div>
