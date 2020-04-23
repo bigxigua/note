@@ -1,9 +1,10 @@
 import React, { useCallback, useState, useContext } from 'react';
-import { catalogContext } from '@context/catalog-context';
 import Popover from '@components/popover';
 import InsertCatalog from '@components/insert-catalog';
+import { catalogContext } from '@context/catalog-context';
 import Icon from '@common/icon';
 import List from '@common/list';
+import { getStyle, getOffsetImgClassName, levelDiminishing } from './function';
 import './index.css';
 
 const settingList = [{
@@ -17,47 +18,12 @@ const settingList = [{
   key: 'create'
 }, {
   text: '将目标项添加到该目录下',
-  key: 'move'
+  key: 'move',
+  disabled: true
 }];
 
-// 获取当前目录的所有子元素的个数(包括子元素的子元素)
-function getChildLength(item) {
-  let len = 0;
-  function recursive(children) {
-    if (!Array.isArray(children) || !children.length) {
-      return 0;
-    }
-    len += children.length;
-    children.forEach(n => { recursive(n.children); });
-    return len;
-  }
-  return recursive(item.children);
-}
-
-function getStyle(style, catalog, item) {
-  const len = getChildLength(item);
-  const { level } = item;
-  return {
-    ...style,
-    height: len === 0 ? '36px' : `${(len + 1) * 44 + 11}px`,
-    marginLeft: level !== 0 ? '32px' : 0
-  };
-}
-
-function getOffsetImgClassName(curCatalogInfo, index, type) {
-  const { level } = curCatalogInfo;
-  const DISABLED_CLASS = 'chapter-item__move-disabled';
-  if (type === 'left' /* 左移 */) {
-    if (level === 0) {
-      return DISABLED_CLASS;
-    }
-  } else {
-    if (index === 0) {
-      return DISABLED_CLASS;
-    }
-  }
-  return '';
-}
+// 被选中的目录项
+let selectedCatalog = {};
 
 /**
   * 被拖拽的目录项
@@ -79,10 +45,11 @@ export default function CatalogDndItem({
   onDelete = () => { },
   onOffsetChange = () => { }
 }) {
-  const { info: { catalog = [] } } = useContext(catalogContext);
   // 创建新文档时在哪个目录下创建的, { folderDocId: '父节点docId', level: '当前新建文档的层级' }
+  const { info: { catalog }, updateCatalog } = useContext(catalogContext);
   const [info, setInfo] = useState(null);
-  const onPopoverItemClick = useCallback((info) => {
+  const onPopoverItemClick = useCallback((info, d, e) => {
+    e.stopPropagation();
     const { doc_id: docId, space_id: spaceId, title } = docInfo;
     switch (info.key) {
       case 'edit':
@@ -97,22 +64,43 @@ export default function CatalogDndItem({
           level: curCatalogInfo.level + 1
         });
         break;
+      case 'move': {
+        const targetIndex = catalog.findIndex(n => n.docId === docId);
+        const sourceIndex = catalog.findIndex(n => n.docId === selectedCatalog.docId);
+        if (selectedCatalog.docId !== docId && targetIndex !== -1 && sourceIndex !== -1) {
+          const newCatalogs = catalog.slice(0);
+          newCatalogs[targetIndex].children.push(levelDiminishing(selectedCatalog, curCatalogInfo.level));
+          newCatalogs.splice(sourceIndex, 1);
+          updateCatalog({ catalog: newCatalogs });
+        };
+      }
+        break;
       default:
         break;
     }
   }, [docInfo, curCatalogInfo]);
 
-  const onOffsetLeft = useCallback(() => {
-    // TODO 如果存在subs，则对应的subs也要一起level--
+  const onOffsetLeft = useCallback((e) => {
+    e.stopPropagation();
     onOffsetChange(curCatalogInfo.docId, 'left');
   }, [curCatalogInfo]);
 
-  const onOffsetRight = useCallback(() => {
+  const onOffsetRight = useCallback((e) => {
+    e.stopPropagation();
     onOffsetChange(curCatalogInfo.docId, 'right');
   }, [curCatalogInfo]);
 
+  // 目录项被点击选中，用来做插入标记
+  const onCatalogItemClick = useCallback((e) => {
+    e.stopPropagation();
+    const { docId } = curCatalogInfo;
+    $('.catalog-item').removeClass('catalog-item__selected');
+    $(`.catalog-item_${docId}`).toggleClass('catalog-item__selected');
+    selectedCatalog = curCatalogInfo;
+  }, [curCatalogInfo]);
+
   let classes = `catalog-item catalog-item_${curCatalogInfo.docId}`;
-  classes += childrenLen ? ' catalog-item_folder' : '';
+  classes += childrenLen ? ' catalog-item__folder' : '';
   classes += `${docInfo.status === '0' ? ' chapter-item__disabled' : ''}`;
   return (
     <>
@@ -120,7 +108,8 @@ export default function CatalogDndItem({
         ref={provided.innerRef}
         {...provided.draggableProps}
         {...provided.dragHandleProps}
-        style={getStyle(provided.draggableProps.style, catalog, curCatalogInfo)}
+        onClick={onCatalogItemClick}
+        style={getStyle(provided.draggableProps.style, curCatalogInfo)}
       >
         {childrenLen ? <div className="catalog-item__right-border"></div> : null}
         <div className="catalog-content">

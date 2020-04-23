@@ -7,6 +7,7 @@
 .chapter-drop__box {
   margin: 0 auto;
   position: relative;
+  margin-top: 8px;
 }
 
 .Chapter_Update {
@@ -118,6 +119,7 @@
   border: none;
   padding-top: 0;
 }
-.chapter-toc{
+
+.chapter-toc {
   position: relative;
 }

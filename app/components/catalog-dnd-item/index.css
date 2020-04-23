@@ -13,17 +13,18 @@
   text-decoration: line-through;
 }
 
-.catalog-item:not(.catalog-item_folder):hover {
+.catalog-item:not(.catalog-item__folder):hover {
   box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .15);
 }
 
-.catalog-item_folder {
+.catalog-item__folder {
   background: transparent;
   border: none;
   border-top: 1px solid #d9d9d9;
+  margin: 0 auto;
 }
 
-.catalog-item_folder:after {
+.catalog-item__folder:after {
   content: ' ';
   width: 100%;
   height: 1px;
@@ -33,7 +34,7 @@
   left: 0;
 }
 
-.catalog-item_folder:before {
+.catalog-item__folder:before {
   content: ' ';
   width: 1px;
   height: 36px;
@@ -41,6 +42,10 @@
   position: absolute;
   top: 0;
   left: 0;
+}
+
+.catalog-item__selected {
+  border: 1px dashed #000;
 }
 
 .catalog-item__right-border {

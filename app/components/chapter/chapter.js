@@ -13,6 +13,7 @@ export default function Chapter() {
       description="该空间下暂无文档"
       image="/images/undraw_empty.svg" />;
   }
+  console.log('-------catalog updated-------', catalog);
 
   return (
     <div className="chapter-toc">
