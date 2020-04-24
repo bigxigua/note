@@ -58,10 +58,10 @@ export default function CatalogDnd({
       return;
     }
     const newCatalogs = exChange(catalog, dragLists[sourceIndex], dragLists[destinationIndex]);
-    updateCatalog({
-      catalog: newCatalogs
-    });
+    updateCatalog({ catalog: newCatalogs });
   }, [dragLists, catalog]);
+
+  // 左移/右移
   const onOffsetChange = useCallback((docId, type) => {
     const catalogCopy = catalog.slice(0);
     const index = catalogCopy.findIndex(n => n.docId === docId);
@@ -81,6 +81,8 @@ export default function CatalogDnd({
       });
     }
   }, [catalog]);
+
+  // 删除
   const onDelete = useCallback((docId, title, spaceId) => {
     deleteDoc({
       catalog,
@@ -89,6 +91,7 @@ export default function CatalogDnd({
       docId
     }, (success) => { success && window.location.reload(); });
   }, [catalog]);
+
   return (
     <DragDropContext
       onDragEnd={onDragEnd}>

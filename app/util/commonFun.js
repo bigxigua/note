@@ -315,3 +315,16 @@ export async function setDocToTemplate({
   }
   return [error, data];
 }
+
+// 获取序列化后目录中index项元素的所有子目录
+export function getSubs(catalogs, index, level) {
+  const subs = [];
+  for (let i = index + 1; i < catalogs.length; i++) {
+    const n = catalogs[i];
+    if (n.level <= level) {
+      break;
+    }
+    subs.push(n);
+  };
+  return subs;
+};

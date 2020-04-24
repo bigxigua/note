@@ -4,7 +4,7 @@ import InsertCatalog from '@components/insert-catalog';
 import { catalogContext } from '@context/catalog-context';
 import Icon from '@common/icon';
 import List from '@common/list';
-import { getStyle, getOffsetImgClassName, levelDiminishing } from './function';
+import { getStyle, getOffsetImgClassName, exChange, checkMoveDisabled } from './function';
 import './index.css';
 
 const settingList = [{
@@ -18,8 +18,7 @@ const settingList = [{
   key: 'create'
 }, {
   text: '将目标项添加到该目录下',
-  key: 'move',
-  disabled: true
+  key: 'move'
 }];
 
 // 被选中的目录项
@@ -48,6 +47,7 @@ export default function CatalogDndItem({
   // 创建新文档时在哪个目录下创建的, { folderDocId: '父节点docId', level: '当前新建文档的层级' }
   const { info: { catalog }, updateCatalog } = useContext(catalogContext);
   const [info, setInfo] = useState(null);
+  const [settings, updateSetting] = useState(settingList);
   const onPopoverItemClick = useCallback((info, d, e) => {
     e.stopPropagation();
     const { doc_id: docId, space_id: spaceId, title } = docInfo;
@@ -67,10 +67,9 @@ export default function CatalogDndItem({
       case 'move': {
         const targetIndex = catalog.findIndex(n => n.docId === docId);
         const sourceIndex = catalog.findIndex(n => n.docId === selectedCatalog.docId);
-        if (selectedCatalog.docId !== docId && targetIndex !== -1 && sourceIndex !== -1) {
-          const newCatalogs = catalog.slice(0);
-          newCatalogs[targetIndex].children.push(levelDiminishing(selectedCatalog, curCatalogInfo.level));
-          newCatalogs.splice(sourceIndex, 1);
+        // 判断当前curCatalogInfo是否是selectedCatalog的子元素
+        if (selectedCatalog.docId !== docId && targetIndex > 0 && sourceIndex > 0) {
+          const newCatalogs = exChange(catalog, selectedCatalog, curCatalogInfo);
           updateCatalog({ catalog: newCatalogs });
         };
       }
@@ -97,6 +96,7 @@ export default function CatalogDndItem({
     $('.catalog-item').removeClass('catalog-item__selected');
     $(`.catalog-item_${docId}`).toggleClass('catalog-item__selected');
     selectedCatalog = curCatalogInfo;
+    // checkMoveDisabled();
   }, [curCatalogInfo]);
 
   let classes = `catalog-item catalog-item_${curCatalogInfo.docId}`;
@@ -115,7 +115,7 @@ export default function CatalogDndItem({
         <div className="catalog-content">
           <div className="flex">
             {children && <Icon type="caret-down" />}
-            {docInfo.title}
+            {docInfo.title}-{docInfo.doc_id}
           </div>
           <div className="chapter-item__info">
             <div className="chapter-item__move">
@@ -133,7 +133,7 @@ export default function CatalogDndItem({
               className="chapter-item__setting"
               content={<List
                 onTap={onPopoverItemClick}
-                list={settingList} />}>
+                list={settings} />}>
               <Icon type="ellipsis" />
             </Popover>
           </div>
