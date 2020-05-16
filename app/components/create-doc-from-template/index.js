@@ -128,7 +128,6 @@ export default function CreateDocFromTemplateModal({
 
   // templates改变
   const onTemplatesChange = useCallback((type, templateId) => {
-    console.log('type:', type);
     console.log('templateId:', templateId);
     if (type === 'DELETE') {
       setTemplates(templates.filter(n => n.template_id !== templateId));

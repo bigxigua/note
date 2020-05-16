@@ -56,14 +56,14 @@ export function addUnloadListener(docId, simditor) {
 }
 
 /**
-* 根据query的content参数来决定，当前显示的是草稿还是正式内容
-* content默认值为origin(正式内容)，draft(草稿内容)
+* 根据query的content参数来决定，当前显示的是草稿还是正式内容,origin(正式内容)，draft(草稿内容)
+* content默认值为draft(草稿内容)
 * @param {objecr} info - 文档信息
 * @param {string} type - 显示草稿还是正式内容
 * @return {object} { title: 标题， content: 文档内容 }
 */
 export function getTileAndHtml(info, type) {
-  type = type || 'origin';
+  type = type || 'draft';
   const title = type === 'origin' ? info.title : info.title_draft || info.title;
   const content = type === 'origin' ? info.html : info.html_draft || info.html;
   return {

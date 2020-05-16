@@ -93,11 +93,11 @@ export default function CatalogDndItem({
   const onCatalogItemClick = useCallback((e) => {
     e.stopPropagation();
     const { docId } = curCatalogInfo;
-    $('.catalog-item').removeClass('catalog-item__selected');
-    $(`.catalog-item_${docId}`).toggleClass('catalog-item__selected');
+    const currentClass = `.catalog-item_${docId}`;
+    $(`.catalog-item:not(${currentClass})`).removeClass('catalog-item__selected');
+    $(currentClass).toggleClass('catalog-item__selected');
     selectedCatalog = curCatalogInfo;
-    // checkMoveDisabled();
-  }, [curCatalogInfo]);
+  }, [curCatalogInfo, settings]);
 
   let classes = `catalog-item catalog-item_${curCatalogInfo.docId}`;
   classes += childrenLen ? ' catalog-item__folder' : '';

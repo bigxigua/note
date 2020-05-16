@@ -30,7 +30,7 @@ const loop = () => { };
 const { isMobile } = checkBrowser();
 
 export default function Page() {
-  const { spaceId = '', content = 'origin' } = parseUrlQuery();
+  const { spaceId = '', content = '' } = parseUrlQuery();
   const [doc, updateDoc] = useState({});
   const [html, setHtml] = useState('');
   const { updateEditorInfo } = useContext(editorContext);

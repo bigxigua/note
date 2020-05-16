@@ -2,10 +2,9 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
-import CreateDocFromTemplateModal from '@components/create-doc-from-template';
 import axiosInstance from '@util/axiosInstance';
 import { parseUrlQuery, getIn } from '@util/util';
-import { extractCatalog, findTargetCatalogPath } from '@util/commonFun';
+import { extractCatalog, findTargetCatalogPath, createNewDocAction } from '@util/commonFun';
 import { renderCatalogs, addIsOpenProperty } from './handle';
 import { useHistory } from 'react-router-dom';
 import './index.css';
@@ -16,6 +15,9 @@ const settingList = [{
 }, {
   text: '编排目录',
   key: 'catalog-setting'
+}, {
+  text: '新建文档',
+  key: 'create'
 }];
 
 export default function SpaceCatalog() {
@@ -65,8 +67,11 @@ export default function SpaceCatalog() {
       history.push(`/spacedetail?spaceId=${spaceId}`);
     } else if (key === 'catalog-setting') {
       history.push(`/spacedetail?spaceId=${spaceId}&type=toc`);
+    } else if (key === 'create') {
+      createNewDocAction({ space_id: spaceId });
+      // 新建完文档跳转编辑页
     }
-  }, []);
+  }, [spaceId]);
 
   useEffect(() => {
     fetchDocsBySpaceId();

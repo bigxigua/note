@@ -19,7 +19,7 @@ export function getStyle(style, item) {
   const { level } = item;
   return {
     ...style,
-    height: len === 0 ? '36px' : `${(len + 1) * (36 + 8)}px`,
+    height: len === 0 ? '36px' : `${(len + 1) * 36 + len * 8}px`,
     marginLeft: level !== 0 ? '32px' : 0
   };
 }
@@ -50,9 +50,9 @@ export function exChange(catalogs, sourceItem, destinationItem) {
   const destinationLevel = destinationItem.level;
   const sourceIndex = catalogs.findIndex(n => n.docId === sourceItem.docId);
   const destinationIndex = catalogs.findIndex(n => n.docId === destinationItem.docId);
-  const baseLevel = destinationLevel + 1 === sourceItem.level ? 0 : destinationLevel + 1;
+  const levelGap = destinationLevel + 1 - sourceItem.level;
   const sourceSubs = getSubs(catalogs, sourceIndex, sourceItem.level).map(n => {
-    return { ...n, level: baseLevel + n.level };
+    return { ...n, level: levelGap + n.level };
   });
   sourceItem.level = destinationLevel + 1;
   const destinationSubs = getSubs(catalogs, destinationIndex, destinationItem.level);
