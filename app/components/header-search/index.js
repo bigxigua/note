@@ -66,6 +66,9 @@ export default function HeaderSearch({
     }
   }, []);
 
+  const onBlur = useCallback(() => {
+  }, []);
+
   const prefixCls = $.trim(`header-search ${className}`);
   return (
     <div className={prefixCls}>
@@ -75,7 +78,7 @@ export default function HeaderSearch({
         placeholder="搜索文档或者空间"
         onChange={onSearchValueChange}
         onSelect={onSearchValueSelect}
-        onBlur={() => { }}
+        onBlur={onBlur}
         onFocus={() => { setOpen(true); }}
         options={options} />
     </div>
