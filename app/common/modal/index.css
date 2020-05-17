@@ -1,10 +1,11 @@
 .modal {
   max-width: calc(100vw - 16px);
+  max-height: calc(100vw - 16px);
   position: fixed;
   background: #ffffff;
-  top: 100px;
+  top: 50%;
   left: 50%;
-  transform: translateX(-50%);
+  transform: translateX(-50%) translateY(-50%);
   font-size: 14px;
   z-index: 1000;
   border-radius: 4px;
@@ -65,9 +66,8 @@
   line-height: 1.5;
   word-wrap: break-word;
   padding: 0 24px 20px 24px;
-  /* min-width: 400px; */
   max-height: 400px;
-  overflow-y: scroll;
+  overflow: scroll;
 }
 
 .modal-footer {

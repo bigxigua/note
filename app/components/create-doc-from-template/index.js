@@ -94,12 +94,14 @@ function TemplateList({
   * @param {string} spaceId - 空间Id
   * @param {object} catalogInfo - 目录信息
   * @param {Function} onConfirm - 点击确定回调
+  * @param {Function} onHide - 隐藏Modal
 */
 export default function CreateDocFromTemplateModal({
   className = '',
   spaceId,
   show,
-  catalogInfo
+  catalogInfo,
+  onHide = () => { }
 }) {
   if (!show) {
     return null;
@@ -152,7 +154,9 @@ export default function CreateDocFromTemplateModal({
       width="auto"
       title="所有模版"
       subTitle=""
-      footer="none">
+      footer="none"
+      onCancel={onHide}
+    >
       <div className="template-wrapper">
         <TemplateList
           templates={templates}

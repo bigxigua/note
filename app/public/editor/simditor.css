@@ -183,6 +183,7 @@
   justify-content: center;
   background: rgba(255, 255, 255, .4);
 }
+
 /* .bigxigua-img[src=empty] {
   display: none;
 } */
@@ -1001,7 +1002,7 @@
 
 .simditor .simditor-body img,
 .editor-style img {
-  margin: 0 5px;
+  margin-right: 5px;
   vertical-align: middle;
 }
 

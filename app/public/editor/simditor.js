@@ -4541,7 +4541,6 @@
             src = img ? img.src : _this.defaultImage;
             $img.addClass('bigxigua-img');
             return _this.loadImage($img, src, function () {
-              console.log('------>>>>>');
               if (_this.popover.active) {
                 _this.popover.refresh();
                 return _this.popover.srcEl.val(_this._t('uploading')).prop('disabled', true);
@@ -4682,7 +4681,7 @@
           }).show();
         };
       })(this);
-      $img.addClass('loading');
+      $img.addClass('simlator-img__loading');
       $mask = $img.data('mask');
       if (!$mask) {
         $mask = $('<div class="simditor-image-loading">\n  <img src="/images/loading.svg" />\n</div>').hide().appendTo(this.editor.wrapper);
@@ -4694,7 +4693,7 @@
       img.onload = (function (_this) {
         return function () {
           var height, width;
-          if (!$img.hasClass('loading') && !$img.hasClass('uploading')) {
+          if (!$img.hasClass('simlator-img__loading') && !$img.hasClass('uploading')) {
             return;
           }
           $img.show();
@@ -4707,7 +4706,7 @@
             width: width,
             height: height,
             'data-image-size': width + ',' + height
-          }).removeClass('loading');
+          }).removeClass('simlator-img__loading');
           if ($img.hasClass('uploading')) {
             _this.editor.util.reflow(_this.editor.body);
             positionMask();
@@ -4725,7 +4724,7 @@
           callback(false);
         }
         $mask.remove();
-        return $img.removeData('mask').removeClass('loading');
+        return $img.removeData('mask').removeClass('simlator-img__loading');
       };
       return img.setAttribute('src', src);
     };

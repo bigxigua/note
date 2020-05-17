@@ -11,25 +11,28 @@ import './index.css';
 /**
 * 新建文档通用组件
 * @param {string} mode - 创建方法，枚举值，common-普通新建 template-从模版创建
+* @param {boolean} visible - 是否展示当前Modal
+* @param {string} spaceId - 当前空间id，可空，空值时显示空间列表
 * @param {Function} onModalChange - modal关闭或展示时触发
 */
 export default function CreateDoc({
   mode = 'common',
+  spaceId = '',
+  visible = false,
   onModalChange = () => { }
 }) {
-  // 是否展示显示空间列表的Modal
-  const [visible, setVisible] = useState(true);
   // 正在请求获取空间列表接口
   const [loading, setLoading] = useState(false);
   // 空间列表
   const [spaces, setSpaces] = useState([]);
+  // 控制是否展示模版modal
+  const [canShowTemplateModal, setTemplateModalVisible] = useState(spaceId);
   // 当前选中的空间信息,spaceInfo.space_id存在显示模版选择Modal
   const [spaceInfo, setSpaceInfo] = useState({});
   const history = useHistory();
 
   // 隐藏空间列表Modal
   const onCancelModal = useCallback(() => {
-    setVisible(false);
     onModalChange(false);
   }, []);
 
@@ -57,6 +60,14 @@ export default function CreateDoc({
   useEffect(() => {
     fetchSpaces();
   }, [mode]);
+
+  // spaceId存在表示已选定空间，不需要显示空间列表了
+  if (spaceId) {
+    return <CreateDocFromTemplateModal
+      onHide={() => { setTemplateModalVisible(false); onModalChange(false); }}
+      show={canShowTemplateModal}
+      spaceId={spaceId} />;
+  }
 
   const renderSpaceList = useCallback(() => {
     if (loading) {
@@ -97,7 +108,8 @@ export default function CreateDoc({
         {renderSpaceList()}
       </Modal>
       <CreateDocFromTemplateModal
-        show={spaceInfo.space_id}
+        onHide={() => { setTemplateModalVisible(false); }}
+        show={canShowTemplateModal}
         spaceId={spaceInfo.space_id} />
     </>
   );
