@@ -25,6 +25,7 @@ function getStyle(style) {
 
 function getJumpUrl(info) {
   const { url, type } = info;
+  console.log(info);
   if (type === 'XIGUA_DOC') {
     return transformIpToDomain(url.replace(/\/article\//g, '/simditor/'));
   } else if (type === 'XIGUA_SPACE') {
@@ -158,7 +159,7 @@ export default function ShortcutItems({
                       target="_blank">查看</a>}
                     {info.type === 'XIGUA_SPACE' && <a
                       target="_blank"
-                      href={`${transformIpToDomain(info.url)}&type=toc`}
+                      href={`${transformIpToDomain(info.url)}`}
                     >管理</a>}
                     <Popover
                       content={

@@ -35,17 +35,19 @@ const createDocByTemplateAction = async (templateInfo, spaceId, catalogInfo) => 
 };
 
 // 调用`delete/template`接口删除模版
-const deleteTemplate = async function (info = {}, callback) {
+const deleteTemplate = async function (info = {}) {
   const templateId = getIn(info, ['template_id']);
   const [error, data] = await axiosInstance.post('delete/template', {
     templateId
   });
-  if (getIn(data, ['STATUS']) === 'OK') {
-    message.success({ content: '删除成功' });
-    callback(templateId);
+  console.log(info);
+  const isDeleteSuccess = getIn(data, ['STATUS']) === 'OK';
+  if (isDeleteSuccess) {
+    message.success({ content: `成功删除模版：${info.title}` });
   } else {
     message.error({ content: getIn(error, ['message'], '系统繁忙') });
   }
+  return isDeleteSuccess ? templateId : '';
 };
 
 /**
@@ -61,14 +63,22 @@ function TemplateList({
   catalogInfo,
   onChange
 }) {
+  const [isLoading, setLoading] = useState(false);
   if (!Array.isArray(templates)) {
     return null;
   }
-  const onDelete = useCallback((item) => {
-    deleteTemplate(item, (templateId) => {
+  const onDelete = useCallback(async (item) => {
+    if (isLoading) {
+      return;
+    }
+    message.loading({ content: '正在删除...' });
+    setLoading(true);
+    const templateId = await deleteTemplate(item);
+    setLoading(false);
+    if (templateId) {
       onChange('DELETE', templateId);
-    });
-  }, []);
+    }
+  }, [isLoading, templates]);
   return templates.map(item => {
     return (
       <div key={item.id}
@@ -130,7 +140,6 @@ export default function CreateDocFromTemplateModal({
 
   // templates改变
   const onTemplatesChange = useCallback((type, templateId) => {
-    console.log('templateId:', templateId);
     if (type === 'DELETE') {
       setTemplates(templates.filter(n => n.template_id !== templateId));
     }
