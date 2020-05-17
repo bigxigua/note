@@ -1,18 +1,19 @@
 (function (root, factory) {
   if (typeof define === 'function' && define.amd) {
     // AMD. Register as an anonymous module unless amdModuleId is set
-    define('simditor', ["@public/editor/module", "@public/editor/hotkeys", "@public/editor/uploader", "@public/editor/dompurify"], function (SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
-      return (root['Simditor'] = factory(jQuery, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify));
+    define('simditor', ["@public/editor/module", "@public/editor/hotkeys", "@public/editor/uploader", "@public/editor/dompurify", "@public/editor/imagescale"], function (SimpleModule, simpleHotkeys, simpleUploader, DOMPurify, imageScale) {
+      return (root['Simditor'] = factory(jQuery, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify, imageScale));
     });
   } else {
-    root['Simditor'] = factory(jQuery, SimpleModule, simple.hotkeys, simple.uploader, window.DOMPurify);
+    root['Simditor'] = factory(jQuery, SimpleModule, simple.hotkeys, simple.uploader, window.DOMPurify, window.imageScale);
   }
-}(this, function ($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify) {
+}(this, function ($, SimpleModule, simpleHotkeys, simpleUploader, DOMPurify, imageScale) {
   var AlignmentButton, BlockquoteButton, BoldButton, Button, Clipboard, CodeButton, CodePopover, ColorButton, FontScaleButton, Formatter, HrButton, ImageButton, ImagePopover, IndentButton, Indentation, InputManager, ItalicButton, Keystroke, LinkButton, LinkPopover, ListButton, OrderListButton, OutdentButton, Popover, Selection, Simditor, StrikethroughButton, TableButton, TitleButton, Toolbar, UnderlineButton, UndoManager, UnorderListButton, Util,
     extend = function (child, parent) { for (var key in parent) { if (hasProp.call(parent, key)) child[key] = parent[key]; } function ctor() { this.constructor = child; } ctor.prototype = parent.prototype; child.prototype = new ctor(); child.__super__ = parent.prototype; return child; },
     hasProp = {}.hasOwnProperty,
     indexOf = [].indexOf || function (item) { for (var i = 0, l = this.length; i < l; i++) { if (i in this && this[i] === item) return i; } return -1; },
-    slice = [].slice;
+    slice = [].slice,
+    imageScaleInstance = new imageScale();
 
   Selection = (function (superClass) {
     extend(Selection, superClass);
@@ -4540,6 +4541,7 @@
             src = img ? img.src : _this.defaultImage;
             $img.addClass('bigxigua-img');
             return _this.loadImage($img, src, function () {
+              console.log('------>>>>>');
               if (_this.popover.active) {
                 _this.popover.refresh();
                 return _this.popover.srcEl.val(_this._t('uploading')).prop('disabled', true);
@@ -4695,8 +4697,11 @@
           if (!$img.hasClass('loading') && !$img.hasClass('uploading')) {
             return;
           }
+          $img.show();
           width = img.width;
           height = img.height;
+          // imageScaleInstance.scaleImage($img);
+          // console.log('imageScaleInstance', imageScaleInstance);
           $img.attr({
             src: src,
             width: width,
@@ -4737,6 +4742,7 @@
       range.deleteContents();
       this.editor.selection.range(range);
       $img = $('<img/>').attr('alt', name);
+      $img.hide();
       range.insertNode($img[0]);
       this.editor.selection.setRangeAfter($img, range);
       this.editor.trigger('valuechanged');

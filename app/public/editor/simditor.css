@@ -183,6 +183,9 @@
   justify-content: center;
   background: rgba(255, 255, 255, .4);
 }
+/* .bigxigua-img[src=empty] {
+  display: none;
+} */
 
 .simditor .simditor-wrapper .simditor-image-loading img {
   width: 46px;
