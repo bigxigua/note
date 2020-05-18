@@ -41,6 +41,7 @@ export default function CreateDoc({
     const { space_id } = info;
     if (mode === 'template') {
       setSpaceInfo(info);
+      setTemplateModalVisible(true);
     } else if (mode === 'common') {
       createNewDocAction({ space_id });
     }

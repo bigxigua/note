@@ -49,7 +49,7 @@ function onListItemClick({ key }, docInfo = {}, history) {
       }, (success) => { success && history.replace(`/spacedetail?spaceId=${space_id}`); });
       break;
     case 'template':
-      setDocToTemplate({ html, title, url });
+      setDocToTemplate({ html, title, url, docId: doc_id });
       break;
     case 'addindex':
       addToShortcutEntry({ title, url, type: 'XIGUA_DOC' });

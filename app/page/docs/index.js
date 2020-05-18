@@ -22,6 +22,7 @@ const { isMobile } = checkBrowser();
 
 // 下拉选项
 function renderDocOperation(onOperationClick, docInfo) {
+  const { is_template } = docInfo;
   return (
     <List className="docs_operations"
       onTap={onOperationClick}
@@ -36,6 +37,7 @@ function renderDocOperation(onOperationClick, docInfo) {
       }, {
         text: '设置为模版',
         key: 'template',
+        disabled: is_template === '1',
         docInfo
       }, {
         text: '添加到快捷入口',
@@ -71,7 +73,7 @@ function renderRightJsx(info, handle, h, deleteDoc) {
   }
   if (info.title_draft || info.html_draft) {
     return <Link className="table-actions"
-      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}&action=update`}>更新</Link>;
+      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}&action=update`}>去更新</Link>;
   }
   return (
     <div
@@ -107,7 +109,7 @@ function renderDoclistsForMobile(lists = [], loading) {
   });
 }
 
-export default function Space() {
+export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
   // 分页参数
   const [pageNo, setPageNo] = useState(1);
@@ -126,13 +128,14 @@ export default function Space() {
     title: '状态',
     key: 'status',
     render: (info) => {
-      if (info.status === '0') {
-        return <Tag color="rgb(255, 85, 0)">已删除</Tag>;
-      }
-      if (!info.html_draft && !info.title_draft) {
-        return <Tag color="#25b864">已更新</Tag>;
-      }
-      return <Tag>未更新</Tag>;
+      const { status, html_draft, title_draft, is_template } = info;
+      return (
+        <div className="docs-tags">
+          {is_template === '1' && <Tag color="#f50">模版</Tag>}
+          {status === '0' && <Tag color="rgb(255, 85, 0)">已删除</Tag>}
+          {(html_draft || title_draft) && <Tag>未更新</Tag>}
+        </div>
+      );
     }
   }, {
     title: '归属',
@@ -203,7 +206,12 @@ export default function Space() {
     } else if (key === 'editor') {
       history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
     } else if (key === 'template') {
-      setDocToTemplate({ html, title, url });
+      const [, data] = await setDocToTemplate({ html, title, url, docId: doc_id });
+      if (getIn(data, ['templateId'])) {
+        setDataSource(dataSource.map(n => {
+          return { ...n, is_template: n.doc_id === doc_id ? '1' : n.is_template };
+        }));
+      }
     } else if (key === 'addindex') {
       addToShortcutEntry({ title, url, type: 'XIGUA_DOC' });
     }

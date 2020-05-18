@@ -25,7 +25,6 @@ function getStyle(style) {
 
 function getJumpUrl(info) {
   const { url, type } = info;
-  console.log(info);
   if (type === 'XIGUA_DOC') {
     return transformIpToDomain(url.replace(/\/article\//g, '/simditor/'));
   } else if (type === 'XIGUA_SPACE') {

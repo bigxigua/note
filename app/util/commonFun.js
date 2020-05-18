@@ -291,6 +291,7 @@ let isLoading = false;
 export async function setDocToTemplate({
   html,
   title,
+  docId,
   url
 }) {
   if (!html) {
@@ -305,6 +306,7 @@ export async function setDocToTemplate({
   const [error, data] = await axiosInstance.post('create/template', {
     html,
     title,
+    docId,
     url
   });
   isLoading = false;

@@ -172,11 +172,10 @@ export function addKeydownListener({
 }
 
 // dom 事件绑定
-export function addEventListener(dom = document.body, eventName, handle) {
-  const fn = handle;
-  dom.addEventListener(eventName, fn, false);
+export function addEventListener(dom = document.body, eventName, handle, useCapture = false) {
+  dom.addEventListener(eventName, handle, useCapture);
   return () => {
-    dom.removeEventListener(eventName, fn);
+    dom.removeEventListener(eventName, handle);
   };
 };
 

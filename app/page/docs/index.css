@@ -72,3 +72,11 @@
   padding: 4px 0;
   display: block;
 }
+
+.docs-tags {
+  display: flex;
+}
+
+.docs-tags .Tag {
+  margin-right: 4px;
+}

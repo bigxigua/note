@@ -1,11 +1,12 @@
-import React, { useState, useCallback, useMemo } from 'react';
+import React, { useState, useCallback, useMemo, useEffect } from 'react';
 import Icon from '@common/icon';
 import AutoComplete from '@common/auto-complete';
-import { getIn, debunce, transformIpToDomain } from '@util/util';
+import { getIn, debunce, transformIpToDomain, addEventListener } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
 import './index.css';
 
 let curValue = '';
+let blurTimer = 0;
 
 const search = async (q, setOptions, setOpen) => {
   setOpen('loading');
@@ -66,7 +67,16 @@ export default function HeaderSearch({
     }
   }, []);
 
+  // useEffect(() => {
+  //   return addEventListener(document.body, 'click', (e) => {
+  //     setOpen(false);
+  //     console.log('--------', e.target, e.currentTarget);
+  //   });
+  //   // 绑定body的click事件，以隐藏下拉内容
+  // }, []);
   const onBlur = useCallback(() => {
+    clearTimeout(blurTimer);
+    blurTimer = setTimeout(() => { setOpen(false); }, 100);
   }, []);
 
   const prefixCls = $.trim(`header-search ${className}`);
@@ -75,11 +85,11 @@ export default function HeaderSearch({
       <Icon type="search" />
       <AutoComplete
         open={open}
+        onBlur={onBlur}
         placeholder="搜索文档或者空间"
         onChange={onSearchValueChange}
         onSelect={onSearchValueSelect}
-        onBlur={onBlur}
-        onFocus={() => { setOpen(true); }}
+        onFocus={() => { clearTimeout(blurTimer); setOpen(true); }}
         options={options} />
     </div>
   );
