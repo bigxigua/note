@@ -52,7 +52,7 @@ function onListItemClick({ key }, docInfo = {}, history) {
       setDocToTemplate({ html, title, url, docId: doc_id });
       break;
     case 'addindex':
-      addToShortcutEntry({ title, url, type: 'XIGUA_DOC' });
+      addToShortcutEntry({ title, url, type: 'XIGUA_DOC', signId: doc_id });
       break;
     default:
       break;

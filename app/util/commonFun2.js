@@ -101,9 +101,10 @@ export async function createDocByTemplate(spaceId, catalogInfo = {}) {
 export async function addToShortcutEntry({
   title = '', // 标题
   url = '', // 链接
+  signId = '',
   type = 'NORMAL'
 }) {
-  const [error, data] = await axiosInstance.post('create/shortcut', { title, url, type });
+  const [error, data] = await axiosInstance.post('create/shortcut', { title, url, type, signId });
   const success = Boolean(getIn(data, ['STATUS']) === 'OK');
   if (success) {
     message.success({ content: '添加成功' });

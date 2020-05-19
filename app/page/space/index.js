@@ -19,11 +19,11 @@ export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
 
   const onSettingItemClick = useCallback((info, spaceInfo) => {
-    console.log(info.key);
     const { name, space_id: spaceId } = spaceInfo;
     if (info.key === 'addindex') {
       addToShortcutEntry({
         title: name,
+        signId: spaceId,
         url: `${window.location.origin}/spacedetail?spaceId=${spaceId}`,
         type: 'XIGUA_SPACE'
       });

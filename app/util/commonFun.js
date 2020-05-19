@@ -296,10 +296,10 @@ export async function setDocToTemplate({
 }) {
   if (!html) {
     message.error({ content: '空文档不可以设置为模版' });
-    return;
+    return [];
   }
   if (isLoading) {
-    return;
+    return [];
   }
   isLoading = true;
   message.loading({ content: '正在设置,这可能会需要点时间...' });

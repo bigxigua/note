@@ -213,7 +213,7 @@ export default function Docs() {
         }));
       }
     } else if (key === 'addindex') {
-      addToShortcutEntry({ title, url, type: 'XIGUA_DOC' });
+      addToShortcutEntry({ title, url, type: 'XIGUA_DOC', signId: doc_id });
     }
   }, [dataSource]);
 

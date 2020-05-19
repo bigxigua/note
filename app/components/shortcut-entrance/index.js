@@ -74,6 +74,7 @@ export default function ShortcutEntrance({
     const [error, data] = await axiosInstance.post('create/shortcut', {
       title: entryName,
       url: entryUrl,
+      signId: entryName,
       type: getShortcutType(entryUrl)
     });
     if (data && data.STATUS === 'OK') {
