@@ -105,14 +105,15 @@ export default function CatalogDnd({
               {
                 dragLists.map((item, index) => {
                   const children = item.children;
-                  const docInfo = docs.find(n => n.doc_id === item.docId) || {};
-                  if (isEmptyObject(docInfo)) {
+                  const { docId } = item;
+                  const docInfo = docs.find(n => n.doc_id === docId) || {};
+                  if (isEmptyObject(docInfo) && docId !== 'NEW_DOC') {
                     return null;
                   }
                   return <Draggable
-                    key={item.docId}
+                    key={docId}
                     index={index}
-                    draggableId={item.docId}>
+                    draggableId={docId}>
                     {
                       (provided) => {
                         return <CatalogDndItem
@@ -128,7 +129,7 @@ export default function CatalogDnd({
                               ? <CatalogDnd
                                 docs={docs}
                                 dragLists={children}
-                                droppableId={item.docId} />
+                                droppableId={docId} />
                               : null
                           }
                         </CatalogDndItem>;

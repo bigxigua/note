@@ -4,7 +4,7 @@ import InsertCatalog from '@components/insert-catalog';
 import { catalogContext } from '@context/catalog-context';
 import Icon from '@common/icon';
 import List from '@common/list';
-import { getStyle, getOffsetImgClassName, exChange, checkMoveDisabled } from './function';
+import { getStyle, getOffsetImgClassName, exChange } from './function';
 import './index.css';
 
 const settingList = [{

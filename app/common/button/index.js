@@ -23,7 +23,6 @@ export default function Button(props) {
     onClick = () => { },
     style = {}
   } = props;
-
   // const { isMobile } = checkBrowser();
   const loadingClassName = loading ? 'button-loading' : '';
   const disabledClassName = disabled ? 'button-disabled' : '';

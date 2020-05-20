@@ -105,17 +105,6 @@
     }
 }
 
-/* 文章页面/article/ 隐藏右侧文章目录 */
-@media screen and (max-width: 1280px) {
-    .article_catalog {
-        display: none;
-    }
-
-    .article-preview {
-        width: calc(100% - 220px);
-    }
-}
-
 /* 文章页面/article/ 隐藏左侧目录 */
 @media screen and (max-width: 1000px) {
     .bookcatalog-wrapper {
@@ -123,7 +112,7 @@
     }
 
     .article-preview {
-        width: 100%;
+        width: calc(100% - 220px);
         margin-left: 0;
     }
 }

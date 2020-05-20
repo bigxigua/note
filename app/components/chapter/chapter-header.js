@@ -2,7 +2,6 @@ import React, { useContext, useCallback } from 'react';
 import Breadcrumb from '@common/breadcrumb';
 import Button from '@common/button';
 import Modal from '@common/modal';
-import CreateDocButtton from '@components/create-doc-button';
 import { parseUrlQuery, checkBrowser, getIn } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';
@@ -21,7 +20,6 @@ function onDeleteSpace(space, __history__) {
   } = space;
   Modal.confirm({
     title: '确认物理永久删除该空间吗？QAQ',
-    subTitle: '如果该空间下有文档，会被一并删除。且无法恢复，请慎重。',
     onOk: async () => {
       const [error, data] = await axiosInstance.post('spaces/delete', { space_id });
       if (error || getIn(data, ['STATUS']) !== 'OK') {
@@ -43,11 +41,38 @@ function onDeleteSpace(space, __history__) {
   });
 }
 
+function ActionButtons({
+  type,
+  spaceId,
+  catalog,
+  onUpdateCatalog
+}) {
+  if (isMobile) {
+    return null;
+  } else if (type.toLocaleLowerCase() === 'toc') {
+    return <Button
+      content="更新"
+      style={{ marginLeft: '20px' }}
+      onClick={onUpdateCatalog}
+      type="primary" />;
+  } else {
+    return <Button
+      content="编排目录"
+      style={{ marginLeft: '20px' }}
+      link={{
+        to: `/spacedetail?spaceId=${spaceId}&type=toc`,
+        target: 'blank'
+      }}
+      disabled={catalog.length < 2}>
+    </Button>;
+  }
+}
+
 export default function ChapterHeader({
   userInfo = {},
   space = {}
 }) {
-  const { info: { catalog } } = useContext(catalogContext);
+  const { info: { catalog }, updateCatalog } = useContext(catalogContext);
   const history = useHistory();
   const { pathname, search } = window.location;
   const { type = '', spaceId = '' } = parseUrlQuery();
@@ -69,43 +94,24 @@ export default function ChapterHeader({
   }
 
   // 点击更新编排后的文档
-  const onUpdateCatalog = useCallback(async ({ spaceId, catalog }) => {
+  const onUpdateCatalog = useCallback(async () => {
     const [error, data] = await updateCatalogService({ spaceId, catalog });
     if (data && data.STATUS === 'OK') {
       window.location.href = `/spacedetail?spaceId=${spaceId}`;
-      // history.push(`/spacedetail?spaceId=${spaceId}`);
     } else {
       message.error({ content: getIn(error, ['message'], '更新文档失败') });
     }
-  }, []);
+  }, [spaceId, catalog]);
 
-  function renderActionButton() {
-    if (isMobile) {
-      return null;
-    } else if (type.toLocaleLowerCase() === 'toc') {
-      return <Button
-        content="更新"
-        disabled={false}
-        style={{ marginLeft: '20px' }}
-        onClick={() => onUpdateCatalog({
-          spaceId,
-          catalog
-        })}
-        type="primary" />;
-    } else {
-      return <Button
-        content="编排目录"
-        style={{ marginLeft: '20px' }}
-        link={{
-          to: `/spacedetail?spaceId=${spaceId}&type=toc`,
-          target: 'blank'
-        }}
-        disabled={catalog.length < 2}>
-      </Button>;
-    }
-  }
+  // 新建文档
+  const onCreate = useCallback(() => {
+    const data = catalog.slice(0);
+    data.splice(1, 0, { type: 'DOC', level: 0, status: '1', docId: 'NEW_DOC' });
+    updateCatalog({ catalog: data });
+  }, [catalog]);
 
   const claseses = $.trim(`chapter-header ${isMobile ? 'chapter-header__mobile' : ''}`);
+  const isEmptySpace = !catalog.length || (catalog.length === 1 && catalog[0].type === 'META');
 
   return <div className={claseses}>
     <Breadcrumb crumbs={crumbs} />
@@ -113,12 +119,20 @@ export default function ChapterHeader({
       <Button
         content="删除"
         type="danger"
+        disabled={!isEmptySpace}
         style={{ marginRight: '20px' }}
         onClick={() => {
           onDeleteSpace(space, history);
         }} />
-      <CreateDocButtton spaceId={spaceId} />
-      {renderActionButton()}
+      <Button
+        content="新建"
+        disabled={type !== 'toc'}
+        onClick={onCreate} />
+      <ActionButtons
+        type={type}
+        spaceId={spaceId}
+        catalog={catalog}
+        onUpdateCatalog={onUpdateCatalog} />
     </div>
   </div>;
 }
