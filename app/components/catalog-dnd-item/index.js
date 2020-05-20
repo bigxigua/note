@@ -2,6 +2,7 @@ import React, { useCallback, useState, useContext } from 'react';
 import Popover from '@components/popover';
 import InsertCatalog from '@components/insert-catalog';
 import { catalogContext } from '@context/catalog-context';
+import EmptyDocContent from './empty-doc-content.js';
 import Icon from '@common/icon';
 import List from '@common/list';
 import { getStyle, getOffsetImgClassName, exChange } from './function';
@@ -102,6 +103,8 @@ export default function CatalogDndItem({
   let classes = `catalog-item catalog-item_${curCatalogInfo.docId}`;
   classes += childrenLen ? ' catalog-item__folder' : '';
   classes += `${docInfo.status === '0' ? ' chapter-item__disabled' : ''}`;
+  const isCreateDoc = curCatalogInfo.docId === 'NEW_DOC';
+
   return (
     <>
       <div className={classes}
@@ -112,32 +115,35 @@ export default function CatalogDndItem({
         style={getStyle(provided.draggableProps.style, curCatalogInfo)}
       >
         {childrenLen ? <div className="catalog-item__right-border"></div> : null}
-        <div className="catalog-content">
-          <div className="flex">
-            {children && <Icon type="caret-down" />}
-            {docInfo.title}
-          </div>
-          <div className="chapter-item__info">
-            <div className="chapter-item__move">
-              <img src="/images/left.svg"
-                onClick={onOffsetLeft}
-                className={getOffsetImgClassName(curCatalogInfo, index, 'left')}
-                title="左移" />
-              <img src="/images/left.svg"
-                onClick={onOffsetRight}
-                className={getOffsetImgClassName(curCatalogInfo, index, 'right')}
-                title="右移" />
+        {
+          isCreateDoc ? <EmptyDocContent />
+            : <div className="catalog-content">
+              <div className="flex">
+                {children && <Icon type="caret-down" />}
+                {docInfo.title}
+              </div>
+              <div className="chapter-item__info">
+                <div className="chapter-item__move">
+                  <img src="/images/left.svg"
+                    onClick={onOffsetLeft}
+                    className={getOffsetImgClassName(curCatalogInfo, index, 'left')}
+                    title="左移" />
+                  <img src="/images/left.svg"
+                    onClick={onOffsetRight}
+                    className={getOffsetImgClassName(curCatalogInfo, index, 'right')}
+                    title="右移" />
+                </div>
+                <span>何时更新</span>
+                <Popover
+                  className="chapter-item__setting"
+                  content={<List
+                    onTap={onPopoverItemClick}
+                    list={settings} />}>
+                  <Icon type="ellipsis" />
+                </Popover>
+              </div>
             </div>
-            <span>何时更新</span>
-            <Popover
-              className="chapter-item__setting"
-              content={<List
-                onTap={onPopoverItemClick}
-                list={settings} />}>
-              <Icon type="ellipsis" />
-            </Popover>
-          </div>
-        </div>
+        }
         {children || null}
       </div>
       <InsertCatalog

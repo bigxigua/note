@@ -24,6 +24,8 @@ export default function ChapterWrapper({
   useEffect(() => {
     try {
       const d = JSON.parse(spaceInfo.space.catalog);
+      d[1].docId = 'NEW_DOC';
+      console.log(d);
       updateCatalog({ catalog: d, docs: spaceInfo.docs });
       setCatalog(d);
     } catch (error) {

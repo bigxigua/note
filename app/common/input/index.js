@@ -9,12 +9,14 @@ export default function Input(props) {
     addonBefore, // 前置元素
     addonAfter, // 后置元素
     defaultValue, // 默认value
+    defaultFocus = false, // 是否默认focus
     type = 'text',
     autocomplete = 'off',
     placeholder = '',
     maxLength = 100,
     onChange = () => { },
     onFocus = () => { },
+    onBlur = () => { },
     className = '',
     style = {},
     rows = '3',
@@ -23,6 +25,7 @@ export default function Input(props) {
   const [value, setValue] = useState(defaultValue);
   const [classes, setClassName] = useState('input-wrapper flex ');
   const textArea = useRef(null);
+  const inputRef = useRef(null);
 
   const _onChange_ = (e) => {
     setValue(e.currentTarget.value);
@@ -45,6 +48,14 @@ export default function Input(props) {
     setTextAreaAutoHeight(textArea.current, 10);
   }, [defaultValue]);
 
+  useEffect(() => {
+    if (defaultFocus) {
+      setTimeout(() => {
+        type === 'textarea' ? textArea.current.focus() : inputRef.current.focus();
+      }, 0);
+    }
+  }, []);
+
   return (
     <div className={$.trim(`${classes} ${className}`)}
       style={{
@@ -56,12 +67,14 @@ export default function Input(props) {
       {
         type !== 'textarea' &&
         <input
+          ref={inputRef}
           autoComplete={autocomplete}
           type={type}
           placeholder={placeholder}
           maxLength={maxLength}
           value={value || ''}
           onFocus={onFocus}
+          onBlur={onBlur}
           onChange={_onChange_} />
       }
       {
@@ -74,6 +87,7 @@ export default function Input(props) {
           maxLength={maxLength}
           value={value || ''}
           onFocus={onFocus}
+          onBlur={onBlur}
           onChange={_onChange_} />
       }
       {addonAfter && <span className="Input_addonAfter">{addonAfter}</span>}

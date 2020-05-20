@@ -99,3 +99,54 @@
 .chapter-item__move-disabled {
   display: none;
 }
+
+.catalog-content__create {
+  padding: 0;
+  border: none;
+  background: transparent;
+  border-radius: 4px;
+}
+
+.catalog-content__create>.flex>.Icon {
+  top: 0;
+}
+
+.catalog-content__create:hover {
+  box-shadow: 0 0 0 2px rgba(37, 184, 100, .2);
+}
+
+.catalog-content__input {
+  border: 1px solid #47c479;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-right: none;
+}
+
+.catalog-content__input:hover {
+  box-shadow: none;
+  border-right: none;
+}
+
+.catalog-content__select {
+  border: 1px solid #47c479;
+  width: 20%;
+  height: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  border-left: none;
+  position: relative;
+}
+
+.catalog-content__select:after {
+  content: '';
+  position: absolute;
+  left: 0;
+  width: 1px;
+  height: 80%;
+  background: #47c479;
+}
+
+.catalog-content__select:hover {
+  box-shadow: none;
+  border-left: none;
+}
