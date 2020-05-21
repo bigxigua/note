@@ -42,7 +42,7 @@ export default function Login() {
   // TODO 如果从注册切到登陆时returnUrl的问题
   const isLoginPage = window.location.pathname === '/login';
   const { returnUrl = '' } = parseUrlQuery();
-  const [state, setState] = useState({ account: '大西瓜的笔记', password: '18856152575' });
+  const [state, setState] = useState({ account: '', password: '' });
   const [logo, setLogo] = useState('/images/pikachu_front.svg');
   const [errorInfo, setErrorInfo] = useState({
     accountErrorMsg: '',
@@ -74,9 +74,8 @@ export default function Login() {
   // 验证用户输入
   const onVerifyInput = useCallback(({ account, password }) => {
     const errorInfo = {};
-    // return '1111';
-    if (!account || account.length < 5) {
-      errorInfo.accountErrorMsg = '请输入正确帐号格式，至少 5 位';
+    if (!account || !account.length) {
+      errorInfo.accountErrorMsg = '请输入正确帐号格式';
     }
     if (!password || password.length < 6) {
       errorInfo.passwordErrorMsg = '请输入正确密码格式，至少 6 位';
