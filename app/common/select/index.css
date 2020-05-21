@@ -1,9 +1,9 @@
-.Select{
+.Select {
   justify-content: space-between;
   position: relative;
   width: 200px;
   height: 32px;
-  color: rgba(0,0,0,0.65);
+  color: rgba(0, 0, 0, 0.65);
   font-size: 14px;
   border: 1px solid #d9d9d9;
   transition: all .3s;
@@ -12,15 +12,22 @@
   padding: 0 10px;
   cursor: pointer;
 }
-.Select:hover{
+
+.Select:hover {
   border: 1px solid #47c479;
   outline: 0;
   box-shadow: 0 0 0 2px rgba(37, 184, 100, .2);
 }
-.select_arrow{
+
+.select_arrow {
   transform: rotate(90deg);
 }
-.select_options{
+
+.Select>span {
+  flex-shrink: 0;
+}
+
+.select_options {
   position: fixed;
   z-index: 1000;
   transform: translateZ(0px);
@@ -30,16 +37,18 @@
   border-radius: 4px;
   outline: none;
   margin-top: 4px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.15);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, .15);
   padding: 4px 0;
   display: none;
 }
-.select_options_show{
+
+.select_options_show {
   display: block;
   animation-name: fadeInUp;
   animation-duration: 200ms;
 }
-.select_option{
+
+.select_option {
   padding: 5px 12px;
   color: #595959;
   font-weight: 400;
@@ -48,14 +57,17 @@
   cursor: pointer;
   transition: background .3s ease;
 }
-.select_option:hover{
+
+.select_option:hover {
   background-color: #e9f7ec;
 }
-.select_option_selected{
+
+.select_option_selected {
   color: #595959;
   font-weight: 600;
   /* background-color: #e9f7ec; */
 }
-.select_placeholder{
+
+.select_placeholder {
   color: #bfbfbf;
 }

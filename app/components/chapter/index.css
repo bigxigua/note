@@ -122,4 +122,5 @@
 
 .chapter-toc {
   position: relative;
+  min-height: 600px;
 }

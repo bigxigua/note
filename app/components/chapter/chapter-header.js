@@ -62,8 +62,7 @@ function ActionButtons({
       link={{
         to: `/spacedetail?spaceId=${spaceId}&type=toc`,
         target: 'blank'
-      }}
-      disabled={catalog.length < 2}>
+      }}>
     </Button>;
   }
 }

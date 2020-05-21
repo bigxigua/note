@@ -19,6 +19,7 @@
 
 .catalog-item__selected {
   position: relative;
+  cursor: initial;
 }
 
 .catalog-item__selected::after {
@@ -131,10 +132,11 @@
   border: 1px solid #47c479;
   width: 20%;
   height: 100%;
-  border-top-left-radius: 0;
-  border-bottom-left-radius: 0;
+  border-radius: 0;
   border-left: none;
   position: relative;
+  border-right: none;
+  flex-shrink: 0;
 }
 
 .catalog-content__select:after {
@@ -149,4 +151,11 @@
 .catalog-content__select:hover {
   box-shadow: none;
   border-left: none;
+}
+
+.catalog-content__create-button {
+  height: 100%;
+  border-top-left-radius: 0;
+  border-bottom-left-radius: 0;
+  flex-shrink: 0;
 }

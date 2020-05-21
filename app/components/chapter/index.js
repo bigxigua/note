@@ -1,4 +1,4 @@
-import React, { useReducer, useEffect, useState } from 'react';
+import React, { useReducer, useEffect } from 'react';
 import Chapter from './chapter';
 import ChapterHeader from './chapter-header';
 import Catalog from './catalog';
@@ -11,7 +11,6 @@ export default function ChapterWrapper({
   userInfo = {}
 }) {
   const [state, dispatch] = useReducer(catalogReducer, initialState);
-  const [catalog, setCatalog] = useState(null);
   const { type = '' } = parseUrlQuery();
 
   const updateCatalog = (payload) => {
@@ -23,11 +22,8 @@ export default function ChapterWrapper({
 
   useEffect(() => {
     try {
-      const d = JSON.parse(spaceInfo.space.catalog);
-      d[1].docId = 'NEW_DOC';
-      console.log(d);
-      updateCatalog({ catalog: d, docs: spaceInfo.docs });
-      setCatalog(d);
+      const catalog = JSON.parse(spaceInfo.space.catalog);
+      updateCatalog({ catalog, docs: spaceInfo.docs });
     } catch (error) {
     }
   }, [spaceInfo.space]);
@@ -60,9 +56,7 @@ export default function ChapterWrapper({
         {
           type.toLocaleLowerCase() === 'toc'
             ? <Chapter />
-            : <Catalog
-              catalog={catalog}
-              docs={spaceInfo.docs} />
+            : <Catalog />
         }
       </div>
     </catalogContext.Provider>

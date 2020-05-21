@@ -45,6 +45,8 @@ export async function physicalDeletion({ docId, spaceId } = {}) {
 }
 
 // 创建文档接口调用
+// catalogInfo = {folderDocId, level}
+// folderDocId为对应结构化catalog就是当前新增目录的上一个目录的docId
 export async function createNewDoc(info, callback = () => { }) {
   const { space_id: spaceId, scene = 'doc', title = '无标题', html = '', catalogInfo = {} } = info;
   const [error, data] = await axiosInstance.post('create/doc', {
