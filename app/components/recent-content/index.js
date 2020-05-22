@@ -22,17 +22,20 @@ const typeMap = {
     img: '/images/add_file.png',
     text: '创建了文档',
     action: ['edit'],
+    iconStyle: { width: '26px' },
     key: 'doc'
   },
   UpdateEdit: {
     img: '/images/update.png',
     text: '更新了文档',
     action: ['edit'],
+    iconStyle: { width: '24px' },
     key: 'doc'
   },
   PhysicalDeleteEdit: {
     img: '/images/file_delete.svg',
     text: '彻底删除了文档',
+    iconStyle: { width: '30px' },
     key: 'doc'
   },
   LogicalDeleteEdit: {
