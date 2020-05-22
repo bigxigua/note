@@ -2,9 +2,10 @@ import React, { useCallback, useState, useContext } from 'react';
 import Popover from '@components/popover';
 import InsertCatalog from '@components/insert-catalog';
 import { catalogContext } from '@context/catalog-context';
-import EmptyDocContent from './empty-doc-content.js';
+import CreateInputContent from './create-input-content';
 import Icon from '@common/icon';
 import List from '@common/list';
+// import { getSubs } from '@util/commonFun';
 import { getStyle, getOffsetImgClassName, exChange } from './function';
 import './index.css';
 
@@ -64,7 +65,7 @@ export default function CatalogDndItem({
         const curIndex = catalog.findIndex(n => n.docId === curCatalogInfo.docId);
         // eslint-disable-next-line
         const tempCatalog = catalog.slice(0);
-        tempCatalog.splice(curIndex + 1, 0, { type: 'DOC', level: curCatalogInfo.level + 1, status: '1', docId: 'NEW_DOC' });
+        tempCatalog.splice(curIndex + 1, 0, { type: 'DOC', level: curCatalogInfo.level + 1, status: '1', docId: `NEW_DOC_${catalog.length}` });
         updateCatalog({ catalog: tempCatalog });
         break;
       case 'move': {
@@ -94,7 +95,7 @@ export default function CatalogDndItem({
 
   // 目录项被点击选中，用来做插入标记
   const onCatalogItemClick = useCallback((e) => {
-    if (curCatalogInfo.docId === 'NEW_DOC') {
+    if (/NEW_DOC/.test(curCatalogInfo.docId)) {
       return;
     }
     e.stopPropagation();
@@ -103,12 +104,12 @@ export default function CatalogDndItem({
     $(`.catalog-item:not(${currentClass})`).removeClass('catalog-item__selected');
     $(currentClass).toggleClass('catalog-item__selected');
     selectedCatalog = curCatalogInfo;
-  }, [curCatalogInfo]);
+  }, [curCatalogInfo, catalog]);
 
   let classes = `catalog-item catalog-item_${curCatalogInfo.docId}`;
   classes += childrenLen ? ' catalog-item__folder' : '';
   classes += `${docInfo.status === '0' ? ' chapter-item__disabled' : ''}`;
-  const isCreateDoc = curCatalogInfo.docId === 'NEW_DOC';
+  const isCreateDoc = /NEW_DOC/.test(curCatalogInfo.docId);
 
   return (
     <>
@@ -121,11 +122,12 @@ export default function CatalogDndItem({
       >
         {childrenLen ? <div className="catalog-item__right-border"></div> : null}
         {
-          isCreateDoc ? <EmptyDocContent level={curCatalogInfo.level} />
+          isCreateDoc ? <CreateInputContent id={curCatalogInfo.docId}
+            level={curCatalogInfo.level} />
             : <div className="catalog-content">
               <div className="flex">
                 {children && <Icon type="caret-down" />}
-                {docInfo.title}
+                {docInfo.title}-{docInfo.doc_id}
               </div>
               <div className="chapter-item__info">
                 <div className="chapter-item__move">

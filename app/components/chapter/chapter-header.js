@@ -92,7 +92,7 @@ export default function ChapterHeader({
     });
   }
 
-  // 点击更新编排后的文档
+  // 更新
   const onUpdateCatalog = useCallback(async () => {
     const [error, data] = await updateCatalogService({ spaceId, catalog });
     if (data && data.STATUS === 'OK') {
@@ -105,7 +105,7 @@ export default function ChapterHeader({
   // 新建文档
   const onCreate = useCallback(() => {
     const data = catalog.slice(0);
-    data.splice(1, 0, { type: 'DOC', level: 0, status: '1', docId: 'NEW_DOC' });
+    data.splice(1, 0, { type: 'DOC', level: 0, status: '1', docId: `NEW_DOC_${catalog}` });
     updateCatalog({ catalog: data });
   }, [catalog]);
 

@@ -107,7 +107,7 @@ export default function CatalogDnd({
                   const children = item.children;
                   const { docId } = item;
                   const docInfo = docs.find(n => n.doc_id === docId) || {};
-                  if (isEmptyObject(docInfo) && docId !== 'NEW_DOC') {
+                  if (isEmptyObject(docInfo) && !/NEW_DOC/.test(docId)) {
                     return null;
                   }
                   return <Draggable
