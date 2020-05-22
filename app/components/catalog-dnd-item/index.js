@@ -127,7 +127,7 @@ export default function CatalogDndItem({
             : <div className="catalog-content">
               <div className="flex">
                 {children && <Icon type="caret-down" />}
-                {docInfo.title}-{docInfo.doc_id}
+                {docInfo.title}
               </div>
               <div className="chapter-item__info">
                 <div className="chapter-item__move">
