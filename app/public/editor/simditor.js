@@ -3647,7 +3647,19 @@
     };
 
     ColorButton.prototype.renderMenu = function () {
-      $('<ul class="color-list">\n  <li><a href="javascript:;" class="font-color font-color-1"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-2"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-3"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-4"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-5"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-6"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-7"></a></li>\n  <li><a href="javascript:;" class="font-color font-color-default"></a></li>\n</ul>').appendTo(this.menuWrapper);
+      const colors = [
+        "rgb(0, 0, 0)", "rgb(38, 38, 38)", "rgb(89, 89, 89)", "rgb(140, 140, 140)", "rgb(191, 191, 191)", "rgb(217, 217, 217)", "rgb(233, 233, 233)", "rgb(245, 245, 245)", "rgb(250, 250, 250)", "rgb(255, 255, 255)",
+        "rgb(245, 34, 45)", "rgb(250, 84, 28)", "rgb(250, 140, 22)", "rgb(250, 219, 20)", "rgb(82, 196, 26)", "rgb(19, 194, 194)", "rgb(24, 144, 255)", "rgb(47, 84, 235)", "rgb(114, 46, 209)", "rgb(235, 47, 150)",
+        "rgb(255, 163, 158)", "rgb(255, 187, 150)", "rgb(255, 213, 145)", "rgb(255, 240, 143)", "rgb(183, 235, 143)", "rgb(135, 232, 222)", "rgb(145, 213, 255)", "rgb(173, 198, 255)", "rgb(211, 173, 247)", "rgb(255, 173, 210)",
+        "rgb(255, 77, 79)", "rgb(255, 122, 69)", "rgb(255, 169, 64)", "rgb(255, 236, 61)", "rgb(115, 209, 61)", "rgb(54, 207, 201)", "rgb(64, 169, 255)", "rgb(89, 126, 247)", "rgb(146, 84, 222)", "rgb(247, 89, 171)",
+        "rgb(207, 19, 34)", "rgb(212, 56, 13)", "rgb(212, 107, 8)", "rgb(212, 177, 6)", "rgb(56, 158, 13)", "rgb(8, 151, 156)", "rgb(9, 109, 217)", "rgb(29, 57, 196)", "rgb(83, 29, 171)", "rgb(196, 29, 127)",
+        "rgb(130, 0, 20)", "rgb(135, 20, 0)", "rgb(135, 56, 0)", "rgb(97, 71, 0)", "rgb(19, 82, 0)", "rgb(0, 71, 79)", "rgb(0, 58, 140)", "rgb(6, 17, 120)", "rgb(34, 7, 94)", "rgb(120, 6, 80)",
+      ];
+      const lis = colors.reduce((p, v) => {
+        p += `<li><a href="javascript:;" class="font-color" style="background-color: ${v};"></a></li>\n`;
+        return p;
+      }, '');
+      $(`<ul class="color-list">\n${lis}\n</ul>`).appendTo(this.menuWrapper);
       this.menuWrapper.on('mousedown', '.color-list', function (e) {
         return false;
       });

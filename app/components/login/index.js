@@ -116,7 +116,6 @@ export default function Login() {
         <h2 className="login-subtitle">{text.subTitle}</h2>
         <Input
           style={{ marginBottom: '16px' }}
-          defaultValue="大西瓜的笔记"
           onFocus={() => { setLogo('/images/pikachu_front.svg'); }}
           onChange={(e) => { onChange('account', e); }}
           addonBefore={<Icon type="user" />} />
@@ -125,7 +124,6 @@ export default function Login() {
         )}
         <Input
           style={{ marginBottom: '16px' }}
-          defaultValue="18856152575"
           addonBefore={<Icon type="lock" />}
           onFocus={() => { setLogo('/images/pikachu.svg'); }}
           onChange={(e) => { onChange('password', e); }}

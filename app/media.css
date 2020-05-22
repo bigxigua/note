@@ -41,21 +41,25 @@
     }
 }
 
-@media screen and (max-width: 490px) {
-    .header-search {
+
+@media screen and (max-width: 1338px) {
+    .Editormd_Wrapper>.article-catalog-wrapper>.catalog-title {
+        padding-bottom: 23px;
+        padding-top: 34px;
+        line-height: normal;
+        height: auto;
+    }
+}
+
+/* 文章页面/article/ 隐藏左侧目录 */
+@media screen and (max-width: 1000px) {
+    .bookcatalog-wrapper {
         display: none;
     }
 
-    .header-right>.popover-wrapper {
-        margin-right: 20px;
-    }
-
-    .Footer_Wrapper>.Footer_Wrapper_Tip {
-        flex-direction: column;
-    }
-
-    .Footer_Wrapper>.Footer_Wrapper_Tip>div>img {
-        width: 30px;
+    .article-preview {
+        width: calc(100% - 220px);
+        margin-left: 0;
     }
 }
 
@@ -85,6 +89,26 @@
 
 }
 
+
+@media screen and (max-width: 490px) {
+    .header-search {
+        display: none;
+    }
+
+    .header-right>.popover-wrapper {
+        margin-right: 20px;
+    }
+
+    .Footer_Wrapper>.Footer_Wrapper_Tip {
+        flex-direction: column;
+    }
+
+    .Footer_Wrapper>.Footer_Wrapper_Tip>div>img {
+        width: 30px;
+    }
+}
+
+
 /* 450以下为mobile */
 @media screen and (max-width: 450px) {
     .Spacbookcatalog-wrappere_Operation_Icon {
@@ -92,27 +116,6 @@
     }
 
     .header-title {
-        margin-left: 0;
-    }
-}
-
-@media screen and (max-width: 1338px) {
-    .Editormd_Wrapper>.article-catalog-wrapper>.catalog-title {
-        padding-bottom: 23px;
-        padding-top: 34px;
-        line-height: normal;
-        height: auto;
-    }
-}
-
-/* 文章页面/article/ 隐藏左侧目录 */
-@media screen and (max-width: 1000px) {
-    .bookcatalog-wrapper {
-        display: none;
-    }
-
-    .article-preview {
-        width: calc(100% - 220px);
         margin-left: 0;
     }
 }

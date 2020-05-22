@@ -498,14 +498,14 @@
 }
 
 .simditor-toolbar .toolbar-menu.toolbar-menu-color {
-  width: 96px;
+  width: 220px;
+  padding: 10px;
 }
 
 .simditor-toolbar .toolbar-menu.toolbar-menu-color .color-list {
-  height: 40px;
-  margin: 10px 6px 6px 10px;
   padding: 0;
   min-width: 0;
+  overflow: hidden;
 }
 
 .simditor-toolbar .toolbar-menu.toolbar-menu-color .color-list li {
