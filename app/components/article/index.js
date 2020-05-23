@@ -99,6 +99,8 @@ export default function Article({ docInfo = {}, share = false }) {
     const html = getHtml(docInfo, content);
     $('.article-html').html(String(html));
     setTimeout(() => {
+      // 给table包裹一层div
+      $('.article-html').find('table').wrap($('<div class="article-html__tablebox"></div>'));
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
       scrollToElement();
       onScroll(html);

@@ -150,8 +150,12 @@
   border-bottom-right-radius: 5px;
 }
 
-.article-html table {
+.article-html__tablebox {
   width: 100%;
+  overflow-x: scroll;
+}
+
+.article-html table {
   table-layout: fixed;
   border-collapse: collapse;
   border-spacing: 0;

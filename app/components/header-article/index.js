@@ -158,7 +158,7 @@ export default function ArticleHeader({
   }, [docId, shareStatus, isFetching]);
 
   function ShareButtons() {
-    if (!isArticlePage) {
+    if (!isArticlePage || isMobile) {
       return null;
     }
     return <div className="article-header__buttons">
