@@ -16,8 +16,6 @@ export default function VerifiRoute(props) {
   const { pathname } = useLocation();
   const { userInfo, updateUserInfo } = useContext(userContext);
 
-  console.log(pathname);
-
   const init = useCallback(async () => {
     const match = matchPath(pathname, props.pathname);
     document.title = props.title;

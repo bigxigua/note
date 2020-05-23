@@ -40,7 +40,6 @@ const deleteTemplate = async function (info = {}) {
   const [error, data] = await axiosInstance.post('delete/template', {
     templateId
   });
-  console.log(info);
   const isDeleteSuccess = getIn(data, ['STATUS']) === 'OK';
   if (isDeleteSuccess) {
     message.success({ content: `成功删除模版：${info.title}` });

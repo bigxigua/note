@@ -143,7 +143,6 @@ export default function ArticleHeader({
     }
     if (isFetching) { return; }
     setFetching(true);
-    console.log(share, shareStatus);
     const result = await toggleShare({ share, docId });
     setFetching(false);
     setShareStatus(share);
