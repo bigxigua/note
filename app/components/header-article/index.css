@@ -149,3 +149,21 @@
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }
+
+.article-header__buttons {
+    margin-right: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.article-header__buttons-shareing {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+    border-right: none;
+}
+
+.article-header__buttons-cancle {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    padding: 0px 6px;
+}

@@ -86,7 +86,9 @@ function scrollToElement() {
   }, 400);
 }
 
-export default function Article({ docInfo = {} }) {
+// docInfo 文档信息
+// share 是否是分享页面
+export default function Article({ docInfo = {}, share = false }) {
   if (!docInfo || !docInfo.doc_id) {
     return <Icon type="loading" />;
   }
@@ -110,11 +112,11 @@ export default function Article({ docInfo = {} }) {
 
   return (
     <div className="article-wrapper">
-      <SpaceCatalog />
+      {!share && <SpaceCatalog />}
       <div
         className={$.trim(classes)}>
 
-        <DraftTips docInfo={docInfo} />
+        {!share && <DraftTips docInfo={docInfo} />}
 
         <h1 className={titleClasses}>{title || '未设置标题'}</h1>
 

@@ -114,6 +114,10 @@ export default function ArticleHeader({
     });
   }, [editor]);
 
+  useEffect(() => {
+    setShareStatus(docInfo.is_share);
+  }, [docInfo]);
+
   const crumbs = [{
     text: '文档',
     pathname: '/docs'
@@ -126,10 +130,20 @@ export default function ArticleHeader({
   }];
 
   // 文档开启分享
-  const onShare = useCallback(async () => {
+  const onShare = useCallback(async (share) => {
+    if (share === shareStatus /* copy */) {
+      Modal.confirm({
+        title: '文档已分享',
+        subTitle: '可复制下面链接进行访问',
+        top: '200px',
+        content: <ShareLink docId={docId} />,
+        footer: 'none'
+      });
+      return;
+    }
     if (isFetching) { return; }
     setFetching(true);
-    const share = shareStatus === '0' ? '1' : '0';
+    console.log(share, shareStatus);
     const result = await toggleShare({ share, docId });
     setFetching(false);
     setShareStatus(share);
@@ -143,6 +157,27 @@ export default function ArticleHeader({
       });
     }
   }, [docId, shareStatus, isFetching]);
+
+  function ShareButtons() {
+    if (!isArticlePage) {
+      return null;
+    }
+    return <div className="article-header__buttons">
+      <Button
+        disabled={isFetching}
+        loading={isFetching}
+        onClick={() => { onShare('1'); }}
+        className={shareStatus === '1' ? 'article-header__buttons-shareing' : ''}
+        type={shareStatus === '1' ? 'primary' : 'default'}
+        content={shareStatus === '1' ? '分享中' : '分享'} />
+      {shareStatus === '1' && <Button
+        disabled={isFetching}
+        onClick={() => { onShare('0'); }}
+        className="article-header__buttons-cancle"
+        loading={isFetching}
+        content="取消" />}
+    </div>;
+  }
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
@@ -161,11 +196,7 @@ export default function ArticleHeader({
           </div>
         </div>
         <div className="article-header_right">
-          {isArticlePage && <Button
-            disabled={isFetching}
-            loading={isFetching}
-            style={{ marginRight: '10px' }}
-            onClick={onShare}>{shareStatus === '1' ? '分享中' : '分享'}</Button>}
+          <ShareButtons />
           {isArticlePage && <div className="article-header__edit flex">
             <Button
               type="primary"

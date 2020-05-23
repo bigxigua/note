@@ -17,6 +17,7 @@ import EditorState from '@context/editor/editorState';
 import VerifiRoute from '@components/verifi-route';
 import Index from '@page/index';
 import Article from '@page/article';
+import Share from '@page/share';
 import Login from '@page/login';
 import Simditor from '@page/simditor';
 import New from '@page/new';
@@ -60,6 +61,10 @@ class App extends React.Component {
             <Route
               path="/simditor/:id"
               component={PageWrapper(Simditor, '/simditor/:id', '文档 · Simditor')}
+            />
+            <Route
+              path="/share/:id"
+              component={PageWrapper(Share, '/share/:id', '文档 · 西瓜笔记')}
             />
             <Route
               path="/article/:id"

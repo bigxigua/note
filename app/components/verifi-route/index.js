@@ -16,6 +16,8 @@ export default function VerifiRoute(props) {
   const { pathname } = useLocation();
   const { userInfo, updateUserInfo } = useContext(userContext);
 
+  console.log(pathname);
+
   const init = useCallback(async () => {
     const match = matchPath(pathname, props.pathname);
     document.title = props.title;
@@ -42,7 +44,8 @@ export default function VerifiRoute(props) {
 
   if (!state) return null;
 
-  if (!state.isLogin) {
+  // 分享页面无需重定向登陆
+  if (!state.isLogin && !/\/share\//.test(pathname)) {
     return <Redirect to={{
       pathname: '/login',
       search: `?returnUrl=${state.currentLocation}`
