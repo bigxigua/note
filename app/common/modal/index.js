@@ -19,6 +19,7 @@ const loop = () => { };
   * @param {boolean} closable -  是否显示右上角的关闭按钮
   * @param {ReactNode} closeIcon -  自定义关闭图标
   * @param {string|number} width - Modal宽度
+  * @param {string} top - Modal距离顶部高度
   * @param {string} title - 标题
   * @param {string} subTitle - 子标题
   * @param {ReactNode} footer - 底部内容，当不需要默认底部按钮时，可以设为 footer={'none'}
@@ -34,6 +35,7 @@ export default function Modal({
   wrapClassName = '',
   visible = false,
   width = 520,
+  top = '50%',
   onCancel = loop,
   onConfirm = loop,
   title = '',
@@ -108,13 +110,17 @@ export default function Modal({
   classes += `${mask ? 'modal-mask__bg' : ''} `;
   classes += `${visible ? 'modal-show' : ''} `;
 
+  const _top_ = top || '50%';
+
   return ReactDOM.createPortal(
     (<div
       className={$.trim(classes)}
       ref={modalRef}>
       <div className={$.trim(`modal ${wrapClassName}`)}
         style={{
-          width: w
+          width: w,
+          top: _top_,
+          transform: `translateX(-50%) translateY(-${_top_ === '50%' ? '50%' : 0})`
         }}>
         <div className="modal-header">
           <span>{title}</span>
@@ -126,7 +132,7 @@ export default function Modal({
         </div>
         {footerJsx}
       </div>
-    </div>)
+    </div >)
     , document.body);
 };
 

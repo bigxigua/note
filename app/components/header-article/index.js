@@ -1,7 +1,10 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import Icon from '@common/icon';
 import Button from '@common/button';
-
+import Input from '@common/input';
+import Modal from '@common/modal';
+import useMessage from '@hooks/use-message';
 import Breadcrumb from '@common/breadcrumb';
 import { Link, useHistory } from 'react-router-dom';
 import List from '@common/list';
@@ -10,10 +13,11 @@ import editorContext from '@context/editor/editorContext';
 import useSaveContent from '@hooks/use-save-content';
 import { formatTimeStamp, parseUrlQuery, getIn, checkBrowser } from '@util/util';
 import { deleteDoc, setDocToTemplate } from '@util/commonFun';
-import { addToShortcutEntry } from '@util/commonFun2';
+import { addToShortcutEntry, toggleShare } from '@util/commonFun2';
 import './index.css';
 
 const { isMobile } = checkBrowser();
+const message = useMessage();
 
 const settingList = [{
   text: '删除',
@@ -65,13 +69,38 @@ function Setting({ docInfo, history }) {
     list={settingList}></List>;
 }
 
+function ShareLink({ docId }) {
+  const link = `${window.location.origin}/share/${docId}`;
+  const onCopy = (e) => {
+    message.success({ content: '已复制' });
+  };
+  return <div className="article-header__share">
+    <Input defaultValue={link}
+      className="article-header__share-link"
+      h={32}
+      disabled={true} />
+    <CopyToClipboard text={link}
+      onCopy={onCopy}>
+      <Button content="复制"
+        type="primary" />
+    </CopyToClipboard>
+  </div>;
+}
+
 export default function ArticleHeader({
   docInfo = {},
   className = ''
 }) {
+  if (!docInfo || !docInfo.doc_id) {
+    return null;
+  }
   const { spaceId = '', action } = parseUrlQuery();
   const update = useSaveContent({ publish: true, spaceId });
   const [updateDisabled, setUpdateState] = useState(action !== 'update');
+  // 文档分享状态
+  const [shareStatus, setShareStatus] = useState(docInfo.is_share);
+  // 正在开启/关闭分享
+  const [isFetching, setFetching] = useState(false);
   const { editor, saveContentStatus } = useContext(editorContext);
   const isArticlePage = /^\/article\//.test(window.location.pathname);
   const isEditPage = /^\/simditor\//.test(window.location.pathname);
@@ -96,6 +125,25 @@ export default function ArticleHeader({
     pathname: `/${isArticlePage ? 'article' : 'simditor'}/${docId}?spaceId=${spaceId}`
   }];
 
+  // 文档开启分享
+  const onShare = useCallback(async () => {
+    if (isFetching) { return; }
+    setFetching(true);
+    const share = shareStatus === '0' ? '1' : '0';
+    const result = await toggleShare({ share, docId });
+    setFetching(false);
+    setShareStatus(share);
+    if (result && share === '1') {
+      Modal.confirm({
+        title: '文档已分享',
+        subTitle: '可复制下面链接进行访问',
+        top: '200px',
+        content: <ShareLink docId={docId} />,
+        footer: 'none'
+      });
+    }
+  }, [docId, shareStatus, isFetching]);
+
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;
   const classes = `article-header ${isMobile ? 'article-header_mobile' : ''} ${className}`;
   return (
@@ -107,13 +155,18 @@ export default function ArticleHeader({
               className="article-header_title flex"
               to="/" />}
           <Breadcrumb crumbs={isMobile ? crumbs.slice(1) : crumbs} />
-          <div className="article-header_Save">
+          <div className="article-header__save">
             {saveContentStatus === 0 && <span>正在保存...</span>}
             {saveContentStatus === 1 && (<span>{saveText}</span>)}
           </div>
         </div>
         <div className="article-header_right">
-          {isArticlePage && <div className="article-header_Edit_Btn flex">
+          {isArticlePage && <Button
+            disabled={isFetching}
+            loading={isFetching}
+            style={{ marginRight: '10px' }}
+            onClick={onShare}>{shareStatus === '1' ? '分享中' : '分享'}</Button>}
+          {isArticlePage && <div className="article-header__edit flex">
             <Button
               type="primary"
               content="编辑"

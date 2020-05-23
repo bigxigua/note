@@ -113,3 +113,19 @@ export async function addToShortcutEntry({
   }
   return success;
 }
+
+/**
+* 分享或/关闭分享
+* @param {share} Number - 是否开启分享， 0关闭，1开启
+*/
+export async function toggleShare({ share = '0', docId }) {
+  const [error, data] = await axiosInstance.post('doc/update', { is_share: share, doc_id: docId });
+  const success = Boolean(getIn(data, ['STATUS']) === 'OK');
+  const successMsg = share === '0' ? '关闭分享成功' : '开启分享成功';
+  if (success) {
+    message.success({ content: successMsg });
+  } else {
+    message.error({ content: getIn(error, ['message'], '系统繁忙，请稍后再试') });
+  }
+  return success;
+}

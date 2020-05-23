@@ -6,6 +6,7 @@ export default function Input(props) {
   const {
     w = 320, // 宽度
     h = 40, // 高度
+    disabled = false, // 是否禁用
     addonBefore, // 前置元素
     addonAfter, // 后置元素
     defaultValue, // 默认value
@@ -56,8 +57,10 @@ export default function Input(props) {
     }
   }, []);
 
+  const disabledCls = disabled ? 'input-disabled' : '';
+
   return (
-    <div className={$.trim(`${classes} ${className}`)}
+    <div className={$.trim(`${classes} ${className} ${disabledCls}`)}
       style={{
         width: isNaN(w) ? w : `${w}px`,
         height: isNaN(h) ? h : `${h}px`,
@@ -68,6 +71,7 @@ export default function Input(props) {
         type !== 'textarea' &&
         <input
           ref={inputRef}
+          disabled={disabled}
           autoComplete={autocomplete}
           type={type}
           placeholder={placeholder}
@@ -83,6 +87,7 @@ export default function Input(props) {
           ref={textArea}
           rows={rows}
           cols={cols}
+          disabled={disabled}
           placeholder={placeholder}
           maxLength={maxLength}
           value={value || ''}
