@@ -7,7 +7,7 @@ import Modal from '@common/modal';
 import Image from '@common/image';
 import Button from '@common/button';
 import Icon from '@common/icon';
-import { getIn, delay } from '@util/util';
+import { getIn, delay, getCatalogs, debunce } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 
 const message = useMessage();
@@ -128,4 +128,82 @@ export async function toggleShare({ share = '0', docId }) {
     message.error({ content: getIn(error, ['message'], '系统繁忙，请稍后再试') });
   }
   return success;
+}
+
+// 编辑页/文档页/监听容器scroll，显示当前标题
+export function listenContainerScrollToShowCurCatalog({
+  html = '', // 文档html字符串
+  $container = $(window)
+}) {
+  const catalogs = getCatalogs(html);
+  let windowScrollTop = $(window).scrollTop();
+  let position = 'up';
+
+  if (!Array.isArray(catalogs) || catalogs.length === 0) {
+    return;
+  }
+
+  const handle = debunce(() => {
+    let curTarget = null;
+    const arr = [];
+    for (let i = 0, len = catalogs.length; i < len; i++) {
+      const id = catalogs[i].id;
+      if (!id || !$(`#${id}`).length) return;
+      const offsetTop = $(`#${id}`).offset().top - $(document).scrollTop() - 58;
+      const curWindowScrollTop = $(window).scrollTop();
+      if (curWindowScrollTop - windowScrollTop > 0) {
+        position = 'up';
+      } else if (curWindowScrollTop - windowScrollTop < 0) {
+        position = 'down';
+      }
+      arr.push({ top: offsetTop, id });
+      windowScrollTop = curWindowScrollTop;
+    };
+
+    if (!arr.length) return;
+
+    if (position === 'up') {
+      if (arr.every(n => n.top > 0)) {
+        curTarget = arr[0].id;
+      } else {
+        curTarget = (arr.filter(n => n.top >= 0)[0] || arr.slice(0).pop()).id;
+      }
+    } else {
+      if (arr.every(n => n.top < 0)) {
+        curTarget = arr[arr.length - 1].id;
+      } else {
+        curTarget = arr.filter(n => n.top >= 0)[0].id;
+      }
+    }
+    const catalogBoxScrollTop = $('.catalog-box').scrollTop();
+    const catalogHeight = $('.catalog-box').height();
+    const catalogItemHeight = $(`.article-catalog__item-${curTarget}`).height() + 8;
+    const catalogIndex = $(`.article-catalog__item-${curTarget}`).index();
+    const totalItemHeight = catalogIndex * catalogItemHeight;
+    const diff = totalItemHeight - (catalogBoxScrollTop + catalogHeight);
+    // console.log('catalogBoxScrollTop:', catalogBoxScrollTop);
+    // console.log('catalogHeight:', catalogHeight);
+    // console.log('item.top', totalItemHeight);
+    // console.log('diff:', diff);
+    // console.log('----------------------');
+    if (diff) {
+      $('.catalog-box').animate({ scrollTop: totalItemHeight - 200 }, 0);
+    }
+    $('.article-catalog__item').removeClass('article-catalog__item-active');
+    $(`.article-catalog__item-${curTarget}`).addClass('article-catalog__item-active');
+  }, 100);
+  $container.off('scroll');
+  $container.on('scroll', handle);
+}
+
+// 获取url-hash，滚动到对应元素位置
+export function scrollToElement($container) {
+  const id = window.location.hash.split('#')[1] || '';
+  if (!id || $(`#${id}`).length === 0) {
+    $container.scrollTop(0);
+    return;
+  };
+  $container.animate({
+    scrollTop: $(`#${id}`).offset().top - 58
+  }, 400);
 }

@@ -23,10 +23,13 @@
 }
 
 .catalog-box {
-    max-height: 100vh;
+    height: calc(100vh - 120px);
+    position: relative;
+    /* border: 1px solid red; */
+    /* max-height: 100vh; */
     overflow-y: scroll;
-    padding-top: 10px;
-    padding-bottom: 200px;
+    /* padding-top: 10px; */
+    /* padding-bottom: 200px; */
     box-sizing: border-box;
 }
 

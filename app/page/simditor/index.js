@@ -15,12 +15,12 @@ import '@public/editor/simditor-html';
 import '@public/editor/simditor-livemd';
 // import '@public/editor/simditor-mark';
 import { parseUrlQuery, checkBrowser } from '@util/util';
+import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
 import {
   fetchDocDetail,
   getTileAndHtml,
   addUnloadListener,
   monitorKeyupHandle,
-  onSimditorWrapperScroll,
   insertTitleInputToSimditor
 } from './handle';
 import './index.css';
@@ -39,8 +39,9 @@ export default function Page() {
 
   const renderSimditor = useCallback(async () => {
     const docInfo = await fetchDocDetail();
+    const htmlText = getTileAndHtml(docInfo, content).content;
     updateDoc(docInfo);
-    setHtml(getTileAndHtml(docInfo, content).content);
+    setHtml(htmlText);
 
     const simditor = new Simditor({
       ...simditorParams,
@@ -66,8 +67,12 @@ export default function Page() {
       simditor.trigger('valuechanged');
     });
 
-    // 监听window.scroll
-    onSimditorWrapperScroll();
+    scrollToElement($('.simditor'));
+    listenContainerScrollToShowCurCatalog({
+      html: htmlText,
+      $container: $('.simditor')
+    });
+    $('.simditor').trigger('scroll');
 
     // 页面卸载，保存草稿
     addUnloadListener(docInfo.doc_id, simditor);

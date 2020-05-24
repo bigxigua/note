@@ -45,7 +45,8 @@ export default function ArticleCatalog({
 
   const onCatalogItemClick = useCallback((e, id) => {
     if (!id || $(`#${id}`).length === 0) return;
-    $('html, body').animate({
+    const isSimditor = /\/simditor\//g.test(window.location.pathname);
+    (isSimditor ? $('.simditor') : $('html, body')).animate({
       scrollTop: $(`#${id}`).offset().top - 58
     }, 400);
     window.location.hash = id;
