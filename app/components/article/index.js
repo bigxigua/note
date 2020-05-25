@@ -42,12 +42,14 @@ export default function Article({ docInfo = {}, share = false }) {
       // 给table包裹一层div
       $('.article-html').find('table').wrap($('<div class="article-html__tablebox"></div>'));
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
-      scrollToElement($('html, body'));
-      listenContainerScrollToShowCurCatalog({
-        html,
-        $container: $(window)
-      });
-      $(window).trigger('scroll');
+      if (!isMobile) {
+        scrollToElement($('html, body'));
+        listenContainerScrollToShowCurCatalog({
+          html,
+          $container: $(window)
+        });
+        $(window).trigger('scroll');
+      }
     }, 0);
   }, [docInfo.doc_id, content]);
 

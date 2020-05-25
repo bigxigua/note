@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState, useCallback, useEffect } from 'react';
 import Icon from '@common/icon';
 import { getCatalogs } from '@util/util';
 import './index.css';
@@ -33,10 +33,29 @@ function ArticleCatalog({
   }
   const catalogs = getCatalogs(html);
   const classes = `mobile_catalogs-mask animated ${visible ? 'mobile_catalogs-show' : ''}`;
-  const onItemClick = function () {
+
+  const onItemClick = useCallback((e) => {
+    const id = e.currentTarget.getAttribute('data-id');
     setVisible(false);
-  };
-  return <div className={classes}>
+    if (!id || !$(`#${id}`).length) {
+      return;
+    }
+    $('html, body').animate({
+      scrollTop: $(`#${id}`).offset().top - 58
+    }, 200);
+    window.location.hash = id;
+  });
+
+  useEffect(() => {
+    const id = window.location.hash;
+    if (id && $(`${id}_catalog`).length) {
+      const top = $(`${id}_catalog`).position().top;
+      $('.mobile_catalogs').animate({ scrollTop: top }, 0);
+    }
+  }, []);
+
+  return <div className={classes}
+    onClick={(e) => { e.stopPropagation(); setVisible(false); }}>
     <div className="mobile_catalogs">
       <div className="mobile_catalogs-title">
         <span>目录</span>
@@ -49,12 +68,15 @@ function ArticleCatalog({
           const i = parseInt(item.type.substr(1));
           return <div
             key={item.index}
+            data-id={item.id}
             onClick={onItemClick}
+            id={`${item.id}_catalog`}
             className="mobile-toolbar__catalog"
             style={{ paddingLeft: `${(i - 1) * 16 + getOffset(catalogs)}px` }}>
-            <a href={`#${item.id}`}
+            <span className={'catalog-item_' + item.type}>{item.text}</span>
+            {/* <a href={`#${item.id}`}
               className={'catalog-item_' + item.type}>{item.text}
-            </a>
+            </a> */}
           </div>;
         })
       }

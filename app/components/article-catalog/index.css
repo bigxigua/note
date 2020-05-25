@@ -24,13 +24,16 @@
 
 .catalog-box {
     height: calc(100vh - 120px);
+    margin-top: 10px;
     position: relative;
-    /* border: 1px solid red; */
-    /* max-height: 100vh; */
     overflow-y: scroll;
-    /* padding-top: 10px; */
-    /* padding-bottom: 200px; */
     box-sizing: border-box;
+    -ms-overflow-style: none;
+    overflow: -moz-scrollbars-none;
+}
+
+.catalog-box::-webkit-scrollbar {
+    width: 0 !important
 }
 
 .article-catalog__item {

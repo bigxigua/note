@@ -66,14 +66,14 @@ export default function Page() {
     $('.simditor-title>input').on('input', () => {
       simditor.trigger('valuechanged');
     });
-
-    scrollToElement($('.simditor'));
-    listenContainerScrollToShowCurCatalog({
-      html: htmlText,
-      $container: $('.simditor')
-    });
-    $('.simditor').trigger('scroll');
-
+    if (!isMobile) {
+      scrollToElement($('.simditor'));
+      listenContainerScrollToShowCurCatalog({
+        html: htmlText,
+        $container: $('.simditor')
+      });
+      $('.simditor').trigger('scroll');
+    }
     // 页面卸载，保存草稿
     addUnloadListener(docInfo.doc_id, simditor);
   }, []);

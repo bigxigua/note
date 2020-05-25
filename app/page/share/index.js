@@ -2,11 +2,10 @@ import React, { useEffect, useState, useCallback } from 'react';
 import Article from '@components/article';
 import Mobile404 from '@common/m-404';
 import ShareHeader from './share-header';
+import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import axiosInstance from '@util/axiosInstance';
 import { checkBrowser, getIn } from '@util/util';
 import './index.css';
-
-const { isMobile } = checkBrowser();
 
 function Content({ error, docInfo }) {
   if (error === undefined) {
@@ -21,6 +20,7 @@ export default function Share() {
   const [docInfo, setDocInfo] = useState(undefined);
   const [error, setError] = useState(undefined);
   const docId = window.location.pathname.split('/').filter(n => n)[1];
+  const { isMobile } = checkBrowser();
 
   const fetchDocDetail = useCallback(async () => {
     const [error, data] = await axiosInstance.get(`doc/share?docId=${docId}`);
@@ -41,6 +41,7 @@ export default function Share() {
       <ShareHeader docInfo={docInfo} />
       <Content error={error}
         docInfo={docInfo} />
+      {isMobile && <MobileArticleToolbar html={(docInfo || {}).html} />}
     </div>
   );
 }
