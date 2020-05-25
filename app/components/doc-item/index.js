@@ -9,7 +9,7 @@ function renderTag(info) {
   const { status, html_draft, title_draft, is_template, is_share } = info;
   return <>
     {is_template === '1' && <Tag color="#f50">模版</Tag>}
-    {is_share === '1' && <Tag color="#f50">分享中</Tag>}
+    {is_share === '1' && <Tag color="rgb(37, 184, 100)">分享中</Tag>}
     {status === '0' && <Tag color="rgb(255, 85, 0)">已删除</Tag>}
     {(html_draft || title_draft) && <Tag>未更新</Tag>}
   </>;

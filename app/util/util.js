@@ -221,3 +221,12 @@ export function getCatalogs(html) {
   }
   return catalogs;
 }
+
+// export function unique(array, iteratee) {
+//   // return array.reduce((p, v) => {
+//   //   if (iteratee(v)()) {
+//   //     p.push(v);
+//   //   }
+//   //   return p;
+//   // }, []);
+// }

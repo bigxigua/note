@@ -35,7 +35,7 @@ export default function SpaceDetail() {
     const [, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
     setLoading(false);
     setSpaceInfo({
-      docs: getIn(data, ['docs'], []),
+      docs: getIn(data, ['docs'], []).filter(n => n.status !== '-1'),
       space: getIn(data, ['space'], {})
     });
     setSpaceName(getIn(data, ['space', 'name'], ''));

@@ -26,7 +26,7 @@ export async function addRecent({
 }
 
 // 逻辑删除文档接口调用
-export async function logicalDeletion({ docId, spaceId }) {
+export async function logicalDeletion({ docId, spaceId } = {}) {
   const [error, data] = await axiosInstance.post('doc/update', {
     status: '0',
     doc_id: docId,
@@ -255,7 +255,7 @@ export function deleteDoc({
   spaceId
 }, callback) {
   Modal.confirm({
-    title: '确认物理永久删除该节点吗？QAQ',
+    title: `确认删除文档：${docTitle} 吗？(若想恢复请联系站长)`,
     subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
     onOk: async () => {
       const index = catalog.findIndex(n => n.docId === docId);
