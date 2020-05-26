@@ -7,6 +7,8 @@
     z-index: 11;
     will-change: margin;
     padding: 0 42px;
+    top: 0;
+    position: sticky;
 }
 
 .header-wrapper_mobile {

@@ -1,6 +1,6 @@
 .modal {
   max-width: calc(100vw - 16px);
-  max-height: calc(100vw - 16px);
+  max-height: calc(100vh - 16px);
   position: fixed;
   background: #ffffff;
   left: 50%;

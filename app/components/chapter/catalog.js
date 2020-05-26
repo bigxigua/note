@@ -62,8 +62,7 @@ export default function Catalog() {
                 ? <span>{doc.title}</span>
                 : <Link
                   className="ellipsis"
-                  to={`${stringTransformToUrlObject(doc.url).pathname}`}
-                  target="blank">
+                  to={`${stringTransformToUrlObject(doc.url).pathname}`}>
                   {doc.title}
                 </Link>
             }

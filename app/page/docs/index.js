@@ -164,7 +164,7 @@ export default function Docs() {
     const [error, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(q)}&type=${type.toLocaleLowerCase()}${page}`);
     setLoading(false);
     if (!error && data && Array.isArray(data) && data.length > 0) {
-      setDataSource(data);
+      setDataSource(data.filter(n => n.status !== '-1'));
     } else {
       setDataSource([]);
     }

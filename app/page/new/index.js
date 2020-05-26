@@ -9,7 +9,7 @@ export default function New() {
     scene: 'DOCS'
   });
   return (
-    <div className="Container">
+    <div className="container">
       <Header />
       <div className="New_Wrapper">
         <div className="New_Header">

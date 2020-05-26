@@ -11,7 +11,7 @@ export default function Index() {
   const { isMobile } = checkBrowser();
   const classes = $.trim(`content-wrapper_index ${isMobile ? 'content-wrapper__mobile' : ''}`);
   return (
-    <div className="Container">
+    <div className="container">
       <Header />
       <div className={classes}>
         <SiderBarLayout />

@@ -42,8 +42,9 @@ export default function Table(props) {
   if (dataSource.length === 0) {
     return emptyJsx || <Empty
       className="table-empty"
+      imageStyle={{ width: '200px' }}
       image="/images/undraw_empty.svg"
-      description="还未创建过空间" />;
+      description="空空如也" />;
   }
   const tbody = dataSource.map(n => {
     return (

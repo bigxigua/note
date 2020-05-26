@@ -25,7 +25,7 @@ export default function Editor() {
     fetchDocDetail();
   }, []);
   return (
-    <div className="Container"
+    <div className="container"
       style={{ overflow: 'hidden' }}>
       <ArticleHeader docInfo={docInfo} />
       <div className="content_wrapper_editor">

@@ -7,7 +7,7 @@ import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
 import { parseUrlQuery, checkBrowser } from '@util/util';
 import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
-import { codeBeautiful } from './handle';
+import { codeBeautiful, previewImage } from './handle';
 import Prism from '@public/prism/prism.js';
 import '@public/prism/prism.css';
 import './index.css';
@@ -37,10 +37,13 @@ export default function Article({ docInfo = {}, share = false }) {
 
   useEffect(() => {
     const html = getHtml(docInfo, content);
-    $('.article-html').html(String(html));
+    const $html = $('.article-html');
+    $html.html(String(html));
     setTimeout(() => {
       // 给table包裹一层div
-      $('.article-html').find('table').wrap($('<div class="article-html__tablebox"></div>'));
+      $html.find('table').wrap($('<div class="article-html__tablebox"></div>'));
+      // 给img新增（非icon）新增点击预览函数
+      previewImage($html);
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
       if (!isMobile) {
         scrollToElement($('html, body'));

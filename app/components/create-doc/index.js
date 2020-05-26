@@ -37,11 +37,13 @@ export default function CreateDoc({
   }, []);
 
   // 点击创建文档，显示modal
-  const onChooseSpace = useCallback(async (info) => {
+  const onChooseSpace = useCallback(async (e) => {
+    const info = e.currentTarget.getAttribute('data-item');
     const { space_id } = info;
     if (mode === 'template') {
       setSpaceInfo(info);
       setTemplateModalVisible(true);
+      // onModalChange(false);
     } else if (mode === 'common') {
       createNewDocAction({ space_id });
     }
@@ -86,7 +88,8 @@ export default function CreateDoc({
     }
     return spaces.map(n =>
       <div
-        onClick={() => { onChooseSpace(n); }}
+        data-item={n}
+        onClick={onChooseSpace}
         key={n.id}
         className="header-spaces__list flex">
         <img src={SPACE_TYPE_ICON[n.scene]} />

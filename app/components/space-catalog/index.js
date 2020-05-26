@@ -77,6 +77,10 @@ export default function SpaceCatalog() {
     fetchDocsBySpaceId();
   }, [spaceId]);
 
+  if (!Array.isArray(catalogs) || !catalogs.length) {
+    return null;
+  }
+
   return (
     <nav className="bookcatalog-wrapper">
       <div className="bookcatalog-content">

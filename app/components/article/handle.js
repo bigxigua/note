@@ -67,3 +67,15 @@ export function codeBeautiful(pre, Prism) {
     }, 0);
   }
 }
+
+// 监听img点击事件，实现点击预览
+export function previewImage($container) {
+  const imgs = Array.from($container.find('img')).filter(n => { return !n.getAttribute('data-emoji'); });
+  imgs.forEach(img => {
+    img.addEventListener('click', () => {
+      const src = img.src;
+      console.log(img);
+    }, false);
+  });
+  console.log(imgs);
+}
