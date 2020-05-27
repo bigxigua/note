@@ -86,7 +86,12 @@ export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
   return recursion(catalog, path);
 }
 
-export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog, loading) {
+export function CatalogsComponent({
+  catalogs = [],
+  docs,
+  onToggleExpandCatalog,
+  loading
+}) {
   if (loading) {
     return <Icon type="loading" />;
   }
@@ -106,7 +111,7 @@ export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog, loadin
         style={{ paddingLeft: `${Math.min(item.level, 3) * 10}px` }}
         className={$.trim(classes)}>
         {isFolder && <Icon
-          onClick={() => { onToggleExpandCatalog(catalog, item, index); }}
+          onClick={() => { onToggleExpandCatalog(item, index); }}
           type="caret-down" />}
         {renderCatalogItem(item.type, doc)}
         {
@@ -126,5 +131,5 @@ export function renderCatalogs(catalog = [], docs, onToggleExpandCatalog, loadin
     });
     return result;
   }
-  return recursion(catalog);
+  return recursion(catalogs);
 }

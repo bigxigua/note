@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { PhotoSwipe } from 'react-photoswipe';
 import Icon from '@common/icon';
 import ArticleCatalog from '@components/article-catalog';
 import SpaceCatalog from '@components/space-catalog';
@@ -7,7 +8,7 @@ import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
 import { parseUrlQuery, checkBrowser } from '@util/util';
 import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
-import { codeBeautiful, previewImage } from './handle';
+import { codeBeautiful, getImgsFromHtml } from './handle';
 import Prism from '@public/prism/prism.js';
 import '@public/prism/prism.css';
 import './index.css';
@@ -32,9 +33,13 @@ export default function Article({ docInfo = {}, share = false }) {
   if (!docInfo || !docInfo.doc_id) {
     return <Icon type="loading" />;
   }
-  const [classes] = useState(`article-preview ${isMobile ? 'article-preview_mobile' : ''}`);
+  // 是否展示PhotoSwipe
+  const [psIndex, setShowPsIndex] = useState(-1);
+  // PhotoSwipe图片集合
+  const [psImgs, setPsImgs] = useState([]);
   const { content = 'draft' } = parseUrlQuery();
 
+  const classes = $.trim(`article-preview ${isMobile ? 'article-preview_mobile' : ''}`);
   useEffect(() => {
     const html = getHtml(docInfo, content);
     const $html = $('.article-html');
@@ -43,7 +48,7 @@ export default function Article({ docInfo = {}, share = false }) {
       // 给table包裹一层div
       $html.find('table').wrap($('<div class="article-html__tablebox"></div>'));
       // 给img新增（非icon）新增点击预览函数
-      previewImage($html);
+      getImgsFromHtml($html, setPsImgs, setShowPsIndex);
       codeBeautiful(document.querySelectorAll('.article-html>pre'), Prism);
       if (!isMobile) {
         scrollToElement($('html, body'));
@@ -59,10 +64,19 @@ export default function Article({ docInfo = {}, share = false }) {
   const title = getTitle(docInfo, content);
   const wrapperClasses = $.trim(`article-html ${isMobile ? 'article-html_mobile' : ''}`);
   const titleClasses = title ? '' : 'article-title';
-
+  const psOtions = {
+    index: psIndex,
+    showHideOpacity: true,
+    shareEl: false,
+    zoomEl: true,
+    preloaderEl: true,
+    counterEl: true,
+    closeOnVerticalDrag: false,
+    mainClass: 'xigua-ps'
+  };
   return (
     <div className="article-wrapper">
-      {!share && <SpaceCatalog />}
+      <SpaceCatalog />
       <div
         className={$.trim(classes)}>
 
@@ -76,6 +90,13 @@ export default function Article({ docInfo = {}, share = false }) {
 
         <Footer />
       </div>
+      {
+        psImgs.length && <PhotoSwipe
+          isOpen={Boolean(psIndex > -1)}
+          items={psImgs.slice(0)}
+          options={psOtions}
+          onClose={() => { setShowPsIndex(-1); }} />
+      }
       <ArticleCatalog
         className="article_catalog"
         html={getHtml(docInfo, content)} />

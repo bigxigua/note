@@ -1,9 +1,11 @@
 /* eslint-disable standard/no-callback-literal */
 // ---------这里是一些业务相关的常用方法的合集------------ //
-
+import React from 'react';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import Modal from '@common/modal';
+import DeleteConfirm from '@components/delete-confirm';
+
 import { getIn, delay } from '@util/util';
 
 const message = useMessage();
@@ -235,51 +237,28 @@ export function setTextAreaAutoHeight(element, extra = 0, maxHeight) {
 }
 
 // 获取当前文档的子节点
-function getSub(catalog, start, level) {
-  const result = [];
-  for (let i = start; i < catalog.length; i++) {
-    if (catalog[i].level > level) {
-      result.push(catalog[i]);
-    } else {
-      break;
-    }
-  }
-  return result;
-}
+// function getSub(catalog, start, level) {
+//   const result = [];
+//   for (let i = start; i < catalog.length; i++) {
+//     if (catalog[i].level > level) {
+//       result.push(catalog[i]);
+//     } else {
+//       break;
+//     }
+//   }
+//   return result;
+// }
 
 // 删除文档节点
-export function deleteDoc({
-  catalog,
-  docId,
-  docTitle,
-  spaceId
-}, callback) {
-  Modal.confirm({
-    title: `确认删除文档：${docTitle} 吗？(若想恢复请联系站长)`,
-    subTitle: '如果该节点下有子节点，会被一并删除。请慎重。',
-    onOk: async () => {
-      const index = catalog.findIndex(n => n.docId === docId);
-      const item = catalog.find(n => n.docId === docId);
-      const subs = getSub(catalog, index + 1, item.level).concat([{ docId }]).map(n => n.docId).join(',');
-      const result = await physicalDeletion({ docId: subs, spaceId });
-      if (result) {
-        message.success({ content: '删除成功' });
-        await delay();
-        try {
-          await addRecent({
-            docTitle,
-            type: 'PhysicalDeleteEdit',
-            spaceId,
-            docId
-          });
-        } catch (error) {
-        }
-        callback(true);
-      } else {
-        message.error({ content: '删除失败' });
-        callback(false);
-      }
-    }
+export function deleteDoc({ docId, docTitle }, callback) {
+  const modal = Modal.confirm({
+    title: '删除文档',
+    content: <DeleteConfirm
+      name={docTitle}
+      docId={docId}
+      description="如果该节点下有子节点，会被一并删除，请慎重。(若想恢复请联系站长)"
+      onConfirmEnd={(status) => { callback(status); status && modal.destroy(); }} />,
+    footer: 'none'
   });
 }
 

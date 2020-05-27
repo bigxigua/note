@@ -185,7 +185,7 @@ export function listenContainerScrollToShowCurCatalog({
     // console.log('catalogHeight:', catalogHeight);
     // console.log('item.top', totalItemHeight);
     // console.log('diff:', diff);
-    // console.log('----------------------');
+    // console.log('----------------------', diff);
     if (diff) {
       $('.catalog-box').animate({ scrollTop: totalItemHeight - 200 }, 0);
     }
@@ -198,12 +198,13 @@ export function listenContainerScrollToShowCurCatalog({
 
 // 获取url-hash，滚动到对应元素位置
 export function scrollToElement($container) {
-  const id = window.location.hash.split('#')[1] || '';
-  if (!id || $(`#${id}`).length === 0) {
-    $container.scrollTop(0);
-    return;
-  };
-  $container.animate({
-    scrollTop: $(`#${id}`).offset().top - 58
-  }, 400);
+  try {
+    const id = window.location.hash.split('#')[1] || '';
+    if (!id || $(`#${id}`).length === 0) {
+      return;
+    };
+    $container.animate({
+      scrollTop: $(`#${id}`).offset().top - 58
+    }, 400);
+  } catch (error) { }
 }

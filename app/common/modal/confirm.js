@@ -6,6 +6,7 @@ import Modal from './index';
 // TODO 支持cancelButtonProps && confirmButtonProps
 const ConfirmDialog = ({
   width = undefined,
+  mountElement = document.body,
   wrapClassName = '',
   cancelText = '取消',
   top,
@@ -36,6 +37,7 @@ const ConfirmDialog = ({
     title={title}
     subTitle={subTitle}
     top={top}
+    mountElement={mountElement}
     footer={footer}
     onCancel={() => { setVisible(false); onCancel(); }}
     onConfirm={_onOk_}
@@ -51,6 +53,14 @@ const ConfirmDialog = ({
 export default function confirm(props) {
   const div = document.createElement('div');
   document.body.appendChild(div);
-  ReactDOM.render(<ConfirmDialog {...props} />, div);
-  return null;
+  const _props_ = {
+    ...props,
+    mountElement: div
+  };
+  ReactDOM.render(<ConfirmDialog {..._props_} />, div);
+  return {
+    destroy: () => {
+      document.body.removeChild(div);
+    }
+  };
 };

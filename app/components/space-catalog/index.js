@@ -5,7 +5,7 @@ import Popover from '@components/popover';
 import axiosInstance from '@util/axiosInstance';
 import { parseUrlQuery, getIn } from '@util/util';
 import { extractCatalog, findTargetCatalogPath, createNewDocAction } from '@util/commonFun';
-import { renderCatalogs, addIsOpenProperty } from './handle';
+import { CatalogsComponent, addIsOpenProperty } from './handle';
 import { useHistory } from 'react-router-dom';
 import './index.css';
 
@@ -21,7 +21,8 @@ const settingList = [{
 }];
 
 export default function SpaceCatalog() {
-  if (window.isMobile) {
+  const isShare = /\/share\//g.test(window.location.pathname);
+  if (window.isMobile || isShare) {
     return null;
   }
   const { spaceId = '' } = parseUrlQuery();
@@ -36,7 +37,6 @@ export default function SpaceCatalog() {
   const fetchDocsBySpaceId = useCallback(async () => {
     setLoading(true);
     const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
-    setLoading(false);
     const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
     if (catalog.length > 1) {
       const result = extractCatalog(catalog.slice(1));
@@ -46,19 +46,20 @@ export default function SpaceCatalog() {
     } else {
       console.log('[获取space下doc列表失败] ', error);
     }
+    setLoading(false);
   }, [docId]);
 
   // 点击章节目录展开or收起子目录
-  const onToggleExpandCatalog = useCallback((data, item, index) => {
-    const lists = data.slice(0);
+  const onToggleExpandCatalog = useCallback((item, index) => {
+    const lists = catalogs.slice(0);
     if (item.level === 0) {
       lists[index].isOpen = !item.isOpen;
       setCatalogs(lists);
     } else {
-      const targetPath = findTargetCatalogPath(data, item.docId);
-      setCatalogs(addIsOpenProperty(data, targetPath, !item.isOpen, item.docId));
+      const targetPath = findTargetCatalogPath(catalogs, item.docId);
+      setCatalogs(addIsOpenProperty(catalogs, targetPath, !item.isOpen, item.docId));
     }
-  }, []);
+  }, [catalogs]);
 
   const onSettingItemClick = useCallback((e, info) => {
     e.stopPropagation();
@@ -77,10 +78,6 @@ export default function SpaceCatalog() {
     fetchDocsBySpaceId();
   }, [spaceId]);
 
-  if (!Array.isArray(catalogs) || !catalogs.length) {
-    return null;
-  }
-
   return (
     <nav className="bookcatalog-wrapper">
       <div className="bookcatalog-content">
@@ -94,7 +91,12 @@ export default function SpaceCatalog() {
             </Popover>
           </div>
         </div>
-        {renderCatalogs(catalogs, docLists, onToggleExpandCatalog, loading)}
+        <CatalogsComponent
+          catalogs={catalogs}
+          docs={docLists}
+          onToggleExpandCatalog={onToggleExpandCatalog}
+          loading={loading} />
+        {/* {renderCatalogs(catalogs, docLists, onToggleExpandCatalog, loading)} */}
       </div>
     </nav>
   );

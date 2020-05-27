@@ -429,5 +429,6 @@ textarea {
 .Message>img,
 .Message>svg {
     width: 20px;
-    margin-right: 4px
+    margin-right: 4px;
+    flex-shrink: 0;
 }

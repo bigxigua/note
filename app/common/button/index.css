@@ -50,10 +50,22 @@
   border-color: #47c479;
 }
 
+.button-danger:not(.button-disabled):not(.button-loading):hover {
+  color: #fff;
+  background-color: #ff7875;
+  border-color: #ff7875;
+}
+
 .button-default:not(.button-disabled):not(.button-loading):active {
   color: #16914f;
   background-color: #fafafa;
   border-color: #16914f;
+}
+
+.button-danger:not(.button-disabled):not(.button-loading):active {
+  color: #fff;
+  background-color: #d9363e;
+  border-color: #d9363e;
 }
 
 .button-primary:not(.button-disabled):hover {

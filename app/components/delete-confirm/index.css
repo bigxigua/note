@@ -1,0 +1,24 @@
+.delete-doc__p {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.delete-doc__p>span {
+  flex-shrink: 0;
+}
+
+.delete-doc__p>h3 {
+  margin-bottom: 0;
+  margin-left: 10px;
+}
+
+.delete-doc__btn {
+  width: 100%;
+  margin-top: 16px;
+  height: 38px;
+}
+
+.delete-doc__error {
+  color: red;
+}

@@ -406,3 +406,11 @@
   position: absolute;
   left: 9999px;
 }
+
+.xigua-ps .pswp__caption__center {
+  text-align: center;
+}
+
+/* .xigua-ps .pswp__button--zoom {
+  display: block;
+} */

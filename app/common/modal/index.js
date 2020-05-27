@@ -18,6 +18,7 @@ const loop = () => { };
   * @param {boolean} mask - 是否展示遮罩
   * @param {boolean} closable -  是否显示右上角的关闭按钮
   * @param {ReactNode} closeIcon -  自定义关闭图标
+  * @param {DomElement} mountElement -  挂载DOM，默认document.body
   * @param {string|number} width - Modal宽度
   * @param {string} top - Modal距离顶部高度
   * @param {string} title - 标题
@@ -39,6 +40,7 @@ export default function Modal({
   onCancel = loop,
   onConfirm = loop,
   title = '',
+  mountElement = document.body,
   subTitle = '',
   mask = true,
   footer = null,
@@ -133,7 +135,7 @@ export default function Modal({
         {footerJsx}
       </div>
     </div >)
-    , document.body);
+    , mountElement);
 };
 
 Modal.confirm = confirm;

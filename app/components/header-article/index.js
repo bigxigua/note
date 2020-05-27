@@ -19,17 +19,6 @@ import './index.css';
 const { isMobile } = checkBrowser();
 const message = useMessage();
 
-const settingList = [{
-  text: '删除',
-  key: 'delete'
-}, {
-  text: '设置为模版',
-  key: 'template'
-}, {
-  text: '添加到快捷入口',
-  key: 'addindex'
-}];
-
 async function onUpdate(update, editor, docId, spaceId) {
   const [error] = await update(editor);
   if (!error) {
@@ -64,6 +53,18 @@ function onListItemClick({ key }, docInfo = {}, history) {
 };
 
 function Setting({ docInfo, history }) {
+  const settingList = [{
+    text: '删除',
+    key: 'delete'
+  }, {
+    text: '设置为模版',
+    key: 'template',
+    disabled: Boolean(getIn(docInfo, ['is_template']) === '1')
+  }, {
+    text: '添加到快捷入口',
+    key: 'addindex',
+    disabled: Boolean(getIn(docInfo, ['is_shortcut']) === '1')
+  }];
   return <List
     onTap={(info) => { onListItemClick(info, docInfo, history); }}
     list={settingList}></List>;

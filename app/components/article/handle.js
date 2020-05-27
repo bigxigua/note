@@ -69,13 +69,16 @@ export function codeBeautiful(pre, Prism) {
 }
 
 // 监听img点击事件，实现点击预览
-export function previewImage($container) {
+export function getImgsFromHtml($container, setPsImgs, setShowPsIndex) {
   const imgs = Array.from($container.find('img')).filter(n => { return !n.getAttribute('data-emoji'); });
-  imgs.forEach(img => {
-    img.addEventListener('click', () => {
-      const src = img.src;
-      console.log(img);
-    }, false);
-  });
-  console.log(imgs);
+  setPsImgs(imgs.map((img, index) => {
+    const { width, height, src, alt = '' } = img;
+    img.addEventListener('click', () => { setShowPsIndex(index); }, false);
+    return {
+      src,
+      w: width,
+      h: height,
+      title: alt
+    };
+  }));
 }
