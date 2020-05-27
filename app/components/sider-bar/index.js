@@ -50,11 +50,11 @@ export default function SiderBarLayout() {
         <img src="/images/csdn.png" />
         <span>CSDN日榜</span>
       </Link> */}
-      <Link to="/"
+      {/* <Link to="/"
         className="siderbar-link">
         <img src="/images/more.png" />
         <span>其他</span>
-      </Link>
+      </Link> */}
     </div>
   );
 };

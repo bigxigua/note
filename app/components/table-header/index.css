@@ -15,6 +15,7 @@
   font-size: 14px;
   cursor: pointer;
   font-weight: 500;
+  flex-shrink: 0;
 }
 
 .TableHeader_Icon_Down {
@@ -25,11 +26,14 @@
   margin-left: 10px;
 }
 
-.table-header-mobile>.Search {
+.table-header-mobile>.search {
   width: 100%;
   height: 46px;
+  border: none;
+  font-size: 14px;
   border-bottom: 1px solid #e8e8e8;
   border-radius: 0;
+  background: #e8e8e8;
 }
 
 .table-header-mobile-head {

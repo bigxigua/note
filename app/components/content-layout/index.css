@@ -1,6 +1,7 @@
 .content-layout {
   flex: 1;
   overflow: hidden;
+  padding: 10px;
 }
 
 .content-layout__head {

@@ -16,7 +16,7 @@ export default function Pagination({
   total = 0,
   current = 1,
   pageSize = 10,
-  onChange = () => {}
+  onChange = () => { }
 }) {
   if (!total) {
     return null;
@@ -33,7 +33,7 @@ export default function Pagination({
       {n + 1}
     </li>;
   });
-  const onNext = () =>{
+  const onNext = () => {
     if (currentItem >= total) {
       return;
     }
@@ -46,7 +46,7 @@ export default function Pagination({
     onChange(currentItem + 1, section, pageSize);
     setCurrentItem(currentItem + 1);
   };
-  const onPrev = () =>{
+  const onPrev = () => {
     if (currentItem + 1 <= 1) {
       setDisable([true, false]);
     }

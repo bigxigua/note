@@ -85,8 +85,6 @@ export default function CatalogDnd({
   // 删除
   const onDelete = useCallback((docId, title, spaceId) => {
     deleteDoc({
-      catalog,
-      spaceId,
       docTitle: title,
       docId
     }, (success) => { success && window.location.reload(); });

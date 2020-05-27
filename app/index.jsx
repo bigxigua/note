@@ -12,7 +12,6 @@ import './index.css';
 import './mkfx.css';
 import '@public/css/anima.css';
 import 'react-photoswipe/lib/photoswipe.css';
-import 'antd/dist/antd.css';
 
 import UserState from '@context/user/userState';
 import EditorState from '@context/editor/editorState';

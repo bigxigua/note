@@ -1,47 +1,3 @@
-@media screen and (max-width: 800px) {
-    .siderbar-layout {
-        display: none;
-    }
-
-    .Content {
-        width: 100%;
-        max-width: 100%;
-    }
-
-    .space>.content-wrapper_index {
-        padding-left: 0;
-        padding-right: 0;
-        padding-top: 0;
-    }
-
-    .docs>.content-wrapper_index {
-        padding-left: 0;
-        padding-right: 0;
-        padding-top: 0;
-    }
-
-    .space-table {
-        border: none;
-    }
-
-    .Right_Panel_Layout {
-        display: none;
-    }
-
-    .header-link {
-        display: none;
-    }
-
-    .content-recent-edit {
-        display: none;
-    }
-
-    .content-recent-edit-m {
-        display: flex;
-    }
-}
-
-
 @media screen and (max-width: 1338px) {
     .Editormd_Wrapper>.article-catalog-wrapper>.catalog-title {
         padding-bottom: 23px;
@@ -63,6 +19,39 @@
     }
 }
 
+@media screen and (max-width: 800px) {
+    .siderbar-layout {
+        display: none;
+    }
+
+    .Content {
+        width: 100%;
+        max-width: 100%;
+    }
+
+    .docs>.content-wrapper_index {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+    }
+
+    .Right_Panel_Layout {
+        display: none;
+    }
+
+    .header-link {
+        display: none;
+    }
+
+    .content-recent-edit {
+        display: none;
+    }
+
+    .content-recent-edit-m {
+        display: flex;
+    }
+}
+
 @media screen and (max-width: 750px) {
     .New_Choose {
         width: 100%;
@@ -79,6 +68,10 @@
 }
 
 @media screen and (max-width: 600px) {
+    .content-wrapper_index {
+        padding: 0;
+    }
+
     .bookcatalog-wrapper {
         display: none;
     }

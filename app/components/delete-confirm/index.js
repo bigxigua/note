@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Alert } from 'antd';
+import Alert from '@common/alert';
 import Input from '@common/input';
 import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
@@ -43,7 +43,9 @@ export default function DeleteConfirm({ name = '', description = '', docId, onCo
   }, [value, name]);
 
   return <>
-    <Alert message="请慎重!"
+    <Alert
+      message="请慎重!"
+      showIcon={true}
       description={description}
       type="warning" />
     <div className="delete-doc__p">

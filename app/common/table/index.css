@@ -8,8 +8,8 @@
 }
 
 .table-empty {
-  border: 1px solid #e8e8e8;
-  border-top: none;
+  /* border: 1px solid #e8e8e8;
+border-top: none; */
 }
 
 .table-header>th {

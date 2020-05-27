@@ -29,16 +29,14 @@ async function onUpdate(update, editor, docId, spaceId) {
 }
 
 function onListItemClick({ key }, docInfo = {}, history) {
-  const catalog = JSON.parse(getIn(docInfo, ['space', 'catalog'], '{}'));
+  // const catalog = JSON.parse(getIn(docInfo, ['space', 'catalog'], '{}'));
   const { doc_id, title, space_id, html } = docInfo;
   const url = `${window.location.origin}/article${doc_id}?spaceId=${space_id}`;
   switch (key) {
     case 'delete':
       deleteDoc({
-        catalog,
         docId: doc_id,
-        docTitle: title,
-        spaceId: space_id
+        docTitle: title
       }, (success) => { success && history.replace(`/spacedetail?spaceId=${space_id}`); });
       break;
     case 'template':
