@@ -1,11 +1,10 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import { useHistory, NavLink } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import Modal from '@common/modal';
-import Icon from '@common/icon';
 import CreateDocFromTemplateModal from '@components/create-doc-from-template';
 import axiosInstance from '@util/axiosInstance';
-import { SPACE_TYPE_ICON } from '@config/index';
 import { createNewDocAction } from '@util/commonFun';
+import { SpaceLists } from './function';
 import './index.css';
 
 /**
@@ -37,8 +36,7 @@ export default function CreateDoc({
   }, []);
 
   // 点击创建文档，显示modal
-  const onChooseSpace = useCallback(async (e) => {
-    const info = e.currentTarget.getAttribute('data-item');
+  const onChooseSpace = useCallback(async (info) => {
     const { space_id } = info;
     if (mode === 'template') {
       setSpaceInfo(info);
@@ -72,33 +70,6 @@ export default function CreateDoc({
       spaceId={spaceId} />;
   }
 
-  const renderSpaceList = useCallback(() => {
-    if (loading) {
-      return <div className="create_loading">
-        <Icon type="loading" />
-        <span>正在加载...</span>
-      </div>;
-    }
-    if (spaces.length === 0) {
-      return <div className="create-modal__tips">
-        您还未创建过知识库哟，
-        <NavLink to="/new">去创建</NavLink>
-        ,文档是存在知识库里。
-      </div>;
-    }
-    return spaces.map(n =>
-      <div
-        data-item={n}
-        onClick={onChooseSpace}
-        key={n.id}
-        className="header-spaces__list flex">
-        <img src={SPACE_TYPE_ICON[n.scene]} />
-        <span style={{ maxWidth: 'calc(100% - 100px)' }}
-          className="ellipsis">{n.name}</span>
-      </div >
-    );
-  }, [loading, spaces]);
-
   return (
     <>
       <Modal
@@ -109,7 +80,9 @@ export default function CreateDoc({
         onConfirm={() => { history.push('/new'); }}
         confirmText="创建知识库"
         visible={visible} >
-        {renderSpaceList()}
+        <SpaceLists loading={loading}
+          spaces={spaces}
+          onChooseSpace={onChooseSpace} />
       </Modal>
       <CreateDocFromTemplateModal
         onHide={() => { setTemplateModalVisible(false); }}

@@ -110,8 +110,11 @@ export default function ShortcutEntrance({
     fetchShortcut();
   }, []);
 
+  const height = (entries && entries.length) ? `${entries.length * 58 + 32}px` : 'auto';
+
   return (
     <div
+      style={{ height }}
       className={$.trim(`${prefixClass} ${className}`)}>
       <div className="shortcut-entrance__head">
         <div>快捷入口</div>

@@ -17,11 +17,14 @@ export default function Dropdown({
   const [expand, setExpand] = useState(visible);
 
   const onClick = useCallback(() => {
+    if (disabled) {
+      return;
+    }
     if (trigger === 'click') {
       setExpand(!expand);
       onVisibleChange(!expand);
     }
-  }, [expand, trigger]);
+  }, [expand, trigger, disabled]);
 
   useEffect(() => {
     setExpand(visible);

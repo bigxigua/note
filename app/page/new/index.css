@@ -119,29 +119,9 @@
 
 .create-button {
     width: 100%;
-    height: 32px;
-    color: #fff;
-    background-color: #25b864;
-    font-weight: 400;
-    font-size: 14px;
-    border-radius: 4px;
-    transition: all linear 0.2s;
-    outline: none;
-    border: 1px solid #25b864;
     margin-top: 18px;
 }
 
-.create-button:hover {
-    background-color: #47c479;
-    border-color: #47c479;
-    border-color: #47c479;
-}
-
-.create-button:active {
-    border: none;
-    background-color: #16914f;
-    border-color: #16914f;
-}
 
 .New_Preview {
     width: 640px;
@@ -167,7 +147,7 @@
     font-weight: 500;
 }
 
-.New_Preview_Img {
+.new-preview__img {
     width: 620px;
     border: 1px solid #e8e8e8;
     margin-top: 20px;

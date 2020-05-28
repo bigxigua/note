@@ -5,7 +5,7 @@ const scenceMap = {
   DOCS: {
     title: '文档空间',
     subTitle: '提供结构化展示和目录编排功能，在线完成各种知识创作和分类。',
-    img: ['/images/doc_preview_1.jpg', '/images/doc_preview_2.jpg'],
+    img: ['/images/doc_preview_1.jpg', '/images/doc_preview_2.jpg', 'https://www.bigxigua.net/file/images/1590670774222.png'],
     desc: '可用用来记录读书笔记、帮助手册、日记、个人笔记、读书心得等场景'
   }
 };
@@ -25,7 +25,7 @@ export default function Preview({
     {
       template.img.map((n, i) => {
         return <img
-          className="New_Preview_Img"
+          className="new-preview__img"
           key={i}
           src={n} />;
       })

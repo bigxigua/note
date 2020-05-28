@@ -71,7 +71,6 @@ export default function Article({ docInfo = {}, share = false }) {
     zoomEl: true,
     preloaderEl: true,
     counterEl: true,
-    closeOnVerticalDrag: false,
     mainClass: 'xigua-ps'
   };
   return (

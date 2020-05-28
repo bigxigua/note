@@ -1,6 +1,4 @@
 .shortcut-entrance {
-  transition: height linear 0.2s;
-  will-change: height;
   user-select: none;
 }
 

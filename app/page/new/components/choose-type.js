@@ -2,6 +2,7 @@ import React, { useState, useCallback } from 'react';
 import Dropdown from '@common/dropdown';
 import Scene from '@common/scene';
 import Input from '@common/input';
+import Button from '@common/button';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
@@ -27,6 +28,7 @@ export default function NewChooseType({
   const message = useMessage();
   const history = useHistory();
   const [menus, setMenus] = useState(MENUS);
+  const [createLoading, setCreateLoading] = useState(false);
   const [typeScenes, setTypeSences] = useState(TYPESCENES);
   const [templateSences, setTemplateSences] = useState(TEMPLATE_SCENCE);
   const [info, setInfo] = useState(typeScenes[0]);
@@ -63,7 +65,10 @@ export default function NewChooseType({
   }, [info]);
 
   // 提交
-  const onCreateSpace = async () => {
+  const onCreateSpace = useCallback(async () => {
+    if (createLoading) {
+      return;
+    }
     const {
       title: name,
       desc: description,
@@ -74,6 +79,7 @@ export default function NewChooseType({
       message.error({ content: '请先完善信息' });
       return;
     }
+    setCreateLoading(true);
     const [error, data] = await axiosInstance.post('create/space', {
       name,
       description,
@@ -83,11 +89,14 @@ export default function NewChooseType({
     if (!error && data && data.spaceId) {
       await addRecent({ spaceId: data.spaceId, spaceName: name, type: 'CreateSpace' });
       message.success({ content: '创建成功', d: 500, onClose: () => history.push(`/spacedetail?spaceId=${data.spaceId}`) });
+      setCreateLoading(false);
       return;
     }
+    setCreateLoading(false);
     message.error({ content: (error || {}).message || '系统开小差啦，稍等试试吧' });
     console.log('[创建空间失败 ]', error);
-  };
+  }, [info, menus]);
+
   const Overlay = <CreateMenu
     onClick={onClick}
     menus={menus} />;
@@ -114,6 +123,7 @@ export default function NewChooseType({
     <div className="New_Choose">
       <h1>可见范围</h1>
       <Dropdown
+        disabled={true}
         overlay={Overlay}
         trigger="click">
         <CreateMenu
@@ -141,9 +151,13 @@ export default function NewChooseType({
         w={'100%'}
         onChange={(e) => { onInputChange(e, 'desc'); }}
         className="New_TextArea" />
-      <button
+      <Button
         className="create-button"
-        onClick={onCreateSpace}>新建</button>
+        particle={false}
+        type="primary"
+        loading={createLoading}
+        disabled={createLoading}
+        onClick={onCreateSpace}>新建</Button>
     </div>
   );
 };
