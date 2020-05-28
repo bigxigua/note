@@ -11,6 +11,7 @@ import '@public/editor/simditor-markdown';
 import '@public/editor/simditor-inline-code';
 import '@public/editor/simditor-emoji';
 import '@public/editor/simditor-html';
+import '@public/editor/simditor-dropzone';
 // https://github.com/mycolorway/simditor-livemd
 import '@public/editor/simditor-livemd';
 // import '@public/editor/simditor-mark';
