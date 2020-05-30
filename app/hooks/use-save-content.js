@@ -23,16 +23,12 @@ export default function useSaveContent({
 
     const markdown = '';
 
-    // editormd方式获取html
-    // const html = editor.getHtmlFromMarkDown(markdown);
-
     // simditor方式获取html
     const html = editor.getValue();
 
-    // editormd方式获取cover背景图
-    // const cover = getImageFormMakeDown(markdown, html, editor) || '';
-    const cover = '';
-
+    // 从html中通过正则匹配一张图片作为cover
+    const cover = ((Array.from(editor.body.find('img')).filter(n => !n.getAttribute('data-emoji')) || [])[0] || {}).src;
+    // 提取简介
     const abstract = html.replace(/<\/?[^>]*>/g, '').substr(0, 160).replace(/[\r\n]/g, '');
     const title = $('.simditor-title>input').val();
     const publishParams = !publish

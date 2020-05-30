@@ -52,13 +52,11 @@ function ActionButtons({
   } else if (type.toLocaleLowerCase() === 'toc') {
     return <Button
       content="更新"
-      style={{ marginLeft: '20px' }}
       onClick={onUpdateCatalog}
       type="primary" />;
   } else {
     return <Button
       content="编排目录"
-      style={{ marginLeft: '20px' }}
       link={{
         to: `/spacedetail?spaceId=${spaceId}&type=toc`,
         target: 'blank'
@@ -125,7 +123,8 @@ export default function ChapterHeader({
         }} />
       <Button
         content="新建"
-        disabled={type !== 'toc'}
+        hide={type !== 'toc'}
+        style={{ marginRight: '20px' }}
         onClick={onCreate} />
       <ActionButtons
         type={type}

@@ -6,22 +6,27 @@
   flex-direction: column;
   justify-content: space-between;
   border-bottom: 1px solid #e8e8e8;
+  border-top: 1px solid #e8e8e8;
+  background: #fff;
+  margin-bottom: 10px;
 }
 
 .docItem_content {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   overflow: hidden;
+  margin-bottom: 4px;
 }
 
 .docItem_content_img {
   flex-shrink: 0;
   width: 96px;
   height: 60px;
-  margin-left: 16px;
   background-color: #d9d9d9;
   border-radius: 2px;
+  margin-top: 18px;
+  background-color: #d9d9d9;
 }
 
 .docItem_content_left {

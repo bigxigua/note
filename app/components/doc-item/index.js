@@ -38,7 +38,7 @@ export default function DocItem({ docInfo = {} }) {
         <span className="ellipsis">{user.name}</span>
         <span className="docItem_meta-name">发布于</span>
         <Link className="ellipsis"
-          to={`/article/${docInfo.doc_id}?spaceId=${docInfo.space_id}`}>{space.name}</Link>
+          to={`/spacedetail?spaceId?spaceId=${docInfo.space_id}`}>{space.name}</Link>
         <span className="docItem_meta-name">{formatTimeStamp(updated_at_timestamp, 'simple')}</span>
       </div>
     </div>

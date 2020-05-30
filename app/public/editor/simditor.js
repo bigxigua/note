@@ -1946,6 +1946,8 @@
       separator: '<li><span class="separator"></span></li>'
     };
 
+    Toolbar.prototype.fullToolBar = ['inlinecode', 'title', 'bold', 'italic', 'underline', 'strikethrough', 'fontScale', 'color', 'ol', 'ul', 'blockquote', 'code', 'table', 'emoji', 'link', 'image', 'hr', 'checklist', 'indent', 'outdent', 'alignment'];
+
     Toolbar.prototype._init = function () {
       var floatInitialized, initToolbarFloat, scrollContainerOffset, toolbarHeight;
       this.editor = this._module;
@@ -2044,7 +2046,12 @@
       // this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.wrapper);
       this.wrapper = $(this._tpl.wrapper).prependTo(this.editor.el.parent().parent());
       this.list = this.wrapper.find('ul');
-      ref = this.opts.toolbar;
+      // ref = this.opts.toolbar;
+      // 这里换成fullToolBar是为了全部渲染。但是否显示工具还是由toolbar参数控制
+      ref = this.fullToolBar;
+      // this.opts.toolbar.forEach(() => {
+
+      // });
       for (k = 0, len = ref.length; k < len; k++) {
         name = ref[k];
         if (name === '|') {
@@ -3042,9 +3049,14 @@
     };
 
     Button.prototype.render = function () {
+      const toolbar = this.editor.toolbar.opts.toolbar;
       this.wrapper = $(this._tpl.item).appendTo(this.editor.toolbar.list);
       this.el = this.wrapper.find('a.toolbar-item');
       this.el.attr('title', this.title).addClass("toolbar-item-" + this.name).data('button', this);
+      // 不在toolbar里的进行隐藏
+      if (toolbar.findIndex(n => n === this.name) === -1) {
+        this.el.attr('style', "display: none;")
+      }
       this.setIcon(this.icon);
       if (!this.menu) {
         return;

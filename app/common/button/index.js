@@ -17,6 +17,7 @@ const typeClassName = {
   * @param {boolean} particle - 是否显示点击粒子动画，默认true
   * @param {boolean} loading - 是否显示加载态，默认false
   * @param {boolean} disabled -  是否显示禁用态，默认false
+  * @param {boolean} hide -  是否显隐藏，返回null
   * @param {string} type -  按钮类型，参考typeClassName
   * @param {string} className -  className
   * @param {object} style -  按钮style
@@ -31,6 +32,7 @@ export default function Button(props) {
     particle = true,
     loading = false, // 是否显示loading
     disabled = false, // 是否禁用
+    hide = false,
     type = 'default', // 类型
     className = '',
     style = {},
@@ -38,10 +40,13 @@ export default function Button(props) {
     link = null,
     onClick = () => { }
   } = props;
+  if (hide) {
+    return null;
+  }
   // const { isMobile } = checkBrowser();
   const loadingClassName = loading ? 'button-loading' : '';
   const disabledClassName = disabled ? 'button-disabled' : '';
-  // const mobileClassName = isMobile ? 'button-mobile' : '';
+  const mobileClassName = window.isMobile ? 'button-mobile' : '';
 
   const onButtonClick = () => {
     if (loading || disabled) {
@@ -58,7 +63,7 @@ export default function Button(props) {
     onClick();
   };
 
-  const classes = $.trim(`button ${particle ? 'button_particle' : ''} ${className} ${typeClassName[type]} ${loadingClassName} ${disabledClassName}`);
+  const classes = $.trim(`button ${particle ? 'button_particle' : ''} ${className} ${typeClassName[type]} ${mobileClassName} ${loadingClassName} ${disabledClassName}`);
 
   return (
     <button
