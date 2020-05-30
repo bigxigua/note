@@ -27,6 +27,8 @@ const InterpolateHtmlPlugin = require('./InterpolateHtmlPlugin');
 const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
 // 可视化分析
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// copy-webpack-plugin
+
 const {
   shouldUseSourceMap,
   isEnvProduction,

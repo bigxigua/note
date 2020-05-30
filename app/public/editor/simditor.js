@@ -3926,6 +3926,9 @@
 
     CodeButton.prototype.disableTag = 'ul, ol, table';
 
+    CodeButton.prototype.checkLangTimer = 0;
+    CodeButton.prototype.hasWorkerOnMessage = false;
+
     CodeButton.prototype._init = function () {
       CodeButton.__super__._init.call(this);
       this.editor.on('decorate', (function (_this) {
@@ -3976,6 +3979,7 @@
       if (this.active) {
         return this.popover.show(this.node);
       } else {
+        // 检测语言类型
         return this.popover.hide();
       }
     };
@@ -4000,6 +4004,40 @@
         $code.addClass('lang-' + lang);
         $pre.addClass('lang-' + lang);
       }
+      // 自动语言检测
+      if (this.active) {
+        clearTimeout(this.checkLangTimer);
+        this.checkLangTimer = setTimeout(() => {
+          const htmls = Array.from(this.editor.body.find('pre')).reduce((p, v) => {
+            const c = (v.className.match(/bigxigua-pre__\d{13,}/) || [])[0];
+            const dataLang = v.getAttribute('data-lang')
+            if (c && !dataLang) {
+              p.push({
+                className: c,
+                code: v.innerHTML
+              });
+            }
+            return p;
+          }, []);
+          window.xiguaWorker.postMessage({
+            type: 'PRE-CHECK-LANG',
+            data: htmls
+          });
+          if (!this.hasWorkerOnMessage) {
+            window.xiguaWorker.onmessage = (event) => {
+              const { type, data = [] } = JSON.parse(event.data) || {};
+              if (type === 'PRE-CHECK-LANG' && Array.isArray(data) && data.length) {
+                console.log('[BROWER RECEIVED]', data);
+                data.filter(n => n.language).forEach(({ className, language }) => {
+                  if (this.popover.langs.findIndex(n => n.value === language) !== -1) {
+                    $(`.${className}`).attr('data-lang', language);
+                  }
+                });
+              }
+            }
+          }
+        }, 2000);
+      }
       return $pre.wrapInner($code).removeAttr('data-lang');
     };
 
@@ -4022,11 +4060,9 @@
           if (!(nodeCache.length > 0)) {
             return;
           }
-          $pre = $("<" + _this.htmlTag + "/>").insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
-          // $pre.wrapInner($('<code class="language-javascript" />'));
+          const className = `bigxigua-pre__${Date.now()}`;
+          $pre = $(`<${_this.htmlTag} class="${className}" />`).insertBefore(nodeCache[0]).text(_this.editor.formatter.clearHtml(nodeCache));
           resultNodes.push($pre[0]);
-          // console.log($pre.get(0), _this.editor.formatter.clearHtml(nodeCache));
-          // 输入的时候改。
           return nodeCache.length = 0;
         };
       })(this);
@@ -4161,7 +4197,7 @@
           var selected;
           _this.lang = _this.selectEl.val();
           selected = _this.target.hasClass('selected');
-          _this.target.removeClass().removeAttr('data-lang');
+          _this.target.removeAttr('data-lang');
           if (_this.lang !== -1) {
             _this.target.attr('data-lang', _this.lang);
           }

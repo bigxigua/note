@@ -42,6 +42,9 @@ const PageWrapper = (Compoment, pathname, title) => {
 
 class App extends React.Component {
   componentDidMount() {
+    const xiguaWorker = new window.Worker('/worker.js');
+    window.xiguaWorker = xiguaWorker;
+
     window.isMobile = Boolean(checkBrowser().isMobile);
   }
 
