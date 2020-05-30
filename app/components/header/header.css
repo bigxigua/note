@@ -13,6 +13,7 @@
 
 .header-wrapper_mobile {
     padding: 0 12px;
+    height: 48px;
 }
 
 .header-wrapper_Hide {
@@ -85,13 +86,11 @@
     font-size: 20px;
     margin-right: 4px;
     color: #25B668;
-    position: relative;
-    top: 2px;
 }
 
 .Header_Popover_Add .Icon:last-child {
     transform: scale(.8);
-    top: 2.5px;
+    top: 2px;
 }
 
 .Header_Popover_Add_Item {

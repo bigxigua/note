@@ -10,8 +10,8 @@ import { parseUrlQuery, checkBrowser } from '@util/util';
 import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
 import { codeBeautiful, getImgsFromHtml } from './handle';
 import Prism from '@public/prism/prism.js';
-import '@public/prism/prism.css';
 import './index.css';
+import '@public/prism/prism.css';
 
 const { isMobile } = checkBrowser();
 
@@ -90,7 +90,7 @@ export default function Article({ docInfo = {}, share = false }) {
         <Footer />
       </div>
       {
-        psImgs.length && <PhotoSwipe
+        Boolean(psImgs.length) && <PhotoSwipe
           isOpen={Boolean(psIndex > -1)}
           items={psImgs.slice(0)}
           options={psOtions}

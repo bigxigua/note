@@ -89,7 +89,7 @@
   cursor: not-allowed;
 }
 
-.button_particle::before {
+.button_particle:not(.button-disabled)::before {
   position: absolute;
   content: '';
   left: -2em;

@@ -293,10 +293,6 @@
   margin-left: 0;
 }
 
-.article-html_mobile pre {
-  font-size: 12px;
-}
-
 .Article_DraftTips {
   background-color: #fafafa;
   border-radius: 4px;
@@ -414,3 +410,8 @@
 /* .xigua-ps .pswp__button--zoom {
   display: block;
 } */
+
+.article-html_mobile pre[class*="language-"].line-numbers {
+  padding-left: 3em;
+  font-size: 12px;
+}

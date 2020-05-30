@@ -4029,7 +4029,7 @@
               if (type === 'PRE-CHECK-LANG' && Array.isArray(data) && data.length) {
                 console.log('[BROWER RECEIVED]', data);
                 data.filter(n => n.language).forEach(({ className, language }) => {
-                  if (this.popover.langs.findIndex(n => n.value === language) !== -1) {
+                  if (this.popover.langs.findIndex(n => new RegExp(language).test(n.value)) !== -1) {
                     $(`.${className}`).attr('data-lang', language);
                   }
                 });

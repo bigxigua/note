@@ -200,7 +200,11 @@ export function listenContainerScrollToShowCurCatalog({
 export function scrollToElement($container) {
   try {
     const id = window.location.hash.split('#')[1] || '';
-    if (!id || $(`#${id}`).length === 0) {
+    if (!id) {
+      $container.animate({ scrollTop: 0 }, 0);
+      return;
+    }
+    if ($(`#${id}`).length === 0) {
       return;
     };
     $container.animate({
