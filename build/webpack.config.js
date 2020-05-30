@@ -1,5 +1,6 @@
 const webpack = require('webpack');
 const path = require('path');
+const fs = require('fs');
 // 压缩代码，用于替换uglifyjs-webpack-plugin
 const TerserPlugin = require('terser-webpack-plugin');
 // 它将在Webpack构建期间搜索CSS资产，并将优化、最小化CSS（默认情况下，它使用cssnano，但可以指定自定义CSS处理器）。解决了extract-text-webpack-plugin CSS重复问题
@@ -28,6 +29,9 @@ const ModuleNotFoundPlugin = require('./ModuleNotFoundPlugin');
 // 可视化分析
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 // copy-webpack-plugin
+const CopyPlugin = require('copy-webpack-plugin');
+const appDirectory = fs.realpathSync(process.cwd());
+const resolveApp = relativePath => path.resolve(appDirectory, './app/' + relativePath);
 
 const {
   shouldUseSourceMap,
@@ -384,6 +388,9 @@ const webpackConfig = {
           }
           : undefined
       )
+    ),
+    new CopyPlugin(
+      [{ from: resolveApp('public/worker.js'), to: resolveApp('dist') }]
     ),
     // 显示文件大小
     // new BundleAnalyzerPlugin(),
