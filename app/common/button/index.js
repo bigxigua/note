@@ -43,7 +43,6 @@ export default function Button(props) {
   if (hide) {
     return null;
   }
-  // const { isMobile } = checkBrowser();
   const loadingClassName = loading ? 'button-loading' : '';
   const disabledClassName = disabled ? 'button-disabled' : '';
   const mobileClassName = window.isMobile ? 'button-mobile' : '';

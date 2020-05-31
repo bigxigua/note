@@ -269,27 +269,13 @@ export function deleteDoc({ docId, docTitle }, callback) {
 * @return {object} { title: 标题， content: 文档内容 }
 */
 let isLoading = false;
-export async function setDocToTemplate({
-  html,
-  title,
-  docId,
-  url
-}) {
-  if (!html) {
-    message.error({ content: '空文档不可以设置为模版' });
-    return [];
-  }
+export async function setDocToTemplate({ docId }) {
   if (isLoading) {
     return [];
   }
   isLoading = true;
   message.loading({ content: '正在设置,这可能会需要点时间...' });
-  const [error, data] = await axiosInstance.post('create/template', {
-    html,
-    title,
-    docId,
-    url
-  });
+  const [error, data] = await axiosInstance.post('create/template', { docId });
   isLoading = false;
   if (getIn(data, ['templateId'])) {
     message.success({ content: '模版设置成功' });

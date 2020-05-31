@@ -207,7 +207,7 @@ export default function Docs() {
     } else if (key === 'editor') {
       history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
     } else if (key === 'template') {
-      const [, data] = await setDocToTemplate({ html, title, url, docId: doc_id });
+      const [, data] = await setDocToTemplate({ docId: doc_id });
       if (getIn(data, ['templateId'])) {
         setDataSource(dataSource.map(n => {
           return { ...n, is_template: n.doc_id === doc_id ? '1' : n.is_template };
