@@ -37,7 +37,10 @@ export default function Popover({
   }, []);
 
   const hidePopover = useCallback(() => {
-    contentRef.current.classList.remove(SHOW_CLASSNAME);
+    try {
+      contentRef.current.classList.remove(SHOW_CLASSNAME);
+    } catch (error) {
+    }
     popoverToggleOpen(false);
   }, []);
 

@@ -19,8 +19,15 @@ async function onUpdate(update, editor, docId, spaceId) {
   }
 }
 
+/**
+  * 文章页Header
+  * @param {object} docInfo - 当前文档信息
+  * @param {object} spaceInfo - 当前文档空间信息
+  * @param {string} className - className
+*/
 export default function ArticleHeader({
   docInfo = {},
+  spaceInfo = {},
   className = ''
 }) {
   if (!docInfo || !docInfo.doc_id) {
@@ -47,7 +54,7 @@ export default function ArticleHeader({
     text: '文档',
     pathname: '/docs'
   }, {
-    text: getIn(docInfo, ['space', 'name'], ''),
+    text: getIn(spaceInfo, ['name'], ''),
     pathname: `/spacedetail?spaceId=${spaceId}`
   }, {
     text: getIn(docInfo, ['title'], ''),

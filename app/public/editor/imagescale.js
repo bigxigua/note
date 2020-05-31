@@ -35,7 +35,7 @@
 
     ScaleModule.prototype.scaleImage = function (img) {
       img.on('click', () => {
-        console.log('------>>>>>');
+        // console.log('------>>>>>');
       });
     };
 

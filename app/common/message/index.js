@@ -49,7 +49,6 @@ export default function Message({
   const [notices, setNotices] = useState([]);
 
   useEffect(() => {
-    console.log('-------', type);
     const timer = setTimeout(() => {
       // $(messageRef.current).unwrap().remove();
     }, duration * 1000);

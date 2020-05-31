@@ -2,7 +2,6 @@ import React, { useState, useEffect, useCallback } from 'react';
 import Icon from '@common/icon';
 import List from '@common/list';
 import Popover from '@components/popover';
-import axiosInstance from '@util/axiosInstance';
 import { parseUrlQuery, getIn } from '@util/util';
 import { extractCatalog, findTargetCatalogPath, createNewDocAction } from '@util/commonFun';
 import { CatalogsComponent, addIsOpenProperty } from './handle';
@@ -20,35 +19,42 @@ const settingList = [{
   key: 'create'
 }];
 
-export default function SpaceCatalog() {
+/**
+  * 当前空间的目录
+  * @param {array} docs - 当前空间下的所有文档列表
+  * @param {object} spaceInfo - 当前文档所属空间信息
+  * @param {boolean} loading -  正在获取空间下的文档列表
+*/
+export default function SpaceCatalog({
+  loading = false,
+  spaceInfo = {},
+  docs = []
+}) {
   const isShare = /\/share\//g.test(window.location.pathname);
+  // 移动端和分享页均不显示空间目录
   if (window.isMobile || isShare) {
     return null;
   }
   const { spaceId = '' } = parseUrlQuery();
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   // 正在加载目录
-  const [loading, setLoading] = useState(false);
   const [catalogs, setCatalogs] = useState([]);
   const [docLists, setDocLists] = useState([]);
   const history = useHistory();
 
-  // 获取属于同一空间的文档列表
-  const fetchDocsBySpaceId = useCallback(async () => {
-    setLoading(true);
-    console.log('--------');
-    const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
-    const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
+  useEffect(() => {
+    console.log(docs, spaceInfo);
+    if (!Array.isArray(docs) || !docs.length) {
+      return;
+    }
+    const catalog = JSON.parse(getIn(spaceInfo, ['catalog'], '[]'));
     if (catalog.length > 1) {
       const result = extractCatalog(catalog.slice(1));
       const targetPath = findTargetCatalogPath(result, docId);
       setCatalogs(addIsOpenProperty(result, targetPath));
-      setDocLists(data.docs);
-    } else {
-      console.log('[获取space下doc列表失败] ', error);
+      setDocLists(docs);
     }
-    setLoading(false);
-  }, [docId]);
+  }, [docs, spaceInfo]);
 
   // 点击章节目录展开or收起子目录
   const onToggleExpandCatalog = useCallback((item, index) => {
@@ -76,7 +82,7 @@ export default function SpaceCatalog() {
   }, [spaceId]);
 
   useEffect(() => {
-    fetchDocsBySpaceId();
+    // fetchDocsBySpaceId();
   }, [spaceId]);
 
   return (
@@ -97,7 +103,6 @@ export default function SpaceCatalog() {
           docs={docLists}
           onToggleExpandCatalog={onToggleExpandCatalog}
           loading={loading} />
-        {/* {renderCatalogs(catalogs, docLists, onToggleExpandCatalog, loading)} */}
       </div>
     </nav>
   );

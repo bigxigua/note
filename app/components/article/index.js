@@ -30,13 +30,21 @@ function getHtml(docInfo = {}, content) {
 /**
   * 文章组件
   * @param {object} docInfo - 当前文档信息
-  * @param {object} docInfo - 当前文档信息
+  * @param {object} spaceInfo - 当前文档所属空间信息
+  * @param {array} docs - 当前空间下的所有文档列表
+  * @param {boolean} isLoading - 正在获取空间下的文档列表
   * @param {boolean} share -  是否为分享页的文章组件
 */
-export default function Article({ docInfo = {}, share = false }) {
-  if (!docInfo || !docInfo.doc_id) {
-    return <Icon type="loading" />;
-  }
+export default function Article({
+  docInfo = {},
+  spaceInfo = {},
+  docs = [],
+  isLoading = false,
+  share = false
+}) {
+  // if (isLoading) {
+  //   return <Icon type="loading" />;
+  // }
   // 是否展示PhotoSwipe
   const [psIndex, setShowPsIndex] = useState(-1);
   // PhotoSwipe图片集合
@@ -47,7 +55,7 @@ export default function Article({ docInfo = {}, share = false }) {
   useEffect(() => {
     const html = getHtml(docInfo, content);
     const $html = $('.article-html');
-    $html.html(String(html));
+    $html.html(String(html || ''));
     setTimeout(() => {
       // 给table包裹一层div
       $html.find('table').wrap($('<div class="article-html__tablebox"></div>'));
@@ -79,7 +87,9 @@ export default function Article({ docInfo = {}, share = false }) {
   };
   return (
     <div className="article-wrapper">
-      <SpaceCatalog />
+      <SpaceCatalog docs={docs}
+        spaceInfo={spaceInfo}
+        loading={isLoading} />
       <div
         className={$.trim(classes)}>
 
