@@ -27,8 +27,12 @@ function getHtml(docInfo = {}, content) {
   return content === 'origin' ? docInfo.html : html;
 }
 
-// docInfo 文档信息
-// share 是否是分享页面
+/**
+  * 文章组件
+  * @param {object} docInfo - 当前文档信息
+  * @param {object} docInfo - 当前文档信息
+  * @param {boolean} share -  是否为分享页的文章组件
+*/
 export default function Article({ docInfo = {}, share = false }) {
   if (!docInfo || !docInfo.doc_id) {
     return <Icon type="loading" />;

@@ -67,7 +67,7 @@ export default function TableHeader({
         }
       </div>
       <Search
-        placeholder="输入标题内容进行搜索"
+        placeholder="输入关键字搜索"
         onEnter={onSearchEnter} />
     </div>;
   }
@@ -85,7 +85,7 @@ export default function TableHeader({
       {!isDocsPage && <p className="table-header__title">知识库</p>}
       <div className="table-header__right flex">
         <Search
-          placeholder="输入标题内容进行搜索"
+          placeholder="输入关键字搜索"
           onEnter={onSearchEnter} />
         {
           isDocsPage

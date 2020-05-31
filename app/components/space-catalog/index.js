@@ -36,6 +36,7 @@ export default function SpaceCatalog() {
   // 获取属于同一空间的文档列表
   const fetchDocsBySpaceId = useCallback(async () => {
     setLoading(true);
+    console.log('--------');
     const [error, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
     const catalog = JSON.parse(getIn(data, ['space', 'catalog'], '[]'));
     if (catalog.length > 1) {
