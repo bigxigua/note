@@ -76,7 +76,7 @@ export function ShareButtons({ docInfo = {} }) {
   }, [docInfo]);
 
   const onShare = useCallback(async (share) => {
-    if (share === shareStatus /* copy */) {
+    if (share === shareStatus && share === '1' /* copy */) {
       Modal.confirm({
         title: '文档已分享',
         subTitle: '可复制下面链接进行访问',
@@ -90,15 +90,15 @@ export function ShareButtons({ docInfo = {} }) {
     setFetching(true);
     const result = await toggleShare({ share, docId });
     setFetching(false);
-    setShareStatus(share);
-    if (result && share === '1') {
-      Modal.confirm({
+    if (result) {
+      share === '1' && Modal.confirm({
         title: '文档已分享',
         subTitle: '可复制下面链接进行访问',
         top: '200px',
         content: <ShareLink docId={docId} />,
         footer: 'none'
       });
+      setShareStatus(share);
     }
   }, [docId, shareStatus, isFetching]);
 
