@@ -1,9 +1,9 @@
 .Tag {
   color: #fff;
   border-color: transparent;
-  padding: 0 7px;
+  padding: 2px 6px;
   font-size: 12px;
-  line-height: 20px;
+  /* line-height: 20px; */
   white-space: nowrap;
   background: #fafafa;
   border-radius: 4px;
@@ -11,6 +11,7 @@
   opacity: 1;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   font-weight: 600;
   transform-origin: left;
 }

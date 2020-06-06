@@ -43,7 +43,6 @@ export default function SpaceCatalog({
   const history = useHistory();
 
   useEffect(() => {
-    console.log(docs, spaceInfo);
     if (!Array.isArray(docs) || !docs.length) {
       return;
     }

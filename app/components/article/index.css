@@ -120,12 +120,19 @@
   font-family: monospace;
   font-size: inherit;
   background-color: rgba(0, 0, 0, 0.06);
-  padding: 0 2px;
+  padding: 2px;
   border: 1px solid rgba(0, 0, 0, 0.08);
   border-radius: 2px 2px;
-  line-height: inherit;
+  /* line-height: inherit; */
+  line-height: 0;
   word-wrap: break-word;
   text-indent: 0;
+}
+
+.article-html .xigua-inline__code {
+  /* display: inline-flex;
+  align-items: center;
+  justify-content: center; */
 }
 
 .article-html ol,

@@ -11,7 +11,7 @@ import './index.css';
 
 const copywriting = {
   login: {
-    title: '西瓜笔记',
+    title: '西瓜文档',
     subTitle: '工欲善其事，必先利其器'
   },
   register: {

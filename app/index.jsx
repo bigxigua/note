@@ -60,41 +60,41 @@ class App extends React.Component {
             <Route
               exact
               path="/(index|)"
-              component={PageWrapper(Index, '/', '工作台 · 西瓜笔记')}
+              component={PageWrapper(Index, '/', '工作台 - 西瓜文档')}
             />
             <Route
               path="/simditor/:id"
-              component={PageWrapper(Simditor, '/simditor/:id', '文档 · Simditor')}
+              component={PageWrapper(Simditor, '/simditor/:id', '文档 - Simditor')}
             />
             <Route
               path="/share/:id"
-              component={PageWrapper(Share, '/share/:id', '文档 · 西瓜笔记')}
+              component={PageWrapper(Share, '/share/:id', '文档 - 西瓜文档')}
             />
             <Route
               path="/article/:id"
-              component={PageWrapper(Article, '/article/:id', '文档 · 西瓜笔记')}
+              component={PageWrapper(Article, '/article/:id', '文档 - 西瓜文档')}
             />
             <Route
               path="/new/"
-              component={PageWrapper(New, '/new/', '新建空间 · 西瓜笔记')}
+              component={PageWrapper(New, '/new/', '新建空间 - 西瓜文档')}
             />
             <Route
               path="/space/"
               exact
-              component={PageWrapper(Space, '/space/', '空间 · 西瓜笔记')}
+              component={PageWrapper(Space, '/space/', '知识库 - 西瓜文档')}
             />
             <Route
               path="/spacedetail/"
               exact
-              component={PageWrapper(SpaceDetail, '/spacedetail/', '空间 · 西瓜笔记')}
+              component={PageWrapper(SpaceDetail, '/spacedetail/', '空间 - 西瓜文档')}
             />
             <Route
               path="/docs/"
-              component={PageWrapper(Docs, '/docs/', '文档 · 西瓜笔记')}
+              component={PageWrapper(Docs, '/docs/', '文档 - 西瓜文档')}
             />
             {/* <Route
               path="/graph/"
-              component={PageWrapper(Graph, '/graph/', '图表 · 西瓜笔记')}
+              component={PageWrapper(Graph, '/graph/', '图表 · 西瓜文档')}
             /> */}
             <Route
               exact

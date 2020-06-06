@@ -38,10 +38,9 @@ export async function logicalDeletion({ docId, spaceId } = {}) {
 }
 
 // 物理删除文档接口调用
-export async function physicalDeletion({ docId, spaceId } = {}) {
+export async function physicalDeletion({ docId } = {}) {
   const [error, data] = await axiosInstance.post('doc/delete', {
-    doc_id: docId,
-    space_id: spaceId
+    docId
   });
   return !error && data && data.STATUS === 'OK';
 }
@@ -60,12 +59,6 @@ export async function createNewDoc(info, callback = () => { }) {
   });
   const docId = getIn(data, ['docId'], '');
   if (docId) {
-    await addRecent({
-      docTitle: title,
-      type: 'CreateEdit',
-      spaceId,
-      docId
-    });
     // eslint-disable-next-line standard/no-callback-literal
     callback({ docId, spaceId });
   } else {

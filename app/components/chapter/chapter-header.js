@@ -21,20 +21,10 @@ function onDeleteSpace(space, __history__) {
   Modal.confirm({
     title: '确认物理永久删除该空间吗？QAQ',
     onOk: async () => {
-      const [error, data] = await axiosInstance.post('spaces/delete', { space_id });
+      const [error, data] = await axiosInstance.post('space/delete', { space_id, space_name: name });
       if (error || getIn(data, ['STATUS']) !== 'OK') {
         message.error({ content: getIn(error, ['message'], '系统繁忙') });
         return;
-      }
-      // 加历史记录
-      try {
-        await axiosInstance.post('add/recent', {
-          space_id, // 空间id
-          space_name: name, // 空间名称
-          type: 'DeleteSpace' // 类型
-        });
-      } catch (err) {
-        console.log(err);
       }
       __history__.replace('/space/');
     }

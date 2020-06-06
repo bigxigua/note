@@ -72,10 +72,12 @@ const typeMap = {
 
 // 点击每一项的跳转行为
 function handleClick(info, props, history) {
-  const spaceId = getIn(props, ['space', 'space_id'], '');
+  const { type, space_id: spaceId } = props;
   const docId = getIn(props, ['doc', 'doc_id'], props.doc_id || '');
   if (info.key === 'space') {
-    history.push(`/spacedetail?spaceId=${spaceId}`);
+    if (type !== 'DeleteSpace') {
+      history.push(`/spacedetail?spaceId=${spaceId}`);
+    }
   } else if (info.key === 'doc' && !['LogicalDeleteEdit', 'PhysicalDeleteEdit'].includes(props.type)) {
     history.push(`/article/${docId}/?spaceId=${spaceId}`);
   } else if (info.key === 'editor') {
@@ -170,14 +172,16 @@ export default function RecentContent(props) {
           {key === 'doc' &&
             <div className="ellipsis"
               onClick={(e) => { e.stopPropagation(); }}>
-              所属空间:<Link to={spaceUrl}>《{`${space.name}`}》</Link>
+              所属空间:<Link to={spaceUrl}>《{`${space.name || space_name}`}》</Link>
             </div>
           }
           <span>
             <span style={weightStyle}>{user.name}</span>
             <span>
               · {fromNow(update_at)} {info.text}
-              {info.key === 'space' && <span style={{ fontWeight: 'bold' }}>《{space_name || getIn(space, ['name'])}》</span>}
+              {info.key === 'space' && <span style={{ fontWeight: 'bold', cursor: 'pointer' }}
+                className={`${space.id ? '' : 'recent-content__normal'}`}
+              >《{space_name || getIn(space, ['name'])}》</span>}
             </span>
           </span>
         </div>

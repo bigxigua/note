@@ -15,6 +15,7 @@ export default function TableHeader({
 }) {
   const { isMobile } = checkBrowser();
   const history = useHistory();
+  const [value, setValue] = useState('');
   const [types, setTypes] = useState([
     { text: '所有文档', code: 'ALL', checked: true },
     { text: '已更新的', code: 'UPDATED' },
@@ -26,7 +27,10 @@ export default function TableHeader({
   // 切换查看的文档类型
   const onListItemClick = useCallback((info, index) => {
     if (!info.checked) {
-      onSomeThingClick('TYPE_CHANGE', info);
+      onSomeThingClick('TYPE_CHANGE', {
+        ...info,
+        q: value
+      });
       setTypes(types.map((n, i) => {
         return {
           ...n,
@@ -34,7 +38,7 @@ export default function TableHeader({
         };
       }));
     }
-  }, []);
+  }, [value]);
 
   // 确认搜索
   const onSearchEnter = useCallback((value) => {
@@ -43,6 +47,10 @@ export default function TableHeader({
       return;
     }
     onSomeThingClick('SEARCH_CHANGE', { code, q: value });
+  }, []);
+
+  const onChange = useCallback((e) => {
+    setValue(e.currentTarget.value);
   }, []);
 
   const Overlay = <List
@@ -79,12 +87,13 @@ export default function TableHeader({
         overlay={Overlay}>
         <p className="table-header__title">{types.filter(n => n.checked)[0].text}</p>
         <Icon
-          className="TableHeader_Icon_Down"
-          type="down" />
+          className="table-header__icon"
+          type="caret-down" />
       </Dropdown>}
       {!isDocsPage && <p className="table-header__title">知识库</p>}
       <div className="table-header__right flex">
         <Search
+          onChange={onChange}
           placeholder="输入关键字搜索"
           onEnter={onSearchEnter} />
         {

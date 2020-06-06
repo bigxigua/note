@@ -1,121 +1,44 @@
-import React, { useEffect, useState, Fragment, useCallback } from 'react';
+import React, { useEffect, useCallback } from 'react';
+import { useImmer } from 'use-immer';
 import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
-import Popover from '@components/popover';
-import DocItem from '@components/doc-item';
 import Table from '@common/table';
 import Tag from '@common/tag';
-import List from '@common/list';
-import Icon from '@common/icon';
-import Modal from '@common/modal';
-import Empty from '@common/empty';
-import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
+import { MoreActions, DoclistsForMobile } from './components';
 import { formatTimeStamp, checkBrowser, getIn } from '@util/util';
-import { addRecent, logicalDeletion, physicalDeletion, setDocToTemplate } from '@util/commonFun';
-import { addToShortcutEntry } from '@util/commonFun2';
 import './index.css';
 
-const message = useMessage();
 const { isMobile } = checkBrowser();
 
-// 下拉选项
-function renderDocOperation(onOperationClick, docInfo) {
-  const { is_template } = docInfo;
-  return (
-    <List className="docs_operations"
-      onTap={onOperationClick}
-      list={[{
-        text: '编辑',
-        key: 'editor',
-        docInfo
-      }, {
-        text: '删除',
-        key: 'delete',
-        docInfo
-      }, {
-        text: '设置为模版',
-        key: 'template',
-        disabled: is_template === '1',
-        docInfo
-      }, {
-        text: '添加到快捷入口',
-        key: 'addindex',
-        docInfo
-      }
-      ]} />);
-}
-// 恢复文档
-async function onRecovery(info, history) {
-  const { doc_id, space: { space_id } } = info;
-  const [error, data] = await axiosInstance.post('/doc/update', {
-    status: '1',
-    doc_id,
-    space_id
-  });
-  if (!error && data && data.STATUS === 'OK') {
-    history.push(`/article/${doc_id}?spaceId=${space_id}`);
-  } else {
-    message.error({ content: '系统开小差啦，请稍后再试' });
-    console.log('[恢复文档失败] ', error);
-  }
-}
-// 右侧操作项
-function renderRightJsx(info, handle, h, deleteDoc) {
-  if (info.status === '0') {
-    return (<div className="doc-action">
-      <span
-        onClick={() => { onRecovery(info, h); }}
-        style={{ color: 'rgb(37, 184, 100)', marginRight: '10px' }}>恢复</span>
-      <span onClick={() => { deleteDoc('thorough', info); }}>彻底删除</span>
-    </div>);
-  }
-  if (info.title_draft || info.html_draft) {
-    return <Link className="table-actions"
-      to={`/simditor/${info.doc_id}?spaceId=${info.space_id}&action=update`}>去更新</Link>;
-  }
-  return (
-    <div
-      className="flex"
-      style={{ width: '100px' }}>
-      <Link className="table-actions"
-        to={'/article' + info.url.split('article')[1]}>查看</Link>
-      <Popover content={renderDocOperation(handle, info)}>
-        <Icon type="ellipsis"
-          className="Space_Operation_Icon table-actions" />
-      </Popover>
-    </div>);
-}
-
-// 移动端显示到文档列表
-function renderDoclistsForMobile(lists = [], loading) {
-  if (!isMobile) {
-    return null;
-  }
-  if (loading) {
-    return <Icon
-      className="docs_m_loading"
-      type="loading" />;
-  }
-  if (!lists || lists.length === 0) {
-    return <Empty image="/images/undraw_empty.svg"
-      description="暂无文档" />;
-  }
-  return lists.map(item => {
-    return <DocItem
-      docInfo={item}
-      key={item.doc_id} />;
-  });
-}
-
 export default function Docs() {
-  const [dataSource, setDataSource] = useState(null);
-  // 分页参数
-  const [pageNo, setPageNo] = useState(1);
-  // 正在请求接口
-  const [loading, setLoading] = useState(false);
-  const history = useHistory();
+  const [state, setState] = useImmer({
+    loading: false, // 正在获取
+    total: 0, // 总页数
+    pageNo: 1, // 当前页码
+    searchContent: '', // 搜索条件
+    queryType: 'ALL', // 查询类型
+    dataSource: null // 文档列表
+  });
+  const { loading, total, pageNo, searchContent, queryType, dataSource } = state;
+  // 列表数据发生更改
+  const onDataSourceUpdate = useCallback((type, docId) => {
+    let data = [...dataSource];
+    const index = data.findIndex(n => n.doc_id === docId);
+    if (type === 'FAKE_DOC_DELETE') {
+      data = data.map((n, i) => { return { ...n, status: i === index ? '0' : n.status }; });
+    } else if (type === 'THOROUGH_DOC_DELETE') {
+      data.splice(index, 1);
+    } else if (type === 'SET_TO_TEMPLATE') {
+      data[index].is_template = '1';
+      data = data.map((n, i) => { return { ...n, is_template: i === index ? '1' : n.is_template }; });
+    }
+    setState(draft => {
+      draft.dataSource = data;
+    });
+  }, [dataSource]);
+
   const columns = [{
     title: '名称',
     key: 'title',
@@ -151,111 +74,73 @@ export default function Docs() {
       return <div style={{ width: '156px' }}>{formatTimeStamp(info.updated_at)}</div>;
     }
   }, {
-    title: '编辑',
+    title: '更多操作',
     key: 'url',
     render: (info) => {
-      return renderRightJsx(info, onOperationClick, history, deleteDoc);
+      return <MoreActions
+        docInfo={info}
+        dataSource={dataSource}
+        updateDataSource={onDataSourceUpdate} />;
     }
   }];
 
   // 获取文档列表
-  const fetchDocs = useCallback(async ({ type = 'ALL', q = '', page = '' } = {}) => {
-    setLoading(true);
-    const [error, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(q)}&type=${type.toLocaleLowerCase()}${page}`);
-    setLoading(false);
-    if (!error && data && Array.isArray(data) && data.length > 0) {
-      setDataSource(data.filter(n => n.status !== '-1'));
-    } else {
-      setDataSource([]);
-    }
-  }, []);
+  const fetchDocs = useCallback(async () => {
+    setState(draft => {
+      draft.loading = true;
+    });
+    const [, data] = await axiosInstance.get(`docs?q=${encodeURIComponent(searchContent)}&type=${queryType}&pageNo=${pageNo}`);
+    const docs = getIn(data, ['docs'], []);
+    const total = getIn(data, ['total']);
+    setState(draft => {
+      draft.dataSource = Array.isArray(docs) ? docs : [];
+      draft.total = total;
+      draft.loading = false;
+    });
+  }, [pageNo, searchContent, queryType]);
 
-  // 删除文档
-  async function deleteDoc(type = '', info) {
-    const { doc_id: docId, space_id: spaceId, title } = info;
-    const isPhysicalDelete = type === 'thorough';
-    const method = isPhysicalDelete ? physicalDeletion : logicalDeletion;
-    const success = await method({ docId, spaceId });
-    if (success) {
-      setDataSource(dataSource.map(n => {
-        if (n.doc_id === docId) {
-          isPhysicalDelete ? (n = null) : (n.status = '0');
-        }
-        return n;
-      }).filter(n => n));
-      await addRecent({
-        docId,
-        spaceId,
-        docTitle: title,
-        type: isPhysicalDelete ? 'PhysicalDeleteEdit' : 'LogicalDeleteEdit'
-      });
-    } else {
-      message.error({ content: '系统开小差啦，请稍后重试' });
-    }
-  }
-
-  const onOperationClick = useCallback(async ({ key, docInfo }) => {
-    const { html, title, url, doc_id, space_id } = docInfo;
-    if (key === 'delete') {
-      Modal.confirm({
-        title: '确认移除该文档吗？QAQ',
-        subTitle: '删除后，会在回收站内保存30天，30天后会被物理删除',
-        onOk: async () => {
-          deleteDoc('', docInfo);
-        }
-      });
-    } else if (key === 'editor') {
-      history.push(`/simditor/${doc_id}?spaceId=${space_id}`);
-    } else if (key === 'template') {
-      const [, data] = await setDocToTemplate({ docId: doc_id });
-      if (getIn(data, ['templateId'])) {
-        setDataSource(dataSource.map(n => {
-          return { ...n, is_template: n.doc_id === doc_id ? '1' : n.is_template };
-        }));
-      }
-    } else if (key === 'addindex') {
-      addToShortcutEntry({ title, url, type: 'XIGUA_DOC', signId: doc_id });
-    }
-  }, [dataSource]);
-
+  // 切换文档类型或者搜索时
   const onTypeChange = useCallback((type, { code, q }) => {
-    // 切换最近编辑/我创建的
+    // 切换文档类型
     if (type === 'TYPE_CHANGE') {
-      fetchDocs({ type: code });
+      setState(draft => {
+        draft.pageNo = 1;
+        draft.queryType = code;
+        draft.searchContent = q;
+      });
     }
     // 搜索
     if (type === 'SEARCH_CHANGE') {
-      fetchDocs({ type: code, q });
+      setState(draft => {
+        draft.pageNo = 1;
+        draft.searchContent = q;
+      });
     }
   }, []);
 
   useEffect(() => {
     fetchDocs();
-  }, []);
-
-  const pagingDataSource = () => {
-    if (!Array.isArray(dataSource)) {
-      return null;
-    }
-    return dataSource.slice((pageNo - 1) * 10, 10 + (pageNo - 1) * 10);
-  };
+  }, [pageNo, searchContent, queryType]);
 
   const onPaginationChange = useCallback((page) => {
-    setPageNo(page);
-  }, []);
+    setState(draft => {
+      draft.pageNo = page;
+    });
+  }, [state.pageNo]);
 
   return <PageLayout
     className="docs"
     content={
-      <Fragment>
+      <>
         <TableHeader onSomeThingClick={onTypeChange} />
-        {renderDoclistsForMobile(dataSource, loading)}
+        <DoclistsForMobile dataSource={dataSource}
+          loading={loading} />
         {!isMobile && <Table
           dataSourceKey={'id'}
           className="space-table"
           columns={columns}
-          pagination={{ total: Math.ceil((dataSource || []).length / 10), onChange: onPaginationChange }}
-          dataSource={pagingDataSource()} />}
-      </Fragment>
+          pagination={{ total: Math.ceil(total / 10), onChange: onPaginationChange }}
+          dataSource={dataSource} />}
+      </>
     } />;
 }

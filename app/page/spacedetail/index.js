@@ -34,10 +34,12 @@ export default function SpaceDetail() {
     setLoading(true);
     const [, data] = await axiosInstance.get(`space/docs?space_id=${spaceId}`);
     setLoading(false);
+    const space = getIn(data, ['space'], {});
     setSpaceInfo({
       docs: getIn(data, ['docs'], []).filter(n => n.status !== '-1'),
-      space: getIn(data, ['space'], {})
+      space
     });
+    document.title = `${space.name || '笔记'} - 西瓜文档`;
     setSpaceName(getIn(data, ['space', 'name'], ''));
     setspaceDesc(getIn(data, ['space', 'description'], ''));
   }, [spaceId]);

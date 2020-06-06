@@ -8,7 +8,7 @@ const { isMobile } = checkBrowser();
 export async function fetchDocDetail() {
   const docId = window.location.pathname.split('/').filter(n => n)[1];
   const [, data] = await axiosInstance.get(`docs?type=detail&docId=${docId}`);
-  return getIn(data, [0], {}) || {};
+  return getIn(data, ['docs', '0'], {}) || {};
 }
 
 // 插入标题编辑input

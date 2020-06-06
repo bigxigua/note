@@ -41,6 +41,7 @@ export default function Page() {
   const renderSimditor = useCallback(async () => {
     const docInfo = await fetchDocDetail();
     const htmlText = getTileAndHtml(docInfo, content).content;
+    document.title = `${docInfo.title || '文档'} - 西瓜文档`;
     updateDoc(docInfo);
     setHtml(htmlText);
 

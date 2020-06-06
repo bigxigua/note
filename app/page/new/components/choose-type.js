@@ -6,7 +6,6 @@ import Button from '@common/button';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';
-import { addRecent } from '@util/commonFun';
 import { MenuItem, TEMPLATE_SCENCE, MENUS, TYPESCENES } from './handle';
 
 function CreateMenu({ menus, onClick }) {
@@ -87,7 +86,6 @@ export default function NewChooseType({
       scene
     });
     if (!error && data && data.spaceId) {
-      await addRecent({ spaceId: data.spaceId, spaceName: name, type: 'CreateSpace' });
       message.success({ content: '创建成功', d: 500, onClose: () => history.push(`/spacedetail?spaceId=${data.spaceId}`) });
       setCreateLoading(false);
       return;

@@ -58,6 +58,7 @@ export default function Page() {
       });
       return;
     }
+    document.title = `${curDocInfo.title || '文档'} - 西瓜文档`;
     setState(draft => {
       draft.error = false;
       draft.docInfo = curDocInfo;
