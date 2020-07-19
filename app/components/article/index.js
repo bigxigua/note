@@ -42,9 +42,6 @@ export default function Article({
   isLoading = false,
   share = false
 }) {
-  // if (isLoading) {
-  //   return <Icon type="loading" />;
-  // }
   // 是否展示PhotoSwipe
   const [psIndex, setShowPsIndex] = useState(-1);
   // PhotoSwipe图片集合

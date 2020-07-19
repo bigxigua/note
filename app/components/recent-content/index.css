@@ -46,6 +46,7 @@
   font-size: 14px;
   max-width: 100%;
   font-weight: 600;
+  cursor: pointer;
 }
 
 .recent-content__left-info>span {
