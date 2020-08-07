@@ -112,7 +112,7 @@ export function parseUrlQuery(url = window.location.href) {
     if (value === 'undefined' || value === 'null') {
       value = '';
     }
-    hash[$1] = value.replace(/#/g, '');
+    hash[$1] = value.split('#')[0];
     return match;
   });
   return hash;
