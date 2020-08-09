@@ -69,7 +69,7 @@ export default function Page() {
       simditor.trigger('valuechanged');
     });
     if (!isMobile) {
-      scrollToElement($('.simditor'));
+      scrollToElement($('.simditor'), 100);
       listenContainerScrollToShowCurCatalog({
         html: htmlText,
         $container: $('.simditor')

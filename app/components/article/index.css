@@ -56,18 +56,18 @@
   border-top: 1px solid #e8e8e8;
 }
 
-.footer-meta_Item {
+.footer-meta__item {
   display: flex;
   align-items: center;
   color: #8c8c8c;
   font-size: 14px;
 }
 
-.footer-meta_Item>.Icon {
+.footer-meta__item>.Icon {
   margin-right: 7px;
 }
 
-.footer-meta_Item:first-child>span {
+.footer-meta__item:first-child>span {
   max-width: 120px;
 }
 

@@ -197,7 +197,7 @@ export function listenContainerScrollToShowCurCatalog({
 }
 
 // 获取url-hash，滚动到对应元素位置
-export function scrollToElement($container) {
+export function scrollToElement($container, offsetTopValue = 58) {
   try {
     const id = window.location.hash.split('#')[1] || '';
     if (!id) {
@@ -207,8 +207,9 @@ export function scrollToElement($container) {
     if ($(`#${id}`).length === 0) {
       return;
     };
+    // 58
     $container.animate({
-      scrollTop: $(`#${id}`).offset().top - 58
+      scrollTop: $(`#${id}`).offset().top - offsetTopValue
     }, 400);
   } catch (error) { }
 }
