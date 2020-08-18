@@ -1,9 +1,8 @@
 import React, { useEffect, useCallback } from 'react';
 import ArticleHeader from '@components/header-article';
 import Header from '@components/header/header';
-import Icon from '@common/icon';
 import Article from '@components/article';
-import Mobile404 from '@common/m-404';
+import { Icon, Mobile404 } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import { checkBrowser, parseUrlQuery, getIn } from '@util/util';

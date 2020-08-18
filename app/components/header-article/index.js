@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
-import Icon from '@common/icon';
-import Button from '@common/button';
-import Breadcrumb from '@common/breadcrumb';
+import { Icon, Button, Breadcrumb } from 'xigua-components/dist/js';
 import { Link, useHistory } from 'react-router-dom';
 import Popover from '@components/popover';
 import { Setting, ShareButtons } from './components';
@@ -52,13 +50,13 @@ export default function ArticleHeader({
 
   const crumbs = [{
     text: '文档',
-    pathname: '/docs'
+    pathname: '/docs',
   }, {
     text: getIn(spaceInfo, ['name'], ''),
-    pathname: `/spacedetail?spaceId=${spaceId}`
+    pathname: `/spacedetail?spaceId=${spaceId}`,
   }, {
     text: getIn(docInfo, ['title'], ''),
-    pathname: `/${isArticlePage ? 'article' : 'simditor'}/${docId}?spaceId=${spaceId}`
+    pathname: `/${isArticlePage ? 'article' : 'simditor'}/${docId}?spaceId=${spaceId}`,
   }];
 
   const saveText = isMobile ? '已保存' : `保存于 ${formatTimeStamp(new Date())}`;

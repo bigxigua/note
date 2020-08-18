@@ -3,7 +3,7 @@
 import React from 'react';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
-import Modal from '@common/modal';
+import { Modal } from 'xigua-components/dist/js';
 import DeleteConfirm from '@components/delete-confirm';
 
 import { getIn, delay } from '@util/util';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Article from '@components/article';
-import Mobile404 from '@common/m-404';
+import { Mobile404 } from 'xigua-components/dist/js';
 import ShareHeader from './share-header';
 import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import axiosInstance from '@util/axiosInstance';

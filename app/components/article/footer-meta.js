@@ -1,6 +1,5 @@
 import React, { useContext } from 'react';
-import Icon from '@common/icon';
-import Tooltip from '@common/tooltip';
+import { Icon, Tooltip } from 'xigua-components/dist/js';
 import userContext from '@context/user/userContext';
 import { formatTimeStamp } from '@util/util';
 import { fromNow } from '@util/fromNow';

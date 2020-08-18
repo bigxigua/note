@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import Icon from '@common/icon';
-import Tooltip from '@common/tooltip';
-import Empty from '@common/empty';
+import { Icon, Tooltip, Empty } from 'xigua-components/dist/js';
 import { stringTransformToUrlObject, isEmptyObject, formatTimeStamp, checkBrowser } from '@util/util';
 import { extractCatalog, toggleExpandCatalog } from '@util/commonFun';
 import { fromNow } from '@util/fromNow';

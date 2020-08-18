@@ -1,8 +1,8 @@
 import React, { Fragment, useState } from 'react';
 import { Link, NavLink } from 'react-router-dom';
+import { Icon } from 'xigua-components/dist/js';
 import HeaderSearch from '@components/header-search';
 import Avatar from '@components/avatar/avatar';
-import Icon from '@common/icon';
 import CreateDoc from '@components/create-doc';
 import Popover from '@components/popover';
 import { checkBrowser } from '@util/util';

@@ -1,7 +1,5 @@
 import React, { useContext, useCallback } from 'react';
-import Breadcrumb from '@common/breadcrumb';
-import Button from '@common/button';
-import Modal from '@common/modal';
+import { Breadcrumb, Button, Modal } from 'xigua-components/dist/js';
 import { parseUrlQuery, checkBrowser, getIn } from '@util/util';
 import { useHistory } from 'react-router-dom';
 import { catalogContext } from '@context/catalog-context';

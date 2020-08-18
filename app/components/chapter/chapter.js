@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import CatalogDnd from '@components/catalog-dnd';
-import Empty from '@common/empty';
+import { Empty } from 'xigua-components/dist/js';
 import { extractCatalog } from '@util/commonFun';
 import { catalogContext } from '@context/catalog-context';
 

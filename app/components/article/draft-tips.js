@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
-import Tag from '@common/tag';
 import { formatTimeStamp, parseUrlQuery, checkBrowser } from '@util/util';
 import { Link } from 'react-router-dom';
 import userContext from '@context/user/userContext';
+import { Tag } from 'xigua-components/dist/js/index.js';
 
 const { isMobile } = checkBrowser();
 

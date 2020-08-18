@@ -1,11 +1,9 @@
 import React, { useEffect, useState, Fragment, useCallback } from 'react';
 import PageLayout from '@layout/page-layout/index';
 import TableHeader from '@components/table-header';
-import Table from '@common/table';
 import axiosInstance from '@util/axiosInstance';
 import Popover from '@components/popover';
-import List from '@common/list';
-import Icon from '@common/icon';
+import { Table, List, Icon } from 'xigua-components/dist/js';
 import { Link } from 'react-router-dom';
 import { addToShortcutEntry } from '@util/commonFun2';
 import './index.css';

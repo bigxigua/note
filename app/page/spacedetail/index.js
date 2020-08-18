@@ -1,10 +1,7 @@
 import React, { Fragment, useState, useEffect, useCallback, useContext, useRef } from 'react';
 import Header from '@components/header/header';
 import Footer from '@components/footer';
-import Loading from '@common/loading';
-import Modal from '@common/modal';
-import Input from '@common/input';
-import Icon from '@common/icon';
+import { Loading, Modal, Icon, Input } from 'xigua-components/dist/js';
 import ChapterWrapper from '@components/chapter';
 import axiosInstance from '@util/axiosInstance';
 import userContext from '@context/user/userContext';

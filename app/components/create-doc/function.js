@@ -1,6 +1,6 @@
 import React from 'react';
 import { SPACE_TYPE_ICON } from '@config/index';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 import { NavLink } from 'react-router-dom';
 
 export function SpaceLists({ loading, spaces, onChooseSpace }) {

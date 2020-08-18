@@ -1,12 +1,9 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { Link, useHistory } from 'react-router-dom';
-import Icon from '@common/icon';
 import Popover from '@components/popover';
-import List from '@common/list';
 import useMessage from '@hooks/use-message';
 import axiosInstance from '@util/axiosInstance';
-import Modal from '@common/modal';
-import Empty from '@common/empty';
+import { Icon, List, Modal, Empty } from 'xigua-components/dist/js';
 import DocItem from '@components/doc-item';
 import { getIn } from '@util/util';
 import { logicalDeletion, physicalDeletion, setDocToTemplate } from '@util/commonFun';

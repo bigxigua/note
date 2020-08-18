@@ -1,7 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Alert from '@common/alert';
-import Input from '@common/input';
-import Button from '@common/button';
+import { Alert, Input, Button } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import { getIn } from '@util/util';

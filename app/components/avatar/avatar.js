@@ -1,6 +1,5 @@
 import React, { useContext, Fragment } from 'react';
-import Icon from '@common/icon';
-import List from '@common/list';
+import { Icon, List } from 'xigua-components/dist/js';
 import userContext from '@context/user/userContext';
 import Popover from '@components/popover';
 import axiosInstance from '@util/axiosInstance';

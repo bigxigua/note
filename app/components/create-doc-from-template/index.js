@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import Modal from '@common/modal';
-import Button from '@common/button';
-import Icon from '@common/icon';
+import { Icon, Button, Modal } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
 import { getIn, delay } from '@util/util';

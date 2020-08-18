@@ -1,7 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import Popover from '@components/popover';
-import Icon from '@common/icon';
-import List from '@common/list';
+import { Icon, List } from 'xigua-components/dist/js';
 import { useHistory } from 'react-router-dom';
 import './index.css';
 

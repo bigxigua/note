@@ -1,8 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import Dropdown from '@common/dropdown';
-import Scene from '@common/scene';
-import Input from '@common/input';
-import Button from '@common/button';
+import { Dropdown, Scene, Input, Button } from 'xigua-components/dist/js';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import axiosInstance from '@util/axiosInstance';

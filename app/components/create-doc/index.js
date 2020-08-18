@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-import Modal from '@common/modal';
+import { Modal } from 'xigua-components/dist/js';
 import CreateDocFromTemplateModal from '@components/create-doc-from-template';
 import axiosInstance from '@util/axiosInstance';
 import { createNewDocAction } from '@util/commonFun';

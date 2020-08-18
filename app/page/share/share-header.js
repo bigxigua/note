@@ -1,6 +1,6 @@
 import React, { useContext, useCallback } from 'react';
 import { useHistory } from 'react-router-dom';
-import Button from '@common/button';
+import { Button } from 'xigua-components/dist/js';
 import userContext from '@context/user/userContext';
 import { checkBrowser } from '@util/util';
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 import './index.css';
 
 const skeletons = [{

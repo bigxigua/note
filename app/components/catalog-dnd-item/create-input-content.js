@@ -1,7 +1,5 @@
 import React, { useCallback, useState, useContext } from 'react';
-import Input from '@common/input';
-import Select from '@common/select';
-import Button from '@common/button';
+import { Input, Select, Button } from 'xigua-components/dist/js';
 import { catalogContext } from '@context/catalog-context';
 import { createNewDoc } from '@util/commonFun';
 import { parseUrlQuery, getIn } from '@util/util';

@@ -8,6 +8,7 @@
     "build": "NODE_ENV=production webpack-cli --config ./build/webpack.config.js",
     "test": "echo 'test'",
     "autod": "autod",
+    "init": "rm -rf ./node_modules && cnpm i --by=yarn",
     "lint": "eslint ./app/ --ext js --ext jsx"
   },
   "pre-commit": [],
@@ -90,6 +91,7 @@
     "react-router": "^5.1.2",
     "react-router-dom": "^5.1.2",
     "to-markdown": "^3.1.1",
-    "use-immer": "^0.3.5"
+    "use-immer": "^0.3.5",
+    "xigua-components": "^1.0.5"
   }
 }

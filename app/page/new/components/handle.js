@@ -1,5 +1,5 @@
 import React from 'react';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 
 export function MenuItem({ type, text, checked, len, handle, index }) {
   let className = '';

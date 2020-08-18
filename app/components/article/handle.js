@@ -1,7 +1,7 @@
 import ReactDOM from 'react-dom';
 import React, { useRef } from 'react';
 import useMessage from '@hooks/use-message';
-import Tooltip from '@common/tooltip';
+import { Tooltip } from 'xigua-components/dist/js';
 
 const message = useMessage();
 
@@ -9,6 +9,7 @@ function onCopy(code, copyInput) {
   copyInput.current.select();
   copyInput.current.setSelectionRange(0, 99999);
   document.execCommand('copy');
+  console.log(copyInput.current.value);
   message.success({
     content: '复制成功'
   });
@@ -29,7 +30,7 @@ function ToolBar({ code = '', dom = null }) {
             ref={inputRef}
             type="text"
             onChange={() => { }}
-            value={code.replace(/\&nbsp;/gi, '')} />
+            value={code} />
         </Tooltip>
       </div>
       <div className="code-tooltip__item flex">
@@ -55,7 +56,8 @@ export function codeBeautiful(pre, Prism) {
       $(item).addClass('line-numbers');
       Prism.highlightElement($code);
     }
-    const code = $(item).find('>code').length ? $(item).find('>code').html() : $(item).html();
+    const code = $(item).find('>code').length ? $(item).find('>code').text() : $(item).text();
+    console.log('code:', code);
     $(item).wrap($('<div class="article-pre__box" />'));
     setTimeout(() => {
       $(item).parent().append($('<div class="code-tooltip"></div>'));

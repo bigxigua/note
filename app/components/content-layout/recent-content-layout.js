@@ -1,7 +1,6 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import RecentContent from '@components/recent-content';
-import Empty from '@common/empty';
-import Loading from '@common/loading';
+import { Empty, Loading } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {

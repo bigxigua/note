@@ -1,6 +1,5 @@
 import React from 'react';
-import Icon from '@common/icon';
-import List from '@common/list';
+import { Icon, List } from 'xigua-components/dist/js';
 import Popover from '@components/popover';
 import { useHistory, Link } from 'react-router-dom';
 import { getIn, isEmptyObject, checkBrowser } from '@util/util';

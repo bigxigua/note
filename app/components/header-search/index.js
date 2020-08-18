@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useMemo, useEffect } from 'react';
-import Icon from '@common/icon';
-import AutoComplete from '@common/auto-complete';
+import { Icon, AutoComplete } from 'xigua-components/dist/js';
 import { getIn, debunce, transformIpToDomain, addEventListener } from '@util/util';
 import axiosInstance from '@util/axiosInstance';
 import './index.css';

@@ -3,10 +3,7 @@
 import React from 'react';
 import axiosInstance from '@util/axiosInstance';
 import useMessage from '@hooks/use-message';
-import Modal from '@common/modal';
-import Image from '@common/image';
-import Button from '@common/button';
-import Icon from '@common/icon';
+import { Image, Modal, Icon, Button } from 'xigua-components/dist/js';
 import { getIn, delay, getCatalogs, debunce } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 

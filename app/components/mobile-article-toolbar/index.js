@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from 'react';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 import { getCatalogs } from '@util/util';
 import './index.css';
 

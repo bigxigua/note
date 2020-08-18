@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { PhotoSwipe } from 'react-photoswipe';
-import Icon from '@common/icon';
 import ArticleCatalog from '@components/article-catalog';
 import SpaceCatalog from '@components/space-catalog';
 import Footer from '@components/footer';

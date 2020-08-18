@@ -1,8 +1,7 @@
 import React, { useCallback, useState } from 'react';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import Popover from '@components/popover';
-import List from '@common/list';
-import Icon from '@common/icon';
+import { List, Icon } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import { getIn, transformIpToDomain } from '@util/util';
 import useMessage from '@hooks/use-message';

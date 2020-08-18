@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
-import Button from '@common/button';
 import axiosInstance from '@util/axiosInstance';
 import ShortcutItems from './shortcut-items';
-import Loading from '@common/loading';
-import Modal from '@common/modal';
-import Input from '@common/input';
+import { Button, Loading, Modal, Input } from 'xigua-components/dist/js';
 import useMessage from '@hooks/use-message';
 import { getIn } from '@util/util';
 import './index.css';

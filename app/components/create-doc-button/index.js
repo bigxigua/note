@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import DropdownButton from '@components/dropdown-button';
 import CreateDoc from '@components/create-doc';
-import List from '@common/list';
+import { List } from 'xigua-components/dist/js';
 import { createNewDocAction } from '@util/commonFun';
 import './index.css';
 

@@ -1,6 +1,5 @@
 import React from 'react';
-import Icon from '@common/icon';
-import List from '@common/list';
+import { Icon, List } from 'xigua-components/dist/js';
 import Popover from '@components/popover';
 import { NavLink } from 'react-router-dom';
 import { isEmptyObject, delay } from '@util/util';

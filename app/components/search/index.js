@@ -1,5 +1,5 @@
 import React, { useEffect, useCallback, useRef } from 'react';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 import { addEventListener } from '@util/util';
 import './index.css';
 

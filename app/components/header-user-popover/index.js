@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import Icon from '@common/icon';
+import { Icon } from 'xigua-components/dist/js';
 import userContext from '../../context/user/userContext.js';
 import './index.css';
 

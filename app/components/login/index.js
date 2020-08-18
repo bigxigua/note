@@ -1,8 +1,6 @@
 import React, { useState, useContext, useEffect, useCallback } from 'react';
 import { NavLink, useHistory } from 'react-router-dom';
-import Input from '@common/input';
-import Icon from '@common/icon';
-import Button from '@common/button';
+import { Icon, Button, Input } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import { getIn, parseUrlQuery, addKeydownListener } from '@util/util';
 import userContext from '@context/user/userContext';

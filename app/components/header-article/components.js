@@ -1,9 +1,6 @@
 import React, { useCallback, useState, useEffect } from 'react';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import Button from '@common/button';
-import Input from '@common/input';
-import List from '@common/list';
-import Modal from '@common/modal';
+import { Button, Input, List, Modal } from 'xigua-components/dist/js';
 import useMessage from '@hooks/use-message';
 import { useHistory } from 'react-router-dom';
 import { onListItemClick } from './fun';

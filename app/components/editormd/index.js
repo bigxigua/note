@@ -3,7 +3,7 @@ import editorContext from '@context/editor/editorContext';
 import ArticleCatalog from '@components/article-catalog';
 import { debunce, parseUrlQuery, addKeydownListener, checkBrowser } from '@util/util';
 import useSaveContent from '@hooks/use-save-content';
-import DropUploaderWrapper from '@common/drop-uploader-wrapper';
+import { DropUploaderWrapper } from 'xigua-components/dist/js';
 import './index.css';
 
 const { isMobile } = checkBrowser();

@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import Tag from '@common/tag';
+import { Tag } from 'xigua-components/dist/js';
 import { formatTimeStamp } from '@util/util';
 import { Link, useHistory } from 'react-router-dom';
 import './index.css';
