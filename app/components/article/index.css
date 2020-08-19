@@ -405,7 +405,7 @@
   background-color: #e8e8e8;
 }
 
-.code-tooltip__item-tooltip>input {
+.code-tooltip__item-tooltip>textarea {
   position: absolute;
   left: 9999px;
 }

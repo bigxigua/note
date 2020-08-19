@@ -92,6 +92,6 @@
     "react-router-dom": "^5.1.2",
     "to-markdown": "^3.1.1",
     "use-immer": "^0.3.5",
-    "xigua-components": "^1.0.5"
+    "xigua-components": "^1.0.6"
   }
 }

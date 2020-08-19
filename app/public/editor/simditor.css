@@ -819,15 +819,10 @@
 .simditor .simditor-body div,
 .editor-style p,
 .editor-style div {
-  word-wrap: break-word;
+  word-break: break-word;
   color: #333;
-  word-wrap: break-word;
   line-height: 26px;
   margin: 0;
-}
-
-.simditor .simditor-body p {
-  margin-bottom: 2px;
 }
 
 .simditor .simditor-body b,

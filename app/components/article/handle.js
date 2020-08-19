@@ -9,7 +9,6 @@ function onCopy(code, copyInput) {
   copyInput.current.select();
   copyInput.current.setSelectionRange(0, 99999);
   document.execCommand('copy');
-  console.log(copyInput.current.value);
   message.success({
     content: '复制成功'
   });
@@ -26,7 +25,7 @@ function ToolBar({ code = '', dom = null }) {
           <img src="/images/notes.png"
             onClick={() => { onCopy(code, inputRef); }}
             alt="copy" />
-          <input
+          <textarea
             ref={inputRef}
             type="text"
             onChange={() => { }}
@@ -57,7 +56,6 @@ export function codeBeautiful(pre, Prism) {
       Prism.highlightElement($code);
     }
     const code = $(item).find('>code').length ? $(item).find('>code').text() : $(item).text();
-    console.log('code:', code);
     $(item).wrap($('<div class="article-pre__box" />'));
     setTimeout(() => {
       $(item).parent().append($('<div class="code-tooltip"></div>'));
