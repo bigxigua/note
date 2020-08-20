@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useCallback } from 'react';
 import Article from '@components/article';
-import { Mobile404 } from 'xigua-components/dist/js';
+import { M404 } from 'xigua-components/dist/js';
 import ShareHeader from './share-header';
 import MobileArticleToolbar from '@components/mobile-article-toolbar';
 import axiosInstance from '@util/axiosInstance';
@@ -11,7 +11,7 @@ function Content({ error, docInfo }) {
   if (error === undefined) {
     return null;
   }
-  return error ? <Mobile404 subTitle={error} /> : <Article share={true}
+  return error ? <M404 subTitle={error} /> : <Article share={true}
     docInfo={docInfo} />;
 }
 

@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect, useCallback, useContext } from 'react';
 import { Icon, List } from 'xigua-components/dist/js';
 import Popover from '@components/popover';
-import { parseUrlQuery, getIn } from '@util/util';
+import { getIn, isEmptyObject } from '@util/util';
+import articleContext from '@context/article/articleContext';
 import { extractCatalog, findTargetCatalogPath, createNewDocAction } from '@util/commonFun';
 import { CatalogsComponent, addIsOpenProperty } from './handle';
 import { useHistory } from 'react-router-dom';
@@ -20,39 +21,29 @@ const settingList = [{
 
 /**
   * 当前空间的目录
-  * @param {array} docs - 当前空间下的所有文档列表
-  * @param {object} spaceInfo - 当前文档所属空间信息
   * @param {boolean} loading -  正在获取空间下的文档列表
 */
 export default function SpaceCatalog({
   loading = false,
-  spaceInfo = {},
-  docs = []
 }) {
+  const { space: spaceInfo, docs, currentDocInfo } = useContext(articleContext);
   const isShare = /\/share\//g.test(window.location.pathname);
-  // 移动端和分享页均不显示空间目录
-  if (window.isMobile || isShare) {
-    return null;
-  }
-  const { spaceId = '' } = parseUrlQuery();
-  const docId = window.location.pathname.split('/').filter(n => n)[1];
   // 正在加载目录
   const [catalogs, setCatalogs] = useState([]);
   const [docLists, setDocLists] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
-    if (!Array.isArray(docs) || !docs.length) {
-      return;
-    }
     const catalog = JSON.parse(getIn(spaceInfo, ['catalog'], '[]'));
     if (catalog.length > 1) {
       const result = extractCatalog(catalog.slice(1));
-      const targetPath = findTargetCatalogPath(result, docId);
+      const targetPath = findTargetCatalogPath(result, currentDocInfo.doc_id);
       setCatalogs(addIsOpenProperty(result, targetPath));
       setDocLists(docs);
     }
   }, [docs, spaceInfo]);
+
+  const { space_id: spaceId } = currentDocInfo || {};
 
   // 点击章节目录展开or收起子目录
   const onToggleExpandCatalog = useCallback((item, index) => {
@@ -79,9 +70,10 @@ export default function SpaceCatalog({
     }
   }, [spaceId]);
 
-  useEffect(() => {
-    // fetchDocsBySpaceId();
-  }, [spaceId]);
+  // 移动端和分享页均不显示空间目录
+  if (window.isMobile || isShare) {
+    return null;
+  }
 
   return (
     <nav className="bookcatalog-wrapper">

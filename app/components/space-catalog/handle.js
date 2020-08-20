@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { useCallback, useContext } from 'react';
 import { Icon, List } from 'xigua-components/dist/js';
 import Popover from '@components/popover';
-import { NavLink } from 'react-router-dom';
 import { isEmptyObject, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 import { createDocByTemplate } from '@util/commonFun2';
 import useMessage from '@hooks/use-message';
+import articleContext from '@context/article/articleContext';
 
 const message = useMessage();
 
@@ -49,20 +49,6 @@ function onSettingItemClick(e, info, curCatalogInfo, curDocInfo) {
   }
 }
 
-// 渲染目录项
-function renderCatalogItem(type, doc) {
-  const cls = 'bookcatalog ellipsis';
-  return type.toLocaleUpperCase() === 'EMPTY_NODE'
-    ? <span className={cls}> {doc.title}</span>
-    : <NavLink
-      to={'/article' + doc.url.split('article')[1]}
-      exact
-      className={cls}
-      activeStyle={activeStyle}>
-      {doc.title}
-    </NavLink>;
-}
-
 // 展示/隐藏Popover
 function popoverToggleOpen(open, cls) {
   $(`.${cls}`)[`${open ? 'add' : 'remove'}Class`]('bookcatalog-item__setting-open');
@@ -85,20 +71,31 @@ export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
   return recursion(catalog, path);
 }
 
+/* 文章目录组件
+* @param {array} catalogs - 按照层级结构格式化好的当前的文档目录数据
+* @param {boolean} loading - 正在加载获取文档信息
+* @param {function} onToggleExpandCatalog - 展开/收起目录
+*/
 export function CatalogsComponent({
+  loading,
   catalogs = [],
-  docs,
   onToggleExpandCatalog,
-  loading
 }) {
+  const { docs = [], updateStoreCurrentDoc } = useContext(articleContext);
   if (loading) {
     return <Icon type="loading" />;
   }
+  const onClickHanlde = useCallback((doc) => {
+    updateStoreCurrentDoc(docs.find(n => n.doc_id === doc.doc_id) || {});
+    history.pushState({}, '', `${doc.doc_id}?spaceId=${doc.space_id}`);
+  }, [docs]);
   function recursion(data) {
     let result = [];
     data.forEach((item, index) => {
-      const doc = docs.find(n => n.doc_id === item.docId) || {};
-      const isFolder = item.children.length > 0;
+      const { docId, children = [] } = item;
+      const doc = docs.find(n => n.doc_id === docId) || {};
+      const isFolder = children.length > 0;
+      const isActive = new RegExp(`/article/${docId}`).test(window.location.pathname);
       let classes = 'bookcatalog-item ';
       classes += `${item.isOpen ? 'bookcatalog-item__open' : ''} `;
       classes += `${isFolder ? 'bookcatalog-item__folder' : ''} `;
@@ -112,7 +109,7 @@ export function CatalogsComponent({
         {isFolder && <Icon
           onClick={() => { onToggleExpandCatalog(item, index); }}
           type="caret-down" />}
-        {renderCatalogItem(item.type, doc)}
+        <div className={`bookcatalog ellipsis ${isActive ? 'bookcatalog-active' : ''}`} onClick={() => { onClickHanlde(doc) }}>{doc.title}</div>
         {
           isFolder &&
           <Popover

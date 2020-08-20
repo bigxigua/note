@@ -81,6 +81,12 @@
   color: #595959;
   font-size: 12px;
   position: relative;
+  cursor: pointer;
+}
+
+.bookcatalog-active{
+  font-weight: bold;
+  color: #25b864;
 }
 
 .bookcatalog-item__folder {

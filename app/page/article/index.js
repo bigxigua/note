@@ -1,18 +1,20 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useContext } from 'react';
 import ArticleHeader from '@components/header-article';
 import Header from '@components/header/header';
 import Article from '@components/article';
-import { Icon, Mobile404 } from 'xigua-components/dist/js';
+import { Icon, M404 } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import MobileArticleToolbar from '@components/mobile-article-toolbar';
+import ArticleState from '@context/article/articleState';
+import articleContext from '@context/article/articleContext';
 import { checkBrowser, parseUrlQuery, getIn } from '@util/util';
 import { useImmer } from 'use-immer';
 import './index.css';
 
 const { isMobile } = checkBrowser();
 
-function MainHeader({ state }) {
-  const { error, docInfo, spaceInfo, isLoading } = state;
+function MainHeader({ state, spaceInfo, docInfo }) {
+  const { error, isLoading } = state;
   if (isLoading) {
     return <div className="article-header__loading"><Icon type="loading" /></div>;
   }
@@ -22,25 +24,26 @@ function MainHeader({ state }) {
 }
 
 function Content({ state }) {
-  const { error, docInfo, spaceInfo, isLoading, docs } = state;
-  return error ? <Mobile404 /> : <Article isLoading={isLoading}
-    spaceInfo={spaceInfo}
-    docs={docs}
-    docInfo={docInfo} />;
+  const { error, isLoading } = state;
+  return error ? <M404 /> : <Article isLoading={isLoading} />;
 }
 
-export default function Page() {
+function Page() {
   const [state, setState] = useImmer({
     isLoading: false, // 正在获取空间下的文档列表
     error: undefined, // 页面加载是否出错
-    spaceInfo: {}, // 当前文档的空间信息
-    docInfo: {}, // 当前文档信息
-    docs: [] // 当前空间下的所有文档列表
   });
-  const docId = window.location.pathname.split('/').filter(n => n)[1];
-  const { spaceId } = parseUrlQuery();
-
+  const {
+    space,
+    currentDocInfo,
+    updateStoreCurrentDoc,
+    updateStoreDocs,
+    updateStoreSpace
+  } = useContext(articleContext);
+  // 获取空间和该空间下的所有文档信息
   const fetchDocDetail = useCallback(async () => {
+    const docId = window.location.pathname.split('/').filter(n => n)[1];
+    const { spaceId } = parseUrlQuery();
     setState(draft => {
       draft.isLoading = true;
     });
@@ -57,24 +60,34 @@ export default function Page() {
       });
       return;
     }
+    // 更新文档相关信息到articleContext
+    updateStoreCurrentDoc(curDocInfo);
+    updateStoreDocs(docs);
+    updateStoreSpace(space);
+    // 设置页面标题
     document.title = `${curDocInfo.title || '文档'} - 西瓜文档`;
     setState(draft => {
       draft.error = false;
-      draft.docInfo = curDocInfo;
-      draft.spaceInfo = space;
-      draft.docs = docs;
     });
-  }, [docId]);
+  }, []);
 
   useEffect(() => {
     fetchDocDetail();
-  }, [docId, spaceId]);
+  }, []);
 
   return (
     <div className="article">
-      <MainHeader state={state} />
+      <MainHeader state={state} docInfo={currentDocInfo} spaceInfo={space} />
       <Content state={state} />
       {isMobile && <MobileArticleToolbar html={state.docInfo.html} />}
     </div>
   );
+}
+
+export default function ArticlePage() {
+  return (
+    <ArticleState>
+      <Page />
+    </ArticleState>
+  )
 }

@@ -1,11 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { PhotoSwipe } from 'react-photoswipe';
 import ArticleCatalog from '@components/article-catalog';
 import SpaceCatalog from '@components/space-catalog';
 import Footer from '@components/footer';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery, checkBrowser } from '@util/util';
+import { parseUrlQuery, checkBrowser, isEmptyObject } from '@util/util';
+import articleContext from '@context/article/articleContext';
 import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
 import { codeBeautiful, getImgsFromHtml } from './handle';
 import Prism from '@public/prism/prism.js';
@@ -28,19 +29,14 @@ function getHtml(docInfo = {}, content) {
 
 /**
   * 文章组件
-  * @param {object} docInfo - 当前文档信息
-  * @param {object} spaceInfo - 当前文档所属空间信息
-  * @param {array} docs - 当前空间下的所有文档列表
   * @param {boolean} isLoading - 正在获取空间下的文档列表
   * @param {boolean} share -  是否为分享页的文章组件
 */
 export default function Article({
-  docInfo = {},
-  spaceInfo = {},
-  docs = [],
   isLoading = false,
   share = false
 }) {
+  const { space: spaceInfo, docs, currentDocInfo: docInfo } = useContext(articleContext);
   // 是否展示PhotoSwipe
   const [psIndex, setShowPsIndex] = useState(-1);
   // PhotoSwipe图片集合
@@ -51,7 +47,7 @@ export default function Article({
   useEffect(() => {
     const html = getHtml(docInfo, content);
     const $html = $('.article-html');
-    $html.html(String(html || ''));
+    $html.html(`${html || ''}`);
     setTimeout(() => {
       // 给table包裹一层div
       $html.find('table').wrap($('<div class="article-html__tablebox"></div>'));
