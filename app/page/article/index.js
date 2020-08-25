@@ -79,7 +79,7 @@ function Page() {
     <div className="article">
       <MainHeader state={state} docInfo={currentDocInfo} spaceInfo={space} />
       <Content state={state} />
-      {isMobile && <MobileArticleToolbar html={state.docInfo.html} />}
+      {isMobile && <MobileArticleToolbar html={(state.docInfo || {}).html} />}
     </div>
   );
 }

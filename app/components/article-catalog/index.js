@@ -19,7 +19,6 @@ function getOffset(data) {
 function createCatalogsJsx(html, handle) {
   if (!html) return null;
   const catalogs = getCatalogs(html);
-
   return catalogs.map(p => {
     const i = parseInt(p.type.substr(1));
     return (<li

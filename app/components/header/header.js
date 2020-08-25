@@ -3,17 +3,17 @@ import { Link, NavLink } from 'react-router-dom';
 import { Icon } from 'xigua-components/dist/js';
 import HeaderSearch from '@components/header-search';
 import Avatar from '@components/avatar/avatar';
-import CreateDoc from '@components/create-doc';
+import CreateDocModal from '@components/create-doc';
 import Popover from '@components/popover';
 import { checkBrowser } from '@util/util';
 import './header.css';
 
 // 创建popver cotent
-function popoverContent({ handle }) {
+function PopoverContent({ onClickHandle }) {
   return (
     <Fragment>
       <div className="Header_Popover_Add_Item flex"
-        onClick={() => { handle(true); }}>
+        onClick={() => { onClickHandle(true); }}>
         <Icon type="plus-circle" />
         <span>新建文档</span>
       </div>
@@ -64,15 +64,15 @@ export default function Header({
         <div className="header-right">
           <Popover
             className="Header_Popover_Add"
-            content={popoverContent({ handle: setVisible })}>
+            content={<PopoverContent onClickHandle={setVisible} />}>
             <Icon
-              className="Header_Popover_Add_Icon"
+              className="header-popover__addIcon"
               type="plus-circle" />
             <Icon type="caret-down" />
           </Popover>
           <Avatar />
         </div>
-        {visible && <CreateDoc onModalChange={setVisible} />}
+        <CreateDocModal visible={visible} onModalChange={setVisible} />
       </div>
     </div>
   );

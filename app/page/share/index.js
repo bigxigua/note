@@ -35,7 +35,6 @@ export default function Share() {
   useEffect(() => {
     fetchDocDetail();
   }, [docId]);
-
   return (
     <div className="article">
       <ShareHeader docInfo={docInfo} />

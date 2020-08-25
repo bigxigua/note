@@ -14,7 +14,7 @@ import './index.css';
 * @param {string} spaceId - 当前空间id，可空，空值时显示空间列表
 * @param {Function} onModalChange - modal关闭或展示时触发
 */
-export default function CreateDoc({
+export default function CreateDocModal({
   mode = 'common',
   spaceId = '',
   visible = false,

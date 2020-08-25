@@ -134,7 +134,11 @@ export function MoreActions({ docInfo, updateDataSource, dataSource }) {
     </div>);
 }
 
-// 移动端文档列表
+/**
+* 移动端文档列表
+* @param {array} dataSource - 文档列表
+* @param {boolean} loading - 正在获取文档列表
+*/
 export function DoclistsForMobile({ dataSource = [], loading }) {
   if (!window.isMobile) {
     return null;
@@ -148,9 +152,9 @@ export function DoclistsForMobile({ dataSource = [], loading }) {
     return <Empty image="/images/undraw_empty.svg"
       description="暂无文档" />;
   }
-  return dataSource.map(item => {
+  return dataSource.map((item, index) => {
     return <DocItem
       docInfo={item}
-      key={item.doc_id} />;
+      key={`${item.doc_id}_${index}`} />;
   });
 }

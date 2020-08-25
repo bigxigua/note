@@ -219,14 +219,5 @@ export function getCatalogs(html) {
   } catch (error) {
     console.log(error);
   }
-  return catalogs;
+  return catalogs.filter(n => n.text.trim());
 }
-
-// export function unique(array, iteratee) {
-//   // return array.reduce((p, v) => {
-//   //   if (iteratee(v)()) {
-//   //     p.push(v);
-//   //   }
-//   //   return p;
-//   // }, []);
-// }

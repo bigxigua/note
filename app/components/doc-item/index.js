@@ -5,7 +5,7 @@ import { Link, useHistory } from 'react-router-dom';
 import './index.css';
 
 // 渲染tag
-function renderTag(info) {
+function RenderTag({ info }) {
   const { status, html_draft, title_draft, is_template, is_share } = info;
   return <>
     {is_template === '1' && <Tag color="#f50">模版</Tag>}
@@ -15,6 +15,10 @@ function renderTag(info) {
   </>;
 }
 
+/**
+* 移动端展示的文档列表项
+* @param {object} docInfo - 文档信息
+*/
 export default function DocItem({ docInfo = {} }) {
   const { user, space, title, updated_at_timestamp, cover, abstract = '' } = docInfo;
   const classes = `docItem ${cover ? 'docItem_has_cover' : ''}`;
@@ -34,7 +38,7 @@ export default function DocItem({ docInfo = {} }) {
           src={cover} />}
       </div>
       <div className="docItem_meta">
-        {renderTag(docInfo)}
+        <RenderTag info={docInfo} />
         <span className="ellipsis">{user.name}</span>
         <span className="docItem_meta-name">发布于</span>
         <Link className="ellipsis"

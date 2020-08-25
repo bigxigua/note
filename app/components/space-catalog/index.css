@@ -84,7 +84,7 @@
   cursor: pointer;
 }
 
-.bookcatalog-active{
+.bookcatalog-active {
   font-weight: bold;
   color: #25b864;
 }
@@ -115,6 +115,8 @@
 
 .template-wrapper {
   display: flex;
+  flex-wrap: wrap;
+  width: 688px;
 }
 
 .template {
@@ -129,6 +131,7 @@
   flex-shrink: 0;
   margin: 0 6px;
   transition: all linear 0.2s;
+  margin-bottom: 12px;
 }
 
 .template>img {

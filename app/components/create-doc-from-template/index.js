@@ -8,9 +8,9 @@ import './index.css';
 
 const message = useMessage();
 
-// 预览模版，跳转对应文档阅读页
+// 预览模版，跳转图片地址
 const previewTemplate = (templateInfo) => {
-  window.open(templateInfo.url, '_blank');
+  window.open(templateInfo.cover, '_blank');
 };
 
 // 调用create/template接口，从模版创建新文档
