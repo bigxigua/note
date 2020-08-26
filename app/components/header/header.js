@@ -1,10 +1,9 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState, useContext } from 'react';
 import { Link, NavLink } from 'react-router-dom';
-import { Icon } from 'xigua-components/dist/js';
+import { Icon, Popover, Avatar } from 'xigua-components/dist/js';
 import HeaderSearch from '@components/header-search';
-import Avatar from '@components/avatar/avatar';
+import userContext from '@context/user/userContext';
 import CreateDocModal from '@components/create-doc';
-import Popover from '@components/popover';
 import { checkBrowser } from '@util/util';
 import './header.css';
 
@@ -28,6 +27,7 @@ function PopoverContent({ onClickHandle }) {
 export default function Header({
   className = ''
 }) {
+  const { userInfo } = useContext(userContext);
   const [visible, setVisible] = useState(false);
   const { isMobile } = checkBrowser();
   const classes = `header-wrapper ${isMobile ? 'header-wrapper_mobile' : ''} animated ${className}`;
@@ -70,9 +70,10 @@ export default function Header({
               type="plus-circle" />
             <Icon type="caret-down" />
           </Popover>
-          <Avatar />
+          <Avatar userInfo={userInfo} />
         </div>
-        <CreateDocModal visible={visible} onModalChange={setVisible} />
+        <CreateDocModal visible={visible}
+          onModalChange={setVisible} />
       </div>
     </div>
   );

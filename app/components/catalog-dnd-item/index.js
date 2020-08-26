@@ -1,9 +1,8 @@
 import React, { useCallback, useState, useContext } from 'react';
-import Popover from '@components/popover';
 import InsertCatalog from '@components/insert-catalog';
 import { catalogContext } from '@context/catalog-context';
 import CreateInputContent from './create-input-content';
-import { Icon, List } from 'xigua-components/dist/js';
+import { Icon, List, Popover } from 'xigua-components/dist/js';
 // import { getSubs } from '@util/commonFun';
 import { getStyle, getOffsetImgClassName, exChange } from './function';
 import './index.css';

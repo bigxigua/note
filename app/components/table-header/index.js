@@ -1,6 +1,5 @@
 import React, { useState, useCallback } from 'react';
-import { Icon, List, Dropdown, Button } from 'xigua-components/dist/js';
-import Search from '@components/search';
+import { Icon, List, Dropdown, Button, Search } from 'xigua-components/dist/js';
 import MobileNav from '@components/mobile-nav';
 import { useHistory } from 'react-router-dom';
 import CreateDocButtton from '@components/create-doc-button';

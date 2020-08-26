@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '@components/header/header';
 import SiderBarLayout from '@components/sider-bar';
-import Footer from '@components/footer';
+import { Footer } from 'xigua-components/dist/js';
 import ContentLayout from '@components/content-layout';
 import RightPanelLayout from '@components/right-panel-layout';
 import { checkBrowser } from '@util/util';

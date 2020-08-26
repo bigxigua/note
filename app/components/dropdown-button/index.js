@@ -1,6 +1,5 @@
 import React from 'react';
-import { Icon, Button } from 'xigua-components/dist/js';
-import Popover from '@components/popover';
+import { Icon, Button, Popover } from 'xigua-components/dist/js';
 import './index.css';
 
 const loop = () => { };

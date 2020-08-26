@@ -1,7 +1,7 @@
 import React from 'react';
 import Header from '@components/header/header';
 import SiderBarLayout from '@components/sider-bar/index';
-import Footer from '@components/footer';
+import { Footer } from 'xigua-components/dist/js';
 import './index.css';
 
 export default function PageLayout({

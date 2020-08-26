@@ -1,11 +1,11 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { PhotoSwipe } from 'react-photoswipe';
+import { Footer } from 'xigua-components/dist/js';
 import ArticleCatalog from '@components/article-catalog';
 import SpaceCatalog from '@components/space-catalog';
-import Footer from '@components/footer';
 import FooterMeta from './footer-meta';
 import DraftTips from './draft-tips';
-import { parseUrlQuery, checkBrowser, isEmptyObject } from '@util/util';
+import { parseUrlQuery, checkBrowser } from '@util/util';
 import articleContext from '@context/article/articleContext';
 import { listenContainerScrollToShowCurCatalog, scrollToElement } from '@util/commonFun2';
 import { codeBeautiful, getImgsFromHtml } from './handle';

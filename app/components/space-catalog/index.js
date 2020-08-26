@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useCallback, useContext } from 'react';
-import { Icon, List } from 'xigua-components/dist/js';
-import Popover from '@components/popover';
+import { Icon, List, Popover } from 'xigua-components/dist/js';
 import { getIn, isEmptyObject } from '@util/util';
 import articleContext from '@context/article/articleContext';
 import { extractCatalog, findTargetCatalogPath, createNewDocAction } from '@util/commonFun';
@@ -24,7 +23,7 @@ const settingList = [{
   * @param {boolean} loading -  正在获取空间下的文档列表
 */
 export default function SpaceCatalog({
-  loading = false,
+  loading = false
 }) {
   const { space: spaceInfo, docs, currentDocInfo } = useContext(articleContext);
   const isShare = /\/share\//g.test(window.location.pathname);

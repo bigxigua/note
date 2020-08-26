@@ -1,6 +1,5 @@
 import React, { useCallback, useContext } from 'react';
-import { Icon, List } from 'xigua-components/dist/js';
-import Popover from '@components/popover';
+import { Icon, List, Popover } from 'xigua-components/dist/js';
 import { isEmptyObject, delay } from '@util/util';
 import { createNewDoc } from '@util/commonFun';
 import { createDocByTemplate } from '@util/commonFun2';
@@ -79,7 +78,7 @@ export function addIsOpenProperty(catalog, path, status = true, targetId = '') {
 export function CatalogsComponent({
   loading,
   catalogs = [],
-  onToggleExpandCatalog,
+  onToggleExpandCatalog
 }) {
   const { docs = [], updateStoreCurrentDoc } = useContext(articleContext);
   if (loading) {
@@ -109,7 +108,8 @@ export function CatalogsComponent({
         {isFolder && <Icon
           onClick={() => { onToggleExpandCatalog(item, index); }}
           type="caret-down" />}
-        <div className={`bookcatalog ellipsis ${isActive ? 'bookcatalog-active' : ''}`} onClick={() => { onClickHanlde(doc) }}>{doc.title}</div>
+        <div className={`bookcatalog ellipsis ${isActive ? 'bookcatalog-active' : ''}`}
+onClick={() => { onClickHanlde(doc) }}>{doc.title}</div>
         {
           isFolder &&
           <Popover
