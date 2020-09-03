@@ -36,7 +36,7 @@ export default function Article({
   isLoading = false,
   share = false
 }) {
-  const { space: spaceInfo, docs, currentDocInfo: docInfo } = useContext(articleContext);
+  const { space: spaceInfo, docs, currentDocInfo: docInfo } = useContext(articleContext) || {};
   // 是否展示PhotoSwipe
   const [psIndex, setShowPsIndex] = useState(-1);
   // PhotoSwipe图片集合
@@ -63,7 +63,7 @@ export default function Article({
         $(window).trigger('scroll');
       }
     }, 0);
-  }, [docInfo.doc_id, content]);
+  }, [(docInfo || {}).doc_id, content]);
 
   const title = getTitle(docInfo, content);
   const wrapperClasses = $.trim(`article-html ${isMobile ? 'article-html_mobile' : ''}`);

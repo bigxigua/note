@@ -1,6 +1,6 @@
 import React, { Fragment, useEffect, useState, useCallback } from 'react';
 import RecentContent from '@components/recent-content';
-import { Empty, Loading } from 'xigua-components/dist/js';
+import { Empty, Icon } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 
 export default function RecentContentLayout() {
@@ -27,7 +27,11 @@ export default function RecentContentLayout() {
 
   // 正在获取最近编辑列表
   if (!recentLists) {
-    return <Loading show={true} />;
+    return (<div className="recent-content__loading">
+      <Icon type="loading"
+        style={{ fontSize: '20px' }}
+      />
+    </div>);
   }
 
   return (

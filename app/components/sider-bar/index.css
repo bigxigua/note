@@ -3,6 +3,8 @@
   max-width: 20%;
   flex-shrink: 0;
   padding-right: 20px;
+  position: fixed;
+  left: auto;
 }
 
 .siderbar-link {
@@ -26,7 +28,8 @@
 .siderbar-link>span {
   font-weight: inherit
 }
-.siderbar-link:hover{
+
+.siderbar-link:hover {
   color: inherit;
   background: #e8e8e8;
 }

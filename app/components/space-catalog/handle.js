@@ -86,7 +86,7 @@ export function CatalogsComponent({
   }
   const onClickHanlde = useCallback((doc) => {
     updateStoreCurrentDoc(docs.find(n => n.doc_id === doc.doc_id) || {});
-    history.pushState({}, '', `${doc.doc_id}?spaceId=${doc.space_id}`);
+    window.history.pushState({}, '', `${doc.doc_id}?spaceId=${doc.space_id}`);
   }, [docs]);
   function recursion(data) {
     let result = [];
@@ -102,14 +102,14 @@ export function CatalogsComponent({
         return null;
       }
       result.push(<div
-        key={item.docId}
+        key={`${item.docId}-${index}`}
         style={{ paddingLeft: `${Math.min(item.level, 3) * 10}px` }}
         className={$.trim(classes)}>
         {isFolder && <Icon
           onClick={() => { onToggleExpandCatalog(item, index); }}
           type="caret-down" />}
         <div className={`bookcatalog ellipsis ${isActive ? 'bookcatalog-active' : ''}`}
-onClick={() => { onClickHanlde(doc) }}>{doc.title}</div>
+          onClick={() => { onClickHanlde(doc); }}>{doc.title}</div>
         {
           isFolder &&
           <Popover

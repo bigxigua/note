@@ -31,7 +31,7 @@ function Content({ state }) {
 function Page() {
   const [state, setState] = useImmer({
     isLoading: false, // 正在获取空间下的文档列表
-    error: undefined, // 页面加载是否出错
+    error: undefined // 页面加载是否出错
   });
   const {
     space,
@@ -77,7 +77,9 @@ function Page() {
 
   return (
     <div className="article">
-      <MainHeader state={state} docInfo={currentDocInfo} spaceInfo={space} />
+      <MainHeader state={state}
+        docInfo={currentDocInfo}
+        spaceInfo={space} />
       <Content state={state} />
       {isMobile && <MobileArticleToolbar html={(state.docInfo || {}).html} />}
     </div>
@@ -89,5 +91,5 @@ export default function ArticlePage() {
     <ArticleState>
       <Page />
     </ArticleState>
-  )
+  );
 }

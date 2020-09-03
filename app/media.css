@@ -24,9 +24,9 @@
         display: none;
     }
 
-    .Content {
-        width: 100%;
-        max-width: 100%;
+    .content,
+    .content-layout {
+        margin-left: 0;
     }
 
     .docs>.content-wrapper_index {

@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useEffect, useRef } from 'react';
 import axiosInstance from '@util/axiosInstance';
 import ShortcutItems from './shortcut-items';
-import { Button, Loading, Modal, Input } from 'xigua-components/dist/js';
+import { Button, Icon, Modal, Input } from 'xigua-components/dist/js';
 import useMessage from '@hooks/use-message';
 import { getIn } from '@util/util';
 import './index.css';
@@ -20,7 +20,11 @@ function RenderContent({
   onCreateShortcut
 }) {
   if (entries === null) {
-    return <Loading />;
+    return (<div className="shortcut-entrance__loading">
+      <Icon type="loading"
+        style={{ fontSize: '20px' }}
+      />
+    </div>);
   } else if (entries.length === 0) {
     return <div className="shortcut-entrance__empty">在这里<span onClick={onCreateShortcut}>添加</span>常用链接</div>;
   } else {
