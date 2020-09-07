@@ -14,6 +14,7 @@ const settingList = [{
 
 export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
+  const [total, setTotal] = useState(0);
 
   const onSettingItemClick = useCallback((info, spaceInfo) => {
     const { name, space_id: spaceId } = spaceInfo;
@@ -60,6 +61,7 @@ export default function Docs() {
     const [error, data] = await axiosInstance.get(`spaces?q=${q}`);
     if (!error && data && Array.isArray(data.spaces) && data.spaces.length > 0) {
       setDataSource(data.spaces);
+      setTotal(data.total);
     } else {
       setDataSource([]);
       console.log('[获取空间列表失败] ', error);
@@ -76,8 +78,9 @@ export default function Docs() {
     fetchSpaces();
   }, []);
 
-  const onPaginationChange = useCallback(() => { }, []);
-
+  const onPaginationChange = useCallback((a, b, c) => {
+    console.log(a, b, c);
+  }, []);
   return <PageLayout
     className="space"
     content={
@@ -88,7 +91,7 @@ export default function Docs() {
           className="space-table"
           columns={columns}
           pagination={{
-            total: Math.ceil((dataSource || []).length / 10),
+            total: Math.ceil(total / 10),
             onChange: onPaginationChange
           }}
           dataSource={dataSource} />

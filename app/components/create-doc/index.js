@@ -59,8 +59,10 @@ export default function CreateDocModal({
   }, [mode]);
 
   useEffect(() => {
-    fetchSpaces();
-  }, [mode]);
+    if (visible) {
+      fetchSpaces();
+    }
+  }, [mode, visible]);
 
   // spaceId存在表示已选定空间，不需要显示空间列表了
   if (spaceId) {
