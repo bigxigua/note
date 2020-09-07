@@ -15,6 +15,7 @@ const settingList = [{
 export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
   const [total, setTotal] = useState(0);
+  const [pageNo, setPageNo] = useState(1);
 
   const onSettingItemClick = useCallback((info, spaceInfo) => {
     const { name, space_id: spaceId } = spaceInfo;
@@ -58,7 +59,7 @@ export default function Docs() {
   }];
 
   const fetchSpaces = useCallback(async (q = '') => {
-    const [error, data] = await axiosInstance.get(`spaces?q=${q}`);
+    const [error, data] = await axiosInstance.get(`spaces?q=${q}&pageNo=${pageNo}`);
     if (!error && data && Array.isArray(data.spaces) && data.spaces.length > 0) {
       setDataSource(data.spaces);
       setTotal(data.total);
@@ -66,20 +67,20 @@ export default function Docs() {
       setDataSource([]);
       console.log('[获取空间列表失败] ', error);
     }
-  }, []);
+  }, [pageNo]);
 
   const onSomeThingClick = useCallback((type, info) => {
     if (type === 'SEARCH_CHANGE') {
       fetchSpaces(info.q);
     }
-  }, []);
+  }, [pageNo]);
 
   useEffect(() => {
     fetchSpaces();
-  }, []);
+  }, [pageNo]);
 
-  const onPaginationChange = useCallback((a, b, c) => {
-    console.log(a, b, c);
+  const onPaginationChange = useCallback((page) => {
+    setPageNo(page);
   }, []);
   return <PageLayout
     className="space"
