@@ -79,7 +79,7 @@ export default function CreateDocModal({
         title="新建文档"
         footer={spaces.length > 0 ? 'none' : null}
         onCancel={onCancelModal}
-        onConfirm={() => { history.push('/new'); }}
+        // onConfirm={() => { history.push('/new'); }}
         confirmText="创建知识库"
         visible={visible} >
         <SpaceLists loading={loading}
