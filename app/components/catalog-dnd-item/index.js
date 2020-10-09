@@ -109,6 +109,8 @@ export default function CatalogDndItem({
   classes += `${docInfo.status === '0' ? ' chapter-item__disabled' : ''}`;
   const isCreateDoc = /NEW_DOC/.test(curCatalogInfo.docId);
 
+  console.log(curCatalogInfo, docInfo);
+
   return (
     <>
       <div className={classes}
@@ -138,7 +140,7 @@ export default function CatalogDndItem({
                     className={getOffsetImgClassName(curCatalogInfo, index, 'right')}
                     title="右移" />
                 </div>
-                <span>何时更新</span>
+                {/* <span>何时更新</span> */}
                 <Popover
                   className="chapter-item__setting"
                   content={<List

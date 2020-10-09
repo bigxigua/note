@@ -134,7 +134,7 @@ export function stringTransformToUrlObject(str) {
 
 // 修改url search
 export function coverReplaceUrlSearch({ url = window.location.href, k, v }) {
-  const pathname = url.substring(0, url.lastIndexOf('?') + 1);
+  const { pathname, origin } = new URL(url);
   const temp = {
     ...parseUrlQuery(url)
   };
@@ -144,7 +144,7 @@ export function coverReplaceUrlSearch({ url = window.location.href, k, v }) {
   const search = Object.keys(temp).map(n => {
     return `${n}=${temp[n]}`;
   }).join('&');
-  return `${pathname}${search}`;
+  return `${origin}${pathname}?${search}`;
 }
 
 // 延迟

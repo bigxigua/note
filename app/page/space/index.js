@@ -5,6 +5,7 @@ import axiosInstance from '@util/axiosInstance';
 import { Table, List, Icon, Popover } from 'xigua-components/dist/js';
 import { Link } from 'react-router-dom';
 import { addToShortcutEntry } from '@util/commonFun2';
+import { coverReplaceUrlSearch, parseUrlQuery } from '@util/util';
 import './index.css';
 
 const settingList = [{
@@ -15,7 +16,7 @@ const settingList = [{
 export default function Docs() {
   const [dataSource, setDataSource] = useState(null);
   const [total, setTotal] = useState(0);
-  const [pageNo, setPageNo] = useState(1);
+  const [pageNo, setPageNo] = useState(Number(parseUrlQuery().page || 1));
 
   const onSettingItemClick = useCallback((info, spaceInfo) => {
     const { name, space_id: spaceId } = spaceInfo;
@@ -59,6 +60,7 @@ export default function Docs() {
   }];
 
   const fetchSpaces = useCallback(async (q = '') => {
+    // const { page = 1 } = parseUrlQuery();
     const [error, data] = await axiosInstance.get(`spaces?q=${q}&pageNo=${pageNo}`);
     if (!error && data && Array.isArray(data.spaces) && data.spaces.length > 0) {
       setDataSource(data.spaces);
@@ -80,8 +82,11 @@ export default function Docs() {
   }, [pageNo]);
 
   const onPaginationChange = useCallback((page) => {
+    setDataSource(null);
     setPageNo(page);
+    window.history.pushState(null, '', coverReplaceUrlSearch({ k: 'page', v: page }));
   }, []);
+
   return <PageLayout
     className="space"
     content={
@@ -93,6 +98,7 @@ export default function Docs() {
           columns={columns}
           pagination={{
             total: Math.ceil(total / 10),
+            current: pageNo,
             onChange: onPaginationChange
           }}
           dataSource={dataSource} />

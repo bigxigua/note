@@ -6,7 +6,7 @@ import { Table, Tag } from 'xigua-components/dist/js';
 import axiosInstance from '@util/axiosInstance';
 import { Link } from 'react-router-dom';
 import { MoreActions, DoclistsForMobile } from './components';
-import { formatTimeStamp, checkBrowser, getIn } from '@util/util';
+import { formatTimeStamp, checkBrowser, getIn, coverReplaceUrlSearch, parseUrlQuery } from '@util/util';
 import './index.css';
 
 const { isMobile } = checkBrowser();
@@ -15,7 +15,7 @@ export default function Docs() {
   const [state, setState] = useImmer({
     loading: false, // 正在获取
     total: 0, // 总页数
-    pageNo: 1, // 当前页码
+    pageNo: Number(parseUrlQuery().page || 1), // 当前页码
     searchContent: '', // 搜索条件
     queryType: 'ALL', // 查询类型
     dataSource: null // 文档列表
@@ -124,7 +124,9 @@ export default function Docs() {
   const onPaginationChange = useCallback((page) => {
     setState(draft => {
       draft.pageNo = page;
+      draft.dataSource = null;
     });
+    window.history.pushState(null, '', coverReplaceUrlSearch({ k: 'page', v: page }));
   }, [state.pageNo]);
 
   return <PageLayout
@@ -138,7 +140,11 @@ export default function Docs() {
           dataSourceKey={'id'}
           className="space-table"
           columns={columns}
-          pagination={{ total: Math.ceil(total / 10), onChange: onPaginationChange }}
+          pagination={{
+            total: Math.ceil(total / 10),
+            current: pageNo,
+            onChange: onPaginationChange
+          }}
           dataSource={dataSource} />}
       </>
     } />;
