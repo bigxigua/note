@@ -21,7 +21,7 @@ function getTitle(docInfo = {}, content) {
   return content === 'origin' ? docInfo.title : title;
 }
 
-// 获取html内容
+// 获取html内容2
 function getHtml(docInfo = {}, content) {
   const html = docInfo.html_draft || docInfo.html;
   return content === 'origin' ? docInfo.html : html;
