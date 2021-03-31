@@ -79,7 +79,7 @@
     "workbox-webpack-plugin": "4.2.0"
   },
   "dependencies": {
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "immer": "^5.3.6",
     "js-beautify": "^1.10.3",
     "marked": "^0.8.0",
